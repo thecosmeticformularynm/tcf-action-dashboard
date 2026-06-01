@@ -482,6 +482,161 @@ textarea{resize:vertical;min-height:60px;}
 a.link-teal{color:var(--teal2);text-decoration:none;font-size:11px;}
 a.link-teal:hover{text-decoration:underline;}
 
+/* PASSWORD GATE */
+#pwGate{
+  position:fixed;inset:0;background:#0D0806;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:9999;
+}
+#pwGate.hidden{display:none;}
+.pw-logo{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--teal2);margin-bottom:6px;}
+.pw-sub{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:40px;}
+.pw-box{width:320px;}
+.pw-box input{
+  width:100%;background:#1A1208;border:1px solid #3A2818;color:#EDE8DC;
+  padding:12px 16px;font-size:14px;font-family:inherit;outline:none;
+  letter-spacing:2px;text-align:center;margin-bottom:10px;
+}
+.pw-box input:focus{border-color:var(--teal);}
+.pw-btn{
+  width:100%;padding:11px;background:var(--teal);border:none;color:#fff;
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;font-family:inherit;
+  cursor:pointer;font-weight:600;
+}
+.pw-btn:hover{background:var(--teal2);}
+.pw-err{font-size:11px;color:#C05050;text-align:center;margin-top:8px;min-height:16px;}
+
+/* HOME TAB */
+.home-greeting{
+  padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px;
+  display:flex;align-items:flex-end;justify-content:space-between;
+}
+.home-greeting-text{font-size:22px;font-weight:300;color:var(--text);}
+.home-greeting-sub{font-size:11px;color:var(--text3);margin-top:4px;letter-spacing:0.5px;}
+.home-kpi-chips{display:flex;gap:8px;}
+.home-chip{
+  padding:6px 14px;border:1px solid var(--border2);
+  font-size:10px;color:var(--text3);letter-spacing:0.5px;
+}
+.home-chip b{color:var(--text2);}
+
+.top10-title{font-size:20px;font-weight:400;color:var(--text);letter-spacing:1px;margin-bottom:4px;}
+.top10-sub{font-size:11px;color:var(--text3);margin-bottom:20px;}
+.top10-legend{display:flex;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3);}
+.legend-dot{width:8px;height:8px;border-radius:50%;}
+
+.action-row{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:12px 0;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:background 0.1s;
+}
+.action-row:hover{background:var(--s2);margin:0 -24px;padding:12px 24px;}
+.action-num{font-size:12px;color:var(--text3);width:20px;flex-shrink:0;padding-top:1px;}
+.action-check{
+  width:16px;height:16px;border:1.5px solid var(--border2);
+  flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:9px;margin-top:1px;transition:all 0.15s;
+}
+.action-row[data-s="done"] .action-check{background:var(--green);border-color:var(--green);color:#fff;}
+.action-row[data-s="done"] .action-check::after{content:"✓";}
+.action-row[data-s="done"] .action-text{color:var(--text3);text-decoration:line-through;}
+.action-row[data-s="inprog"] .action-check{background:var(--amber);border-color:var(--amber);}
+.action-text{font-size:13px;color:var(--text);flex:1;line-height:1.4;}
+.action-tags{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;}
+.atag{font-size:9px;padding:1px 6px;border:1px solid;letter-spacing:0.5px;text-transform:uppercase;}
+.atag-crit{color:#D07060;border-color:rgba(192,80,64,0.3);background:rgba(139,58,42,0.1);}
+.atag-high{color:var(--gold2);border-color:rgba(212,175,122,0.3);background:rgba(184,150,106,0.08);}
+.atag-dept{color:var(--text3);border-color:var(--border);background:transparent;}
+.atag-time{color:var(--teal2);border-color:rgba(42,138,116,0.3);background:rgba(26,106,90,0.08);}
+
+.areas-title{font-size:18px;font-weight:400;color:var(--text);letter-spacing:1px;margin:32px 0 4px;}
+.areas-sub{font-size:11px;color:var(--text3);margin-bottom:20px;}
+.area-card{
+  padding:20px;cursor:pointer;transition:opacity 0.15s;
+  display:flex;flex-direction:column;min-height:110px;
+}
+.area-card:hover{opacity:0.88;}
+.area-card-name{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.9);font-weight:600;margin-bottom:6px;}
+.area-card-desc{font-size:10px;color:rgba(255,255,255,0.5);flex:1;margin-bottom:12px;}
+.area-prog{height:2px;background:rgba(255,255,255,0.1);margin-bottom:8px;}
+.area-prog-fill{height:100%;background:rgba(255,255,255,0.4);}
+.area-stats{font-size:10px;color:rgba(255,255,255,0.5);display:flex;gap:12px;}
+.area-stat-dot{width:5px;height:5px;border-radius:50%;display:inline-block;margin-right:4px;}
+
+/* DAILY HQ */
+.daily-hq{
+  background:var(--s1);border:1px solid var(--border);padding:20px;
+  margin-bottom:16px;
+}
+.hq-time-block{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;background:var(--s2);border-left:3px solid var(--teal);
+  margin-bottom:8px;
+}
+.hq-time{font-size:11px;color:var(--teal2);font-weight:600;width:100px;flex-shrink:0;}
+.hq-task-text{font-size:12px;color:var(--text);}
+
+/* BENCH SESSION TRACKER */
+.bench-row{
+  display:grid;grid-template-columns:160px 100px 1fr 120px 100px 40px;
+  gap:10px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--border);
+}
+.bench-row.head{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);}
+
+/* SOCIAL PRODUCTION PIPELINE */
+.prod-day{
+  background:var(--s1);border:1px solid var(--border);margin-bottom:8px;
+}
+.prod-day-head{
+  padding:10px 14px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+}
+.prod-day-type{
+  font-size:9px;padding:2px 8px;letter-spacing:1px;text-transform:uppercase;font-weight:600;
+}
+.day-type-cam{background:rgba(13,148,136,0.15);color:var(--teal2);}
+.day-type-edit{background:rgba(184,150,106,0.15);color:var(--gold2);}
+.day-type-post{background:rgba(42,74,106,0.15);color:var(--blue2);}
+.day-type-plan{background:rgba(139,106,48,0.15);color:var(--amber2);}
+.prod-day-date{font-size:12px;color:var(--text);font-weight:500;}
+.prod-day-body{padding:12px 14px;display:none;}
+.prod-day-body.open{display:block;}
+.prod-item{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 0;border-bottom:1px solid var(--border);font-size:12px;
+}
+.prod-item:last-child{border-bottom:none;}
+.prod-item-status{
+  width:10px;height:10px;border-radius:50%;flex-shrink:0;
+}
+
+/* REMOTE SPOTS */
+.spot-card{
+  background:var(--s1);border:1px solid var(--border);padding:16px;
+  cursor:pointer;transition:border-color 0.15s;
+}
+.spot-card:hover{border-color:var(--teal);}
+.spot-name{font-size:13px;color:var(--text);font-weight:500;margin-bottom:4px;}
+.spot-addr{font-size:11px;color:var(--text3);margin-bottom:8px;}
+.spot-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;}
+.spot-tag{font-size:9px;padding:2px 6px;border:1px solid var(--border2);color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;}
+.spot-hours{font-size:10px;color:var(--text2);}
+
+/* LINKS TAB */
+.link-group{margin-bottom:24px;}
+.link-group-title{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);font-weight:600;padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:12px;}
+.link-btn-grid{display:flex;flex-wrap:wrap;gap:7px;}
+.link-btn{
+  padding:7px 14px;border:1px solid var(--border2);
+  background:var(--s1);color:var(--text2);font-size:11px;
+  cursor:pointer;font-family:inherit;text-decoration:none;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:all 0.15s;white-space:nowrap;
+}
+.link-btn:hover{border-color:var(--teal);color:var(--teal2);background:var(--teal3);}
+.link-btn-dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:0.5;}
+
 /* PROGRESS BAR */
 .prog{height:2px;background:var(--s3);}
 .prog-fill{height:100%;}
@@ -553,6 +708,7 @@ a.link-teal:hover{text-decoration:underline;}
 <div class="topbar">
   <div class="topbar-brand">Nicole<span>Command Center</span></div>
   <div class="nav-tabs">
+    <div class="nav-tab" onclick="showTab('home')" id="navHome">Home</div>
     <div class="nav-tab active" onclick="showTab('brand')">Brand</div>
     <div class="nav-tab" onclick="showTab('formulas')">Formulas</div>
     <div class="nav-tab" onclick="showTab('content')">Content</div>
@@ -561,6 +717,7 @@ a.link-teal:hover{text-decoration:underline;}
     <div class="nav-tab" onclick="showTab('intelligence')">Intelligence</div>
     <div class="nav-tab" onclick="showTab('sip')">Sip &amp; Formulate</div>
     <div class="nav-tab" onclick="showTab('calendar')">Calendar</div>
+    <div class="nav-tab" onclick="showTab('links')">Links</div>
   </div>
   <div class="topbar-right">
     <span class="topbar-date" id="topDate"></span>
@@ -570,7 +727,64 @@ a.link-teal:hover{text-decoration:underline;}
   </div>
 </div>
 
-<div class="workspace">
+<!-- PASSWORD GATE -->
+<div id="pwGate">
+  <div class="pw-logo">Nicole — Command Center</div>
+  <div class="pw-sub">Executive Operations Portal</div>
+  <div class="pw-box">
+    <input type="password" id="pwInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')checkPw()">
+    <button class="pw-btn" onclick="checkPw()">Access Portal</button>
+    <div class="pw-err" id="pwErr"></div>
+  </div>
+</div>
+
+<div class="workspace" id="mainWorkspace" style="display:none;">
+
+<!-- ===================== HOME TAB ===================== -->
+<div class="panel active" id="tab-home">
+
+  <!-- Greeting -->
+  <div class="home-greeting">
+    <div>
+      <div class="home-greeting-text" id="homeGreeting">Good morning, Nicole.</div>
+      <div class="home-greeting-sub" id="homeDate2"></div>
+    </div>
+    <div class="home-kpi-chips">
+      <div class="home-chip"><b id="hkUrgent">5</b> urgent tasks</div>
+      <div class="home-chip"><b>3</b> formulas active</div>
+      <div class="home-chip"><b id="hkDays">~56</b> days to Sip launch</div>
+      <div class="home-chip"><b>9–12pm</b> daily clerical block</div>
+    </div>
+  </div>
+
+  <!-- Daily HQ -->
+  <div class="daily-hq">
+    <div class="section-label">Daily Operations Block — 9:00 AM to 12:00 PM</div>
+    <div class="hq-time-block"><span class="hq-time">9:00 – 9:30</span><span class="hq-task-text">Check Gmail — respond to all pending threads, flag action items to Operations tab</span></div>
+    <div class="hq-time-block"><span class="hq-time">9:30 – 10:00</span><span class="hq-task-text">Review task list — cycle urgent items, update Notion, clear anything completable in under 5 min</span></div>
+    <div class="hq-time-block"><span class="hq-time">10:00 – 10:30</span><span class="hq-task-text">Formulation check-in — log any bench sessions, update formula statuses</span></div>
+    <div class="hq-time-block"><span class="hq-time">10:30 – 11:00</span><span class="hq-task-text">Supplier & vendor follow-ups — packaging orders, McKernan, regulatory items</span></div>
+    <div class="hq-time-block"><span class="hq-time">11:00 – 11:30</span><span class="hq-task-text">Content planning — review pipeline, schedule posts, prep for next shoot day</span></div>
+    <div class="hq-time-block" style="border-left-color:var(--gold);"><span class="hq-time" style="color:var(--gold2);">11:30 – 12:00</span><span class="hq-task-text">Personal social media — plan, schedule, or film short-form content for personal accounts</span></div>
+  </div>
+
+  <!-- Top 10 Actions -->
+  <div class="top10-title">Start Here — Top Actions</div>
+  <div class="top10-sub">These unlock the entire roadmap. Do these first.</div>
+  <div class="top10-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#C05040;"></div>Critical / Do First</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gold);"></div>High Priority</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green2);"></div>Done / In Progress</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--blue2);"></div>Decision Needed</div>
+  </div>
+  <div id="homeActions"></div>
+
+  <!-- All Areas -->
+  <div class="areas-title">All Areas</div>
+  <div class="areas-sub">Click any card to see all tasks for that area</div>
+  <div class="g3" id="areaCards"></div>
+
+</div>
 
 <!-- ===================== BRAND TAB ===================== -->
 <div class="panel active" id="tab-brand">
@@ -666,7 +880,7 @@ a.link-teal:hover{text-decoration:underline;}
     </select>
   </div>
 
-  <div class="tbl-wrap card">
+  <div class="tbl-wrap card mb24">
     <table class="tbl" id="formulaTable">
       <thead>
         <tr>
@@ -682,6 +896,18 @@ a.link-teal:hover{text-decoration:underline;}
       </thead>
       <tbody id="formulaBody"></tbody>
     </table>
+  </div>
+
+  <!-- BENCH SESSION TRACKER -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+    <div class="section-label" style="margin:0;border:none;padding:0;">Active Bench Sessions</div>
+    <button class="btn btn-sm btn-teal" onclick="openModal('benchModal')">+ Log Session</button>
+  </div>
+  <div class="card">
+    <div class="bench-row head" style="padding:10px 12px;">
+      <span>Formula</span><span>Date</span><span>What I Did</span><span>Next Step</span><span>Status</span><span></span>
+    </div>
+    <div id="benchBody"></div>
   </div>
 
 </div>
@@ -761,6 +987,23 @@ a.link-teal:hover{text-decoration:underline;}
     </div>
   </div>
 
+  <!-- SOCIAL MEDIA PRODUCTION PIPELINE -->
+  <div class="divider"></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div>
+      <div class="section-label" style="margin:0;border:none;padding:0;font-size:11px;">Social Media Production Pipeline</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:3px;">Day-by-day: on-camera, editing, and posting schedule</div>
+    </div>
+    <button class="btn btn-sm btn-teal" onclick="openModal('prodDayModal')">+ Add Production Day</button>
+  </div>
+  <div style="display:flex;gap:8px;margin-bottom:14px;">
+    <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text3);"><span class="prod-day-type day-type-cam" style="padding:2px 6px;">On Camera</span></div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text3);"><span class="prod-day-type day-type-edit" style="padding:2px 6px;">Editing</span></div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text3);"><span class="prod-day-type day-type-post" style="padding:2px 6px;">Posting</span></div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text3);"><span class="prod-day-type day-type-plan" style="padding:2px 6px;">Planning</span></div>
+  </div>
+  <div id="prodPipeline"></div>
+
 </div>
 
 <!-- ===================== OPERATIONS TAB ===================== -->
@@ -837,6 +1080,16 @@ a.link-teal:hover{text-decoration:underline;}
       </div>
     </div>
   </div>
+
+  <!-- REMOTE WORK SPOTS -->
+  <div class="divider"></div>
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;">
+    <div>
+      <div class="section-label" style="margin:0;border:none;padding:0;">Remote Work Spots — Near North Charleston</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:3px;">Twice-weekly remote sessions with strong WiFi. Click any card to open in Google Maps.</div>
+    </div>
+  </div>
+  <div class="g3 mb16" id="remoteSpots"></div>
 
 </div>
 
@@ -1003,7 +1256,13 @@ Fragrance base: explore alcohol-free options for scent blending stations.</texta
 
 </div>
 
-</div><!-- /workspace -->
+<!-- ===================== LINKS TAB ===================== -->
+<div class="panel" id="tab-links">
+  <div class="section-label" style="margin-bottom:20px;">Tools &amp; External Links</div>
+  <div id="linksBody"></div>
+</div>
+
+</div><!-- /mainWorkspace -->
 
 <!-- ===================== MODALS ===================== -->
 
@@ -1162,6 +1421,50 @@ Fragrance base: explore alcohol-free options for scent blending stations.</texta
     <div class="form-row"><label class="form-label">Link</label><input id="itLink" placeholder="https://..."></div>
     <div class="form-row"><label class="form-label">Notes</label><textarea id="itNotes" style="min-height:100px;" placeholder="What you learned, why it matters, how to apply it..."></textarea></div>
     <button class="btn btn-teal" style="width:100%;" onclick="addIntel()">Save Entry</button>
+  </div>
+</div>
+
+<!-- Bench Session Modal -->
+<div class="modal-bg" id="benchModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('benchModal')">✕</button>
+    <div class="modal-title">Log Bench Session</div>
+    <div class="form-row"><label class="form-label">Formula</label><input id="bsFormula" placeholder="Formula name or batch #"></div>
+    <div class="form-grid">
+      <div class="form-row"><label class="form-label">Date</label><input id="bsDate" type="date"></div>
+      <div class="form-row">
+        <label class="form-label">Status</label>
+        <select id="bsStatus"><option>In Progress</option><option>Needs Review</option><option>Complete</option><option>On Hold</option></select>
+      </div>
+    </div>
+    <div class="form-row"><label class="form-label">What I Did</label><textarea id="bsNotes" placeholder="Adjustments made, concentrations tested, observations..."></textarea></div>
+    <div class="form-row"><label class="form-label">Next Step</label><input id="bsNext" placeholder="What needs to happen next"></div>
+    <button class="btn btn-teal" style="width:100%;" onclick="addBenchSession()">Save Session</button>
+  </div>
+</div>
+
+<!-- Production Day Modal -->
+<div class="modal-bg" id="prodDayModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('prodDayModal')">✕</button>
+    <div class="modal-title">Add Production Day</div>
+    <div class="form-grid">
+      <div class="form-row"><label class="form-label">Date</label><input id="pdDate" type="date"></div>
+      <div class="form-row">
+        <label class="form-label">Day Type</label>
+        <select id="pdType">
+          <option value="cam">On Camera</option>
+          <option value="edit">Editing</option>
+          <option value="post">Posting</option>
+          <option value="plan">Planning</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row"><label class="form-label">Content Pieces (one per line)</label>
+      <textarea id="pdItems" style="min-height:100px;" placeholder="Barrier serum demo reel&#10;Day in the lab GRWM&#10;Sip & Formulate teaser"></textarea>
+    </div>
+    <div class="form-row"><label class="form-label">Notes / Platform</label><input id="pdNotes" placeholder="Instagram, TikTok — deadline notes..."></div>
+    <button class="btn btn-teal" style="width:100%;" onclick="addProdDay()">Save Day</button>
   </div>
 </div>
 
@@ -1359,8 +1662,8 @@ function showTab(id) {
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   const tabLabels = {
-    brand:'Brand',formulas:'Formulas',content:'Content',operations:'Operations',
-    files:'Files',intelligence:'Intelligence',sip:'Sip',calendar:'Calendar'
+    home:'Home',brand:'Brand',formulas:'Formulas',content:'Content',operations:'Operations',
+    files:'Files',intelligence:'Intelligence',sip:'Sip',calendar:'Calendar',links:'Links'
   };
   document.querySelectorAll('.nav-tab').forEach(t=>{
     if(tabLabels[id] && t.textContent.trim().startsWith(tabLabels[id])) t.classList.add('active');
@@ -2060,6 +2363,320 @@ function mainCalToday() {
 }
 
 // ===================================================================
+// PASSWORD GATE
+// ===================================================================
+const PW = 'skinaxis2026';
+(function(){
+  if(sessionStorage.getItem('tcf_auth')==='1'){
+    document.getElementById('pwGate').classList.add('hidden');
+    document.getElementById('mainWorkspace').style.display='';
+  }
+})();
+function checkPw(){
+  const v=document.getElementById('pwInput').value;
+  if(v===PW){
+    sessionStorage.setItem('tcf_auth','1');
+    document.getElementById('pwGate').classList.add('hidden');
+    document.getElementById('mainWorkspace').style.display='';
+    initDashboard();
+  } else {
+    document.getElementById('pwErr').textContent='Access denied. Try again.';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').focus();
+  }
+}
+
+// ===================================================================
+// HOME TAB
+// ===================================================================
+const HOME_ACTIONS = [
+  {text:'Complete Venture X move-out — final walkthrough, keys, and paperwork',pri:'crit',dept:'Facility',time:'Today',status:'todo'},
+  {text:'Confirm LLC/EIN active + get Certificate of Occupancy',pri:'crit',dept:'Facility',time:'Day 1',status:'todo'},
+  {text:'Get Product Liability Insurance — The Hartford account active',pri:'crit',dept:'Facility',time:'Day 1–3',status:'todo'},
+  {text:'Pick the Sip & Formulate event date — everything blocks on this',pri:'crit',dept:'Sip & Formulate',time:'Day 1',status:'todo'},
+  {text:'Call SC DHEC (1-888-847-0902) — confirm tea permit for spa (10 min call)',pri:'crit',dept:'King Street',time:'Day 1',status:'todo'},
+  {text:'Complete FDA Facility Registration (MoCRA) — free, online, required',pri:'crit',dept:'Facility',time:'Day 1–7',status:'todo'},
+  {text:'Decide Barrier Serum pH target — 5.0 vs 5.5 (bench comparison done)',pri:'high',dept:'Formulation',time:'Week 1',status:'todo'},
+  {text:'Order McKernan dropper bottles (eg-38470, eg-46842)',pri:'high',dept:'Operations',time:'Week 1',status:'todo'},
+  {text:'Accept Notion invite + log into Formulary OS (formulary-os.fly.dev)',pri:'high',dept:'Operations',time:'Today',status:'todo'},
+  {text:'Finalize Sip & Formulate class price point ($65–$95/seat)',pri:'high',dept:'Sip & Formulate',time:'Week 1',status:'todo'},
+];
+
+function renderHomeActions(){
+  const el=document.getElementById('homeActions');
+  if(!el) return;
+  el.innerHTML='';
+  HOME_ACTIONS.forEach((a,i)=>{
+    const row=document.createElement('div');
+    row.className='action-row';row.dataset.s=a.status;
+    const priTag=a.pri==='crit'
+      ?`<span class="atag atag-crit">Critical</span>`
+      :`<span class="atag atag-high">High</span>`;
+    row.innerHTML=`
+      <span class="action-num">${i+1}.</span>
+      <div class="action-check" onclick="cycleActionStatus(event,${i})"></div>
+      <div style="flex:1;">
+        <div class="action-text">${a.text}</div>
+        <div class="action-tags">${priTag}<span class="atag atag-dept">${a.dept}</span><span class="atag atag-time">${a.time}</span></div>
+      </div>`;
+    el.appendChild(row);
+  });
+}
+
+function cycleActionStatus(e,i){
+  e.stopPropagation();
+  const cycle=['todo','inprog','done'];
+  HOME_ACTIONS[i].status=cycle[(cycle.indexOf(HOME_ACTIONS[i].status)+1)%cycle.length];
+  renderHomeActions();
+}
+
+const AREAS=[
+  {name:'Facility &amp; Compliance',desc:'New location setup, permits, inspections',bg:'#2A1208',nav:'facility',prog:35,stats:'13 Critical &nbsp;|&nbsp; 52+ Checklist Items'},
+  {name:'King Street Retail &amp; Spa',desc:'Retail build-out, Salt Spa integration',bg:'#0A2A18',nav:'kingstreet',prog:20,stats:'18 To-Do &nbsp;|&nbsp; 2 In Progress'},
+  {name:'Sip &amp; Formulate',desc:'8-week mixer event launch timeline',bg:'#082820',nav:'sip',prog:25,stats:'6 Done &nbsp;|&nbsp; 8 In Progress &nbsp;|&nbsp; 22 To-Do'},
+  {name:'Brands: NEVOO, Skin Axis, R&amp;R',desc:'Brand portfolio development',bg:'#1A0A28',nav:'brands',prog:40,stats:'3 In Progress &nbsp;|&nbsp; 12 To-Do'},
+  {name:'Events &amp; PR',desc:'Press, partnerships, community events',bg:'#08101E',nav:'events',prog:15,stats:'4 In Progress &nbsp;|&nbsp; 10 To-Do'},
+  {name:'Social &amp; Web',desc:'Content, social accounts, website',bg:'#101420',nav:'social',prog:30,stats:'8 To-Do'},
+  {name:'Product Formulation',desc:'R&amp;D, bench sessions, SOPs',bg:'#081A10',nav:'formulas',prog:50,stats:'3 In Progress &nbsp;|&nbsp; 6 To-Do'},
+  {name:'Operations',desc:'Email, tasks, contacts, vendors',bg:'#1A1008',nav:'operations',prog:40,stats:'5 Urgent &nbsp;|&nbsp; 8 To-Do'},
+  {name:'Intelligence',desc:'Market research and brand journal',bg:'#101010',nav:'intelligence',prog:20,stats:'Research journal active'},
+];
+
+function renderAreaCards(){
+  const el=document.getElementById('areaCards');
+  if(!el) return;
+  el.innerHTML='';
+  AREAS.forEach(a=>{
+    const div=document.createElement('div');
+    div.className='area-card';div.style.background=a.bg;
+    div.onclick=()=>showTab(a.nav);
+    div.innerHTML=`
+      <div class="area-card-name">${a.name}</div>
+      <div class="area-card-desc">${a.desc}</div>
+      <div class="area-prog"><div class="area-prog-fill" style="width:${a.prog}%;"></div></div>
+      <div class="area-stats">${a.stats}</div>`;
+    el.appendChild(div);
+  });
+}
+
+function setGreeting(){
+  const h=new Date().getHours();
+  const g=h<12?'Good morning':'h<17'?'Good afternoon':'Good evening';
+  const greet=h<12?'Good morning, Nicole.':h<17?'Good afternoon, Nicole.':'Good evening, Nicole.';
+  const el=document.getElementById('homeGreeting');
+  const el2=document.getElementById('homeDate2');
+  if(el) el.textContent=greet;
+  const d=new Date();
+  if(el2) el2.textContent=d.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+}
+
+// ===================================================================
+// BENCH SESSIONS
+// ===================================================================
+S.benchSessions = [
+  {formula:'Barrier Repair Serum v2',date:'2026-05-30',notes:'Tested pH at 5.0 and 5.5 — 5.5 preferred for skin feel. Ceramide concentration at 1% caused slight cloudiness at low temp.',next:'Re-test at 0.8% ceramide, check cold stability',status:'In Progress'},
+  {formula:'Brightening Mist',date:'2026-05-28',notes:'Niacinamide 5% + tranexamic 2% stable at pH 6. Spray pattern good with 0.12mm nozzle.',next:'Begin stability panel — 4 weeks at 40°C',status:'Needs Review'},
+];
+
+function renderBenchSessions(){
+  const el=document.getElementById('benchBody');
+  if(!el) return;
+  el.innerHTML='';
+  S.benchSessions.forEach((b,i)=>{
+    const row=document.createElement('div');
+    row.className='bench-row';
+    row.style='padding:9px 12px;border-bottom:1px solid var(--border);';
+    row.innerHTML=`
+      <span style="font-size:12px;color:var(--text);font-weight:500;">${b.formula}</span>
+      <span style="font-size:11px;color:var(--text3);">${b.date}</span>
+      <span style="font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${b.notes}</span>
+      <span style="font-size:11px;color:var(--teal2);">${b.next}</span>
+      <span><span class="badge badge-${b.status==='Complete'?'teal':b.status==='In Progress'?'gold':'red'}">${b.status}</span></span>
+      <button class="btn btn-sm" style="padding:2px 6px;" onclick="S.benchSessions.splice(${i},1);renderBenchSessions();">✕</button>`;
+    el.appendChild(row);
+  });
+  if(!S.benchSessions.length) el.innerHTML='<div style="padding:16px;font-size:11px;color:var(--text3);">No sessions logged yet.</div>';
+}
+
+function addBenchSession(){
+  const f=document.getElementById('bsFormula').value.trim();
+  if(!f) return;
+  S.benchSessions.unshift({
+    formula:f,date:document.getElementById('bsDate').value||new Date().toISOString().slice(0,10),
+    notes:document.getElementById('bsNotes').value,
+    next:document.getElementById('bsNext').value,
+    status:document.getElementById('bsStatus').value
+  });
+  closeModal('benchModal');renderBenchSessions();
+  document.getElementById('bsFormula').value='';document.getElementById('bsNotes').value='';document.getElementById('bsNext').value='';
+}
+
+// ===================================================================
+// SOCIAL PRODUCTION PIPELINE
+// ===================================================================
+S.prodDays = [
+  {date:'2026-06-03',type:'plan',items:['Plan June content calendar','Script Barrier Serum educational series','Outline Sip & Formulate teaser content'],notes:'Personal SM planning session — 11:30–12pm'},
+  {date:'2026-06-05',type:'cam',items:['Barrier Serum demo reel (Instagram Reel + TikTok)','Lab coat GRWM — formulation day','Sip & Formulate behind the scenes teaser'],notes:'Shoot at new facility. Gold hour lighting 10am.'},
+  {date:'2026-06-07',type:'edit',items:['Edit Barrier Serum demo reel','Add captions and B-roll to lab GRWM','Color grade Sip & Formulate teaser'],notes:'Export at 1080p for IG, 4K for YouTube archive'},
+  {date:'2026-06-08',type:'post',items:['Post Barrier Serum reel — Instagram + TikTok','Pin Sip & Formulate graphic — Pinterest','Schedule educational carousel for Tuesday'],notes:'Post 7am EST for best reach'},
+  {date:'2026-06-10',type:'cam',items:['Why I Started Skin Axis — YouTube long-form','Day in the Lab vlog — TikTok series','Packaging unboxing — McKernan bottles'],notes:'Dedicate 3 hours. Two lighting setups.'},
+  {date:'2026-06-12',type:'edit',items:['Edit YouTube brand story video','Cut down lab vlog to 60-sec TikTok','Add text overlays to packaging unboxing'],notes:''},
+  {date:'2026-06-14',type:'post',items:['Post YouTube brand story','TikTok lab vlog','Stories series — Skin Axis launch countdown'],notes:'Engage in comments for first 30 min after each post'},
+];
+
+const DAY_TYPE_LABELS={cam:'On Camera',edit:'Editing',post:'Posting',plan:'Planning'};
+const DAY_TYPE_CLASS={cam:'day-type-cam',edit:'day-type-edit',post:'day-type-post',plan:'day-type-plan'};
+
+function renderProdPipeline(){
+  const el=document.getElementById('prodPipeline');
+  if(!el) return;
+  el.innerHTML='';
+  [...S.prodDays].sort((a,b)=>a.date.localeCompare(b.date)).forEach((d,i)=>{
+    const dt=new Date(d.date+'T00:00:00');
+    const dateLabel=dt.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
+    const div=document.createElement('div');
+    div.className='prod-day';
+    const items=d.items.map((it,j)=>`
+      <div class="prod-item">
+        <div class="prod-item-status" style="background:${d.type==='cam'?'var(--teal2)':d.type==='edit'?'var(--gold2)':d.type==='post'?'var(--blue2)':'var(--amber2)'};"></div>
+        <span style="flex:1;">${it}</span>
+        <button class="btn btn-sm" style="padding:1px 6px;font-size:9px;" onclick="event.stopPropagation();S.prodDays[${i}].items.splice(${j},1);renderProdPipeline();">✕</button>
+      </div>`).join('');
+    div.innerHTML=`
+      <div class="prod-day-head" onclick="this.nextElementSibling.classList.toggle('open')">
+        <span class="prod-day-type ${DAY_TYPE_CLASS[d.type]}">${DAY_TYPE_LABELS[d.type]}</span>
+        <span class="prod-day-date">${dateLabel}</span>
+        <span style="font-size:10px;color:var(--text3);margin-left:8px;">${d.items.length} piece${d.items.length!==1?'s':''}</span>
+        ${d.notes?`<span style="font-size:10px;color:var(--text3);margin-left:auto;">${d.notes}</span>`:''}
+        <button class="btn btn-sm" style="padding:1px 6px;font-size:9px;margin-left:8px;" onclick="event.stopPropagation();S.prodDays.splice(${i},1);renderProdPipeline();">Remove</button>
+      </div>
+      <div class="prod-day-body">${items}</div>`;
+    el.appendChild(div);
+  });
+  if(!S.prodDays.length) el.innerHTML='<div style="font-size:11px;color:var(--text3);padding:16px;">No production days scheduled yet.</div>';
+}
+
+function addProdDay(){
+  const dt=document.getElementById('pdDate').value;
+  if(!dt) return;
+  const rawItems=document.getElementById('pdItems').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  S.prodDays.push({date:dt,type:document.getElementById('pdType').value,items:rawItems,notes:document.getElementById('pdNotes').value});
+  closeModal('prodDayModal');renderProdPipeline();
+  document.getElementById('pdDate').value='';document.getElementById('pdItems').value='';document.getElementById('pdNotes').value='';
+}
+
+// ===================================================================
+// REMOTE WORK SPOTS
+// ===================================================================
+const REMOTE_SPOTS = [
+  {name:'Crema Coffee Roasters',addr:'130 Columbus St, Charleston, SC 29403',hours:'Mon–Fri 7am–5pm',wifi:'Strong WiFi',tags:['Quiet','Outlets','Coffee'],maps:'https://maps.google.com/?q=Crema+Coffee+Roasters+Charleston+SC'},
+  {name:'Second State Coffee',addr:'7b Cannon St, Charleston, SC 29403',hours:'Daily 7am–5pm',wifi:'Strong WiFi',tags:['Cozy','Quiet','Tables'],maps:'https://maps.google.com/?q=Second+State+Coffee+Charleston+SC'},
+  {name:'Harbinger Coffee',addr:'4 Craftsmen Ave, Charleston, SC 29405',hours:'Mon–Fri 6:30am–5pm',wifi:'Strong WiFi',tags:['North Charleston','Casual','Good seating'],maps:'https://maps.google.com/?q=Harbinger+Coffee+North+Charleston+SC'},
+  {name:'Revelator Coffee',addr:'439 King St, Charleston, SC 29403',hours:'Mon–Fri 7am–5pm',wifi:'Strong WiFi',tags:['Minimalist','Quiet','Premium coffee'],maps:'https://maps.google.com/?q=Revelator+Coffee+Charleston+SC'},
+  {name:'Indie Cowork',addr:'4975 Lacross Rd #120, North Charleston, SC 29406',hours:'Mon–Fri 8am–6pm',wifi:'Business-grade WiFi',tags:['Coworking','Private desks','Meeting rooms'],maps:'https://maps.google.com/?q=Indie+Cowork+North+Charleston+SC'},
+  {name:'North Charleston Public Library',addr:'5284 Rivers Ave, North Charleston, SC 29406',hours:'Mon–Sat 9am–6pm',wifi:'Free WiFi',tags:['Free','Quiet','Study rooms'],maps:'https://maps.google.com/?q=North+Charleston+Public+Library'},
+];
+
+function renderRemoteSpots(){
+  const el=document.getElementById('remoteSpots');
+  if(!el) return;
+  el.innerHTML='';
+  REMOTE_SPOTS.forEach(s=>{
+    const div=document.createElement('div');
+    div.className='spot-card';
+    div.onclick=()=>window.open(s.maps,'_blank');
+    div.innerHTML=`
+      <div class="spot-name">${s.name}</div>
+      <div class="spot-addr">${s.addr}</div>
+      <div class="spot-tags">${s.tags.map(t=>`<span class="spot-tag">${t}</span>`).join('')}</div>
+      <div class="spot-hours">${s.hours} &nbsp;·&nbsp; ${s.wifi}</div>`;
+    el.appendChild(div);
+  });
+}
+
+// ===================================================================
+// LINKS TAB
+// ===================================================================
+const LINK_GROUPS = [
+  {title:'Design Tools',links:[
+    {label:'Adobe Creative Cloud',url:'https://auth.services.adobe.com/'},
+    {label:'Freepik',url:'https://id.freepik.com/'},
+    {label:'Envato Elements',url:'https://elements.envato.com/'},
+    {label:'Kive.ai',url:'https://kive.ai/'},
+    {label:'Fiverr Pro',url:'https://pro.fiverr.com/'},
+  ]},
+  {title:'Suppliers & Raw Materials',links:[
+    {label:'Bulk Apothecary',url:'https://bulkapothecary.com/'},
+    {label:'Making Cosmetics',url:'https://makingcosmetics.com/'},
+    {label:'Knowde',url:'https://knowde.com/'},
+    {label:'McKernan Packaging',url:'https://mckernan.com/'},
+    {label:'Container & Packaging',url:'https://containerandpackaging.com/'},
+    {label:'Spectrum Chemical',url:'https://spectrumchemical.com/'},
+    {label:'Wholesale Supplies Plus',url:'https://wholesalesuppliesplus.com/'},
+    {label:'Custom Essence',url:'https://customer.customessence.com/'},
+    {label:'Uline',url:'https://uline.com/'},
+    {label:'Opentip',url:'https://opentip.com/'},
+  ]},
+  {title:'Sales Platforms',links:[
+    {label:'Shopify',url:'https://accounts.shopify.com/'},
+    {label:'Etsy',url:'https://etsy.com/'},
+    {label:'Amazon',url:'https://amazon.com/'},
+    {label:'eBay',url:'https://signin.ebay.com/'},
+  ]},
+  {title:'Business Operations',links:[
+    {label:'HubSpot',url:'https://app.hubspot.com/'},
+    {label:'QuickBooks',url:'https://accounts.intuit.com/'},
+    {label:'Odoo',url:'https://pauly1.odoo.com/'},
+    {label:'Craftybase',url:'https://craftybase.com/'},
+    {label:'inFlow Inventory',url:'https://accounts.inflowinventory.com/'},
+    {label:'GS1 Barcodes',url:'https://login.gs1us.org/'},
+    {label:'Formulary OS',url:'https://formulary-os.fly.dev/'},
+    {label:'MyFax',url:'https://central.myfax.com/'},
+  ]},
+  {title:'AI Tools',links:[
+    {label:'ChatGPT',url:'https://auth.openai.com/'},
+    {label:'DeepSeek',url:'https://chat.deepseek.com/'},
+    {label:'Chatbot App',url:'https://chat.chatbot.app/'},
+  ]},
+  {title:'Communication & Storage',links:[
+    {label:'Zoom',url:'https://zoom.us/'},
+    {label:'Dropbox',url:'https://dropbox.com/'},
+    {label:'Google Drive',url:'https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG'},
+    {label:'Notion',url:'https://notion.so/'},
+  ]},
+  {title:'Social Media',links:[
+    {label:'Instagram',url:'https://instagram.com/'},
+    {label:'Pinterest',url:'https://pinterest.com/'},
+    {label:'TikTok',url:'https://tiktok.com/'},
+    {label:'YouTube Studio',url:'https://studio.youtube.com/'},
+  ]},
+  {title:'Print & Packaging',links:[
+    {label:'Tablecloths Factory',url:'https://tableclothsfactory.com/'},
+    {label:'Tapstitch',url:'https://tapstitch.com/'},
+    {label:'Bambu Lab',url:'https://bambulab.com/'},
+  ]},
+  {title:'Compliance & Legal',links:[
+    {label:'The Hartford (Insurance)',url:'https://account.thehartford.com/'},
+    {label:'UL Certification',url:'https://login.ul.com/'},
+    {label:'Uniqode QR Codes',url:'https://auth.uniqode.com/'},
+    {label:'Ezeep Print',url:'https://id.ezeep.com/'},
+  ]},
+];
+
+function renderLinks(){
+  const el=document.getElementById('linksBody');
+  if(!el) return;
+  el.innerHTML='';
+  LINK_GROUPS.forEach(g=>{
+    const sec=document.createElement('div');
+    sec.className='link-group';
+    const btns=g.links.map(l=>`<a href="${l.url}" target="_blank" class="link-btn"><span class="link-btn-dot"></span>${l.label}</a>`).join('');
+    sec.innerHTML=`<div class="link-group-title">${g.title}</div><div class="link-btn-grid">${btns}</div>`;
+    el.appendChild(sec);
+  });
+}
+
+// ===================================================================
 // TOPBAR DATE
 // ===================================================================
 function updateDate(){
@@ -2072,21 +2689,33 @@ updateDate();
 // ===================================================================
 // INIT
 // ===================================================================
-renderLaunchCards();
-renderDecisions();
-renderFormulas();
-buildCalGrid('calGrid',calYear,calMonth,S.calEvents,'calMonthLabel');
-buildCalGrid('opCalGrid',opCalYear,opCalMonth,[...S.calEvents,...S.opCal],'opCalLabel');
-renderContentList();
-renderEmails();
-renderTasks();
-renderContacts();
-renderFiles();
-renderIntel();
-renderSipList('sipTaskList',S.sipTasks);
-renderSipList('sipEquipList',S.sipEquip);
-renderSipList('sipMktgList',S.sipMktg);
-buildMainCal();
+function initDashboard(){
+  setGreeting();
+  renderHomeActions();
+  renderAreaCards();
+  renderLaunchCards();
+  renderDecisions();
+  renderFormulas();
+  renderBenchSessions();
+  buildCalGrid('calGrid',calYear,calMonth,S.calEvents,'calMonthLabel');
+  buildCalGrid('opCalGrid',opCalYear,opCalMonth,[...S.calEvents,...S.opCal],'opCalLabel');
+  renderContentList();
+  renderProdPipeline();
+  renderEmails();
+  renderTasks();
+  renderContacts();
+  renderFiles();
+  renderIntel();
+  renderSipList('sipTaskList',S.sipTasks);
+  renderSipList('sipEquipList',S.sipEquip);
+  renderSipList('sipMktgList',S.sipMktg);
+  renderRemoteSpots();
+  renderLinks();
+  buildMainCal();
+}
+
+// Auto-init if already authenticated
+if(sessionStorage.getItem('tcf_auth')==='1') initDashboard();
 </script>
 </body>
 </html>
