@@ -2251,12 +2251,16 @@ function renderContacts(){
     row.className='contact-row';
     row.style.cssText='padding:9px 12px;border-bottom:1px solid var(--border);';
     row.innerHTML=`
-      <span style="font-size:12px;color:var(--text);font-weight:500;">${c.name}</span>
-      <span style="font-size:11px;color:var(--text2);">${c.company}</span>
-      <span style="font-size:11px;color:var(--text3);">${c.role}</span>
-      <span style="font-size:11px;color:var(--text3);">${c.last||'—'}</span>
-      <span style="font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.notes}</span>
+      <span data-ci="name" style="font-size:12px;color:var(--text);font-weight:500;cursor:text;" title="Click to edit">${c.name}</span>
+      <span data-ci="company" style="font-size:11px;color:var(--text2);cursor:text;" title="Click to edit">${c.company}</span>
+      <span data-ci="role" style="font-size:11px;color:var(--text3);cursor:text;" title="Click to edit">${c.role}</span>
+      <span data-ci="last" style="font-size:11px;color:var(--text3);cursor:text;" title="Click to edit">${c.last||'—'}</span>
+      <span data-ci="notes" style="font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:text;" title="Click to edit">${c.notes}</span>
       <button class="btn btn-sm" style="padding:2px 6px;" onclick="S.contacts.splice(${i},1);renderContacts();">✕</button>`;
+    row.querySelectorAll('[data-ci]').forEach(span=>{
+      const field=span.dataset.ci;
+      span.addEventListener('click',()=>inlineEdit(span,v=>{S.contacts[i][field]=v;renderContacts();}));
+    });
     el.appendChild(row);
   });
 }
@@ -3152,16 +3156,24 @@ const DEPT_STATUS_LABELS = {todo:'To Do',inprog:'In Progress',done:'Done'};
 const DEPT_STATUS_COLORS = {todo:'var(--amber)',inprog:'var(--teal)',done:'var(--green)'};
 
 function inlineEdit(spanEl, onSave){
-  const prev = spanEl.textContent;
-  const inp = document.createElement('input');
+  const prev = spanEl.textContent.trim();
+  const multiline = spanEl.tagName==='P' || spanEl.tagName==='DIV' && prev.length>80;
+  const inp = document.createElement(multiline?'textarea':'input');
   inp.value = prev;
-  inp.style.cssText='flex:1;font-size:12px;border:none;border-bottom:1px solid var(--teal);background:transparent;color:var(--text);outline:none;padding:0 2px;';
+  if(multiline){
+    inp.style.cssText='width:100%;box-sizing:border-box;font-size:inherit;line-height:inherit;border:none;border-bottom:1px solid var(--teal);background:transparent;color:var(--text);outline:none;padding:2px;resize:vertical;min-height:60px;font-family:inherit;';
+  } else {
+    inp.style.cssText='flex:1;width:100%;font-size:12px;border:none;border-bottom:1px solid var(--teal);background:transparent;color:var(--text);outline:none;padding:0 2px;font-family:inherit;';
+  }
   spanEl.replaceWith(inp);
   inp.focus();
-  inp.select();
+  if(!multiline) inp.select();
   const save=()=>{ const v=inp.value.trim()||prev; onSave(v); };
   inp.addEventListener('blur', save);
-  inp.addEventListener('keydown', e=>{ if(e.key==='Enter'){e.preventDefault();inp.blur();} if(e.key==='Escape'){inp.value=prev;inp.blur();} });
+  inp.addEventListener('keydown', e=>{
+    if(!multiline && e.key==='Enter'){e.preventDefault();inp.blur();}
+    if(e.key==='Escape'){inp.value=prev;inp.blur();}
+  });
 }
 
 function renderDeptList(listId){
@@ -3633,12 +3645,20 @@ function renderBrandWorkspace(){
     </div>
     <div class="brand-section-tabs">${tabs}</div>
     <div id="bsc">${renderBrandSectionContent(brand, activeBrandSection)}</div>`;
-  // Wire inline edit for brand checklist items
+  // Wire inline edit for brand checklist items, overview, and notes
   setTimeout(()=>{
     document.querySelectorAll('[data-bedit]').forEach(span=>{
       const [bid,key,idx]=span.dataset.bedit.split('|');
       const i=parseInt(idx);
       span.addEventListener('click',()=>inlineEdit(span,v=>{BRANDS_CONFIG[bid][key][i].text=v;selectBrandSection(activeBrandSection);}));
+    });
+    document.querySelectorAll('[data-brand-overview]').forEach(el=>{
+      const bid=el.dataset.brandOverview;
+      el.addEventListener('click',()=>inlineEdit(el,v=>{BRANDS_CONFIG[bid].overview=v;selectBrandSection('overview');}));
+    });
+    document.querySelectorAll('[data-brand-notes]').forEach(el=>{
+      const bid=el.dataset.brandNotes;
+      el.addEventListener('click',()=>inlineEdit(el,v=>{BRANDS_CONFIG[bid].notes=v;selectBrandSection('overview');}));
     });
   },0);
   // Re-render sidebar to keep brand selection highlighted
@@ -3682,8 +3702,8 @@ function renderBrandOverview(brand){
       <div class="card">
         <div class="card-head"><span class="card-title">Brand Overview</span></div>
         <div class="card-body">
-          <p style="font-size:13px;line-height:1.8;color:var(--text2);">${brand.overview}</p>
-          ${brand.notes?`<div style="margin-top:14px;padding:12px 14px;background:var(--s3);border-radius:4px;border-left:3px solid var(--gold);font-size:11px;color:var(--text2);line-height:1.7;">${brand.notes}</div>`:''}
+          <p data-brand-overview="${brand.id}" style="font-size:13px;line-height:1.8;color:var(--text2);cursor:text;" title="Click to edit">${brand.overview}</p>
+          <div data-brand-notes="${brand.id}" style="margin-top:14px;padding:12px 14px;background:var(--s3);border-radius:4px;border-left:3px solid var(--gold);font-size:11px;color:var(--text2);line-height:1.7;cursor:text;min-height:36px;" title="Click to edit notes">${brand.notes||'<span style="color:var(--text3);">Click to add notes…</span>'}</div>
         </div>
       </div>
       <div class="card">
@@ -4191,6 +4211,17 @@ function renderPersonalPage(){
   }
   // After render, start live clock if on home
   if(activePersonal==='phome') startLiveClock();
+  // Wire inline edit for personal todos and product names
+  setTimeout(()=>{
+    el.querySelectorAll('[data-ptodo-edit]').forEach(div=>{
+      const id=parseInt(div.dataset.ptodoEdit);
+      div.addEventListener('click',()=>inlineEdit(div,v=>{const t=P.todos.find(x=>x.id===id);if(t){t.text=v;saveP();renderPersonalPage();}}));
+    });
+    el.querySelectorAll('[data-prod-edit]').forEach(div=>{
+      const i=parseInt(div.dataset.prodEdit);
+      div.addEventListener('click',()=>inlineEdit(div,v=>{P.hairProducts[i].name=v;saveP();renderPersonalPage();}));
+    });
+  },0);
 }
 
 // ---- HOME PAGE ----
@@ -4270,7 +4301,7 @@ function renderPHome(){
             ${todos.map(t=>`
               <div class="p-todo-item">
                 <div class="p-todo-cb ${t.done?'done':''}" onclick="toggleTodo(${t.id})">${t.done?'✓':''}</div>
-                <div class="p-todo-text ${t.done?'done':''}">${t.text}</div>
+                <div class="p-todo-text ${t.done?'done':''}" data-ptodo-edit="${t.id}" style="cursor:text;" title="Click to edit">${t.text}</div>
                 <span class="p-pri ${t.pri}">${t.pri}</span>
                 <span style="font-size:9px;color:var(--text3);padding:1px 5px;background:var(--s3);border-radius:8px;">${t.cat}</span>
                 <span onclick="deleteTodo(${t.id})" style="cursor:pointer;color:var(--text3);font-size:11px;padding:2px 4px;">✕</span>
@@ -4596,7 +4627,7 @@ function renderPWellness(){
           ${prods.map((p,i)=>`
             <div style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--border);">
               <div style="flex:1;">
-                <div style="font-weight:500;font-size:12px;">${p.name}</div>
+                <div style="font-weight:500;font-size:12px;" data-prod-edit="${i}" style="cursor:text;" title="Click to edit">${p.name}</div>
                 <div style="font-size:10px;color:var(--text3);">${p.brand} · ${p.cat}</div>
                 ${p.notes?`<div style="font-size:10px;color:var(--text2);margin-top:2px;">${p.notes}</div>`:''}
               </div>
