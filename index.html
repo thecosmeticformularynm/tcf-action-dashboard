@@ -1014,11 +1014,10 @@ body.dark .dark-toggle::after{transform:translateX(18px);background:var(--teal);
   <div class="nav-tabs">
     <div class="nav-tab" onclick="showTab('home')" id="navHome">Home</div>
     <div class="nav-tab active" onclick="showTab('brandhub')">Brand Hub</div>
-    <div class="nav-tab" onclick="showTab('content')">Content</div>
+    <div class="nav-tab" onclick="showTab('content')">Content &amp; Social</div>
     <div class="nav-tab" onclick="showTab('operations')">Operations</div>
     <div class="nav-tab" onclick="showTab('files')">Files</div>
     <div class="nav-tab" onclick="showTab('events')">Events</div>
-    <div class="nav-tab" onclick="showTab('social')">Social</div>
     <div class="nav-tab" onclick="showTab('sip')">Sip &amp; Formulate</div>
     <div class="nav-tab" onclick="showTab('calendar')">Calendar</div>
     <div class="nav-tab" onclick="showTab('links')">Links</div>
@@ -1201,6 +1200,34 @@ body.dark .dark-toggle::after{transform:translateX(18px);background:var(--teal);
     <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text3);"><span class="prod-day-type day-type-plan" style="padding:2px 6px;">Planning</span></div>
   </div>
   <div id="prodPipeline"></div>
+
+  <!-- SOCIAL TASKS -->
+  <div style="margin-top:28px;padding-top:24px;border-top:2px solid var(--border);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div>
+        <div class="section-label" style="margin:0;border:none;padding:0;">Social Media &amp; Web</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:3px;">Instagram, TikTok, YouTube, Pinterest, website</div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-head"><span class="card-title">Social Media</span></div>
+        <div id="social-sm" style="max-height:340px;overflow-y:auto;"></div>
+        <div style="padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px;">
+          <input class="add-task-input" placeholder="Add social task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('social-sm','todo',this)">
+          <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('social-sm','todo',this.previousElementSibling)">Add</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-title">Website &amp; Digital</span></div>
+        <div id="social-web" style="max-height:340px;overflow-y:auto;"></div>
+        <div style="padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px;">
+          <input class="add-task-input" placeholder="Add web task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('social-web','todo',this)">
+          <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('social-web','todo',this.previousElementSibling)">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
 
@@ -1396,33 +1423,6 @@ body.dark .dark-toggle::after{transform:translateX(18px);background:var(--teal);
 </div>
 
 <!-- ===================== SOCIAL TAB ===================== -->
-<div class="panel" id="tab-social">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-    <div>
-      <div class="section-label" style="margin:0;border:none;padding:0;">Social Media &amp; Web</div>
-      <div style="font-size:11px;color:var(--text3);margin-top:3px;">Instagram, TikTok, YouTube, Pinterest, website</div>
-    </div>
-  </div>
-  <div class="g2">
-    <div class="card">
-      <div class="card-head"><span class="card-title">Social Media</span></div>
-      <div id="social-sm" style="max-height:340px;overflow-y:auto;"></div>
-      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
-        <input class="add-task-input" placeholder="Add social task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('social-sm','todo',this)">
-        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('social-sm','todo',this.previousElementSibling)">Add</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-head"><span class="card-title">Website &amp; Digital</span></div>
-      <div id="social-web" style="max-height:340px;overflow-y:auto;"></div>
-      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
-        <input class="add-task-input" placeholder="Add web task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('social-web','todo',this)">
-        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('social-web','todo',this.previousElementSibling)">Add</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ===================== SIP & FORMULATE TAB ===================== -->
 <div class="panel" id="tab-sip">
 
@@ -1967,7 +1967,7 @@ function showTab(id) {
   document.getElementById('tab-'+id).classList.add('active');
   const tabLabels = {
     home:'Home',brandhub:'Brand Hub',content:'Content',operations:'Operations',
-    files:'Files',events:'Events',
+    files:'Files',events:'Events',social:'Content',
     social:'Social',sip:'Sip',calendar:'Calendar',links:'Links',personal:'Personal'
   };
   document.querySelectorAll('.nav-tab').forEach(t=>{
@@ -2762,7 +2762,7 @@ const AREAS=[
   {name:'King Street Retail &amp; Spa',desc:'Retail build-out, Salt Spa integration',bg:'#0A2A18',nav:'operations',prog:20,stats:'18 To-Do &nbsp;|&nbsp; 2 In Progress'},
   {name:'Sip &amp; Formulate',desc:'8-week mixer event launch timeline',bg:'#082820',nav:'sip',prog:25,stats:'6 Done &nbsp;|&nbsp; 8 In Progress &nbsp;|&nbsp; 22 To-Do'},
   {name:'Events &amp; PR',desc:'Press, partnerships, community events',bg:'#08101E',nav:'events',prog:15,stats:'4 In Progress &nbsp;|&nbsp; 10 To-Do'},
-  {name:'Social &amp; Web',desc:'Content, social accounts, website',bg:'#101420',nav:'social',prog:30,stats:'8 To-Do'},
+  {name:'Social &amp; Web',desc:'Content, social accounts, website',bg:'#101420',nav:'content',prog:30,stats:'8 To-Do'},
   {name:'Operations',desc:'Email, tasks, contacts, vendors',bg:'#1A1008',nav:'operations',prog:40,stats:'5 Urgent &nbsp;|&nbsp; 8 To-Do'},
 ];
 
@@ -3255,7 +3255,7 @@ const SEARCH_INDEX = [
   {label:'Brands — Skin Axis',tab:'brands'},
   {label:'Brands — Rinse & Restore',tab:'brands'},
   {label:'Events & PR',tab:'events'},
-  {label:'Social & Web',tab:'social'},
+  {label:'Social & Web',tab:'content'},
   {label:'Sip & Formulate — Event Planning',tab:'sip'},
   {label:'Calendar',tab:'calendar'},
   {label:'Links',tab:'links'},
@@ -3271,7 +3271,7 @@ function runTopSearch(query){
   Object.entries(DEPT_DATA).forEach(([listId,arr])=>{
     arr.forEach((t,i)=>{
       if(t.text.toLowerCase().includes(q)){
-        results.push({label:t.text, sub:listId.replace('-',' › '), tab:listId.split('-')[0]==='facility'?'operations':listId.split('-')[0]==='ks'?'operations':listId.split('-')[0]==='brand'?'brands':listId.split('-')[0]==='events'?'events':'social'});
+        results.push({label:t.text, sub:listId.replace('-',' › '), tab:listId.split('-')[0]==='facility'?'operations':listId.split('-')[0]==='ks'?'operations':listId.split('-')[0]==='brand'?'brands':listId.split('-')[0]==='events'?'events':'content'});
       }
     });
   });
