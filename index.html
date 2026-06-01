@@ -222,6 +222,8 @@ textarea{resize:vertical;min-height:60px;}
 .btn-gold{background:transparent;border-color:var(--gold);color:var(--gold);}
 .btn-gold:hover{background:var(--gold3);}
 .btn-sm{padding:4px 10px;font-size:9px;}
+.add-task-input{flex:1;padding:5px 8px;border:1px solid var(--border);border-radius:4px;font-size:11px;background:var(--s1);color:var(--text);outline:none;}
+.add-task-input:focus{border-color:var(--border2);}
 
 /* TABLE */
 .tbl{width:100%;border-collapse:collapse;}
@@ -726,12 +728,23 @@ a.link-teal:hover{text-decoration:underline;}
     <div class="nav-tab" onclick="showTab('content')">Content</div>
     <div class="nav-tab" onclick="showTab('operations')">Operations</div>
     <div class="nav-tab" onclick="showTab('files')">Files</div>
-    <div class="nav-tab" onclick="showTab('intelligence')">Intelligence</div>
+    <div class="nav-tab" onclick="showTab('facility')">Facility</div>
+    <div class="nav-tab" onclick="showTab('kingstreet')">King Street</div>
+    <div class="nav-tab" onclick="showTab('brands')">Brands</div>
+    <div class="nav-tab" onclick="showTab('events')">Events</div>
+    <div class="nav-tab" onclick="showTab('social')">Social</div>
     <div class="nav-tab" onclick="showTab('sip')">Sip &amp; Formulate</div>
     <div class="nav-tab" onclick="showTab('calendar')">Calendar</div>
     <div class="nav-tab" onclick="showTab('links')">Links</div>
   </div>
   <div class="topbar-right">
+    <div style="position:relative;">
+      <input id="topSearch" placeholder="Search..." autocomplete="off"
+        style="background:rgba(255,255,255,0.08);border:1px solid rgba(212,175,122,0.2);color:#F2EADC;padding:5px 30px 5px 10px;font-size:11px;width:180px;letter-spacing:0.3px;"
+        oninput="runTopSearch(this.value)" onfocus="this.style.borderColor='rgba(212,175,122,0.6)'" onblur="setTimeout(()=>hideSearch(),200)">
+      <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:10px;color:rgba(212,175,122,0.4);pointer-events:none;">&#9906;</span>
+      <div id="searchResults" style="display:none;position:absolute;top:calc(100% + 6px);right:0;width:360px;background:#fff;border:1px solid var(--border);box-shadow:0 6px 24px rgba(42,20,8,0.12);z-index:500;max-height:400px;overflow-y:auto;"></div>
+    </div>
     <span class="topbar-date" id="topDate"></span>
     <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">
       <div class="voice-dot"></div><span id="voiceBtnTxt">Voice</span>
@@ -1058,38 +1071,20 @@ a.link-teal:hover{text-decoration:underline;}
     </div>
   </div>
 
-  <div class="g2">
-    <!-- CALENDAR -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-title">Calendar</span>
-        <div style="display:flex;gap:6px;">
-          <button class="btn btn-sm" onclick="opCalPrev()">&larr;</button>
-          <span style="font-size:11px;color:var(--text2);" id="opCalLabel"></span>
-          <button class="btn btn-sm" onclick="opCalNext()">&rarr;</button>
-          <button class="btn btn-sm btn-teal" onclick="openModal('calEventModal')">+ Event</button>
-        </div>
-      </div>
-      <div class="card-body" style="padding:0;">
-        <div class="cal-grid" id="opCalGrid"></div>
+  <!-- CONTACTS (full width now) -->
+  <div class="card">
+    <div class="card-head">
+      <span class="card-title">Key Contacts</span>
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-sm" onclick="exportContacts()">Export CSV</button>
+        <button class="btn btn-sm btn-teal" onclick="openModal('contactModal')">+ Contact</button>
       </div>
     </div>
-
-    <!-- CONTACTS -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-title">Key Contacts</span>
-        <div style="display:flex;gap:6px;">
-          <button class="btn btn-sm" onclick="exportContacts()">Export</button>
-          <button class="btn btn-sm btn-teal" onclick="openModal('contactModal')">+ Contact</button>
-        </div>
+    <div style="padding:0;overflow:auto;">
+      <div class="contact-row head" style="padding:10px 12px;">
+        <span>Name</span><span>Company</span><span>Role</span><span>Last Contact</span><span>Notes</span><span></span>
       </div>
-      <div style="padding:0;overflow:auto;">
-        <div class="contact-row head" style="padding:10px 12px;">
-          <span>Name</span><span>Company</span><span>Role</span><span>Last Contact</span><span>Notes</span><span></span>
-        </div>
-        <div id="contactsBody" style="max-height:340px;overflow-y:auto;"></div>
-      </div>
+      <div id="contactsBody" style="max-height:340px;overflow-y:auto;"></div>
     </div>
   </div>
 
@@ -1149,25 +1144,177 @@ a.link-teal:hover{text-decoration:underline;}
 
 </div>
 
-<!-- ===================== INTELLIGENCE TAB ===================== -->
-<div class="panel" id="tab-intelligence">
-
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-    <div class="section-label" style="margin:0;border:none;padding:0;">Market &amp; Brand Research Journal</div>
-    <button class="btn btn-teal" onclick="openModal('intelModal')">+ New Entry</button>
+<!-- ===================== FACILITY TAB ===================== -->
+<div class="panel" id="tab-facility">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div>
+      <div class="section-label" style="margin:0;border:none;padding:0;">Facility &amp; Compliance</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:3px;">New location setup, permits, regulatory requirements</div>
+    </div>
+    <button class="btn btn-sm btn-teal" onclick="document.querySelector('#tab-facility .add-task-input').focus()">+ Add Task</button>
   </div>
-
-  <div class="filter-bar">
-    <input id="intelSearch" placeholder="Search entries..." oninput="renderIntel()">
-    <select id="intelCatFilter" onchange="renderIntel()">
-      <option value="">All Categories</option>
-      <option>Competitor</option><option>Ingredient Trend</option>
-      <option>Channel Insight</option><option>Clinical Research</option><option>Packaging Reference</option>
-    </select>
+  <div class="g2">
+    <div class="card">
+      <div class="card-head"><span class="card-title">Immediate — Move Out &amp; Setup</span></div>
+      <div id="facility-moveout" style="max-height:340px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('facility-moveout','urgent',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('facility-moveout','urgent',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Permits &amp; Compliance</span></div>
+      <div id="facility-permits" style="max-height:340px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add permit task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('facility-permits','todo',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('facility-permits','todo',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">New Facility Setup</span></div>
+      <div id="facility-setup" style="max-height:340px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add setup task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('facility-setup','todo',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('facility-setup','todo',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Equipment &amp; Supplies</span></div>
+      <div id="facility-equip" style="max-height:340px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add equipment task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('facility-equip','todo',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('facility-equip','todo',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
   </div>
+</div>
 
-  <div id="intelBody"></div>
+<!-- ===================== KING STREET TAB ===================== -->
+<div class="panel" id="tab-kingstreet">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div>
+      <div class="section-label" style="margin:0;border:none;padding:0;">King Street Retail &amp; Spa</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:3px;">Retail build-out, Salt Spa integration, merchandising</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-head"><span class="card-title">Retail Build-Out</span></div>
+      <div id="ks-retail" style="max-height:340px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add retail task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('ks-retail','todo',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('ks-retail','todo',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Salt Spa Integration</span></div>
+      <div id="ks-spa" style="max-height:340px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add spa task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('ks-spa','todo',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('ks-spa','todo',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
+    <div class="card" style="grid-column:span 2;">
+      <div class="card-head"><span class="card-title">Inventory &amp; Merchandising</span></div>
+      <div id="ks-merch" style="max-height:280px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add merchandising task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('ks-merch','todo',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('ks-merch','todo',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- ===================== BRANDS TAB ===================== -->
+<div class="panel" id="tab-brands">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div>
+      <div class="section-label" style="margin:0;border:none;padding:0;">Brand Portfolio</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:3px;">NEVOO &nbsp;·&nbsp; Skin Axis &nbsp;·&nbsp; Rinse &amp; Repeat</div>
+    </div>
+  </div>
+  <div class="g3">
+    <div class="card">
+      <div class="card-head"><span class="card-title">NEVOO</span></div>
+      <div id="brand-nevoo" style="max-height:360px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add NEVOO task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('brand-nevoo','todo',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('brand-nevoo','todo',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Skin Axis</span></div>
+      <div id="brand-skinaxis" style="max-height:360px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add Skin Axis task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('brand-skinaxis','todo',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('brand-skinaxis','todo',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Rinse &amp; Repeat</span></div>
+      <div id="brand-rinse" style="max-height:360px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add R&amp;R task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('brand-rinse','todo',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('brand-rinse','todo',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== EVENTS TAB ===================== -->
+<div class="panel" id="tab-events">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div>
+      <div class="section-label" style="margin:0;border:none;padding:0;">Events &amp; PR</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:3px;">Press, partnerships, community events, influencer outreach</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-head"><span class="card-title">Upcoming Events</span></div>
+      <div id="events-upcoming" style="max-height:340px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add event..." onkeydown="if(event.key==='Enter')addDeptTaskInput('events-upcoming','todo',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('events-upcoming','todo',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">PR &amp; Press</span></div>
+      <div id="events-pr" style="max-height:340px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add PR task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('events-pr','todo',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('events-pr','todo',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SOCIAL TAB ===================== -->
+<div class="panel" id="tab-social">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div>
+      <div class="section-label" style="margin:0;border:none;padding:0;">Social Media &amp; Web</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:3px;">Instagram, TikTok, YouTube, Pinterest, website</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-head"><span class="card-title">Social Media</span></div>
+      <div id="social-sm" style="max-height:340px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add social task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('social-sm','todo',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('social-sm','todo',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Website &amp; Digital</span></div>
+      <div id="social-web" style="max-height:340px;overflow-y:auto;"></div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" placeholder="Add web task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('social-web','todo',this)">
+        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('social-web','todo',this.previousElementSibling)">Add</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ===================== SIP & FORMULATE TAB ===================== -->
@@ -1675,7 +1822,8 @@ function showTab(id) {
   document.getElementById('tab-'+id).classList.add('active');
   const tabLabels = {
     home:'Home',brand:'Brand',formulas:'Formulas',content:'Content',operations:'Operations',
-    files:'Files',intelligence:'Intelligence',sip:'Sip',calendar:'Calendar',links:'Links'
+    files:'Files',facility:'Facility',kingstreet:'King Street',brands:'Brands',events:'Events',
+    social:'Social',sip:'Sip',calendar:'Calendar',links:'Links'
   };
   document.querySelectorAll('.nav-tab').forEach(t=>{
     if(tabLabels[id] && t.textContent.trim().startsWith(tabLabels[id])) t.classList.add('active');
@@ -1850,8 +1998,6 @@ function buildCalGrid(gridId, year, month, events, labelId){
 
 function calPrev(){ calMonth--;if(calMonth<0){calMonth=11;calYear--;} buildCalGrid('calGrid',calYear,calMonth,S.calEvents,'calMonthLabel'); }
 function calNext(){ calMonth++;if(calMonth>11){calMonth=0;calYear++;} buildCalGrid('calGrid',calYear,calMonth,S.calEvents,'calMonthLabel'); }
-function opCalPrev(){ opCalMonth--;if(opCalMonth<0){opCalMonth=11;opCalYear--;} buildCalGrid('opCalGrid',opCalYear,opCalMonth,[...S.calEvents,...S.opCal],'opCalLabel'); }
-function opCalNext(){ opCalMonth++;if(opCalMonth>11){opCalMonth=0;opCalYear++;} buildCalGrid('opCalGrid',opCalYear,opCalMonth,[...S.calEvents,...S.opCal],'opCalLabel'); }
 
 function addCalEvent(){
   const t=document.getElementById('ceTitle').value.trim();
@@ -2343,7 +2489,6 @@ function saveCalEvent() {
   buildMainCal();
   // also refresh content cal and ops cal
   buildCalGrid('calGrid', calYear, calMonth, S.calEvents, 'calMonthLabel');
-  buildCalGrid('opCalGrid', opCalYear, opCalMonth, [...S.calEvents,...S.opCal], 'opCalLabel');
 }
 
 function deleteCalEvent() {
@@ -2451,7 +2596,6 @@ const AREAS=[
   {name:'Social &amp; Web',desc:'Content, social accounts, website',bg:'#101420',nav:'social',prog:30,stats:'8 To-Do'},
   {name:'Product Formulation',desc:'R&amp;D, bench sessions, SOPs',bg:'#081A10',nav:'formulas',prog:50,stats:'3 In Progress &nbsp;|&nbsp; 6 To-Do'},
   {name:'Operations',desc:'Email, tasks, contacts, vendors',bg:'#1A1008',nav:'operations',prog:40,stats:'5 Urgent &nbsp;|&nbsp; 8 To-Do'},
-  {name:'Intelligence',desc:'Market research and brand journal',bg:'#101010',nav:'intelligence',prog:20,stats:'Research journal active'},
 ];
 
 function renderAreaCards(){
@@ -2689,6 +2833,205 @@ function renderLinks(){
 }
 
 // ===================================================================
+// DEPARTMENT TASK LISTS
+// ===================================================================
+const DEPT_DATA = {
+  'facility-moveout': [
+    {text:'Return all keys and access cards to landlord',status:'todo'},
+    {text:'Document facility condition with photos/video',status:'inprog'},
+    {text:'Arrange movers for equipment transport',status:'todo'},
+    {text:'Cancel utilities and service contracts at old location',status:'todo'},
+    {text:'Notify suppliers of new address',status:'todo'},
+  ],
+  'facility-permits': [
+    {text:'Submit cosmetology salon permit application',status:'inprog'},
+    {text:'Obtain Certificate of Occupancy for new space',status:'todo'},
+    {text:'Fire marshal inspection and clearance',status:'todo'},
+    {text:'Business license update with new address',status:'todo'},
+    {text:'Health department pre-inspection walkthrough',status:'todo'},
+  ],
+  'facility-setup': [
+    {text:'Finalize floor plan layout with contractor',status:'inprog'},
+    {text:'Install lab benches and storage shelving',status:'todo'},
+    {text:'Set up HVAC and ventilation for lab area',status:'todo'},
+    {text:'Install sink and plumbing fixtures',status:'todo'},
+    {text:'Label all chemical storage areas per GMP',status:'todo'},
+    {text:'Install security cameras and alarm system',status:'todo'},
+  ],
+  'facility-equip': [
+    {text:'Move overhead mixer and lab equipment',status:'todo'},
+    {text:'Calibrate pH meter at new location',status:'todo'},
+    {text:'Transfer refrigeration units',status:'todo'},
+    {text:'Set up packaging station',status:'todo'},
+    {text:'Install UV sterilization cabinet',status:'todo'},
+  ],
+  'ks-retail': [
+    {text:'Finalize product display layout and shelving',status:'inprog'},
+    {text:'Create signage and brand collateral for shelves',status:'todo'},
+    {text:'Set up POS system and inventory sync',status:'todo'},
+    {text:'Staff training for product knowledge',status:'todo'},
+    {text:'Opening inventory order — all SKUs',status:'todo'},
+  ],
+  'ks-spa': [
+    {text:'Finalize Salt Spa service menu and pricing',status:'inprog'},
+    {text:'Schedule soft open appointments',status:'todo'},
+    {text:'Source spa supplies and linens',status:'todo'},
+    {text:'Create intake forms and waiver documents',status:'todo'},
+    {text:'Set up booking system integration',status:'todo'},
+  ],
+  'ks-merch': [
+    {text:'Design King Street exclusive product line',status:'todo'},
+    {text:'Order branded tote bags and packaging',status:'todo'},
+    {text:'Create gift set bundles for retail',status:'todo'},
+    {text:'Photograph all retail SKUs for in-store display',status:'todo'},
+  ],
+  'brand-nevoo': [
+    {text:'Finalize NEVOO brand identity refresh',status:'inprog'},
+    {text:'Update product labels with new branding',status:'todo'},
+    {text:'Build NEVOO product page on website',status:'todo'},
+    {text:'Plan NEVOO launch shoot',status:'todo'},
+    {text:'Set up NEVOO social channels',status:'todo'},
+  ],
+  'brand-skinaxis': [
+    {text:'Develop Skin Axis content calendar Q3',status:'inprog'},
+    {text:'Film hero product demo videos',status:'todo'},
+    {text:'Finalize ingredient story posts',status:'todo'},
+    {text:'Update website product descriptions',status:'inprog'},
+    {text:'Launch affiliate/ambassador program',status:'todo'},
+  ],
+  'brand-rinse': [
+    {text:'Complete R&R brand positioning document',status:'todo'},
+    {text:'Develop initial product formulas (2-3 SKUs)',status:'inprog'},
+    {text:'Name and logo development',status:'todo'},
+    {text:'Market research — clean rinse-off category',status:'todo'},
+  ],
+  'events-upcoming': [
+    {text:'Sip & Formulate — confirm venue and date',status:'inprog'},
+    {text:'King Street soft open event planning',status:'todo'},
+    {text:'Pop-up at local farmers market',status:'todo'},
+    {text:'Press preview event for new facility',status:'todo'},
+  ],
+  'events-pr': [
+    {text:'Draft press release for facility opening',status:'todo'},
+    {text:'Pitch local media — WCSC, Post & Courier',status:'todo'},
+    {text:'Build press kit with brand assets',status:'inprog'},
+    {text:'Submit products for editorial consideration',status:'todo'},
+    {text:'Connect with Charleston lifestyle bloggers',status:'todo'},
+  ],
+  'social-sm': [
+    {text:'Plan June content calendar — all platforms',status:'inprog'},
+    {text:'Film batch content for July',status:'todo'},
+    {text:'Set up Pinterest board strategy',status:'todo'},
+    {text:'Create Reels for NEVOO and Skin Axis',status:'todo'},
+    {text:'Audit follower engagement and unfollow bots',status:'todo'},
+  ],
+  'social-web': [
+    {text:'Update TCF website with new location info',status:'todo'},
+    {text:'Add Sip & Formulate landing page',status:'inprog'},
+    {text:'Fix mobile responsiveness issues on shop page',status:'todo'},
+    {text:'Write 2 new blog posts — formulation topics',status:'todo'},
+    {text:'Set up Google Analytics 4 properly',status:'todo'},
+  ],
+};
+
+const DEPT_STATUS_LABELS = {todo:'To Do',inprog:'In Progress',done:'Done'};
+const DEPT_STATUS_COLORS = {todo:'var(--amber)',inprog:'var(--teal)',done:'var(--green)'};
+
+function renderDeptList(listId){
+  const el = document.getElementById(listId);
+  if(!el) return;
+  const arr = DEPT_DATA[listId] || [];
+  if(arr.length===0){el.innerHTML='<div style="color:var(--text3);font-size:12px;padding:12px 0;">No tasks yet.</div>';return;}
+  el.innerHTML = arr.map((t,i)=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);">
+      <span onclick="cycleDeptStatus('${listId}',${i})" style="cursor:pointer;font-size:10px;padding:2px 7px;border-radius:10px;background:var(--s3);color:${DEPT_STATUS_COLORS[t.status]};font-weight:600;white-space:nowrap;">${DEPT_STATUS_LABELS[t.status]}</span>
+      <span style="flex:1;color:var(--text);font-size:12px;">${t.text}</span>
+      <span onclick="DEPT_DATA['${listId}'].splice(${i},1);renderDeptList('${listId}')" style="cursor:pointer;color:var(--text3);font-size:11px;padding:2px 5px;">✕</span>
+    </div>`).join('');
+}
+
+function cycleDeptStatus(listId,i){
+  const cycle=['todo','inprog','done'];
+  const arr=DEPT_DATA[listId];
+  arr[i].status=cycle[(cycle.indexOf(arr[i].status)+1)%cycle.length];
+  renderDeptList(listId);
+}
+
+function addDeptTaskInput(listId, status, inputEl){
+  const text=inputEl.value.trim();
+  if(!text) return;
+  if(!DEPT_DATA[listId]) DEPT_DATA[listId]=[];
+  DEPT_DATA[listId].push({text,status});
+  inputEl.value='';
+  renderDeptList(listId);
+}
+
+function renderAllDeptLists(){
+  Object.keys(DEPT_DATA).forEach(k=>renderDeptList(k));
+}
+
+// ===================================================================
+// SEARCH
+// ===================================================================
+const SEARCH_INDEX = [
+  {label:'Home — Top Actions',tab:'home'},
+  {label:'Brand — Strategy & Identity',tab:'brand'},
+  {label:'Formulas — Active Bench Sessions',tab:'formulas'},
+  {label:'Content — Production Pipeline',tab:'content'},
+  {label:'Operations — Tasks & Emails',tab:'operations'},
+  {label:'Files — Documents',tab:'files'},
+  {label:'Facility & Compliance — Moveout',tab:'facility'},
+  {label:'Facility & Compliance — Permits',tab:'facility'},
+  {label:'Facility & Compliance — Setup',tab:'facility'},
+  {label:'King Street — Retail',tab:'kingstreet'},
+  {label:'King Street — Salt Spa',tab:'kingstreet'},
+  {label:'Brands — NEVOO',tab:'brands'},
+  {label:'Brands — Skin Axis',tab:'brands'},
+  {label:'Brands — Rinse & Restore',tab:'brands'},
+  {label:'Events & PR',tab:'events'},
+  {label:'Social & Web',tab:'social'},
+  {label:'Sip & Formulate — Event Planning',tab:'sip'},
+  {label:'Calendar',tab:'calendar'},
+  {label:'Links',tab:'links'},
+];
+
+function runTopSearch(query){
+  const box = document.getElementById('searchResults');
+  if(!query.trim()){box.style.display='none';return;}
+  const q = query.toLowerCase();
+  // search nav items
+  let results = SEARCH_INDEX.filter(r=>r.label.toLowerCase().includes(q));
+  // search dept tasks
+  Object.entries(DEPT_DATA).forEach(([listId,arr])=>{
+    arr.forEach((t,i)=>{
+      if(t.text.toLowerCase().includes(q)){
+        results.push({label:t.text, sub:listId.replace('-',' › '), tab:listId.split('-')[0]==='facility'?'facility':listId.split('-')[0]==='ks'?'kingstreet':listId.split('-')[0]==='brand'?'brands':listId.split('-')[0]==='events'?'events':'social'});
+      }
+    });
+  });
+  if(results.length===0){
+    box.style.display='block';
+    box.innerHTML='<div style="padding:12px 16px;color:var(--text3);font-size:12px;">No results found.</div>';
+    return;
+  }
+  box.style.display='block';
+  box.innerHTML=results.slice(0,12).map(r=>`
+    <div onclick="showTab('${r.tab}');hideSearch()" style="padding:10px 16px;cursor:pointer;border-bottom:1px solid var(--border);hover:background:var(--s2);"
+      onmouseover="this.style.background='#f4efe7'" onmouseout="this.style.background=''"
+    >
+      <div style="font-size:12px;color:var(--text);font-weight:500;">${r.label}</div>
+      ${r.sub?`<div style="font-size:10px;color:var(--text3);margin-top:2px;">${r.sub}</div>`:''}
+    </div>`).join('');
+}
+
+function hideSearch(){
+  const box=document.getElementById('searchResults');
+  if(box) box.style.display='none';
+  const input=document.getElementById('topSearch');
+  if(input){input.value='';input.style.borderColor='rgba(212,175,122,0.2)';}
+}
+
+// ===================================================================
 // TOPBAR DATE
 // ===================================================================
 function updateDate(){
@@ -2710,20 +3053,19 @@ function initDashboard(){
   renderFormulas();
   renderBenchSessions();
   buildCalGrid('calGrid',calYear,calMonth,S.calEvents,'calMonthLabel');
-  buildCalGrid('opCalGrid',opCalYear,opCalMonth,[...S.calEvents,...S.opCal],'opCalLabel');
   renderContentList();
   renderProdPipeline();
   renderEmails();
   renderTasks();
   renderContacts();
   renderFiles();
-  renderIntel();
   renderSipList('sipTaskList',S.sipTasks);
   renderSipList('sipEquipList',S.sipEquip);
   renderSipList('sipMktgList',S.sipMktg);
   renderRemoteSpots();
   renderLinks();
   buildMainCal();
+  renderAllDeptLists();
 }
 
 // Auto-init if already authenticated
