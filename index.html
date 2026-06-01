@@ -3,1504 +3,1756 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TCF Operations Portal</title>
+<title>Nicole — Executive Command Center</title>
 <style>
 :root {
-  --bg: #0F0F0F;
-  --surface: #1A1A1A;
-  --surface2: #242424;
-  --surface3: #2E2E2E;
-  --border: #333333;
-  --text: #E8E4DC;
-  --text2: #9A9490;
-  --text3: #6A6560;
-  --gold: #B8966A;
-  --gold2: #D4B080;
-  --green: #4A7C59;
-  --green2: #5A9C6E;
-  --amber: #C4883A;
-  --red: #B05040;
-  --blue: #4A6A9C;
-  --radius: 6px;
-  --radius2: 10px;
+  --bg:       #080808;
+  --s1:       #111111;
+  --s2:       #181818;
+  --s3:       #222222;
+  --s4:       #2A2A2A;
+  --border:   #2C2C2C;
+  --border2:  #383838;
+  --text:     #EDEBE6;
+  --text2:    #8C8880;
+  --text3:    #5A5650;
+  --teal:     #0D9488;
+  --teal2:    #14B8A6;
+  --teal3:    rgba(13,148,136,0.12);
+  --gold:     #B8966A;
+  --gold2:    #D4AF7A;
+  --gold3:    rgba(184,150,106,0.12);
+  --red:      #8B3A3A;
+  --red2:     #C05050;
+  --green:    #2E6B50;
+  --green2:   #3D9068;
+  --amber:    #8B6A30;
+  --amber2:   #C49040;
+  --blue:     #2A4A6A;
+  --blue2:    #4A7AAA;
 }
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: -apple-system, 'Inter', 'Segoe UI', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-/* LAYOUT */
-.shell { display: flex; height: 100vh; overflow: hidden; }
-
-/* SIDEBAR */
-.sidebar {
-  width: 220px;
-  flex-shrink: 0;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.sidebar-brand {
-  padding: 20px 16px 16px;
-  border-bottom: 1px solid var(--border);
-}
-.sidebar-brand .logo {
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 600;
-}
-.sidebar-brand .sub {
-  font-size: 10px;
-  color: var(--text3);
-  margin-top: 3px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.sidebar-section {
-  padding: 16px 8px 8px;
-}
-.sidebar-section-label {
-  font-size: 9px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text3);
-  padding: 0 8px 8px;
-  font-weight: 600;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  color: var(--text2);
-  font-size: 12px;
-  transition: all 0.15s;
-  border: 1px solid transparent;
-  user-select: none;
-}
-.nav-item:hover { background: var(--surface2); color: var(--text); }
-.nav-item.active {
-  background: var(--surface3);
-  color: var(--gold);
-  border-color: var(--border);
-}
-.nav-item .icon {
-  width: 16px;
-  text-align: center;
-  font-size: 11px;
-  opacity: 0.7;
-}
-.nav-badge {
-  margin-left: auto;
-  background: var(--red);
-  color: white;
-  font-size: 9px;
-  padding: 1px 5px;
-  border-radius: 10px;
-  font-weight: 600;
-}
-.nav-badge.gold { background: var(--amber); }
-.nav-badge.green { background: var(--green); }
-
-/* MAIN */
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow:hidden;}
+body{
+  font-family:-apple-system,'SF Pro Text','Helvetica Neue',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:13px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
 }
 
 /* TOPBAR */
-.topbar {
-  height: 52px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  gap: 12px;
-  flex-shrink: 0;
+.topbar{
+  height:48px;
+  background:var(--s1);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  padding:0 24px;
+  gap:0;
+  position:relative;
+  z-index:100;
+}
+.topbar-brand{
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--teal2);
+  font-weight:600;
+  margin-right:40px;
+  white-space:nowrap;
+}
+.topbar-brand span{
+  color:var(--text3);
+  font-weight:400;
+  margin-left:6px;
+  letter-spacing:1px;
+}
+.nav-tabs{display:flex;gap:0;flex:1;}
+.nav-tab{
+  padding:0 20px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  font-size:11px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--text3);
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all 0.15s;
+  white-space:nowrap;
+  user-select:none;
+  position:relative;
+  top:1px;
+}
+.nav-tab:hover{color:var(--text2);}
+.nav-tab.active{color:var(--teal2);border-bottom-color:var(--teal2);}
+
+.topbar-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-left:auto;
+}
+.topbar-date{font-size:11px;color:var(--text3);letter-spacing:0.5px;}
+.voice-btn{
+  display:flex;align-items:center;gap:7px;
+  padding:5px 12px;
+  border:1px solid var(--border2);
+  background:var(--s2);
+  color:var(--text2);
+  font-size:10px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  cursor:pointer;
+  font-family:inherit;
+  transition:all 0.15s;
+}
+.voice-btn:hover{border-color:var(--teal);color:var(--teal2);}
+.voice-btn.rec{border-color:var(--red2);color:var(--red2);background:rgba(192,80,80,0.08);}
+.voice-dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+.voice-btn.rec .voice-dot{animation:blink 0.8s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+/* LAYOUT */
+.workspace{height:calc(100vh - 48px);overflow-y:auto;}
+.panel{display:none;padding:24px;}
+.panel.active{display:block;}
+
+/* TYPOGRAPHY */
+.panel-title{
+  font-size:10px;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--text3);font-weight:600;margin-bottom:16px;
+}
+.section-label{
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text3);font-weight:600;padding-bottom:8px;
+  border-bottom:1px solid var(--border);margin-bottom:12px;
 }
 
-.topbar-title {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text);
-  flex: 1;
-}
-
-.stats-row {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-}
-.stat-chip {
-  font-size: 11px;
-  color: var(--text2);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.stat-chip .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-}
-.dot-green { background: var(--green2); }
-.dot-amber { background: var(--amber); }
-.dot-red { background: var(--red); }
-
-/* VOICE BUTTON */
-.voice-btn {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 14px;
-  border-radius: var(--radius);
-  background: var(--surface3);
-  border: 1px solid var(--border);
-  color: var(--text2);
-  cursor: pointer;
-  font-size: 11px;
-  transition: all 0.15s;
-  font-family: inherit;
-}
-.voice-btn:hover { border-color: var(--gold); color: var(--gold); }
-.voice-btn.recording {
-  background: rgba(176, 80, 64, 0.15);
-  border-color: var(--red);
-  color: var(--red);
-}
-.voice-btn .pulse {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: currentColor;
-}
-.voice-btn.recording .pulse {
-  animation: pulse 0.8s infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.8); }
-}
-
-/* CONTENT */
-.content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-}
-
-/* PANELS */
-.panel { display: none; }
-.panel.active { display: block; }
-
-/* GRID */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+/* GRID LAYOUTS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.g-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
+.mb16{margin-bottom:16px;}
+.mb24{margin-bottom:24px;}
+.mt16{margin-top:16px;}
 
 /* CARD */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius2);
-  overflow: hidden;
+.card{
+  background:var(--s1);
+  border:1px solid var(--border);
+  padding:0;
 }
-.card-header {
-  padding: 14px 16px 10px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.card-head{
+  padding:12px 16px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
 }
-.card-title {
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text2);
-  font-weight: 600;
-}
-.card-body { padding: 14px 16px; }
+.card-title{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);font-weight:600;}
+.card-body{padding:16px;}
 
-/* KPI CARDS */
-.kpi-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius2);
-  padding: 16px;
+/* KPI BAR */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);margin-bottom:1px;}
+.kpi{
+  background:var(--s1);padding:16px 20px;
 }
-.kpi-label {
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text3);
-  margin-bottom: 8px;
-}
-.kpi-value {
-  font-size: 28px;
-  font-weight: 300;
-  color: var(--text);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.kpi-sub {
-  font-size: 11px;
-  color: var(--text3);
-}
-.kpi-bar {
-  height: 3px;
-  background: var(--surface3);
-  border-radius: 2px;
-  margin-top: 10px;
-  overflow: hidden;
-}
-.kpi-bar-fill {
-  height: 100%;
-  border-radius: 2px;
-  background: var(--gold);
-}
+.kpi-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+.kpi-value{font-size:26px;font-weight:300;color:var(--text);line-height:1;}
+.kpi-sub{font-size:10px;color:var(--text3);margin-top:4px;}
+.kpi-bar{height:2px;background:var(--s3);margin-top:10px;}
+.kpi-fill{height:100%;}
 
-/* TASK LIST */
-.task-list { display: flex; flex-direction: column; gap: 2px; }
+/* STATUS BADGE */
+.badge{
+  display:inline-block;
+  padding:2px 8px;
+  font-size:9px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  font-weight:600;
+  border:1px solid;
+}
+.badge-teal{color:var(--teal2);border-color:rgba(20,184,166,0.3);background:rgba(13,148,136,0.1);}
+.badge-gold{color:var(--gold2);border-color:rgba(212,175,122,0.3);background:rgba(184,150,106,0.1);}
+.badge-red{color:#D07070;border-color:rgba(192,80,80,0.3);background:rgba(139,58,58,0.12);}
+.badge-dim{color:var(--text3);border-color:var(--border2);background:transparent;}
+.badge-green{color:var(--green2);border-color:rgba(61,144,104,0.3);background:rgba(46,107,80,0.1);}
+.badge-blue{color:var(--blue2);border-color:rgba(74,122,170,0.3);background:rgba(42,74,106,0.1);}
 
-.task-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 9px 10px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: background 0.1s;
-  border: 1px solid transparent;
-  position: relative;
+/* SELECT / INPUT */
+select,input,textarea{
+  background:var(--s2);
+  border:1px solid var(--border2);
+  color:var(--text);
+  font-family:inherit;
+  font-size:12px;
+  padding:6px 10px;
+  outline:none;
+  transition:border-color 0.15s;
 }
-.task-item:hover { background: var(--surface2); }
-.task-item.editing { background: var(--surface2); border-color: var(--gold); }
+select:focus,input:focus,textarea:focus{border-color:var(--teal);}
+select option{background:var(--s2);}
+textarea{resize:vertical;min-height:60px;}
 
-.task-status {
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
-  border: 1.5px solid var(--border);
-  flex-shrink: 0;
-  margin-top: 1px;
-  cursor: pointer;
-  transition: all 0.15s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* BUTTON */
+.btn{
+  padding:6px 16px;
+  border:1px solid var(--border2);
+  background:var(--s2);
+  color:var(--text2);
+  font-size:10px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  cursor:pointer;
+  font-family:inherit;
+  transition:all 0.15s;
+  white-space:nowrap;
 }
-.task-item[data-status="done"] .task-status {
-  background: var(--green);
-  border-color: var(--green);
-  color: white;
-  font-size: 9px;
-}
-.task-item[data-status="done"] .task-status::after { content: "✓"; }
-.task-item[data-status="inprog"] .task-status {
-  background: var(--amber);
-  border-color: var(--amber);
-  color: white;
-  font-size: 8px;
-}
-.task-item[data-status="inprog"] .task-status::after { content: "●"; }
-.task-item[data-status="todo"] .task-status { border-color: var(--text3); }
-.task-item[data-status="urgent"] .task-status {
-  background: var(--red);
-  border-color: var(--red);
-  color: white;
-  font-size: 8px;
-}
-.task-item[data-status="urgent"] .task-status::after { content: "!"; }
+.btn:hover{border-color:var(--teal);color:var(--teal2);}
+.btn-teal{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:600;}
+.btn-teal:hover{background:var(--teal2);border-color:var(--teal2);color:#fff;}
+.btn-gold{background:transparent;border-color:var(--gold);color:var(--gold2);}
+.btn-gold:hover{background:var(--gold3);}
+.btn-sm{padding:4px 10px;font-size:9px;}
 
-.task-content { flex: 1; min-width: 0; }
-.task-text {
-  font-size: 12px;
-  color: var(--text);
-  line-height: 1.4;
-  outline: none;
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{
+  text-align:left;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text3);font-weight:600;padding:10px 12px;
+  border-bottom:1px solid var(--border);white-space:nowrap;
 }
-.task-item[data-status="done"] .task-text {
-  color: var(--text3);
-  text-decoration: line-through;
+.tbl td{
+  padding:9px 12px;border-bottom:1px solid var(--border);
+  font-size:12px;color:var(--text2);vertical-align:middle;
 }
-.task-meta {
-  font-size: 10px;
-  color: var(--text3);
-  margin-top: 2px;
+.tbl tr:hover td{background:var(--s2);}
+.tbl td[contenteditable="true"]{color:var(--text);outline:none;border-bottom-color:var(--teal);}
+.tbl-wrap{overflow-x:auto;}
+
+/* PRODUCT LAUNCH CARD */
+.launch-card{
+  background:var(--s1);border:1px solid var(--border);
+  padding:0;
+}
+.launch-card-head{
+  padding:14px 18px 10px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:12px;
+}
+.launch-product-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.launch-product-sub{font-size:10px;color:var(--text3);}
+.launch-card-body{padding:14px 18px;}
+.launch-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:6px 0;border-bottom:1px solid var(--border);
+  font-size:11px;
+}
+.launch-row:last-child{border-bottom:none;}
+.launch-row-label{color:var(--text3);letter-spacing:0.5px;}
+.launch-row-val{color:var(--text2);}
+.launch-status-dot{
+  width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:6px;
 }
 
-.task-edit-btn {
-  opacity: 0;
-  background: none;
-  border: none;
-  color: var(--text3);
-  cursor: pointer;
-  font-size: 11px;
-  padding: 2px 4px;
-  border-radius: 3px;
-  transition: all 0.1s;
-  font-family: inherit;
+/* DECISION LOG */
+.decision-row{
+  display:grid;
+  grid-template-columns:1fr 120px 100px 80px 36px;
+  gap:8px;align-items:center;
+  padding:8px 0;
+  border-bottom:1px solid var(--border);
 }
-.task-item:hover .task-edit-btn { opacity: 1; }
-.task-edit-btn:hover { color: var(--gold); }
+.decision-row:last-child{border-bottom:none;}
 
-.task-tag {
-  font-size: 9px;
-  padding: 1px 6px;
-  border-radius: 3px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  flex-shrink: 0;
+/* CONTENT CALENDAR */
+.cal-grid{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);
 }
-.tag-urgent { background: rgba(176,80,64,0.2); color: #D07060; }
-.tag-pauly { background: rgba(184,150,106,0.2); color: var(--gold); }
-.tag-email { background: rgba(74,106,156,0.2); color: #7A9ACC; }
-.tag-today { background: rgba(74,124,89,0.2); color: var(--green2); }
+.cal-head-cell{
+  background:var(--s1);
+  padding:8px 0;
+  text-align:center;
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text3);
+}
+.cal-cell{
+  background:var(--s1);min-height:80px;padding:6px;
+  cursor:pointer;transition:background 0.1s;position:relative;
+}
+.cal-cell:hover{background:var(--s2);}
+.cal-cell.other-month .cal-day-num{color:var(--text3);}
+.cal-cell.today{background:var(--s2);outline:1px solid var(--teal);}
+.cal-day-num{font-size:11px;color:var(--text2);margin-bottom:4px;}
+.cal-event{
+  font-size:9px;padding:2px 5px;margin-bottom:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  cursor:pointer;
+}
+.cal-event.shoot{background:rgba(13,148,136,0.25);color:var(--teal2);}
+.cal-event.post{background:rgba(184,150,106,0.25);color:var(--gold2);}
+.cal-event.event{background:rgba(237,235,230,0.1);color:var(--text);}
 
-/* SECTION HEADER */
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
+/* CONTENT LIST */
+.content-list-row{
+  display:grid;
+  grid-template-columns:2fr 100px 140px 120px 1fr;
+  gap:12px;align-items:center;
+  padding:9px 12px;border-bottom:1px solid var(--border);
 }
-.section-title {
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text2);
-  font-weight: 600;
+.content-list-row.head{
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text3);font-weight:600;padding:10px 12px;
+}
+.content-list-row:hover:not(.head){background:var(--s2);}
+
+/* METRICS */
+.metric-input-row{
+  display:grid;grid-template-columns:120px 1fr 1fr 1fr 1fr;
+  gap:8px;align-items:center;margin-bottom:8px;
 }
 
-/* ADD TASK INPUT */
-.add-task-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid var(--border);
+/* EMAIL ITEM */
+.email-row{
+  display:grid;grid-template-columns:180px 1fr;
+  gap:16px;align-items:flex-start;
+  padding:11px 14px;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:background 0.1s;
 }
-.add-task-input {
-  flex: 1;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 7px 10px;
-  color: var(--text);
-  font-size: 12px;
-  font-family: inherit;
-  outline: none;
-  transition: border-color 0.15s;
-}
-.add-task-input:focus { border-color: var(--gold); }
-.add-task-input::placeholder { color: var(--text3); }
-.btn {
-  padding: 7px 14px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: var(--surface3);
-  color: var(--text2);
-  cursor: pointer;
-  font-size: 11px;
-  font-family: inherit;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-.btn:hover { border-color: var(--gold); color: var(--gold); }
-.btn-primary {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: var(--bg);
-  font-weight: 600;
-}
-.btn-primary:hover { background: var(--gold2); border-color: var(--gold2); color: var(--bg); }
+.email-row:hover{background:var(--s2);}
+.email-from{font-size:12px;color:var(--text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.email-subj{font-size:12px;color:var(--text2);}
+.email-preview{font-size:11px;color:var(--text3);margin-top:1px;}
+.email-date{font-size:10px;color:var(--text3);text-align:right;margin-top:2px;}
 
-/* PHASE TIMELINE */
-.phase-track {
-  display: flex;
-  gap: 0;
-  margin-bottom: 20px;
-  border-radius: var(--radius2);
-  overflow: hidden;
-  border: 1px solid var(--border);
+/* TASKS */
+.task-row{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:9px 10px;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:background 0.1s;
 }
-.phase-block {
-  flex: 1;
-  padding: 12px 14px;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  cursor: pointer;
-  transition: background 0.15s;
+.task-row:hover{background:var(--s2);}
+.task-check{
+  width:14px;height:14px;border:1px solid var(--border2);
+  flex-shrink:0;margin-top:1px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;transition:all 0.15s;
 }
-.phase-block:last-child { border-right: none; }
-.phase-block:hover { background: var(--surface2); }
-.phase-block.active-phase { background: var(--surface3); border-top: 2px solid var(--gold); margin-top: -1px; }
-.phase-label {
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text3);
-  margin-bottom: 4px;
-}
-.phase-name {
-  font-size: 12px;
-  color: var(--text);
-  font-weight: 500;
-  margin-bottom: 3px;
-}
-.phase-date { font-size: 10px; color: var(--text3); }
-.phase-bar { height: 3px; background: var(--surface3); border-radius: 2px; margin-top: 8px; }
-.phase-bar-fill { height: 100%; border-radius: 2px; }
+.task-row[data-s="done"] .task-check{background:var(--green);border-color:var(--green);color:#fff;}
+.task-row[data-s="done"] .task-check::after{content:"✓";}
+.task-row[data-s="inprog"] .task-check{background:var(--amber);border-color:var(--amber);color:#fff;}
+.task-row[data-s="inprog"] .task-check::after{content:"·";}
+.task-row[data-s="urgent"] .task-check{background:var(--red);border-color:var(--red);color:#fff;}
+.task-row[data-s="urgent"] .task-check::after{content:"!";}
+.task-text-wrap{flex:1;min-width:0;}
+.task-title{font-size:12px;color:var(--text);}
+.task-row[data-s="done"] .task-title{color:var(--text3);text-decoration:line-through;}
+.task-meta-row{font-size:10px;color:var(--text3);margin-top:2px;display:flex;gap:10px;}
 
-/* VOICE OVERLAY */
-.voice-overlay {
-  display: none;
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius2);
-  padding: 16px 20px;
-  min-width: 300px;
-  z-index: 200;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+/* CONTACTS */
+.contact-row{
+  display:grid;grid-template-columns:160px 160px 130px 110px 1fr 70px;
+  gap:10px;align-items:center;padding:9px 12px;
+  border-bottom:1px solid var(--border);
 }
-.voice-overlay.show { display: block; }
-.voice-overlay-title {
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text3);
-  margin-bottom: 10px;
-}
-.voice-transcript {
-  font-size: 13px;
-  color: var(--text);
-  min-height: 40px;
-  line-height: 1.5;
-  margin-bottom: 10px;
-  padding: 8px;
-  background: var(--surface2);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-}
-.voice-actions { display: flex; gap: 8px; }
+.contact-row.head{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);}
+.contact-row:not(.head):hover{background:var(--s2);}
 
-/* PAULY SECTION */
-.pauly-header {
-  background: linear-gradient(135deg, rgba(184,150,106,0.1), rgba(184,150,106,0.03));
-  border: 1px solid rgba(184,150,106,0.3);
-  border-radius: var(--radius2);
-  padding: 16px 20px;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+/* FILES */
+.drop-zone{
+  border:1px dashed var(--border2);
+  padding:32px;text-align:center;cursor:pointer;
+  transition:all 0.15s;margin-bottom:20px;
 }
-.pauly-label {
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 600;
+.drop-zone:hover,.drop-zone.over{border-color:var(--teal);background:var(--teal3);}
+.drop-zone-text{font-size:11px;color:var(--text3);letter-spacing:1px;}
+.drop-zone-sub{font-size:10px;color:var(--text3);margin-top:6px;}
+.file-row{
+  display:grid;grid-template-columns:1fr 120px 140px 100px 60px;
+  gap:12px;align-items:center;padding:9px 12px;
+  border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;
 }
-.pauly-sub { font-size: 12px; color: var(--text2); margin-top: 3px; }
+.file-row.head{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);}
+.file-row:not(.head):hover{background:var(--s2);}
+.file-name{font-size:12px;color:var(--text2);}
+.file-name:hover{color:var(--teal2);}
 
-/* EMAIL ITEMS */
-.email-item {
-  padding: 12px 14px;
-  border-radius: var(--radius);
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: border-color 0.15s;
+/* INTEL */
+.intel-entry{
+  background:var(--s1);border:1px solid var(--border);
+  margin-bottom:10px;
 }
-.email-item:hover { border-color: var(--gold); }
-.email-from { font-size: 11px; color: var(--gold); font-weight: 500; margin-bottom: 3px; }
-.email-subject { font-size: 12px; color: var(--text); margin-bottom: 4px; }
-.email-preview { font-size: 11px; color: var(--text3); line-height: 1.4; }
-.email-date { font-size: 10px; color: var(--text3); margin-top: 6px; }
+.intel-head{
+  padding:12px 16px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;cursor:pointer;
+}
+.intel-title{font-size:12px;color:var(--text);font-weight:500;flex:1;}
+.intel-body{padding:14px 16px;display:none;border-bottom:1px solid var(--border);}
+.intel-body.open{display:block;}
+.intel-notes{font-size:12px;color:var(--text2);line-height:1.7;white-space:pre-wrap;}
 
-/* DEPARTMENT CARDS */
-.dept-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius2);
-  padding: 16px;
-  cursor: pointer;
-  transition: border-color 0.15s;
+/* SIP & FORMULATE */
+.sip-hero{
+  background:linear-gradient(135deg,rgba(13,148,136,0.08),rgba(184,150,106,0.05));
+  border:1px solid var(--border);padding:24px;margin-bottom:20px;
+  display:flex;align-items:flex-start;justify-content:space-between;
 }
-.dept-card:hover { border-color: var(--gold); }
-.dept-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
-.dept-sub { font-size: 11px; color: var(--text3); margin-bottom: 12px; }
-.dept-progress { display: flex; gap: 4px; align-items: center; }
-.dept-pct { font-size: 11px; color: var(--text2); margin-left: auto; }
+
+/* DIALOG / MODAL */
+.modal-bg{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);
+  z-index:500;align-items:center;justify-content:center;
+}
+.modal-bg.show{display:flex;}
+.modal{
+  background:var(--s1);border:1px solid var(--border2);
+  padding:24px;min-width:420px;max-width:600px;width:100%;
+  max-height:90vh;overflow-y:auto;
+  position:relative;
+}
+.modal-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--teal2);margin-bottom:20px;font-weight:600;}
+.modal-close{
+  position:absolute;top:14px;right:16px;
+  background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;
+  font-family:inherit;
+}
+.modal-close:hover{color:var(--text);}
+.form-row{margin-bottom:14px;}
+.form-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;display:block;}
+.form-row input,.form-row select,.form-row textarea{width:100%;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 
 /* SCROLLBAR */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--s4);}
+::-webkit-scrollbar-thumb:hover{background:var(--border2);}
 
-/* GOOGLE LINKS */
-.glink {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: var(--radius);
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  color: var(--text2);
-  font-size: 11px;
-  text-decoration: none;
-  transition: all 0.15s;
-}
-.glink:hover { border-color: var(--gold); color: var(--gold); }
-.glinks-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:20px 0;}
 
-/* INLINE EDITING */
-[contenteditable="true"] {
-  outline: none;
-  border-bottom: 1px dashed var(--gold);
+/* FILTER BAR */
+.filter-bar{
+  display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+  margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border);
 }
+.filter-bar select{font-size:11px;padding:5px 8px;}
+.filter-bar input{font-size:11px;padding:5px 10px;min-width:180px;}
+
+/* NOTION SYNC INDICATOR */
+.sync-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--green2);
+  display:inline-block;margin-right:6px;animation:pulse2 3s infinite;
+}
+@keyframes pulse2{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* VOICE OVERLAY */
+.voice-panel{
+  display:none;position:fixed;bottom:20px;right:20px;
+  background:var(--s1);border:1px solid var(--border2);
+  padding:18px 20px;min-width:320px;z-index:300;
+  box-shadow:0 8px 40px rgba(0,0,0,0.5);
+}
+.voice-panel.show{display:block;}
+.vp-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--teal2);margin-bottom:10px;}
+.vp-transcript{
+  font-size:13px;color:var(--text);min-height:44px;line-height:1.6;
+  background:var(--s2);border:1px solid var(--border);padding:10px;margin-bottom:12px;
+}
+.vp-row{display:flex;gap:8px;}
+.vp-row select{flex:1;font-size:11px;}
+
+/* TOGGLE */
+.toggle-group{display:flex;border:1px solid var(--border2);overflow:hidden;}
+.toggle-btn{
+  padding:5px 16px;font-size:10px;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;color:var(--text3);background:var(--s2);border:none;font-family:inherit;
+  transition:all 0.15s;
+}
+.toggle-btn.active{background:var(--teal);color:#fff;}
+
+/* LINK */
+a.link-teal{color:var(--teal2);text-decoration:none;font-size:11px;}
+a.link-teal:hover{text-decoration:underline;}
+
+/* PROGRESS BAR */
+.prog{height:2px;background:var(--s3);}
+.prog-fill{height:100%;}
 </style>
 </head>
 <body>
 
-<div class="shell">
-  <!-- SIDEBAR -->
-  <nav class="sidebar">
-    <div class="sidebar-brand">
-      <div class="logo">TCF</div>
-      <div class="sub">Operations Portal</div>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-section-label">Workspace</div>
-      <div class="nav-item active" onclick="showPanel('overview')">
-        <span class="icon">&#9632;</span> Overview
-      </div>
-      <div class="nav-item" onclick="showPanel('roadmap')">
-        <span class="icon">&#9642;</span> Roadmap
-      </div>
-      <div class="nav-item" onclick="showPanel('pauly')">
-        <span class="icon">&#9650;</span> For Pauly
-        <span class="nav-badge" id="paulyBadge">6</span>
-      </div>
-      <div class="nav-item" onclick="showPanel('email')">
-        <span class="icon">&#9744;</span> From Email
-        <span class="nav-badge gold" id="emailBadge">8</span>
-      </div>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-section-label">Departments</div>
-      <div class="nav-item" onclick="showPanel('facility')">
-        <span class="icon">&#9632;</span> Facility
-      </div>
-      <div class="nav-item" onclick="showPanel('kingstreet')">
-        <span class="icon">&#9632;</span> King Street
-      </div>
-      <div class="nav-item" onclick="showPanel('sipform')">
-        <span class="icon">&#9632;</span> Sip &amp; Formulate
-      </div>
-      <div class="nav-item" onclick="showPanel('brands')">
-        <span class="icon">&#9632;</span> Brands
-      </div>
-      <div class="nav-item" onclick="showPanel('events')">
-        <span class="icon">&#9632;</span> Events &amp; PR
-      </div>
-      <div class="nav-item" onclick="showPanel('social')">
-        <span class="icon">&#9632;</span> Social &amp; Web
-      </div>
-      <div class="nav-item" onclick="showPanel('formulation')">
-        <span class="icon">&#9632;</span> Formulation
-      </div>
-    </div>
-
-    <div class="sidebar-section" style="margin-top:auto; padding-bottom:16px;">
-      <div class="sidebar-section-label">Quick Links</div>
-      <a class="nav-item" href="https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG" target="_blank">
-        <span class="icon">&#9650;</span> Google Drive
-      </a>
-      <a class="nav-item" href="https://formulary-os.fly.dev" target="_blank">
-        <span class="icon">&#9632;</span> Formulary OS
-      </a>
-    </div>
-  </nav>
-
-  <!-- MAIN -->
-  <div class="main">
-    <!-- TOPBAR -->
-    <div class="topbar">
-      <div class="topbar-title" id="topbarTitle">Overview</div>
-      <div class="stats-row">
-        <div class="stat-chip"><div class="dot dot-green"></div><span id="statDone">0 done</span></div>
-        <div class="stat-chip"><div class="dot dot-amber"></div><span id="statProg">0 in progress</span></div>
-        <div class="stat-chip"><div class="dot dot-red"></div><span id="statTodo">0 to do</span></div>
-      </div>
-      <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">
-        <div class="pulse"></div>
-        <span id="voiceBtnText">Voice Input</span>
-      </button>
-    </div>
-
-    <!-- CONTENT -->
-    <div class="content">
-
-      <!-- OVERVIEW -->
-      <div class="panel active" id="panel-overview">
-        <div class="grid-4" style="margin-bottom:16px;">
-          <div class="kpi-card">
-            <div class="kpi-label">Total Tasks</div>
-            <div class="kpi-value" id="kpiTotal">—</div>
-            <div class="kpi-sub">across all departments</div>
-            <div class="kpi-bar"><div class="kpi-bar-fill" id="kpiBarTotal" style="width:100%; background:var(--blue);"></div></div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Completed</div>
-            <div class="kpi-value" id="kpiDone">—</div>
-            <div class="kpi-sub" id="kpiDonePct">—% complete</div>
-            <div class="kpi-bar"><div class="kpi-bar-fill" id="kpiBarDone" style="background:var(--green2);"></div></div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Awaiting Pauly</div>
-            <div class="kpi-value" style="color:var(--gold);">6</div>
-            <div class="kpi-sub">decisions needed</div>
-            <div class="kpi-bar"><div class="kpi-bar-fill" style="width:40%; background:var(--gold);"></div></div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Days to Launch</div>
-            <div class="kpi-value" style="color:var(--amber);">56</div>
-            <div class="kpi-sub">est. full operations</div>
-            <div class="kpi-bar"><div class="kpi-bar-fill" style="width:30%; background:var(--amber);"></div></div>
-          </div>
-        </div>
-
-        <div class="phase-track">
-          <div class="phase-block active-phase">
-            <div class="phase-label">Phase 1 — Now</div>
-            <div class="phase-name">Move &amp; Compliance</div>
-            <div class="phase-date">Weeks 1–2</div>
-            <div class="phase-bar"><div class="phase-bar-fill" style="width:60%; background:var(--gold);"></div></div>
-          </div>
-          <div class="phase-block">
-            <div class="phase-label">Phase 2</div>
-            <div class="phase-name">Build &amp; Setup</div>
-            <div class="phase-date">Weeks 3–4</div>
-            <div class="phase-bar"><div class="phase-bar-fill" style="width:20%; background:var(--amber);"></div></div>
-          </div>
-          <div class="phase-block">
-            <div class="phase-label">Phase 3</div>
-            <div class="phase-name">Sip &amp; Formulate Launch</div>
-            <div class="phase-date">Weeks 5–8</div>
-            <div class="phase-bar"><div class="phase-bar-fill" style="width:10%; background:var(--blue);"></div></div>
-          </div>
-          <div class="phase-block">
-            <div class="phase-label">Phase 4</div>
-            <div class="phase-name">Full Operations</div>
-            <div class="phase-date">Week 8+</div>
-            <div class="phase-bar"><div class="phase-bar-fill" style="width:0%; background:var(--green2);"></div></div>
-          </div>
-        </div>
-
-        <div class="grid-3">
-          <div class="dept-card" onclick="showPanel('facility')">
-            <div class="dept-name">Facility &amp; Compliance</div>
-            <div class="dept-sub">New location setup, permits, inspections</div>
-            <div class="dept-progress">
-              <div class="kpi-bar" style="flex:1; margin:0;"><div class="kpi-bar-fill" style="width:35%; background:var(--amber);"></div></div>
-              <span class="dept-pct">35%</span>
-            </div>
-          </div>
-          <div class="dept-card" onclick="showPanel('kingstreet')">
-            <div class="dept-name">King Street Retail</div>
-            <div class="dept-sub">Retail build-out, Salt Spa integration</div>
-            <div class="dept-progress">
-              <div class="kpi-bar" style="flex:1; margin:0;"><div class="kpi-bar-fill" style="width:20%; background:var(--red);"></div></div>
-              <span class="dept-pct">20%</span>
-            </div>
-          </div>
-          <div class="dept-card" onclick="showPanel('sipform')">
-            <div class="dept-name">Sip &amp; Formulate</div>
-            <div class="dept-sub">8-week mixer launch timeline</div>
-            <div class="dept-progress">
-              <div class="kpi-bar" style="flex:1; margin:0;"><div class="kpi-bar-fill" style="width:25%; background:var(--amber);"></div></div>
-              <span class="dept-pct">25%</span>
-            </div>
-          </div>
-          <div class="dept-card" onclick="showPanel('brands')">
-            <div class="dept-name">Brand Portfolio</div>
-            <div class="dept-sub">NEVOO, Skin Axis, Rinse &amp; Repeat</div>
-            <div class="dept-progress">
-              <div class="kpi-bar" style="flex:1; margin:0;"><div class="kpi-bar-fill" style="width:40%; background:var(--gold);"></div></div>
-              <span class="dept-pct">40%</span>
-            </div>
-          </div>
-          <div class="dept-card" onclick="showPanel('events')">
-            <div class="dept-name">Events &amp; PR</div>
-            <div class="dept-sub">Press, partnerships, community events</div>
-            <div class="dept-progress">
-              <div class="kpi-bar" style="flex:1; margin:0;"><div class="kpi-bar-fill" style="width:15%; background:var(--red);"></div></div>
-              <span class="dept-pct">15%</span>
-            </div>
-          </div>
-          <div class="dept-card" onclick="showPanel('formulation')">
-            <div class="dept-name">Formulation Lab</div>
-            <div class="dept-sub">R&amp;D, SOPs, production workflow</div>
-            <div class="dept-progress">
-              <div class="kpi-bar" style="flex:1; margin:0;"><div class="kpi-bar-fill" style="width:50%; background:var(--green2);"></div></div>
-              <span class="dept-pct">50%</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ROADMAP -->
-      <div class="panel" id="panel-roadmap">
-        <div class="card" style="margin-bottom:16px;">
-          <div class="card-header">
-            <div class="card-title">Phase 1 — Immediate (This Week)</div>
-            <span class="task-tag tag-urgent">URGENT</span>
-          </div>
-          <div class="card-body">
-            <div class="task-list" id="roadmap-p1"></div>
-            <div class="add-task-row">
-              <input class="add-task-input" placeholder="Add task to Phase 1..." onkeydown="addTaskOnEnter(event, 'roadmap-p1', 'urgent')">
-              <button class="btn btn-primary" onclick="addTaskFromInput('roadmap-p1', 'urgent')">Add</button>
-            </div>
-          </div>
-        </div>
-        <div class="card" style="margin-bottom:16px;">
-          <div class="card-header">
-            <div class="card-title">Phase 2 — Weeks 3–4</div>
-          </div>
-          <div class="card-body">
-            <div class="task-list" id="roadmap-p2"></div>
-            <div class="add-task-row">
-              <input class="add-task-input" placeholder="Add task to Phase 2..." onkeydown="addTaskOnEnter(event, 'roadmap-p2', 'todo')">
-              <button class="btn btn-primary" onclick="addTaskFromInput('roadmap-p2', 'todo')">Add</button>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Phase 3–4 — Weeks 5–8+</div>
-          </div>
-          <div class="card-body">
-            <div class="task-list" id="roadmap-p3"></div>
-            <div class="add-task-row">
-              <input class="add-task-input" placeholder="Add task to Phase 3..." onkeydown="addTaskOnEnter(event, 'roadmap-p3', 'todo')">
-              <button class="btn btn-primary" onclick="addTaskFromInput('roadmap-p3', 'todo')">Add</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- FOR PAULY -->
-      <div class="panel" id="panel-pauly">
-        <div class="pauly-header">
-          <div>
-            <div class="pauly-label">For Pauly — Needs Your Attention</div>
-            <div class="pauly-sub">Items requiring approval, decision, or follow-up from leadership</div>
-          </div>
-          <button class="btn btn-primary" onclick="addPaulyItem()">+ Add Item</button>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Action Items</div></div>
-          <div class="card-body">
-            <div class="task-list" id="pauly-list"></div>
-            <div class="add-task-row">
-              <input class="add-task-input" id="paulyInput" placeholder="Add item for Pauly..." onkeydown="addTaskOnEnter(event, 'pauly-list', 'urgent')">
-              <button class="btn btn-primary" onclick="addTaskFromInput('pauly-list', 'urgent')">Add</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- FROM EMAIL -->
-      <div class="panel" id="panel-email">
-        <div class="card" style="margin-bottom:16px;">
-          <div class="card-header">
-            <div class="card-title">Gmail — Action Items</div>
-            <span style="font-size:10px; color:var(--text3);">Last synced: June 1, 2026</span>
-          </div>
-          <div class="card-body">
-            <div class="task-list" id="email-tasks"></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Email Threads</div></div>
-          <div class="card-body" id="email-threads"></div>
-        </div>
-      </div>
-
-      <!-- FACILITY -->
-      <div class="panel" id="panel-facility">
-        <div class="glinks-row">
-          <a class="glink" href="https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG" target="_blank">Drive Folder</a>
-          <a class="glink" href="https://docs.google.com/document/create" target="_blank">New Doc</a>
-          <a class="glink" href="https://sheets.google.com/create" target="_blank">New Sheet</a>
-        </div>
-        <div class="grid-2">
-          <div class="card">
-            <div class="card-header"><div class="card-title">Immediate — Venture X Move-Out</div></div>
-            <div class="card-body">
-              <div class="task-list" id="facility-moveout"></div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">New Facility Setup</div></div>
-            <div class="card-body">
-              <div class="task-list" id="facility-setup"></div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">Permits &amp; Compliance</div></div>
-            <div class="card-body">
-              <div class="task-list" id="facility-permits"></div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">Equipment &amp; Supplies</div></div>
-            <div class="card-body">
-              <div class="task-list" id="facility-equip"></div>
-              <div class="add-task-row">
-                <input class="add-task-input" placeholder="Add equipment task..." onkeydown="addTaskOnEnter(event, 'facility-equip', 'todo')">
-                <button class="btn btn-primary" onclick="addTaskFromInput('facility-equip', 'todo')">Add</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- KING STREET -->
-      <div class="panel" id="panel-kingstreet">
-        <div class="grid-2">
-          <div class="card">
-            <div class="card-header"><div class="card-title">Retail Build-Out</div></div>
-            <div class="card-body">
-              <div class="task-list" id="ks-retail"></div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">Salt Spa Integration</div></div>
-            <div class="card-body">
-              <div class="task-list" id="ks-spa"></div>
-            </div>
-          </div>
-          <div class="card" style="grid-column:span 2;">
-            <div class="card-header"><div class="card-title">Inventory &amp; Merchandising</div></div>
-            <div class="card-body">
-              <div class="task-list" id="ks-merch"></div>
-              <div class="add-task-row">
-                <input class="add-task-input" placeholder="Add King Street task..." onkeydown="addTaskOnEnter(event, 'ks-merch', 'todo')">
-                <button class="btn btn-primary" onclick="addTaskFromInput('ks-merch', 'todo')">Add</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SIP & FORMULATE -->
-      <div class="panel" id="panel-sipform">
-        <div class="card" style="margin-bottom:16px;">
-          <div class="card-header"><div class="card-title">8-Week Launch Timeline</div></div>
-          <div class="card-body">
-            <div class="task-list" id="sip-timeline"></div>
-          </div>
-        </div>
-        <div class="grid-2">
-          <div class="card">
-            <div class="card-header"><div class="card-title">Equipment &amp; Supplies</div></div>
-            <div class="card-body">
-              <div class="task-list" id="sip-equip"></div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">Marketing &amp; Bookings</div></div>
-            <div class="card-body">
-              <div class="task-list" id="sip-mktg"></div>
-              <div class="add-task-row">
-                <input class="add-task-input" placeholder="Add Sip &amp; Formulate task..." onkeydown="addTaskOnEnter(event, 'sip-mktg', 'todo')">
-                <button class="btn btn-primary" onclick="addTaskFromInput('sip-mktg', 'todo')">Add</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- BRANDS -->
-      <div class="panel" id="panel-brands">
-        <div class="grid-3">
-          <div class="card">
-            <div class="card-header"><div class="card-title">NEVOO</div></div>
-            <div class="card-body">
-              <div class="task-list" id="brand-nevoo"></div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">Skin Axis</div></div>
-            <div class="card-body">
-              <div class="task-list" id="brand-skinaxis"></div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">Rinse &amp; Repeat</div></div>
-            <div class="card-body">
-              <div class="task-list" id="brand-rinse"></div>
-              <div class="add-task-row">
-                <input class="add-task-input" placeholder="Add brand task..." onkeydown="addTaskOnEnter(event, 'brand-rinse', 'todo')">
-                <button class="btn btn-primary" onclick="addTaskFromInput('brand-rinse', 'todo')">Add</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- EVENTS -->
-      <div class="panel" id="panel-events">
-        <div class="grid-2">
-          <div class="card">
-            <div class="card-header"><div class="card-title">Upcoming Events</div></div>
-            <div class="card-body">
-              <div class="task-list" id="events-upcoming"></div>
-              <div class="add-task-row">
-                <input class="add-task-input" placeholder="Add event..." onkeydown="addTaskOnEnter(event, 'events-upcoming', 'todo')">
-                <button class="btn btn-primary" onclick="addTaskFromInput('events-upcoming', 'todo')">Add</button>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">PR &amp; Press</div></div>
-            <div class="card-body">
-              <div class="task-list" id="events-pr"></div>
-              <div class="add-task-row">
-                <input class="add-task-input" placeholder="Add PR task..." onkeydown="addTaskOnEnter(event, 'events-pr', 'todo')">
-                <button class="btn btn-primary" onclick="addTaskFromInput('events-pr', 'todo')">Add</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SOCIAL -->
-      <div class="panel" id="panel-social">
-        <div class="grid-2">
-          <div class="card">
-            <div class="card-header"><div class="card-title">Social Media</div></div>
-            <div class="card-body">
-              <div class="task-list" id="social-sm"></div>
-              <div class="add-task-row">
-                <input class="add-task-input" placeholder="Add social task..." onkeydown="addTaskOnEnter(event, 'social-sm', 'todo')">
-                <button class="btn btn-primary" onclick="addTaskFromInput('social-sm', 'todo')">Add</button>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">Website &amp; Digital</div></div>
-            <div class="card-body">
-              <div class="task-list" id="social-web"></div>
-              <div class="add-task-row">
-                <input class="add-task-input" placeholder="Add web task..." onkeydown="addTaskOnEnter(event, 'social-web', 'todo')">
-                <button class="btn btn-primary" onclick="addTaskFromInput('social-web', 'todo')">Add</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- FORMULATION -->
-      <div class="panel" id="panel-formulation">
-        <div class="grid-2">
-          <div class="card">
-            <div class="card-header"><div class="card-title">Active Formulations</div></div>
-            <div class="card-body">
-              <div class="task-list" id="form-active"></div>
-              <div class="add-task-row">
-                <input class="add-task-input" placeholder="Add formulation..." onkeydown="addTaskOnEnter(event, 'form-active', 'inprog')">
-                <button class="btn btn-primary" onclick="addTaskFromInput('form-active', 'inprog')">Add</button>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">SOPs &amp; Documentation</div></div>
-            <div class="card-body">
-              <div class="task-list" id="form-sops"></div>
-              <div class="add-task-row">
-                <input class="add-task-input" placeholder="Add SOP task..." onkeydown="addTaskOnEnter(event, 'form-sops', 'todo')">
-                <button class="btn btn-primary" onclick="addTaskFromInput('form-sops', 'todo')">Add</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /content -->
-  </div><!-- /main -->
-</div><!-- /shell -->
-
-<!-- VOICE OVERLAY -->
-<div class="voice-overlay" id="voiceOverlay">
-  <div class="voice-overlay-title">Voice Input — Listening...</div>
-  <div class="voice-transcript" id="voiceTranscript">Say a task or note...</div>
-  <div style="font-size:10px; color:var(--text3); margin-bottom:10px;">
-    Tip: say "add task [description]" or just speak your task
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-brand">Nicole<span>Command Center</span></div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showTab('brand')">Brand</div>
+    <div class="nav-tab" onclick="showTab('formulas')">Formulas</div>
+    <div class="nav-tab" onclick="showTab('content')">Content</div>
+    <div class="nav-tab" onclick="showTab('operations')">Operations</div>
+    <div class="nav-tab" onclick="showTab('files')">Files</div>
+    <div class="nav-tab" onclick="showTab('intelligence')">Intelligence</div>
+    <div class="nav-tab" onclick="showTab('sip')">Sip &amp; Formulate</div>
   </div>
-  <div class="voice-actions">
-    <select id="voiceTarget" class="add-task-input" style="flex:1; padding:6px 8px;">
-      <option value="roadmap-p1">Roadmap — Phase 1</option>
-      <option value="roadmap-p2">Roadmap — Phase 2</option>
-      <option value="pauly-list">For Pauly</option>
-      <option value="facility-setup">Facility Setup</option>
-      <option value="ks-retail">King Street</option>
-      <option value="sip-timeline">Sip &amp; Formulate</option>
-      <option value="brand-nevoo">NEVOO</option>
-      <option value="events-upcoming">Events</option>
-      <option value="form-active">Formulation</option>
+  <div class="topbar-right">
+    <span class="topbar-date" id="topDate"></span>
+    <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">
+      <div class="voice-dot"></div><span id="voiceBtnTxt">Voice</span>
+    </button>
+  </div>
+</div>
+
+<div class="workspace">
+
+<!-- ===================== BRAND TAB ===================== -->
+<div class="panel active" id="tab-brand">
+
+  <!-- Scorecard KPIs -->
+  <div class="kpi-row mb16">
+    <div class="kpi">
+      <div class="kpi-label">Launch Status</div>
+      <div class="kpi-value" style="font-size:16px;color:var(--teal2);margin-top:4px;">3 Products</div>
+      <div class="kpi-sub">In Development</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Content Streak</div>
+      <div class="kpi-value">12</div>
+      <div class="kpi-sub">days posted</div>
+      <div class="prog mt16"><div class="prog-fill" style="width:60%;background:var(--teal);"></div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Next Event</div>
+      <div class="kpi-value" style="font-size:16px;color:var(--gold2);margin-top:4px;" id="nextEventKPI">None set</div>
+      <div class="kpi-sub">upcoming</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Open Decisions</div>
+      <div class="kpi-value" style="color:var(--gold2);" id="openDecCount">4</div>
+      <div class="kpi-sub">awaiting action</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Notion Sync</div>
+      <div class="kpi-value" style="font-size:14px;margin-top:6px;"><span class="sync-dot"></span>Connected</div>
+      <div class="kpi-sub">last sync: now</div>
+    </div>
+  </div>
+
+  <!-- Product Launch Cards -->
+  <div class="section-label">Hero Product Launch Tracker</div>
+  <div class="g3 mb24" id="launchCards">
+    <!-- rendered by JS -->
+  </div>
+
+  <!-- Brand Decisions -->
+  <div class="card">
+    <div class="card-head">
+      <span class="card-title">Brand Decisions Log</span>
+      <button class="btn btn-sm btn-teal" onclick="openModal('decisionModal')">+ Add Decision</button>
+    </div>
+    <div class="card-body" style="padding:0;">
+      <div style="display:grid;grid-template-columns:1fr 130px 110px 90px 40px;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);">
+        <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);">Decision</span>
+        <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);">Owner</span>
+        <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);">Due</span>
+        <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);">Status</span>
+        <span></span>
+      </div>
+      <div id="decisionsBody"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== FORMULAS TAB ===================== -->
+<div class="panel" id="tab-formulas">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div class="section-label" style="margin:0;border:none;padding:0;">Product Development Ledger</div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-sm" onclick="exportFormulasCSV()">Export CSV</button>
+      <button class="btn btn-sm btn-teal" onclick="openModal('formulaModal')">+ Add Formula</button>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <input id="fSearch" placeholder="Search formulas..." oninput="renderFormulas()">
+    <select id="fBrand" onchange="renderFormulas()">
+      <option value="">All Brands</option>
+      <option>Skin Axis</option>
+      <option>TCF Client</option>
+      <option>TCF House Brand</option>
     </select>
-    <button class="btn btn-primary" onclick="confirmVoiceTask()">Add Task</button>
-    <button class="btn" onclick="cancelVoice()">Cancel</button>
+    <select id="fCat" onchange="renderFormulas()">
+      <option value="">All Categories</option>
+      <option>Face</option><option>Body</option>
+      <option>Functional Beverage</option><option>Hair</option><option>Other</option>
+    </select>
+    <select id="fStatus" onchange="renderFormulas()">
+      <option value="">All Statuses</option>
+      <option>Concept</option><option>Benching</option><option>Stability</option>
+      <option>Approved</option><option>On Hold</option><option>Archived</option>
+    </select>
+    <select id="fPriority" onchange="renderFormulas()">
+      <option value="">All Priorities</option>
+      <option>High</option><option>Medium</option><option>Low</option>
+    </select>
+  </div>
+
+  <div class="tbl-wrap card">
+    <table class="tbl" id="formulaTable">
+      <thead>
+        <tr>
+          <th>Formula Name</th>
+          <th>Brand</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Priority</th>
+          <th>Drive Link</th>
+          <th>Notes</th>
+          <th style="width:40px;"></th>
+        </tr>
+      </thead>
+      <tbody id="formulaBody"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ===================== CONTENT TAB ===================== -->
+<div class="panel" id="tab-content">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div class="section-label" style="margin:0;border:none;padding:0;">Content Production</div>
+    <div style="display:flex;gap:8px;">
+      <div class="toggle-group">
+        <button class="toggle-btn active" id="calToggle" onclick="setContentView('cal')">Calendar</button>
+        <button class="toggle-btn" id="listToggle" onclick="setContentView('list')">List</button>
+      </div>
+      <button class="btn btn-sm btn-teal" onclick="openModal('contentModal')">+ Add Content</button>
+    </div>
+  </div>
+
+  <!-- Calendar View -->
+  <div id="calView">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px;">
+      <button class="btn btn-sm" onclick="calPrev()">&larr;</button>
+      <span style="font-size:13px;color:var(--text);font-weight:500;" id="calMonthLabel"></span>
+      <button class="btn btn-sm" onclick="calNext()">&rarr;</button>
+      <span style="font-size:10px;color:var(--text3);margin-left:12px;">
+        <span style="display:inline-block;width:10px;height:10px;background:rgba(13,148,136,0.3);margin-right:4px;"></span>Shoot
+        &nbsp;
+        <span style="display:inline-block;width:10px;height:10px;background:rgba(184,150,106,0.3);margin-right:4px;"></span>Post
+        &nbsp;
+        <span style="display:inline-block;width:10px;height:10px;background:rgba(237,235,230,0.12);margin-right:4px;"></span>Event
+      </span>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+
+  <!-- List View -->
+  <div id="listView" style="display:none;">
+    <div class="card" style="margin-bottom:16px;">
+      <div style="padding:0;">
+        <div class="content-list-row head">
+          <span>Title</span><span>Platform</span><span>Type</span><span>Status</span><span>Link</span>
+        </div>
+        <div id="contentListBody"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Metrics + Upload row -->
+  <div class="g2">
+    <div class="card">
+      <div class="card-head"><span class="card-title">Weekly Metrics</span><button class="btn btn-sm" onclick="logMetrics()">Log This Week</button></div>
+      <div class="card-body" style="padding:10px 16px;">
+        <div class="metric-input-row" style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);padding-bottom:6px;border-bottom:1px solid var(--border);">
+          <span>Week</span><span>Followers</span><span>Reach</span><span>Saves</span><span>Shares</span>
+        </div>
+        <div id="metricsRows"></div>
+        <div style="margin-top:10px;display:grid;grid-template-columns:100px 1fr 1fr 1fr 1fr;gap:6px;">
+          <input id="mWeek" placeholder="Jun W1" style="font-size:11px;padding:5px 8px;">
+          <input id="mFollowers" placeholder="Followers" type="number" style="font-size:11px;padding:5px 8px;">
+          <input id="mReach" placeholder="Reach" type="number" style="font-size:11px;padding:5px 8px;">
+          <input id="mSaves" placeholder="Saves" type="number" style="font-size:11px;padding:5px 8px;">
+          <input id="mShares" placeholder="Shares" type="number" style="font-size:11px;padding:5px 8px;">
+        </div>
+        <button class="btn btn-sm btn-teal" style="margin-top:8px;width:100%;" onclick="addMetricRow()">Save Week</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Reference Upload</span></div>
+      <div class="card-body">
+        <div class="drop-zone" id="contentDropZone" onclick="document.getElementById('contentFileInput').click()" ondragover="dzOver(event,'contentDropZone')" ondragleave="dzLeave('contentDropZone')" ondrop="dzDrop(event,'contentDropZone','content')">
+          <div class="drop-zone-text">Drop files or click to upload</div>
+          <div class="drop-zone-sub">Saves to Drive: Skin Axis — Content Assets</div>
+        </div>
+        <input type="file" id="contentFileInput" style="display:none;" multiple onchange="handleFileInput(this,'content')">
+        <div id="contentUploadList" style="font-size:11px;color:var(--text3);"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== OPERATIONS TAB ===================== -->
+<div class="panel" id="tab-operations">
+
+  <div class="g2 mb16">
+    <!-- EMAIL PANEL -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">Gmail — Recent Threads</span>
+        <span style="font-size:10px;color:var(--text3);">10 most recent</span>
+      </div>
+      <div style="padding:0;" id="emailPanel">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+    <!-- TASKS PANEL -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title"><span class="sync-dot"></span>Notion Tasks</span>
+        <button class="btn btn-sm btn-teal" onclick="openModal('taskModal')">+ Add Task</button>
+      </div>
+      <div style="padding:0;">
+        <div class="filter-bar" style="padding:10px 12px;margin:0;border-bottom:1px solid var(--border);gap:6px;">
+          <select id="tFilterBrand" style="font-size:10px;padding:4px 6px;" onchange="renderTasks()">
+            <option value="">All Brands</option>
+            <option>Skin Axis</option><option>TCF</option><option>Personal</option>
+          </select>
+          <select id="tFilterStatus" style="font-size:10px;padding:4px 6px;" onchange="renderTasks()">
+            <option value="">All</option>
+            <option value="todo">To Do</option>
+            <option value="inprog">In Progress</option>
+            <option value="done">Done</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </div>
+        <div id="tasksBody" style="max-height:360px;overflow-y:auto;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <!-- CALENDAR -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">Calendar</span>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-sm" onclick="opCalPrev()">&larr;</button>
+          <span style="font-size:11px;color:var(--text2);" id="opCalLabel"></span>
+          <button class="btn btn-sm" onclick="opCalNext()">&rarr;</button>
+          <button class="btn btn-sm btn-teal" onclick="openModal('calEventModal')">+ Event</button>
+        </div>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <div class="cal-grid" id="opCalGrid"></div>
+      </div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">Key Contacts</span>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-sm" onclick="exportContacts()">Export</button>
+          <button class="btn btn-sm btn-teal" onclick="openModal('contactModal')">+ Contact</button>
+        </div>
+      </div>
+      <div style="padding:0;overflow:auto;">
+        <div class="contact-row head" style="padding:10px 12px;">
+          <span>Name</span><span>Company</span><span>Role</span><span>Last Contact</span><span>Notes</span><span></span>
+        </div>
+        <div id="contactsBody" style="max-height:340px;overflow-y:auto;"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== FILES TAB ===================== -->
+<div class="panel" id="tab-files">
+
+  <div style="display:flex;align-items:flex-start;gap:20px;margin-bottom:20px;">
+    <div style="flex:1;">
+      <div class="drop-zone" id="mainDropZone" onclick="document.getElementById('mainFileInput').click()" ondragover="dzOver(event,'mainDropZone')" ondragleave="dzLeave('mainDropZone')" ondrop="dzDrop(event,'mainDropZone','main')">
+        <div class="drop-zone-text">Drag &amp; drop files here or click to browse</div>
+        <div class="drop-zone-sub">Uploads go to Google Drive: Nicole — Skin Axis Files</div>
+      </div>
+      <input type="file" id="mainFileInput" style="display:none;" multiple onchange="handleFileInput(this,'main')">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;" id="tagSelectRow">
+        <span style="font-size:10px;color:var(--text3);align-self:center;">Tag as:</span>
+        <select id="fileTagSelect" style="font-size:11px;padding:4px 8px;">
+          <option>Formula Doc</option><option>Label</option><option>Contract</option>
+          <option>Photography</option><option>Video</option><option>Reference</option><option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div style="width:220px;">
+      <div class="section-label">Drive Folders</div>
+      <a href="https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG" target="_blank" class="link-teal" style="display:block;padding:7px 0;border-bottom:1px solid var(--border);">Nicole — Skin Axis Files</a>
+      <a href="https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG" target="_blank" class="link-teal" style="display:block;padding:7px 0;border-bottom:1px solid var(--border);">Skin Axis — Content Assets</a>
+      <a href="https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG" target="_blank" class="link-teal" style="display:block;padding:7px 0;">TCF — All Files</a>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+    <input id="fileSearch" placeholder="Search files by name or tag..." style="width:280px;font-size:11px;" oninput="renderFiles()">
+    <select id="fileTagFilter" style="font-size:11px;padding:5px 8px;" onchange="renderFiles()">
+      <option value="">All Tags</option>
+      <option>Formula Doc</option><option>Label</option><option>Contract</option>
+      <option>Photography</option><option>Video</option><option>Reference</option><option>Other</option>
+    </select>
+  </div>
+
+  <div class="card">
+    <div class="file-row head" style="padding:10px 12px;">
+      <span>File Name</span><span>Tag</span><span>Date Added</span><span>Source</span><span>Open</span>
+    </div>
+    <div id="fileListBody"></div>
+  </div>
+
+</div>
+
+<!-- ===================== INTELLIGENCE TAB ===================== -->
+<div class="panel" id="tab-intelligence">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div class="section-label" style="margin:0;border:none;padding:0;">Market &amp; Brand Research Journal</div>
+    <button class="btn btn-teal" onclick="openModal('intelModal')">+ New Entry</button>
+  </div>
+
+  <div class="filter-bar">
+    <input id="intelSearch" placeholder="Search entries..." oninput="renderIntel()">
+    <select id="intelCatFilter" onchange="renderIntel()">
+      <option value="">All Categories</option>
+      <option>Competitor</option><option>Ingredient Trend</option>
+      <option>Channel Insight</option><option>Clinical Research</option><option>Packaging Reference</option>
+    </select>
+  </div>
+
+  <div id="intelBody"></div>
+
+</div>
+
+<!-- ===================== SIP & FORMULATE TAB ===================== -->
+<div class="panel" id="tab-sip">
+
+  <div class="sip-hero mb24">
+    <div>
+      <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--teal2);margin-bottom:8px;">Sip &amp; Formulate</div>
+      <div style="font-size:22px;font-weight:300;color:var(--text);margin-bottom:6px;">Experiential Mixer Events</div>
+      <div style="font-size:12px;color:var(--text3);max-width:540px;line-height:1.7;">Custom fragrance and formulation mixer experiences in Charleston, SC. Workshop-style events where guests create their own products and take them home.</div>
+    </div>
+    <div style="text-align:right;">
+      <div class="kpi-label">Target Launch</div>
+      <div style="font-size:18px;font-weight:300;color:var(--gold2);">Week 5</div>
+      <div style="font-size:10px;color:var(--text3);">mid-July 2026</div>
+    </div>
+  </div>
+
+  <div class="g3 mb24">
+    <div class="kpi" style="border:1px solid var(--border);">
+      <div class="kpi-label">Ticket Price</div>
+      <div class="kpi-value">$85</div>
+      <div class="kpi-sub">per guest (target)</div>
+    </div>
+    <div class="kpi" style="border:1px solid var(--border);">
+      <div class="kpi-label">Capacity</div>
+      <div class="kpi-value">12</div>
+      <div class="kpi-sub">guests per session</div>
+    </div>
+    <div class="kpi" style="border:1px solid var(--border);">
+      <div class="kpi-value" style="font-size:20px;color:var(--teal2);">$1,020</div>
+      <div class="kpi-sub">revenue per event</div>
+    </div>
+  </div>
+
+  <div class="g2 mb16">
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">8-Week Launch Checklist</span>
+        <button class="btn btn-sm btn-teal" onclick="openModal('sipTaskModal')">+ Add Task</button>
+      </div>
+      <div id="sipTaskList" style="max-height:400px;overflow-y:auto;"></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Equipment &amp; Supplies</span></div>
+      <div id="sipEquipList" style="max-height:400px;overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-head"><span class="card-title">Marketing &amp; Booking</span></div>
+      <div id="sipMktgList" style="max-height:300px;overflow-y:auto;"></div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">Event Notes</span>
+      </div>
+      <div class="card-body">
+        <textarea id="sipNotes" style="width:100%;min-height:180px;font-size:12px;" placeholder="Event notes, venue ideas, format decisions...">Amazon paddle mixers (ASIN B0FHZYFVSL) — awaiting Pauly approval.
+McKernan dropper bottles (eg-38470, eg-46842) — review and order.
+Consider partnering with Salt Spa for first event venue.
+Fragrance base: explore alcohol-free options for scent blending stations.</textarea>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /workspace -->
+
+<!-- ===================== MODALS ===================== -->
+
+<!-- Decision Modal -->
+<div class="modal-bg" id="decisionModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('decisionModal')">✕</button>
+    <div class="modal-title">Add Brand Decision</div>
+    <div class="form-row"><label class="form-label">Decision</label><input id="dText" placeholder="Describe the decision..."></div>
+    <div class="form-grid">
+      <div class="form-row"><label class="form-label">Owner</label><input id="dOwner" placeholder="Name or role"></div>
+      <div class="form-row"><label class="form-label">Due Date</label><input id="dDue" type="date"></div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Status</label>
+      <select id="dStatus"><option>Open</option><option>In Review</option><option>Decided</option><option>Blocked</option></select>
+    </div>
+    <button class="btn btn-teal" style="width:100%;" onclick="addDecision()">Save Decision</button>
+  </div>
+</div>
+
+<!-- Formula Modal -->
+<div class="modal-bg" id="formulaModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('formulaModal')">✕</button>
+    <div class="modal-title">Add Formula</div>
+    <div class="form-row"><label class="form-label">Formula Name</label><input id="fmName" placeholder="e.g. Barrier Repair Serum v2"></div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">Brand</label>
+        <select id="fmBrand"><option>Skin Axis</option><option>TCF Client</option><option>TCF House Brand</option></select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Category</label>
+        <select id="fmCat"><option>Face</option><option>Body</option><option>Functional Beverage</option><option>Hair</option><option>Other</option></select>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">Status</label>
+        <select id="fmStatus"><option>Concept</option><option>Benching</option><option>Stability</option><option>Approved</option><option>On Hold</option><option>Archived</option></select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Priority</label>
+        <select id="fmPriority"><option>High</option><option>Medium</option><option>Low</option></select>
+      </div>
+    </div>
+    <div class="form-row"><label class="form-label">Drive Link</label><input id="fmLink" placeholder="https://docs.google.com/..."></div>
+    <div class="form-row"><label class="form-label">Notes</label><textarea id="fmNotes" placeholder="Key ingredients, concentrations, observations..."></textarea></div>
+    <button class="btn btn-teal" style="width:100%;" onclick="addFormula()">Save Formula</button>
+  </div>
+</div>
+
+<!-- Content Modal -->
+<div class="modal-bg" id="contentModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('contentModal')">✕</button>
+    <div class="modal-title">Add Content Item</div>
+    <div class="form-row"><label class="form-label">Title</label><input id="ctTitle" placeholder="Content title or working title"></div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">Platform</label>
+        <select id="ctPlatform"><option>Instagram</option><option>TikTok</option><option>YouTube</option><option>All</option></select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Type</label>
+        <select id="ctType"><option>Formulation Demo</option><option>Day in Life</option><option>Product Education</option><option>Behind the Scenes</option><option>Brand Story</option></select>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">Status</label>
+        <select id="ctStatus"><option>Idea</option><option>Scripted</option><option>Filmed</option><option>Editing</option><option>Scheduled</option><option>Posted</option></select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Date</label>
+        <input id="ctDate" type="date">
+      </div>
+    </div>
+    <div class="form-row"><label class="form-label">Link (when live)</label><input id="ctLink" placeholder="https://..."></div>
+    <button class="btn btn-teal" style="width:100%;" onclick="addContent()">Save</button>
+  </div>
+</div>
+
+<!-- Task Modal -->
+<div class="modal-bg" id="taskModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('taskModal')">✕</button>
+    <div class="modal-title">Add Task</div>
+    <div class="form-row"><label class="form-label">Task</label><input id="tkTitle" placeholder="Task description..."></div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">Brand</label>
+        <select id="tkBrand"><option>Skin Axis</option><option>TCF</option><option>Personal</option></select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Priority</label>
+        <select id="tkPriority"><option>High</option><option>Medium</option><option>Low</option></select>
+      </div>
+    </div>
+    <div class="form-row"><label class="form-label">Due Date</label><input id="tkDue" type="date"></div>
+    <div class="form-row"><label class="form-label">Notes</label><textarea id="tkNotes" placeholder="Additional context..."></textarea></div>
+    <button class="btn btn-teal" style="width:100%;" onclick="addTask()">Save to Notion</button>
+  </div>
+</div>
+
+<!-- Cal Event Modal -->
+<div class="modal-bg" id="calEventModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('calEventModal')">✕</button>
+    <div class="modal-title">Add Calendar Event</div>
+    <div class="form-row"><label class="form-label">Title</label><input id="ceTitle"></div>
+    <div class="form-grid">
+      <div class="form-row"><label class="form-label">Date</label><input id="ceDate" type="date"></div>
+      <div class="form-row">
+        <label class="form-label">Type</label>
+        <select id="ceType"><option value="event">Event</option><option value="shoot">Shoot Day</option><option value="post">Post Day</option></select>
+      </div>
+    </div>
+    <div class="form-row"><label class="form-label">Link / Notes</label><input id="ceLink" placeholder="https:// or notes"></div>
+    <button class="btn btn-teal" style="width:100%;" onclick="addCalEvent()">Save</button>
+  </div>
+</div>
+
+<!-- Contact Modal -->
+<div class="modal-bg" id="contactModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('contactModal')">✕</button>
+    <div class="modal-title">Add Contact</div>
+    <div class="form-grid">
+      <div class="form-row"><label class="form-label">Name</label><input id="cnName"></div>
+      <div class="form-row"><label class="form-label">Company</label><input id="cnCompany"></div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label class="form-label">Role</label><input id="cnRole"></div>
+      <div class="form-row"><label class="form-label">Last Contact</label><input id="cnLast" type="date"></div>
+    </div>
+    <div class="form-row"><label class="form-label">Notes</label><textarea id="cnNotes" placeholder="Relationship notes, next steps..."></textarea></div>
+    <button class="btn btn-teal" style="width:100%;" onclick="addContact()">Save Contact</button>
+  </div>
+</div>
+
+<!-- Intel Modal -->
+<div class="modal-bg" id="intelModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('intelModal')">✕</button>
+    <div class="modal-title">New Research Entry</div>
+    <div class="form-row"><label class="form-label">Title</label><input id="itTitle"></div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">Category</label>
+        <select id="itCat"><option>Competitor</option><option>Ingredient Trend</option><option>Channel Insight</option><option>Clinical Research</option><option>Packaging Reference</option></select>
+      </div>
+      <div class="form-row"><label class="form-label">Date</label><input id="itDate" type="date"></div>
+    </div>
+    <div class="form-row"><label class="form-label">Link</label><input id="itLink" placeholder="https://..."></div>
+    <div class="form-row"><label class="form-label">Notes</label><textarea id="itNotes" style="min-height:100px;" placeholder="What you learned, why it matters, how to apply it..."></textarea></div>
+    <button class="btn btn-teal" style="width:100%;" onclick="addIntel()">Save Entry</button>
+  </div>
+</div>
+
+<!-- Sip Task Modal -->
+<div class="modal-bg" id="sipTaskModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('sipTaskModal')">✕</button>
+    <div class="modal-title">Add Sip &amp; Formulate Task</div>
+    <div class="form-row"><label class="form-label">Task</label><input id="stTitle"></div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">Phase</label>
+        <select id="stPhase"><option>Week 1–2</option><option>Week 3–4</option><option>Week 5–6</option><option>Week 7–8</option></select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Section</label>
+        <select id="stSection"><option value="sipTaskList">Launch Checklist</option><option value="sipEquipList">Equipment</option><option value="sipMktgList">Marketing</option></select>
+      </div>
+    </div>
+    <button class="btn btn-teal" style="width:100%;" onclick="addSipTask()">Add Task</button>
+  </div>
+</div>
+
+<!-- Voice Overlay -->
+<div class="voice-panel" id="voicePanel">
+  <div class="vp-label">Voice Input — Active</div>
+  <div class="vp-transcript" id="vpTranscript">Listening...</div>
+  <div class="vp-row">
+    <select id="vpTarget">
+      <option value="tkTitle+taskModal">Add Task</option>
+      <option value="fmName+formulaModal">Add Formula</option>
+      <option value="ctTitle+contentModal">Add Content</option>
+      <option value="itTitle+intelModal">Research Entry</option>
+      <option value="sipTaskList+sip">Sip Task</option>
+    </select>
+    <button class="btn btn-teal btn-sm" onclick="confirmVoice()">Use Text</button>
+    <button class="btn btn-sm" onclick="cancelVoice()">Cancel</button>
   </div>
 </div>
 
 <script>
-// ===== DATA =====
-const TASKS = {
-  'roadmap-p1': [
-    { text: 'Complete Venture X final walkthrough and move-out', status: 'urgent', meta: 'Due: June 2, 2026' },
-    { text: 'Turn in keys to Venture X — generalmanager.charleston@venturex.com', status: 'urgent', meta: 'Due: June 2, 2026' },
-    { text: 'Set up community memberships for team at Venture X', status: 'todo', meta: 'Pauly to coordinate' },
-    { text: 'Review and sign new facility lease/agreement', status: 'inprog', meta: '' },
-    { text: 'Order Amazon electric silicone paddle mixers (ASIN: B0FHZYFVSL)', status: 'todo', meta: 'Pauly found these — decision pending' },
-    { text: 'Review McKernan packaging options (eg-38470, eg-46842, dropper 18)', status: 'todo', meta: 'Links from Pauly May 28' },
-    { text: 'Access Formulary OS app (formulary-os.fly.dev)', status: 'todo', meta: 'Login: tcf / gJD4z3NTs0CSXuPP' },
-    { text: 'Review Nicole Credential Stack.xlsx shared in Drive', status: 'todo', meta: 'Shared May 28 — unread' },
-    { text: 'Accept Notion invite to Pauly\'s Space', status: 'todo', meta: 'Invite sent May 27 — unread' },
+// ===================================================================
+// STATE
+// ===================================================================
+const S = {
+  products: [
+    { name:'Barrier Repair Serum', sub:'Face — Phase II', status:'Benching', formula:'https://docs.google.com', packaging:'In Progress', label:'Concept', photography:'Not Started', launch:'Q3 2026' },
+    { name:'Brightening Mist', sub:'Face — Finishing Toner', status:'Stability', formula:'https://docs.google.com', packaging:'Ordered', label:'In Design', photography:'Not Started', launch:'Q3 2026' },
+    { name:'Body Recovery Balm', sub:'Body — Functional Recovery', status:'Concept', formula:'https://docs.google.com', packaging:'Pending', label:'Not Started', photography:'Not Started', launch:'Q4 2026' },
   ],
-  'roadmap-p2': [
-    { text: 'Complete facility compliance checklist for new location', status: 'inprog', meta: '' },
-    { text: 'Install lab equipment and set up production area', status: 'todo', meta: '' },
-    { text: 'Hire and onboard additional staff', status: 'todo', meta: '' },
-    { text: 'Finalize King Street retail layout and fixtures', status: 'todo', meta: '' },
-    { text: 'Launch Sip & Formulate marketing campaign', status: 'todo', meta: '' },
-    { text: 'Set up POS and inventory systems', status: 'todo', meta: '' },
+  decisions: [
+    { text:'Confirm final pH target for Barrier Repair Serum', owner:'Nicole', due:'2026-06-07', status:'Open' },
+    { text:'Select primary packaging supplier — McKernan vs. Alibaba', owner:'Nicole', due:'2026-06-10', status:'Open' },
+    { text:'Finalize Salt Spa retail partnership terms', owner:'Pauly', due:'2026-06-15', status:'In Review' },
+    { text:'Approve Amazon paddle mixer purchase for Sip & Formulate', owner:'Pauly', due:'2026-06-03', status:'Open' },
   ],
-  'roadmap-p3': [
-    { text: 'First Sip & Formulate mixer event', status: 'todo', meta: 'Target: Week 5' },
-    { text: 'King Street soft open', status: 'todo', meta: 'Target: Week 6' },
-    { text: 'NEVOO brand launch', status: 'todo', meta: 'Target: Week 7' },
-    { text: 'Full operations launch — all departments running', status: 'todo', meta: 'Target: Week 8+' },
+  formulas: [
+    { name:'Barrier Repair Serum v2', brand:'Skin Axis', cat:'Face', status:'Benching', priority:'High', link:'https://docs.google.com', notes:'Ceramide-peptide complex, pH 5.5, 30ml' },
+    { name:'Brightening Mist', brand:'Skin Axis', cat:'Face', status:'Stability', priority:'High', link:'https://docs.google.com', notes:'Niacinamide 5%, tranexamic acid 2%, 100ml spray' },
+    { name:'Body Recovery Balm', brand:'Skin Axis', cat:'Body', status:'Concept', priority:'Medium', link:'', notes:'Functional magnesium + CBD concept' },
+    { name:'Sip & Formulate Fragrance Base', brand:'TCF House Brand', cat:'Other', status:'Benching', priority:'High', link:'', notes:'Alcohol-free carrier blend for mixer events' },
+    { name:'NEVOO Moisture Serum', brand:'TCF House Brand', cat:'Face', status:'Benching', priority:'High', link:'', notes:'Hyaluronic acid multi-weight, 3% panthenol' },
+    { name:'Rinse & Repeat Shampoo Bar', brand:'TCF House Brand', cat:'Hair', status:'Concept', priority:'Medium', link:'', notes:'Sulfate-free, solid format' },
   ],
-  'pauly-list': [
-    { text: 'Venture X move-out: final walkthrough, keys, and move-out paperwork', status: 'urgent', meta: 'Contract ended 5/31/26 — contact: generalmanager.charleston@venturex.com' },
-    { text: 'Approve purchase: Amazon electric silicone paddle mixers (B0FHZYFVSL)', status: 'urgent', meta: 'Found by Pauly — needs order confirmation' },
-    { text: 'Confirm McKernan packaging order (dropper bottles, eg-38470, eg-46842)', status: 'urgent', meta: 'Sent links May 28 from mckernan.com' },
-    { text: 'Decide on Venture X community memberships for the team', status: 'todo', meta: 'Mentioned in forwarded email from Pallas Stallsmith' },
-    { text: 'Set up Notion workspace — invite pending since May 27', status: 'todo', meta: 'Pauly sent Notion invite, needs to be acted on' },
-    { text: 'Evaluate Salt Spa acquisition / partnership — review decision memo', status: 'todo', meta: 'Salt_Spa_Yoga_Decision_Memo + Salt_Spa_Acquisition_Briefing in Drive' },
+  content: [
+    { title:'Barrier Repair Serum — How It Works', platform:'Instagram', type:'Product Education', status:'Scripted', date:'2026-06-05', link:'' },
+    { title:'Day in the Lab — New Formula Dev', platform:'TikTok', type:'Day in Life', status:'Idea', date:'2026-06-08', link:'' },
+    { title:'Behind the Scenes: Sip & Formulate Setup', platform:'Instagram', type:'Behind the Scenes', status:'Idea', date:'2026-06-12', link:'' },
+    { title:'Why I Started Skin Axis', platform:'YouTube', type:'Brand Story', status:'Scripted', date:'2026-06-15', link:'' },
   ],
-  'email-tasks': [
-    { text: 'URGENT: Venture X office vacated 5/31 — complete move-out paperwork TODAY', status: 'urgent', meta: 'Email from generalmanager.charleston@venturex.com forwarded by Pauly', tag: 'urgent' },
-    { text: 'Order Amazon paddle mixers for Sip & Formulate (ASIN B0FHZYFVSL)', status: 'todo', meta: 'From: pauly@thecosmeticformulary.com — May 29', tag: 'pauly' },
-    { text: 'Review McKernan dropper bottle options and place order', status: 'todo', meta: 'From: pauly@thecosmeticformulary.com — May 28', tag: 'pauly' },
-    { text: 'Log in to Formulary OS app and explore features', status: 'todo', meta: 'From: pauly@paulyinc.com — June 1 · formulary-os.fly.dev', tag: 'today' },
-    { text: 'Open and review Nicole Credential Stack.xlsx from Drive', status: 'todo', meta: 'Shared notification — May 28 · UNREAD', tag: 'email' },
-    { text: 'Accept Notion invite to Pauly\'s workspace', status: 'todo', meta: 'Notion invite — May 27 · UNREAD', tag: 'email' },
-    { text: 'Review SOP Manual shared by Rashell in Drive', status: 'todo', meta: 'The_Cosmetic_Formulary_SOP_Manual — shared May 20', tag: 'email' },
-    { text: 'Review Salt Spa Retail Brands spreadsheet (Katherine Fox)', status: 'todo', meta: 'Shared May 13 · Salt_Spa_Yoga_Decision_Memo also shared May 11', tag: 'email' },
+  calEvents: [
+    { title:'Barrier Serum Shoot', date:'2026-06-05', type:'shoot', link:'' },
+    { title:'IG Post — Serum', date:'2026-06-07', type:'post', link:'' },
+    { title:'Lab Day', date:'2026-06-09', type:'shoot', link:'' },
+    { title:'Sip Event Prep', date:'2026-06-14', type:'event', link:'' },
   ],
-  'facility-moveout': [
-    { text: 'Complete final walkthrough of Venture X office', status: 'urgent', meta: 'Contact: Pallas Stallsmith, GM Charleston' },
-    { text: 'Return all keys to Venture X management', status: 'urgent', meta: '' },
-    { text: 'Complete move-out paperwork', status: 'urgent', meta: 'generalmanager.charleston@venturex.com' },
-    { text: 'Retrieve all equipment and personal items', status: 'todo', meta: '' },
+  tasks: [
+    { title:'Complete Venture X move-out paperwork', brand:'TCF', priority:'High', due:'2026-06-02', status:'urgent', notes:'Contact: generalmanager.charleston@venturex.com' },
+    { title:'Order McKernan dropper bottles (eg-38470, eg-46842)', brand:'Skin Axis', priority:'High', due:'2026-06-05', status:'todo', notes:'Links sent by Pauly May 28' },
+    { title:'Log into Formulary OS and review features', brand:'TCF', priority:'Medium', due:'2026-06-03', status:'todo', notes:'formulary-os.fly.dev — login: tcf / gJD4z3NTs0CSXuPP' },
+    { title:'Accept Notion invite from Pauly', brand:'Personal', priority:'High', due:'2026-06-02', status:'todo', notes:'' },
+    { title:'Review SOP Manual shared by Rashell', brand:'TCF', priority:'Medium', due:'2026-06-07', status:'todo', notes:'In Drive' },
+    { title:'Finalize Barrier Repair Serum pH target', brand:'Skin Axis', priority:'High', due:'2026-06-07', status:'inprog', notes:'' },
   ],
-  'facility-setup': [
-    { text: 'Confirm new facility lease / agreement signed', status: 'inprog', meta: '' },
-    { text: 'Set up utilities — electric, water, internet', status: 'todo', meta: '' },
-    { text: 'Configure lab area and production floor layout', status: 'todo', meta: '' },
-    { text: 'Install security system and access control', status: 'todo', meta: '' },
-    { text: 'Set up staff lockers, break room, and common areas', status: 'todo', meta: '' },
+  opCal: [],
+  contacts: [
+    { name:'Pauly', company:'TCF / PaulyInc', role:'Co-Founder / CEO', last:'2026-06-01', notes:'Strategic direction, approvals, Notion invite pending' },
+    { name:'Rashell', company:'TCF', role:'Operations', last:'2026-05-20', notes:'Shared SOP Manual' },
+    { name:'Katherine Fox', company:'Salt Spa', role:'Director', last:'2026-05-13', notes:'Salt Spa acquisition briefing + retail spreadsheet shared' },
+    { name:'Pallas Stallsmith', company:'Venture X Charleston', role:'General Manager', last:'2026-06-01', notes:'Move-out coordinator — generalmanager.charleston@venturex.com' },
   ],
-  'facility-permits': [
-    { text: 'File for business operating permit at new address', status: 'todo', meta: '' },
-    { text: 'Obtain cosmetic manufacturing license / registration', status: 'inprog', meta: '' },
-    { text: 'Schedule health department inspection', status: 'todo', meta: '' },
-    { text: 'Update business address with state and county', status: 'todo', meta: '' },
-    { text: 'Fire safety inspection and sprinkler certification', status: 'todo', meta: '' },
+  files: [
+    { name:'The_Cosmetic_Formulary_SOP_Manual.pdf', tag:'Contract', date:'2026-05-20', source:'Drive', url:'https://drive.google.com' },
+    { name:'Salt_Spa_Acquisition_Briefing.docx', tag:'Reference', date:'2026-05-11', source:'Drive', url:'https://drive.google.com' },
+    { name:'Salt_Spa_Yoga_Decision_Memo.docx', tag:'Reference', date:'2026-05-11', source:'Drive', url:'https://drive.google.com' },
+    { name:'Nicole_Credential_Stack.xlsx', tag:'Contract', date:'2026-05-28', source:'Drive', url:'https://drive.google.com' },
+    { name:'Skin_Axis_Barrier_Serum_v2_Formula.xlsx', tag:'Formula Doc', date:'2026-06-01', source:'Drive', url:'https://drive.google.com' },
   ],
-  'facility-equip': [
-    { text: 'Order electric silicone paddle mixers (Amazon B0FHZYFVSL)', status: 'todo', meta: 'Awaiting Pauly approval' },
-    { text: 'Order McKernan dropper bottles (eg-38470, eg-46842)', status: 'todo', meta: 'Awaiting order confirmation' },
-    { text: 'Source stainless mixing tanks (20L, 50L)', status: 'todo', meta: '' },
-    { text: 'Install pH meters and refractometers', status: 'inprog', meta: '' },
+  intel: [
+    { title:'Tatcha — Ingredient storytelling framework', cat:'Competitor', date:'2026-05-28', link:'https://tatcha.com', notes:'Tatcha leads with a single hero ingredient per product drop. Each launch is an editorial event, not a product release. Apply: Skin Axis Barrier Serum should be positioned around ceramides as a narrative, not an INCI list.' },
+    { title:'Postbiotics in skincare — clinical evidence review', cat:'Clinical Research', date:'2026-05-25', link:'', notes:'Emerging evidence for postbiotic strains (Lactobacillus ferment filtrate) in barrier support. Low concentration effective (0.5–2%). Consider for NEVOO line.' },
+    { title:'TikTok Shop skincare conversion data', cat:'Channel Insight', date:'2026-06-01', link:'', notes:'Beauty brands reporting 12–18% conversion on short-form educational content vs 2–3% on product-first ads. Format: problem → ingredient science → product.' },
   ],
-  'ks-retail': [
-    { text: 'Finalize store layout and fixture plan', status: 'todo', meta: '' },
-    { text: 'Order display shelving and product fixtures', status: 'todo', meta: '' },
-    { text: 'Install TCF signage and branding elements', status: 'todo', meta: '' },
-    { text: 'Set up POS system (Square or Shopify)', status: 'todo', meta: '' },
-    { text: 'Staff King Street location — hiring and training', status: 'todo', meta: '' },
+  emails: [
+    { from:'Venture X Charleston', subj:'Private Office Move-Out — Final Steps', preview:'Your private office contract ended 5/31. Please complete walkthrough and return keys.', date:'Jun 1', url:'' },
+    { from:'pauly@paulyinc.com', subj:'New App Interface — Formulary OS', preview:'Check out formulary-os.fly.dev — login: tcf / gJD4z3NTs0CSXuPP. New interface for the lab.', date:'Jun 1', url:'' },
+    { from:'pauly@thecosmeticformulary.com', subj:'Sip & Formulate — Mixer Equipment', preview:'Found Amazon electric silicone paddle mixers (B0FHZYFVSL). Thoughts before I order?', date:'May 29', url:'' },
+    { from:'pauly@thecosmeticformulary.com', subj:'McKernan Packaging — Dropper Bottles', preview:'Sent over dropper bottle links from mckernan.com (eg-38470, eg-46842, dropper 18).', date:'May 28', url:'' },
+    { from:'Google Drive', subj:'Nicole Credential Stack.xlsx shared with you', preview:'Pauly has shared a file with you. Open to view.', date:'May 28', url:'https://drive.google.com' },
+    { from:'Notion', subj:"You've been invited to Pauly's Space", preview:'Accept invite to access shared Notion workspace and project boards.', date:'May 27', url:'' },
+    { from:'pauly@thecosmeticformulary.com', subj:'Where We Are, What We Are Building, and the Day We Launch', preview:'Strategic vision email — full company roadmap, brand positioning, and launch objectives.', date:'May 27', url:'' },
+    { from:'Katherine Fox', subj:'Salt Spa: Retail Brands Spreadsheet', preview:'Hi Nicole, sharing the spreadsheet of retail brands we currently carry at Salt Spa.', date:'May 13', url:'' },
+    { from:'Rashell', subj:'SOP Manual — Please Review', preview:'Hi Nicole, attached is the full Cosmetic Formulary SOP Manual for your review and sign-off.', date:'May 20', url:'' },
+    { from:'Katherine Fox', subj:'Salt_Spa_Acquisition_Briefing', preview:'Sending over the acquisition briefing document as discussed with Pauly.', date:'May 11', url:'' },
   ],
-  'ks-spa': [
-    { text: 'Review Salt Spa acquisition briefing document', status: 'todo', meta: 'Salt_Spa_Acquisition_Briefing in Drive — shared by Katherine Fox' },
-    { text: 'Review Salt Spa Yoga Decision Memo', status: 'todo', meta: 'Salt_Spa_Yoga_Decision_Memo — shared May 11' },
-    { text: 'Review Salt Spa Retail Brands spreadsheet', status: 'todo', meta: 'Shared by Katherine Fox — May 13' },
-    { text: 'Finalize partnership or acquisition terms', status: 'todo', meta: 'Decision needed from Pauly' },
-    { text: 'Integrate TCF retail into Salt Spa floor plan', status: 'todo', meta: '' },
+  sipTasks: [
+    { text:'Confirm venue / space for mixer events', status:'inprog', phase:'Week 1–2' },
+    { text:'Finalize event format and curriculum', status:'inprog', phase:'Week 1–2' },
+    { text:'File for business operating permit at event location', status:'todo', phase:'Week 1–2' },
+    { text:'Order fragrance bases and carrier oils', status:'todo', phase:'Week 2–3' },
+    { text:'Purchase apothecary jars and packaging for take-home kits', status:'todo', phase:'Week 2–3' },
+    { text:'Build registration / ticketing page', status:'todo', phase:'Week 3' },
+    { text:'Set ticket pricing and session capacity', status:'todo', phase:'Week 3' },
+    { text:'Launch social media campaign', status:'todo', phase:'Week 4' },
+    { text:'Email existing TCF customer list', status:'todo', phase:'Week 4' },
+    { text:'Host first Sip & Formulate mixer', status:'todo', phase:'Week 5' },
   ],
-  'ks-merch': [
-    { text: 'Curate opening product assortment for King Street', status: 'todo', meta: '' },
-    { text: 'Set retail pricing for all SKUs', status: 'inprog', meta: '' },
-    { text: 'Create planogram / visual merchandising guide', status: 'todo', meta: '' },
-    { text: 'Set up inventory tracking system', status: 'todo', meta: '' },
+  sipEquip: [
+    { text:'Amazon paddle mixers (ASIN B0FHZYFVSL) — AWAITING APPROVAL', status:'urgent' },
+    { text:'Glass mixing beakers (100ml, 250ml)', status:'todo' },
+    { text:'Stainless pipettes and droppers', status:'todo' },
+    { text:'Scent strips — 500 pack', status:'todo' },
+    { text:'Label printer + waterproof labels', status:'inprog' },
+    { text:'Apothecary jars 2oz — qty 100', status:'todo' },
   ],
-  'sip-timeline': [
-    { text: 'Week 1–2: Secure venue or space for mixer events', status: 'inprog', meta: '' },
-    { text: 'Week 1–2: Finalize mixer event concept and format', status: 'inprog', meta: '' },
-    { text: 'Week 2–3: Order all mixer supplies and ingredients', status: 'todo', meta: '' },
-    { text: 'Week 3: Build registration / ticketing page', status: 'todo', meta: '' },
-    { text: 'Week 4: Launch social media marketing campaign', status: 'todo', meta: '' },
-    { text: 'Week 4: Email existing customer list', status: 'todo', meta: '' },
-    { text: 'Week 5: Host first Sip & Formulate mixer', status: 'todo', meta: '' },
-    { text: 'Week 6–8: Monthly recurring mixer schedule', status: 'todo', meta: '' },
+  sipMktg: [
+    { text:'Design Sip & Formulate event brand identity', status:'inprog' },
+    { text:'Create event landing page', status:'todo' },
+    { text:'Submit to Charleston event calendars', status:'todo' },
+    { text:'Pitch local lifestyle bloggers / influencers', status:'todo' },
+    { text:'Partner outreach — Salt Spa, yoga studios', status:'todo' },
   ],
-  'sip-equip': [
-    { text: 'Confirm Amazon paddle mixer order', status: 'urgent', meta: 'ASIN: B0FHZYFVSL — decision from Pauly' },
-    { text: 'Source fragrance oils and base materials for events', status: 'todo', meta: '' },
-    { text: 'Purchase apothecary jars and packaging for take-home kits', status: 'todo', meta: '' },
-    { text: 'Source glass or custom mixing bowls for stations', status: 'todo', meta: '' },
-  ],
-  'sip-mktg': [
-    { text: 'Design Sip & Formulate event branding', status: 'inprog', meta: '' },
-    { text: 'Create event landing page / booking flow', status: 'todo', meta: '' },
-    { text: 'Set ticket pricing and capacity', status: 'todo', meta: '' },
-    { text: 'Submit to Charleston event calendars and blogs', status: 'todo', meta: '' },
-  ],
-  'brand-nevoo': [
-    { text: 'Finalize NEVOO product formulations', status: 'inprog', meta: '' },
-    { text: 'Confirm NEVOO brand identity and visual system', status: 'inprog', meta: '' },
-    { text: 'Order NEVOO packaging materials', status: 'todo', meta: '' },
-    { text: 'Create NEVOO website / landing page', status: 'todo', meta: '' },
-    { text: 'Submit NEVOO for regulatory compliance review', status: 'todo', meta: '' },
-  ],
-  'brand-skinaxis': [
-    { text: 'Complete Skin Axis formula development', status: 'inprog', meta: '' },
-    { text: 'Clinical or consumer testing for key SKUs', status: 'todo', meta: '' },
-    { text: 'Finalize Skin Axis packaging design', status: 'todo', meta: '' },
-    { text: 'Build retail pitch deck for Skin Axis', status: 'todo', meta: '' },
-  ],
-  'brand-rinse': [
-    { text: 'Finalize Rinse & Repeat shampoo/conditioner formulas', status: 'inprog', meta: '' },
-    { text: 'Source sustainable packaging options', status: 'todo', meta: '' },
-    { text: 'Develop Rinse & Repeat brand story', status: 'todo', meta: '' },
-    { text: 'Plan DTC launch strategy', status: 'todo', meta: '' },
-  ],
-  'events-upcoming': [
-    { text: 'First Sip & Formulate mixer event — Week 5', status: 'todo', meta: 'Target: mid-July 2026' },
-    { text: 'King Street grand opening event', status: 'todo', meta: '' },
-    { text: 'Pop-up at Charleston market or community event', status: 'todo', meta: '' },
-  ],
-  'events-pr': [
-    { text: 'Draft press release for TCF new location', status: 'todo', meta: '' },
-    { text: 'Pitch Charleston Magazine / Post & Courier', status: 'todo', meta: '' },
-    { text: 'Identify and contact Charleston beauty influencers', status: 'todo', meta: '' },
-    { text: 'Submit to Charleston business spotlights and podcasts', status: 'todo', meta: '' },
-  ],
-  'social-sm': [
-    { text: 'Post Venture X farewell + new chapter announcement', status: 'todo', meta: 'Timely — post this week' },
-    { text: 'Film behind-the-scenes of new facility setup', status: 'todo', meta: '' },
-    { text: 'Build 30-day content calendar for Sip & Formulate launch', status: 'todo', meta: '' },
-    { text: 'Set up/confirm Instagram, TikTok, Pinterest for all brands', status: 'inprog', meta: '' },
-  ],
-  'social-web': [
-    { text: 'Update thecosmeticformulary.com with new address', status: 'urgent', meta: '' },
-    { text: 'Add Sip & Formulate page to website', status: 'todo', meta: '' },
-    { text: 'Set up online booking for mixer events', status: 'todo', meta: '' },
-    { text: 'Audit and refresh all website product listings', status: 'todo', meta: '' },
-  ],
-  'form-active': [
-    { text: 'NEVOO Phase 2 formula — moisture serum', status: 'inprog', meta: '' },
-    { text: 'Skin Axis barrier repair cream', status: 'inprog', meta: '' },
-    { text: 'Rinse & Repeat sulfate-free shampoo bar', status: 'inprog', meta: '' },
-    { text: 'Sip & Formulate fragrance blending curriculum', status: 'todo', meta: '' },
-  ],
-  'form-sops': [
-    { text: 'Review and implement TCF SOP Manual (shared by Rashell)', status: 'todo', meta: 'The_Cosmetic_Formulary_SOP_Manual in Drive — May 20' },
-    { text: 'Write production batch SOP for each active formula', status: 'todo', meta: '' },
-    { text: 'Create quality control checklist', status: 'todo', meta: '' },
-    { text: 'Document safety data sheet (SDS) process', status: 'todo', meta: '' },
-  ],
+  metrics: [],
 };
 
-const EMAIL_THREADS = [
-  {
-    from: 'pauly@thecosmeticformulary.com (fwd from Venture X)',
-    subject: 'Private Office Contract — Move Out Procedures',
-    preview: 'Your private office contract has ended as of May 31, 2026. Please complete final walkthrough, turn in keys, and submit move-out paperwork.',
-    date: 'June 1, 2026',
-    urgent: true,
-  },
-  {
-    from: 'pauly@thecosmeticformulary.com',
-    subject: 'Sip & Formulate Mixers — Equipment',
-    preview: 'Found these Amazon electric silicone paddle mixers (B0FHZYFVSL) — would be perfect for the events. Wanted your thoughts before ordering.',
-    date: 'May 29, 2026',
-    urgent: false,
-  },
-  {
-    from: 'pauly@thecosmeticformulary.com',
-    subject: 'McKernan Packaging — Dropper Bottles',
-    preview: 'Here are a few links from mckernan.com that I think would work well: eg-38470, eg-46842, and check out the dropper 18 search.',
-    date: 'May 28, 2026',
-    urgent: false,
-  },
-  {
-    from: 'pauly@paulyinc.com',
-    subject: 'New App Interface — Formulary OS',
-    preview: 'Check out this new interface I built for us: formulary-os.fly.dev — login: tcf / gJD4z3NTs0CSXuPP. Let me know what you think.',
-    date: 'June 1, 2026',
-    urgent: false,
-  },
-  {
-    from: 'pauly@thecosmeticformulary.com',
-    subject: 'Where We Are, What We Are Building, and the Day We Launch',
-    preview: 'Strategic vision email covering full company roadmap, brand positioning, and launch objectives. Read in full.',
-    date: 'May 27, 2026',
-    urgent: false,
-  },
-  {
-    from: 'Notion',
-    subject: "You've been invited to Pauly's Notion Space",
-    preview: 'Pauly has invited you to collaborate on their Notion workspace. Accept invite to access shared docs and project boards.',
-    date: 'May 27, 2026',
-    urgent: false,
-  },
-];
+// Calendar state
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth();
+let opCalYear = new Date().getFullYear();
+let opCalMonth = new Date().getMonth();
 
-// ===== RENDER =====
-function makeTask(text, status, meta, tag) {
-  const item = document.createElement('div');
-  item.className = 'task-item';
-  item.dataset.status = status || 'todo';
-  item.innerHTML = `
-    <div class="task-status" onclick="cycleStatus(event, this)"></div>
-    <div class="task-content">
-      <div class="task-text" contenteditable="false">${text}</div>
-      ${meta ? `<div class="task-meta">${meta}</div>` : ''}
-    </div>
-    ${tag ? `<span class="task-tag tag-${tag}">${tag}</span>` : ''}
-    <button class="task-edit-btn" onclick="toggleEdit(event, this)">Edit</button>
-  `;
-  return item;
-}
-
-function renderAll() {
-  for (const [listId, tasks] of Object.entries(TASKS)) {
-    const el = document.getElementById(listId);
-    if (!el) continue;
-    el.innerHTML = '';
-    tasks.forEach(t => el.appendChild(makeTask(t.text, t.status, t.meta, t.tag)));
-  }
-
-  const el = document.getElementById('email-threads');
-  if (el) {
-    el.innerHTML = '';
-    EMAIL_THREADS.forEach(t => {
-      const div = document.createElement('div');
-      div.className = 'email-item';
-      div.innerHTML = `
-        <div class="email-from">${t.from}</div>
-        <div class="email-subject">${t.subject}${t.urgent ? ' <span class="task-tag tag-urgent" style="margin-left:6px;">URGENT</span>' : ''}</div>
-        <div class="email-preview">${t.preview}</div>
-        <div class="email-date">${t.date}</div>
-      `;
-      el.appendChild(div);
+// ===================================================================
+// NAVIGATION
+// ===================================================================
+function showTab(id) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>{
+    if(t.textContent.toLowerCase().includes(id.toLowerCase().replace('sip','sip'))) t.classList.add('active');
+  });
+  // Fix sip tab
+  if(id==='sip'){
+    document.querySelectorAll('.nav-tab').forEach(t=>{
+      if(t.textContent.includes('Sip')) t.classList.add('active');
     });
   }
-
-  updateStats();
 }
 
-function updateStats() {
-  let done = 0, prog = 0, todo = 0;
-  document.querySelectorAll('.task-item').forEach(t => {
-    const s = t.dataset.status;
-    if (s === 'done') done++;
-    else if (s === 'inprog') prog++;
-    else todo++;
-  });
-  const total = done + prog + todo;
-  document.getElementById('statDone').textContent = done + ' done';
-  document.getElementById('statProg').textContent = prog + ' in progress';
-  document.getElementById('statTodo').textContent = todo + ' to do';
-  document.getElementById('kpiTotal').textContent = total;
-  document.getElementById('kpiDone').textContent = done;
-  const pct = total ? Math.round(done / total * 100) : 0;
-  document.getElementById('kpiDonePct').textContent = pct + '% complete';
-  document.getElementById('kpiBarDone').style.width = pct + '%';
-}
-
-// ===== NAVIGATION =====
-const panelTitles = {
-  overview: 'Overview', roadmap: 'Roadmap', pauly: 'For Pauly',
-  email: 'From Email', facility: 'Facility', kingstreet: 'King Street',
-  sipform: 'Sip & Formulate', brands: 'Brands', events: 'Events & PR',
-  social: 'Social & Web', formulation: 'Formulation Lab'
+// ===================================================================
+// BRAND TAB
+// ===================================================================
+const STATUS_COLORS = {
+  'Concept':'dim','Benching':'gold','Stability':'blue','Approved':'teal','Ready to Launch':'teal','Live':'green','On Hold':'dim','Archived':'dim',
+  'Open':'red','In Review':'gold','Decided':'teal','Blocked':'red',
+  'In Development':'gold','In Progress':'gold','Not Started':'dim','Ordered':'teal','In Design':'blue',
 };
+function badgeClass(s){ return STATUS_COLORS[s]||'dim'; }
+function statusDotColor(s){
+  const map={'Concept':'var(--text3)','Benching':'var(--gold2)','Stability':'var(--blue2)','Approved':'var(--teal2)','Ready to Launch':'var(--teal2)','Live':'var(--green2)','On Hold':'var(--text3)'};
+  return map[s]||'var(--text3)';
+}
 
-function showPanel(id) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const panel = document.getElementById('panel-' + id);
-  if (panel) panel.classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => {
-    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes(`'${id}'`)) {
-      n.classList.add('active');
-    }
+function renderLaunchCards(){
+  const c=document.getElementById('launchCards');
+  c.innerHTML='';
+  S.products.forEach((p,i)=>{
+    const statusOpts=['In Development','Benching','Stability','Approved','Ready to Launch','Live'].map(o=>`<option${p.status===o?' selected':''}>${o}</option>`).join('');
+    c.innerHTML+=`
+    <div class="launch-card">
+      <div class="launch-card-head">
+        <div>
+          <div class="launch-product-name">${p.name}</div>
+          <div class="launch-product-sub">${p.sub}</div>
+        </div>
+        <select style="font-size:10px;padding:4px 8px;" onchange="S.products[${i}].status=this.value;renderLaunchCards();">${statusOpts}</select>
+      </div>
+      <div class="launch-card-body">
+        <div class="launch-row">
+          <span class="launch-row-label">Formula</span>
+          <span class="launch-row-val"><a href="${p.formula}" target="_blank" class="link-teal">View Doc</a></span>
+        </div>
+        <div class="launch-row">
+          <span class="launch-row-label">Packaging</span>
+          <span class="launch-row-val"><span class="badge badge-${badgeClass(p.packaging)}">${p.packaging}</span></span>
+        </div>
+        <div class="launch-row">
+          <span class="launch-row-label">Label</span>
+          <span class="launch-row-val"><span class="badge badge-${badgeClass(p.label)}">${p.label}</span></span>
+        </div>
+        <div class="launch-row">
+          <span class="launch-row-label">Photography</span>
+          <span class="launch-row-val"><span class="badge badge-${badgeClass(p.photography)}">${p.photography}</span></span>
+        </div>
+        <div class="launch-row">
+          <span class="launch-row-label">Target Launch</span>
+          <span class="launch-row-val">${p.launch}</span>
+        </div>
+      </div>
+    </div>`;
   });
-  document.getElementById('topbarTitle').textContent = panelTitles[id] || id;
 }
 
-// ===== TASK INTERACTIONS =====
-function cycleStatus(e, btn) {
+function renderDecisions(){
+  const el=document.getElementById('decisionsBody');
+  el.innerHTML='';
+  let open=0;
+  S.decisions.forEach((d,i)=>{
+    if(d.status==='Open'||d.status==='Blocked') open++;
+    const opts=['Open','In Review','Decided','Blocked'].map(o=>`<option${d.status===o?' selected':''}>${o}</option>`).join('');
+    const row=document.createElement('div');
+    row.style.cssText='display:grid;grid-template-columns:1fr 130px 110px 90px 40px;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;';
+    row.innerHTML=`
+      <span style="font-size:12px;color:var(--text)">${d.text}</span>
+      <span style="font-size:11px;color:var(--text2)">${d.owner}</span>
+      <span style="font-size:11px;color:var(--text3)">${d.due}</span>
+      <select style="font-size:10px;padding:3px 6px;" onchange="S.decisions[${i}].status=this.value;renderDecisions();">${opts}</select>
+      <button class="btn btn-sm" style="padding:3px 8px;font-size:10px;" onclick="S.decisions.splice(${i},1);renderDecisions();">✕</button>`;
+    el.appendChild(row);
+  });
+  document.getElementById('openDecCount').textContent=open;
+}
+
+function addDecision(){
+  const t=document.getElementById('dText').value.trim();
+  if(!t) return;
+  S.decisions.push({text:t,owner:document.getElementById('dOwner').value||'Nicole',due:document.getElementById('dDue').value||'—',status:document.getElementById('dStatus').value});
+  closeModal('decisionModal');
+  renderDecisions();
+  document.getElementById('dText').value='';
+}
+
+// ===================================================================
+// FORMULAS TAB
+// ===================================================================
+function renderFormulas(){
+  const q=document.getElementById('fSearch').value.toLowerCase();
+  const br=document.getElementById('fBrand').value;
+  const cat=document.getElementById('fCat').value;
+  const st=document.getElementById('fStatus').value;
+  const pr=document.getElementById('fPriority').value;
+  const body=document.getElementById('formulaBody');
+  body.innerHTML='';
+  S.formulas.filter(f=>
+    (!q||(f.name+f.notes).toLowerCase().includes(q))&&
+    (!br||f.brand===br)&&(!cat||f.cat===cat)&&(!st||f.status===st)&&(!pr||f.priority===pr)
+  ).forEach((f,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td style="color:var(--text);font-weight:500;">${f.name}</td>
+      <td><span class="badge badge-dim">${f.brand}</span></td>
+      <td style="color:var(--text2);">${f.cat}</td>
+      <td><span class="badge badge-${badgeClass(f.status)}">${f.status}</span></td>
+      <td><span class="badge badge-${f.priority==='High'?'red':f.priority==='Medium'?'gold':'dim'}">${f.priority}</span></td>
+      <td>${f.link?`<a href="${f.link}" target="_blank" class="link-teal">Open</a>`:'<span style="color:var(--text3)">—</span>'}</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text3);">${f.notes||'—'}</td>
+      <td><button class="btn btn-sm" style="padding:2px 8px;" onclick="S.formulas.splice(${i},1);renderFormulas();">✕</button></td>`;
+    body.appendChild(tr);
+  });
+}
+
+function addFormula(){
+  const n=document.getElementById('fmName').value.trim();
+  if(!n) return;
+  S.formulas.push({name:n,brand:document.getElementById('fmBrand').value,cat:document.getElementById('fmCat').value,status:document.getElementById('fmStatus').value,priority:document.getElementById('fmPriority').value,link:document.getElementById('fmLink').value,notes:document.getElementById('fmNotes').value});
+  closeModal('formulaModal');
+  renderFormulas();
+  document.getElementById('fmName').value='';document.getElementById('fmLink').value='';document.getElementById('fmNotes').value='';
+}
+
+function exportFormulasCSV(){
+  const rows=[['Formula Name','Brand','Category','Status','Priority','Drive Link','Notes']];
+  S.formulas.forEach(f=>rows.push([f.name,f.brand,f.cat,f.status,f.priority,f.link,f.notes]));
+  const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='formulas.csv';a.click();
+}
+
+// ===================================================================
+// CONTENT TAB
+// ===================================================================
+function setContentView(v){
+  document.getElementById('calView').style.display=v==='cal'?'block':'none';
+  document.getElementById('listView').style.display=v==='list'?'block':'none';
+  document.getElementById('calToggle').classList.toggle('active',v==='cal');
+  document.getElementById('listToggle').classList.toggle('active',v==='list');
+}
+
+function buildCalGrid(gridId, year, month, events, labelId){
+  const g=document.getElementById(gridId);
+  const lbl=document.getElementById(labelId);
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  if(lbl) lbl.textContent=monthNames[month]+' '+year;
+  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  let html=days.map(d=>`<div class="cal-head-cell">${d}</div>`).join('');
+  const first=new Date(year,month,1).getDay();
+  const total=new Date(year,month+1,0).getDate();
+  const prevTotal=new Date(year,month,0).getDate();
+  const today=new Date();
+  for(let i=0;i<first;i++){
+    const d=prevTotal-first+i+1;
+    html+=`<div class="cal-cell other-month"><div class="cal-day-num">${d}</div></div>`;
+  }
+  for(let d=1;d<=total;d++){
+    const dateStr=year+'-'+(String(month+1).padStart(2,'0'))+'-'+(String(d).padStart(2,'0'));
+    const isToday=today.getFullYear()===year&&today.getMonth()===month&&today.getDate()===d;
+    const dayEvents=events.filter(e=>e.date===dateStr);
+    const evHtml=dayEvents.map(e=>`<div class="cal-event ${e.type}" title="${e.title}">${e.title}</div>`).join('');
+    html+=`<div class="cal-cell${isToday?' today':''}"><div class="cal-day-num">${d}</div>${evHtml}</div>`;
+  }
+  const cells=first+total;const rem=cells%7===0?0:7-(cells%7);
+  for(let i=1;i<=rem;i++) html+=`<div class="cal-cell other-month"><div class="cal-day-num">${i}</div></div>`;
+  g.innerHTML=html;
+}
+
+function calPrev(){ calMonth--;if(calMonth<0){calMonth=11;calYear--;} buildCalGrid('calGrid',calYear,calMonth,S.calEvents,'calMonthLabel'); }
+function calNext(){ calMonth++;if(calMonth>11){calMonth=0;calYear++;} buildCalGrid('calGrid',calYear,calMonth,S.calEvents,'calMonthLabel'); }
+function opCalPrev(){ opCalMonth--;if(opCalMonth<0){opCalMonth=11;opCalYear--;} buildCalGrid('opCalGrid',opCalYear,opCalMonth,[...S.calEvents,...S.opCal],'opCalLabel'); }
+function opCalNext(){ opCalMonth++;if(opCalMonth>11){opCalMonth=0;opCalYear++;} buildCalGrid('opCalGrid',opCalYear,opCalMonth,[...S.calEvents,...S.opCal],'opCalLabel'); }
+
+function addCalEvent(){
+  const t=document.getElementById('ceTitle').value.trim();
+  const dt=document.getElementById('ceDate').value;
+  if(!t||!dt) return;
+  S.calEvents.push({title:t,date:dt,type:document.getElementById('ceType').value,link:document.getElementById('ceLink').value});
+  closeModal('calEventModal');
+  buildCalGrid('calGrid',calYear,calMonth,S.calEvents,'calMonthLabel');
+  buildCalGrid('opCalGrid',opCalYear,opCalMonth,[...S.calEvents,...S.opCal],'opCalLabel');
+  document.getElementById('ceTitle').value='';document.getElementById('ceLink').value='';
+}
+
+function renderContentList(){
+  const body=document.getElementById('contentListBody');
+  body.innerHTML='';
+  S.content.forEach((c,i)=>{
+    const statusOpts=['Idea','Scripted','Filmed','Editing','Scheduled','Posted'].map(o=>`<option${c.status===o?' selected':''}>${o}</option>`).join('');
+    const row=document.createElement('div');
+    row.className='content-list-row';
+    row.innerHTML=`
+      <span style="font-size:12px;color:var(--text);">${c.title}</span>
+      <span><span class="badge badge-dim">${c.platform}</span></span>
+      <span style="font-size:11px;color:var(--text3);">${c.type}</span>
+      <span><select style="font-size:10px;padding:3px 6px;" onchange="S.content[${i}].status=this.value;">${statusOpts}</select></span>
+      <span>${c.link?`<a href="${c.link}" target="_blank" class="link-teal">View</a>`:'<span style="color:var(--text3);">—</span>'}</span>`;
+    body.appendChild(row);
+  });
+}
+
+function addContent(){
+  const t=document.getElementById('ctTitle').value.trim();
+  if(!t) return;
+  S.content.push({title:t,platform:document.getElementById('ctPlatform').value,type:document.getElementById('ctType').value,status:document.getElementById('ctStatus').value,date:document.getElementById('ctDate').value,link:document.getElementById('ctLink').value});
+  closeModal('contentModal');
+  renderContentList();
+  const dt=document.getElementById('ctDate').value;
+  if(dt) S.calEvents.push({title:t,date:dt,type:'post',link:''});
+  buildCalGrid('calGrid',calYear,calMonth,S.calEvents,'calMonthLabel');
+  document.getElementById('ctTitle').value='';document.getElementById('ctLink').value='';
+}
+
+function addMetricRow(){
+  const w=document.getElementById('mWeek').value.trim();
+  if(!w) return;
+  S.metrics.push({week:w,followers:document.getElementById('mFollowers').value,reach:document.getElementById('mReach').value,saves:document.getElementById('mSaves').value,shares:document.getElementById('mShares').value});
+  renderMetrics();
+  ['mWeek','mFollowers','mReach','mSaves','mShares'].forEach(id=>document.getElementById(id).value='');
+}
+function logMetrics(){ document.getElementById('mWeek').focus(); }
+
+function renderMetrics(){
+  const el=document.getElementById('metricsRows');
+  el.innerHTML='';
+  S.metrics.slice(-6).forEach(m=>{
+    const row=document.createElement('div');
+    row.style.cssText='display:grid;grid-template-columns:100px 1fr 1fr 1fr 1fr;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:11px;';
+    row.innerHTML=`<span style="color:var(--text2);">${m.week}</span><span style="color:var(--text);">${m.followers||'—'}</span><span style="color:var(--text);">${m.reach||'—'}</span><span style="color:var(--text);">${m.saves||'—'}</span><span style="color:var(--text);">${m.shares||'—'}</span>`;
+    el.appendChild(row);
+  });
+}
+
+// ===================================================================
+// OPERATIONS TAB
+// ===================================================================
+function renderEmails(){
+  const el=document.getElementById('emailPanel');
+  el.innerHTML='';
+  S.emails.forEach(e=>{
+    const row=document.createElement('div');
+    row.className='email-row';
+    row.onclick=()=>{ if(e.url) window.open(e.url,'_blank'); };
+    row.innerHTML=`
+      <div><div class="email-from">${e.from}</div><div class="email-date">${e.date}</div></div>
+      <div><div class="email-subj">${e.subj}</div><div class="email-preview">${e.preview}</div></div>`;
+    el.appendChild(row);
+  });
+}
+
+function renderTasks(){
+  const fb=document.getElementById('tFilterBrand').value;
+  const fs=document.getElementById('tFilterStatus').value;
+  const el=document.getElementById('tasksBody');
+  el.innerHTML='';
+  S.tasks.filter(t=>(!fb||t.brand===fb)&&(!fs||t.status===fs)).forEach((t,i)=>{
+    const row=document.createElement('div');
+    row.className='task-row';
+    row.dataset.s=t.status;
+    row.innerHTML=`
+      <div class="task-check" onclick="cycleTaskStatus(event,${i})"></div>
+      <div class="task-text-wrap">
+        <div class="task-title">${t.title}</div>
+        <div class="task-meta-row">
+          <span><span class="badge badge-dim" style="font-size:8px;">${t.brand}</span></span>
+          ${t.due?`<span style="color:var(--text3);">Due: ${t.due}</span>`:''}
+          ${t.notes?`<span style="color:var(--text3);font-size:10px;">${t.notes}</span>`:''}
+        </div>
+      </div>
+      <span class="badge badge-${t.priority==='High'?'red':t.priority==='Medium'?'gold':'dim'}" style="font-size:8px;flex-shrink:0;">${t.priority}</span>`;
+    el.appendChild(row);
+  });
+}
+
+function cycleTaskStatus(e,i){
   e.stopPropagation();
-  const item = btn.closest('.task-item');
-  const statuses = ['todo', 'inprog', 'done', 'urgent'];
-  const cur = item.dataset.status;
-  const next = statuses[(statuses.indexOf(cur) + 1) % statuses.length];
-  item.dataset.status = next;
-  updateStats();
+  const cycle=['todo','inprog','done','urgent'];
+  const ci=cycle.indexOf(S.tasks[i].status);
+  S.tasks[i].status=cycle[(ci+1)%cycle.length];
+  renderTasks();
 }
 
-function toggleEdit(e, btn) {
+function addTask(){
+  const t=document.getElementById('tkTitle').value.trim();
+  if(!t) return;
+  S.tasks.unshift({title:t,brand:document.getElementById('tkBrand').value,priority:document.getElementById('tkPriority').value,due:document.getElementById('tkDue').value,status:'todo',notes:document.getElementById('tkNotes').value});
+  closeModal('taskModal');renderTasks();
+  document.getElementById('tkTitle').value='';document.getElementById('tkNotes').value='';
+}
+
+function renderContacts(){
+  const el=document.getElementById('contactsBody');
+  el.innerHTML='';
+  S.contacts.forEach((c,i)=>{
+    const row=document.createElement('div');
+    row.className='contact-row';
+    row.style.cssText='padding:9px 12px;border-bottom:1px solid var(--border);';
+    row.innerHTML=`
+      <span style="font-size:12px;color:var(--text);font-weight:500;">${c.name}</span>
+      <span style="font-size:11px;color:var(--text2);">${c.company}</span>
+      <span style="font-size:11px;color:var(--text3);">${c.role}</span>
+      <span style="font-size:11px;color:var(--text3);">${c.last||'—'}</span>
+      <span style="font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.notes}</span>
+      <button class="btn btn-sm" style="padding:2px 6px;" onclick="S.contacts.splice(${i},1);renderContacts();">✕</button>`;
+    el.appendChild(row);
+  });
+}
+
+function addContact(){
+  const n=document.getElementById('cnName').value.trim();
+  if(!n) return;
+  S.contacts.push({name:n,company:document.getElementById('cnCompany').value,role:document.getElementById('cnRole').value,last:document.getElementById('cnLast').value,notes:document.getElementById('cnNotes').value});
+  closeModal('contactModal');renderContacts();
+  ['cnName','cnCompany','cnRole','cnNotes'].forEach(id=>document.getElementById(id).value='');
+}
+
+function exportContacts(){
+  const rows=[['Name','Company','Role','Last Contact','Notes']];
+  S.contacts.forEach(c=>rows.push([c.name,c.company,c.role,c.last,c.notes]));
+  const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='contacts.csv';a.click();
+}
+
+// ===================================================================
+// FILES TAB
+// ===================================================================
+function renderFiles(){
+  const q=document.getElementById('fileSearch').value.toLowerCase();
+  const tag=document.getElementById('fileTagFilter').value;
+  const el=document.getElementById('fileListBody');
+  el.innerHTML='';
+  S.files.filter(f=>(!q||f.name.toLowerCase().includes(q))&&(!tag||f.tag===tag)).forEach(f=>{
+    const row=document.createElement('div');
+    row.className='file-row';
+    row.onclick=()=>{ if(f.url) window.open(f.url,'_blank'); };
+    row.innerHTML=`
+      <span class="file-name">${f.name}</span>
+      <span><span class="badge badge-dim">${f.tag}</span></span>
+      <span style="font-size:11px;color:var(--text3);">${f.date}</span>
+      <span style="font-size:11px;color:var(--text3);">${f.source}</span>
+      <span><a href="${f.url||'#'}" target="_blank" class="link-teal">Open</a></span>`;
+    el.appendChild(row);
+  });
+}
+
+function dzOver(e,id){ e.preventDefault();document.getElementById(id).classList.add('over'); }
+function dzLeave(id){ document.getElementById(id).classList.remove('over'); }
+function dzDrop(e,id,ctx){ e.preventDefault();dzLeave(id);handleFiles(e.dataTransfer.files,ctx); }
+function handleFileInput(inp,ctx){ handleFiles(inp.files,ctx); }
+function handleFiles(files,ctx){
+  const tag=ctx==='content'?'Reference':(document.getElementById('fileTagSelect')?document.getElementById('fileTagSelect').value:'Reference');
+  Array.from(files).forEach(f=>{
+    const entry={name:f.name,tag:tag,date:new Date().toISOString().slice(0,10),source:'Local Upload',url:''};
+    S.files.unshift(entry);
+  });
+  renderFiles();
+  if(ctx==='content'){
+    const ul=document.getElementById('contentUploadList');
+    ul.innerHTML=Array.from(files).map(f=>`<div style="padding:4px 0;border-bottom:1px solid var(--border);">${f.name} — queued for Drive upload</div>`).join('');
+  }
+}
+
+// ===================================================================
+// INTELLIGENCE TAB
+// ===================================================================
+function renderIntel(){
+  const q=document.getElementById('intelSearch').value.toLowerCase();
+  const cat=document.getElementById('intelCatFilter').value;
+  const el=document.getElementById('intelBody');
+  el.innerHTML='';
+  S.intel.filter(e=>(!q||(e.title+e.notes).toLowerCase().includes(q))&&(!cat||e.cat===cat)).forEach((e,i)=>{
+    const div=document.createElement('div');
+    div.className='intel-entry';
+    div.innerHTML=`
+      <div class="intel-head" onclick="this.nextElementSibling.classList.toggle('open')">
+        <span class="badge badge-${e.cat==='Competitor'?'red':e.cat==='Clinical Research'?'teal':e.cat==='Channel Insight'?'blue':'gold'}">${e.cat}</span>
+        <span class="intel-title">${e.title}</span>
+        <span style="font-size:10px;color:var(--text3);">${e.date}</span>
+        ${e.link?`<a href="${e.link}" target="_blank" class="link-teal" onclick="event.stopPropagation()">Link</a>`:''}
+        <button class="btn btn-sm" style="padding:2px 6px;margin-left:auto;" onclick="event.stopPropagation();S.intel.splice(${i},1);renderIntel();">✕</button>
+      </div>
+      <div class="intel-body">
+        <div class="intel-notes">${e.notes}</div>
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+function addIntel(){
+  const t=document.getElementById('itTitle').value.trim();
+  if(!t) return;
+  S.intel.unshift({title:t,cat:document.getElementById('itCat').value,date:document.getElementById('itDate').value||new Date().toISOString().slice(0,10),link:document.getElementById('itLink').value,notes:document.getElementById('itNotes').value});
+  closeModal('intelModal');renderIntel();
+  document.getElementById('itTitle').value='';document.getElementById('itLink').value='';document.getElementById('itNotes').value='';
+}
+
+// ===================================================================
+// SIP & FORMULATE
+// ===================================================================
+function renderSipList(listId, arr){
+  const el=document.getElementById(listId);
+  if(!el) return;
+  el.innerHTML='';
+  arr.forEach((t,i)=>{
+    const row=document.createElement('div');
+    row.className='task-row';
+    row.dataset.s=t.status;
+    row.innerHTML=`
+      <div class="task-check" onclick="cycleSipStatus(event,'${listId}',${i})"></div>
+      <div class="task-text-wrap">
+        <div class="task-title">${t.text}</div>
+        ${t.phase?`<div class="task-meta-row"><span style="color:var(--text3);">${t.phase}</span></div>`:''}
+      </div>`;
+    el.appendChild(row);
+  });
+}
+
+function cycleSipStatus(e,listId,i){
   e.stopPropagation();
-  const item = btn.closest('.task-item');
-  const textEl = item.querySelector('.task-text');
-  const editing = item.classList.toggle('editing');
-  textEl.contentEditable = editing ? 'true' : 'false';
-  if (editing) {
-    textEl.focus();
-    btn.textContent = 'Done';
-  } else {
-    btn.textContent = 'Edit';
-  }
+  const arr=listId==='sipTaskList'?S.sipTasks:listId==='sipEquipList'?S.sipEquip:S.sipMktg;
+  const cycle=['todo','inprog','done','urgent'];
+  arr[i].status=cycle[(cycle.indexOf(arr[i].status)+1)%cycle.length];
+  renderSipList(listId,arr);
 }
 
-function addTask(listId, text, status) {
-  const el = document.getElementById(listId);
-  if (!el) return;
-  const item = makeTask(text, status || 'todo', '');
-  el.insertBefore(item, el.firstChild);
-  updateStats();
+function addSipTask(){
+  const t=document.getElementById('stTitle').value.trim();
+  if(!t) return;
+  const target=document.getElementById('stSection').value;
+  const arr=target==='sipTaskList'?S.sipTasks:target==='sipEquipList'?S.sipEquip:S.sipMktg;
+  arr.push({text:t,status:'todo',phase:document.getElementById('stPhase').value});
+  closeModal('sipTaskModal');
+  renderSipList(target,arr);
+  document.getElementById('stTitle').value='';
 }
 
-function addTaskFromInput(listId, status) {
-  const row = document.getElementById(listId).closest('.card-body').querySelector('.add-task-input');
-  if (!row || !row.value.trim()) return;
-  addTask(listId, row.value.trim(), status);
-  row.value = '';
+// ===================================================================
+// MODAL HELPERS
+// ===================================================================
+function openModal(id){ document.getElementById(id).classList.add('show'); }
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+document.querySelectorAll('.modal-bg').forEach(m=>{
+  m.addEventListener('click',function(e){ if(e.target===this) this.classList.remove('show'); });
+});
+
+// ===================================================================
+// VOICE
+// ===================================================================
+let recog=null, isRec=false;
+function toggleVoice(){
+  if(isRec) cancelVoice();
+  else startVoice();
 }
-
-function addTaskOnEnter(e, listId, status) {
-  if (e.key === 'Enter') addTaskFromInput(listId, status);
-}
-
-function addPaulyItem() {
-  const input = document.getElementById('paulyInput');
-  if (input) { input.focus(); showPanel('pauly'); }
-}
-
-// ===== VOICE INPUT =====
-let recognition = null;
-let isRecording = false;
-
-function toggleVoice() {
-  if (isRecording) {
-    stopVoice();
-  } else {
-    startVoice();
-  }
-}
-
-function startVoice() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert('Voice input requires Chrome or Edge browser.');
-    return;
-  }
-  recognition = new SpeechRecognition();
-  recognition.continuous = true;
-  recognition.interimResults = true;
-  recognition.lang = 'en-US';
-
-  recognition.onresult = (e) => {
-    let transcript = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) {
-      transcript += e.results[i][0].transcript;
-    }
-    document.getElementById('voiceTranscript').textContent = transcript;
+function startVoice(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){ alert('Voice input requires Chrome or Edge.'); return; }
+  recog=new SR();recog.continuous=true;recog.interimResults=true;recog.lang='en-US';
+  recog.onresult=e=>{
+    let t='';for(let i=e.resultIndex;i<e.results.length;i++) t+=e.results[i][0].transcript;
+    document.getElementById('vpTranscript').textContent=t;
   };
-
-  recognition.onerror = () => stopVoice();
-  recognition.onend = () => { if (isRecording) recognition.start(); };
-
-  recognition.start();
-  isRecording = true;
-  document.getElementById('voiceBtn').classList.add('recording');
-  document.getElementById('voiceBtnText').textContent = 'Recording...';
-  document.getElementById('voiceOverlay').classList.add('show');
-  document.getElementById('voiceTranscript').textContent = 'Listening...';
+  recog.onerror=()=>cancelVoice();
+  recog.onend=()=>{ if(isRec) recog.start(); };
+  recog.start();isRec=true;
+  document.getElementById('voiceBtn').classList.add('rec');
+  document.getElementById('voiceBtnTxt').textContent='REC';
+  document.getElementById('voicePanel').classList.add('show');
 }
-
-function stopVoice() {
-  if (recognition) recognition.stop();
-  isRecording = false;
-  document.getElementById('voiceBtn').classList.remove('recording');
-  document.getElementById('voiceBtnText').textContent = 'Voice Input';
+function cancelVoice(){
+  if(recog) recog.stop();isRec=false;
+  document.getElementById('voiceBtn').classList.remove('rec');
+  document.getElementById('voiceBtnTxt').textContent='Voice';
+  document.getElementById('voicePanel').classList.remove('show');
+  document.getElementById('vpTranscript').textContent='Listening...';
 }
-
-function confirmVoiceTask() {
-  const text = document.getElementById('voiceTranscript').textContent.trim();
-  const target = document.getElementById('voiceTarget').value;
-  if (text && text !== 'Listening...' && text !== 'Say a task or note...') {
-    addTask(target, text, 'todo');
+function confirmVoice(){
+  const text=document.getElementById('vpTranscript').textContent;
+  const val=document.getElementById('vpTarget').value;
+  if(text&&text!=='Listening...'){
+    const [fieldId,modalId]=val.split('+');
+    if(modalId==='sip'){
+      S.sipTasks.unshift({text:text,status:'todo',phase:'Week 1–2'});
+      renderSipList('sipTaskList',S.sipTasks);
+    } else {
+      const field=document.getElementById(fieldId);
+      if(field){ field.value=text; openModal(modalId); }
+    }
   }
   cancelVoice();
 }
 
-function cancelVoice() {
-  stopVoice();
-  document.getElementById('voiceOverlay').classList.remove('show');
-  document.getElementById('voiceTranscript').textContent = 'Say a task or note...';
+// ===================================================================
+// TOPBAR DATE
+// ===================================================================
+function updateDate(){
+  const d=new Date();
+  const opts={weekday:'short',year:'numeric',month:'short',day:'numeric'};
+  document.getElementById('topDate').textContent=d.toLocaleDateString('en-US',opts);
 }
+updateDate();
 
-// ===== INIT =====
-renderAll();
+// ===================================================================
+// INIT
+// ===================================================================
+renderLaunchCards();
+renderDecisions();
+renderFormulas();
+buildCalGrid('calGrid',calYear,calMonth,S.calEvents,'calMonthLabel');
+buildCalGrid('opCalGrid',opCalYear,opCalMonth,[...S.calEvents,...S.opCal],'opCalLabel');
+renderContentList();
+renderEmails();
+renderTasks();
+renderContacts();
+renderFiles();
+renderIntel();
+renderSipList('sipTaskList',S.sipTasks);
+renderSipList('sipEquipList',S.sipEquip);
+renderSipList('sipMktgList',S.sipMktg);
 </script>
 </body>
 </html>
