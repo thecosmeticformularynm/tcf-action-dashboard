@@ -2142,11 +2142,14 @@ function renderContentList(){
     const row=document.createElement('div');
     row.className='content-list-row';
     row.innerHTML=`
-      <span style="font-size:12px;color:var(--text);">${c.title}</span>
+      <span data-cedit="${i}" style="font-size:12px;color:var(--text);cursor:text;" title="Click to edit">${c.title}</span>
       <span><span class="badge badge-dim">${c.platform}</span></span>
       <span style="font-size:11px;color:var(--text3);">${c.type}</span>
       <span><select style="font-size:10px;padding:3px 6px;" onchange="S.content[${i}].status=this.value;">${statusOpts}</select></span>
-      <span>${c.link?`<a href="${c.link}" target="_blank" class="link-teal">View</a>`:'<span style="color:var(--text3);">—</span>'}</span>`;
+      <span style="display:flex;align-items:center;gap:8px;">${c.link?`<a href="${c.link}" target="_blank" class="link-teal">View</a>`:'<span style="color:var(--text3);">—</span>'}<span style="cursor:pointer;color:var(--text3);font-size:11px;padding:2px 5px;opacity:0.5;" title="Delete" onclick="S.content.splice(${i},1);renderContentList();">✕</span></span>`;
+    row.querySelector('[data-cedit]').addEventListener('click',function(){
+      inlineEdit(this,v=>{S.content[i].title=v;renderContentList();});
+    });
     body.appendChild(row);
   });
 }
@@ -2357,13 +2360,27 @@ function renderSipList(listId, arr){
     const row=document.createElement('div');
     row.className='task-row';
     row.dataset.s=t.status;
-    row.innerHTML=`
+    row.style.cssText='display:flex;align-items:center;gap:8px;';
+    const inner=document.createElement('div');
+    inner.style.cssText='flex:1;';
+    inner.innerHTML=`
       <div class="task-check" onclick="cycleSipStatus(event,'${listId}',${i})"></div>
-      <div class="task-text-wrap">
-        <div class="task-title">${t.text}</div>
+      <div class="task-text-wrap" style="flex:1;">
+        <div class="task-title" data-sipedit="${listId}|${i}" style="cursor:text;" title="Click to edit">${t.text}</div>
         ${t.phase?`<div class="task-meta-row"><span style="color:var(--text3);">${t.phase}</span></div>`:''}
       </div>`;
+    const del=document.createElement('span');
+    del.textContent='✕';
+    del.style.cssText='cursor:pointer;color:var(--text3);font-size:11px;padding:2px 6px;opacity:0.5;flex-shrink:0;';
+    del.title='Delete';
+    del.addEventListener('click',e=>{e.stopPropagation();arr.splice(i,1);renderSipList(listId,arr);});
+    row.appendChild(inner);
+    row.appendChild(del);
     el.appendChild(row);
+    // wire inline edit
+    inner.querySelector('[data-sipedit]').addEventListener('click',function(){
+      inlineEdit(this, v=>{arr[i].text=v;renderSipList(listId,arr);});
+    });
   });
 }
 
@@ -3134,6 +3151,19 @@ const DEPT_DATA = {
 const DEPT_STATUS_LABELS = {todo:'To Do',inprog:'In Progress',done:'Done'};
 const DEPT_STATUS_COLORS = {todo:'var(--amber)',inprog:'var(--teal)',done:'var(--green)'};
 
+function inlineEdit(spanEl, onSave){
+  const prev = spanEl.textContent;
+  const inp = document.createElement('input');
+  inp.value = prev;
+  inp.style.cssText='flex:1;font-size:12px;border:none;border-bottom:1px solid var(--teal);background:transparent;color:var(--text);outline:none;padding:0 2px;';
+  spanEl.replaceWith(inp);
+  inp.focus();
+  inp.select();
+  const save=()=>{ const v=inp.value.trim()||prev; onSave(v); };
+  inp.addEventListener('blur', save);
+  inp.addEventListener('keydown', e=>{ if(e.key==='Enter'){e.preventDefault();inp.blur();} if(e.key==='Escape'){inp.value=prev;inp.blur();} });
+}
+
 function renderDeptList(listId){
   const el = document.getElementById(listId);
   if(!el) return;
@@ -3142,9 +3172,12 @@ function renderDeptList(listId){
   el.innerHTML = arr.map((t,i)=>`
     <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);">
       <span onclick="cycleDeptStatus('${listId}',${i})" style="cursor:pointer;font-size:10px;padding:2px 7px;border-radius:10px;background:var(--s3);color:${DEPT_STATUS_COLORS[t.status]};font-weight:600;white-space:nowrap;">${DEPT_STATUS_LABELS[t.status]}</span>
-      <span style="flex:1;color:var(--text);font-size:12px;">${t.text}</span>
-      <span onclick="DEPT_DATA['${listId}'].splice(${i},1);renderDeptList('${listId}')" style="cursor:pointer;color:var(--text3);font-size:11px;padding:2px 5px;">✕</span>
+      <span data-edit style="flex:1;color:var(--text);font-size:12px;cursor:text;" title="Click to edit">${t.text}</span>
+      <span onclick="DEPT_DATA['${listId}'].splice(${i},1);renderDeptList('${listId}')" style="cursor:pointer;color:var(--text3);font-size:11px;padding:2px 5px;opacity:0.5;" title="Delete">✕</span>
     </div>`).join('');
+  el.querySelectorAll('[data-edit]').forEach((span,i)=>{
+    span.addEventListener('click', ()=>inlineEdit(span, v=>{ DEPT_DATA[listId][i].text=v; renderDeptList(listId); }));
+  });
 }
 
 function cycleDeptStatus(listId,i){
@@ -3600,6 +3633,14 @@ function renderBrandWorkspace(){
     </div>
     <div class="brand-section-tabs">${tabs}</div>
     <div id="bsc">${renderBrandSectionContent(brand, activeBrandSection)}</div>`;
+  // Wire inline edit for brand checklist items
+  setTimeout(()=>{
+    document.querySelectorAll('[data-bedit]').forEach(span=>{
+      const [bid,key,idx]=span.dataset.bedit.split('|');
+      const i=parseInt(idx);
+      span.addEventListener('click',()=>inlineEdit(span,v=>{BRANDS_CONFIG[bid][key][i].text=v;selectBrandSection(activeBrandSection);}));
+    });
+  },0);
   // Re-render sidebar to keep brand selection highlighted
   renderBrandSidebar();
 }
@@ -3724,8 +3765,8 @@ function renderBrandChecklist(brand, key, title){
         ${arr.map((t,i)=>`
           <div class="btask-row">
             <span class="btask-status" onclick="cycleBrandTask('${brand.id}','${key}',${i})" style="color:${DEPT_STATUS_COLORS[t.status]||'var(--text3)'};">${DEPT_STATUS_LABELS[t.status]||t.status}</span>
-            <span style="flex:1;font-size:12px;${t.status==='done'?'text-decoration:line-through;color:var(--text3);':''}">${t.text}</span>
-            <span onclick="BRANDS_CONFIG['${brand.id}']['${key}'].splice(${i},1);selectBrandSection('${activeBrandSection}')" style="cursor:pointer;color:var(--text3);font-size:11px;padding:2px 4px;">✕</span>
+            <span data-bedit="${brand.id}|${key}|${i}" style="flex:1;font-size:12px;cursor:text;${t.status==='done'?'text-decoration:line-through;color:var(--text3);':''}" title="Click to edit">${t.text}</span>
+            <span onclick="BRANDS_CONFIG['${brand.id}']['${key}'].splice(${i},1);selectBrandSection('${activeBrandSection}')" style="cursor:pointer;color:var(--text3);font-size:11px;padding:2px 4px;opacity:0.5;" title="Delete">✕</span>
           </div>`).join('')}
         ${arr.length===0?'<div style="color:var(--text3);font-size:12px;padding:14px 0;">No items yet.</div>':''}
       </div>
