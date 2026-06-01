@@ -714,6 +714,56 @@ a.link-teal:hover{text-decoration:underline;}
 .agenda-type-dot{
   width:6px;height:6px;border-radius:50%;flex-shrink:0;display:inline-block;margin-right:6px;
 }
+
+/* ===== BRAND HUB ===== */
+.brand-hub{display:flex;height:calc(100vh - 48px);gap:0;overflow:hidden;}
+.brand-sidebar{width:210px;flex-shrink:0;background:var(--s1);border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;}
+.brand-sidebar-hd{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);padding:20px 18px 10px;border-bottom:1px solid var(--border);margin-bottom:6px;}
+.brand-sidebar-btn{display:block;width:100%;text-align:left;padding:11px 18px;font-size:12px;color:var(--text2);cursor:pointer;border:none;background:none;border-left:3px solid transparent;transition:all 0.15s;line-height:1.4;}
+.brand-sidebar-btn:hover{background:var(--s2);color:var(--text);}
+.brand-sidebar-btn.active{background:var(--s2);color:var(--espresso);border-left-color:var(--espresso);}
+.brand-sidebar-btn .bsb-name{font-weight:600;font-size:12px;}
+.brand-sidebar-btn .bsb-tag{font-size:9px;color:var(--text3);margin-top:2px;line-height:1.3;}
+.brand-sidebar-btn.active .bsb-tag{color:var(--text3);}
+.brand-workspace{flex:1;overflow-y:auto;padding:28px 32px;}
+.brand-ws-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--border);}
+.brand-ws-icon{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#F2EADC;font-size:16px;font-weight:700;flex-shrink:0;}
+.brand-ws-title{font-size:22px;font-weight:300;color:var(--text);letter-spacing:-0.5px;}
+.brand-ws-sub{font-size:11px;color:var(--text3);margin-top:3px;}
+.brand-section-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.bst{padding:5px 13px;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;border:1px solid var(--border);background:var(--s1);color:var(--text3);cursor:pointer;border-radius:3px;transition:all 0.15s;font-weight:500;}
+.bst:hover{background:var(--s2);color:var(--text2);}
+.bst.active{background:var(--espresso);color:#F2EADC;border-color:var(--espresso);}
+/* Brand formula table */
+.bft{width:100%;border-collapse:collapse;font-size:12px;}
+.bft th{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);padding:8px 10px;border-bottom:2px solid var(--border);text-align:left;white-space:nowrap;}
+.bft td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.bft tr:hover td{background:var(--s2);}
+/* Brand task row */
+.btask-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);}
+.btask-row:last-child{border-bottom:none;}
+.btask-status{font-size:9px;padding:2px 8px;border-radius:10px;background:var(--s3);cursor:pointer;white-space:nowrap;font-weight:600;flex-shrink:0;}
+/* AI Chat */
+.ai-chat-wrap{display:flex;flex-direction:column;height:480px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--s1);}
+.ai-key-bar{padding:10px 14px;background:var(--s3);border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;font-size:11px;color:var(--text2);}
+.ai-key-bar input{flex:1;padding:5px 9px;font-size:11px;border:1px solid var(--border);border-radius:3px;background:var(--s1);}
+.ai-chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--s2);}
+.ai-msg{max-width:82%;padding:9px 13px;border-radius:8px;font-size:12px;line-height:1.65;}
+.ai-msg.user{background:var(--espresso);color:#F2EADC;margin-left:auto;border-radius:8px 8px 2px 8px;}
+.ai-msg.bot{background:var(--s1);color:var(--text);border:1px solid var(--border);border-radius:8px 8px 8px 2px;}
+.ai-msg.sys{background:transparent;color:var(--text3);font-style:italic;font-size:10px;text-align:center;max-width:100%;}
+.ai-chat-foot{display:flex;gap:8px;padding:10px 14px;background:var(--s1);border-top:1px solid var(--border);}
+.ai-chat-foot input{flex:1;padding:8px 11px;border:1px solid var(--border);font-size:12px;border-radius:4px;outline:none;}
+.ai-chat-foot input:focus{border-color:var(--border2);}
+/* Brand supplier list */
+.bsup-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;}
+.bsup-row:last-child{border-bottom:none;}
+/* Overview stats */
+.brand-stat-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px;}
+.brand-stat{background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:14px 18px;min-width:120px;}
+.brand-stat-lbl{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;}
+.brand-stat-val{font-size:20px;font-weight:300;color:var(--text);}
+.brand-stat-sub{font-size:10px;color:var(--text3);margin-top:3px;}
 </style>
 </head>
 <body>
@@ -723,14 +773,12 @@ a.link-teal:hover{text-decoration:underline;}
   <div class="topbar-brand">Nicole<span>Command Center</span></div>
   <div class="nav-tabs">
     <div class="nav-tab" onclick="showTab('home')" id="navHome">Home</div>
-    <div class="nav-tab active" onclick="showTab('brand')">Brand</div>
-    <div class="nav-tab" onclick="showTab('formulas')">Formulas</div>
+    <div class="nav-tab active" onclick="showTab('brandhub')">Brand Hub</div>
     <div class="nav-tab" onclick="showTab('content')">Content</div>
     <div class="nav-tab" onclick="showTab('operations')">Operations</div>
     <div class="nav-tab" onclick="showTab('files')">Files</div>
     <div class="nav-tab" onclick="showTab('facility')">Facility</div>
     <div class="nav-tab" onclick="showTab('kingstreet')">King Street</div>
-    <div class="nav-tab" onclick="showTab('brands')">Brands</div>
     <div class="nav-tab" onclick="showTab('events')">Events</div>
     <div class="nav-tab" onclick="showTab('social')">Social</div>
     <div class="nav-tab" onclick="showTab('sip')">Sip &amp; Formulate</div>
@@ -811,131 +859,14 @@ a.link-teal:hover{text-decoration:underline;}
 
 </div>
 
-<!-- ===================== BRAND TAB ===================== -->
-<div class="panel active" id="tab-brand">
-
-  <!-- Scorecard KPIs -->
-  <div class="kpi-row mb16">
-    <div class="kpi">
-      <div class="kpi-label">Launch Status</div>
-      <div class="kpi-value" style="font-size:16px;color:var(--teal2);margin-top:4px;">3 Products</div>
-      <div class="kpi-sub">In Development</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">Content Streak</div>
-      <div class="kpi-value">12</div>
-      <div class="kpi-sub">days posted</div>
-      <div class="prog mt16"><div class="prog-fill" style="width:60%;background:var(--teal);"></div></div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">Next Event</div>
-      <div class="kpi-value" style="font-size:16px;color:var(--gold2);margin-top:4px;" id="nextEventKPI">None set</div>
-      <div class="kpi-sub">upcoming</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">Open Decisions</div>
-      <div class="kpi-value" style="color:var(--gold2);" id="openDecCount">4</div>
-      <div class="kpi-sub">awaiting action</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">Notion Sync</div>
-      <div class="kpi-value" style="font-size:14px;margin-top:6px;"><span class="sync-dot"></span>Connected</div>
-      <div class="kpi-sub">last sync: now</div>
-    </div>
+<!-- ===================== BRAND HUB ===================== -->
+<div class="panel active" id="tab-brandhub">
+  <div class="brand-hub">
+    <div class="brand-sidebar" id="brandSidebar"></div>
+    <div class="brand-workspace" id="brandWorkspace"></div>
   </div>
-
-  <!-- Product Launch Cards -->
-  <div class="section-label">Hero Product Launch Tracker</div>
-  <div class="g3 mb24" id="launchCards">
-    <!-- rendered by JS -->
-  </div>
-
-  <!-- Brand Decisions -->
-  <div class="card">
-    <div class="card-head">
-      <span class="card-title">Brand Decisions Log</span>
-      <button class="btn btn-sm btn-teal" onclick="openModal('decisionModal')">+ Add Decision</button>
-    </div>
-    <div class="card-body" style="padding:0;">
-      <div style="display:grid;grid-template-columns:1fr 130px 110px 90px 40px;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);">
-        <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);">Decision</span>
-        <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);">Owner</span>
-        <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);">Due</span>
-        <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);">Status</span>
-        <span></span>
-      </div>
-      <div id="decisionsBody"></div>
-    </div>
-  </div>
-
 </div>
 
-<!-- ===================== FORMULAS TAB ===================== -->
-<div class="panel" id="tab-formulas">
-
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-    <div class="section-label" style="margin:0;border:none;padding:0;">Product Development Ledger</div>
-    <div style="display:flex;gap:8px;">
-      <button class="btn btn-sm" onclick="exportFormulasCSV()">Export CSV</button>
-      <button class="btn btn-sm btn-teal" onclick="openModal('formulaModal')">+ Add Formula</button>
-    </div>
-  </div>
-
-  <div class="filter-bar">
-    <input id="fSearch" placeholder="Search formulas..." oninput="renderFormulas()">
-    <select id="fBrand" onchange="renderFormulas()">
-      <option value="">All Brands</option>
-      <option>Skin Axis</option>
-      <option>TCF Client</option>
-      <option>TCF House Brand</option>
-    </select>
-    <select id="fCat" onchange="renderFormulas()">
-      <option value="">All Categories</option>
-      <option>Face</option><option>Body</option>
-      <option>Functional Beverage</option><option>Hair</option><option>Other</option>
-    </select>
-    <select id="fStatus" onchange="renderFormulas()">
-      <option value="">All Statuses</option>
-      <option>Concept</option><option>Benching</option><option>Stability</option>
-      <option>Approved</option><option>On Hold</option><option>Archived</option>
-    </select>
-    <select id="fPriority" onchange="renderFormulas()">
-      <option value="">All Priorities</option>
-      <option>High</option><option>Medium</option><option>Low</option>
-    </select>
-  </div>
-
-  <div class="tbl-wrap card mb24">
-    <table class="tbl" id="formulaTable">
-      <thead>
-        <tr>
-          <th>Formula Name</th>
-          <th>Brand</th>
-          <th>Category</th>
-          <th>Status</th>
-          <th>Priority</th>
-          <th>Drive Link</th>
-          <th>Notes</th>
-          <th style="width:40px;"></th>
-        </tr>
-      </thead>
-      <tbody id="formulaBody"></tbody>
-    </table>
-  </div>
-
-  <!-- BENCH SESSION TRACKER -->
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-    <div class="section-label" style="margin:0;border:none;padding:0;">Active Bench Sessions</div>
-    <button class="btn btn-sm btn-teal" onclick="openModal('benchModal')">+ Log Session</button>
-  </div>
-  <div class="card">
-    <div class="bench-row head" style="padding:10px 12px;">
-      <span>Formula</span><span>Date</span><span>What I Did</span><span>Next Step</span><span>Status</span><span></span>
-    </div>
-    <div id="benchBody"></div>
-  </div>
-
-</div>
 
 <!-- ===================== CONTENT TAB ===================== -->
 <div class="panel" id="tab-content">
@@ -1225,41 +1156,6 @@ a.link-teal:hover{text-decoration:underline;}
   </div>
 </div>
 
-<!-- ===================== BRANDS TAB ===================== -->
-<div class="panel" id="tab-brands">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-    <div>
-      <div class="section-label" style="margin:0;border:none;padding:0;">Brand Portfolio</div>
-      <div style="font-size:11px;color:var(--text3);margin-top:3px;">NEVOO &nbsp;·&nbsp; Skin Axis &nbsp;·&nbsp; Rinse &amp; Repeat</div>
-    </div>
-  </div>
-  <div class="g3">
-    <div class="card">
-      <div class="card-head"><span class="card-title">NEVOO</span></div>
-      <div id="brand-nevoo" style="max-height:360px;overflow-y:auto;"></div>
-      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
-        <input class="add-task-input" placeholder="Add NEVOO task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('brand-nevoo','todo',this)">
-        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('brand-nevoo','todo',this.previousElementSibling)">Add</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-head"><span class="card-title">Skin Axis</span></div>
-      <div id="brand-skinaxis" style="max-height:360px;overflow-y:auto;"></div>
-      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
-        <input class="add-task-input" placeholder="Add Skin Axis task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('brand-skinaxis','todo',this)">
-        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('brand-skinaxis','todo',this.previousElementSibling)">Add</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-head"><span class="card-title">Rinse &amp; Repeat</span></div>
-      <div id="brand-rinse" style="max-height:360px;overflow-y:auto;"></div>
-      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
-        <input class="add-task-input" placeholder="Add R&amp;R task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('brand-rinse','todo',this)">
-        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('brand-rinse','todo',this.previousElementSibling)">Add</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- ===================== EVENTS TAB ===================== -->
 <div class="panel" id="tab-events">
@@ -1821,8 +1717,8 @@ function showTab(id) {
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   const tabLabels = {
-    home:'Home',brand:'Brand',formulas:'Formulas',content:'Content',operations:'Operations',
-    files:'Files',facility:'Facility',kingstreet:'King Street',brands:'Brands',events:'Events',
+    home:'Home',brandhub:'Brand Hub',content:'Content',operations:'Operations',
+    files:'Files',facility:'Facility',kingstreet:'King Street',events:'Events',
     social:'Social',sip:'Sip',calendar:'Calendar',links:'Links'
   };
   document.querySelectorAll('.nav-tab').forEach(t=>{
@@ -2588,13 +2484,12 @@ function cycleActionStatus(e,i){
 }
 
 const AREAS=[
+  {name:'Brand Hub',desc:'All 5 brands — formulas, design, tasks, AI',bg:'#2A1408',nav:'brandhub',prog:35,stats:'NÉVOO · Salt Spa · TCF · Daily Roux · Skin Axis'},
   {name:'Facility &amp; Compliance',desc:'New location setup, permits, inspections',bg:'#2A1208',nav:'facility',prog:35,stats:'13 Critical &nbsp;|&nbsp; 52+ Checklist Items'},
   {name:'King Street Retail &amp; Spa',desc:'Retail build-out, Salt Spa integration',bg:'#0A2A18',nav:'kingstreet',prog:20,stats:'18 To-Do &nbsp;|&nbsp; 2 In Progress'},
   {name:'Sip &amp; Formulate',desc:'8-week mixer event launch timeline',bg:'#082820',nav:'sip',prog:25,stats:'6 Done &nbsp;|&nbsp; 8 In Progress &nbsp;|&nbsp; 22 To-Do'},
-  {name:'Brands: NEVOO, Skin Axis, R&amp;R',desc:'Brand portfolio development',bg:'#1A0A28',nav:'brands',prog:40,stats:'3 In Progress &nbsp;|&nbsp; 12 To-Do'},
   {name:'Events &amp; PR',desc:'Press, partnerships, community events',bg:'#08101E',nav:'events',prog:15,stats:'4 In Progress &nbsp;|&nbsp; 10 To-Do'},
   {name:'Social &amp; Web',desc:'Content, social accounts, website',bg:'#101420',nav:'social',prog:30,stats:'8 To-Do'},
-  {name:'Product Formulation',desc:'R&amp;D, bench sessions, SOPs',bg:'#081A10',nav:'formulas',prog:50,stats:'3 In Progress &nbsp;|&nbsp; 6 To-Do'},
   {name:'Operations',desc:'Email, tasks, contacts, vendors',bg:'#1A1008',nav:'operations',prog:40,stats:'5 Urgent &nbsp;|&nbsp; 8 To-Do'},
 ];
 
@@ -3032,6 +2927,718 @@ function hideSearch(){
 }
 
 // ===================================================================
+// BRAND HUB
+// ===================================================================
+const BRANDS_CONFIG = {
+  nevoo:{
+    id:'nevoo',name:'NÉVOO',tagline:'Natural hair care & scalp wellness',
+    color:'#2A1408',accent:'#7A5A9A',
+    overview:'NÉVOO is a clean, botanical hair and scalp care brand founded by Nicole. Focused on ingredient integrity, scalp health, and modern minimalist branding. Currently in development phase with initial SKUs targeting Q3 2026 launch via King Street retail and DTC.',
+    formulas:[
+      {name:'Scalp Serum v3',cat:'Hair',status:'Benching',priority:'High',notes:'Bakuchiol + niacinamide base, 0.5% salicylic acid — pH 4.5 target'},
+      {name:'Hydrating Curl Cream',cat:'Hair',status:'Concept',priority:'Medium',notes:'Shea + mango butter emulsion, protein-free formula'},
+      {name:'Clarifying Scalp Wash',cat:'Hair',status:'Concept',priority:'High',notes:'AHA-based, low-sulfate, target pH 4.8'},
+    ],
+    packaging:[
+      {text:'Source 2oz dropper bottles for scalp serum — McKernan eg-38470',status:'inprog'},
+      {text:'Design label artwork for Scalp Serum v3',status:'todo'},
+      {text:'Get packaging mockups from designer',status:'todo'},
+      {text:'Order sample packaging run (50 units)',status:'todo'},
+      {text:'Finalize NÉVOO label color palette and typography',status:'todo'},
+    ],
+    design:[
+      {text:'Finalize NÉVOO logo and wordmark',status:'inprog'},
+      {text:'Build Kive.ai brand asset library',status:'todo'},
+      {text:'Product photography shot list',status:'todo'},
+      {text:'Brand style guide (fonts, colors, imagery direction)',status:'todo'},
+      {text:'Create IG grid aesthetic plan for launch',status:'todo'},
+    ],
+    website:[
+      {text:'Build NÉVOO product page on TCF website',status:'todo'},
+      {text:'Write product descriptions — all SKUs',status:'todo'},
+      {text:'Set up NÉVOO standalone landing page',status:'todo'},
+    ],
+    marketing:[
+      {text:'Develop NÉVOO launch campaign concept',status:'inprog'},
+      {text:'Identify 5 micro-influencers in hair care for seeding',status:'todo'},
+      {text:'Create email sequence for pre-launch waitlist',status:'todo'},
+      {text:'Plan Instagram launch content series (6 posts)',status:'todo'},
+      {text:'Set up NÉVOO Instagram account',status:'todo'},
+    ],
+    tasks:[
+      {text:'Finalize first 3 SKUs for launch',status:'inprog'},
+      {text:'Complete brand positioning document',status:'todo'},
+      {text:'Research wholesale buyers — boutiques + spas',status:'todo'},
+      {text:'Create brand pitch deck',status:'todo'},
+    ],
+    suppliers:[],
+    photography:[
+      {text:'Lifestyle shoot — scalp serum hero shot',status:'todo'},
+      {text:'Ingredient flat lay photography',status:'todo'},
+      {text:'Founder content for brand story',status:'todo'},
+    ],
+    documents:[
+      {text:'Brand positioning document',status:'inprog'},
+      {text:'Ingredient safety data sheets',status:'todo'},
+      {text:'Supplier agreements',status:'todo'},
+    ],
+    notes:'Focus: clean scalp + hair wellness. Aesthetic: dark botanicals, minimal, luxury indie. Target: educated clean beauty consumer, natural hair community.',
+    calendar:[],
+  },
+  saltspa:{
+    id:'saltspa',name:'Salt Spa & Yoga',tagline:'Holistic wellness — salt therapy, yoga & skincare services',
+    color:'#0A2A1A',accent:'#2A8A6A',
+    overview:'Salt Spa & Yoga is a wellness studio integrated with the King Street retail location. Services include Himalayan salt therapy, yoga classes, and facial/body treatments. A branded product line (bath salts, body oils, treatment kits) will be sold on-site and online.',
+    formulas:[
+      {name:'Himalayan Salt Soak',cat:'Body',status:'Approved',priority:'High',notes:'Pink Himalayan + Dead Sea salt + lavender + eucalyptus'},
+      {name:'Post-Yoga Body Oil',cat:'Body',status:'Benching',priority:'Medium',notes:'Jojoba + arnica + peppermint — cooling, recovery-focused'},
+      {name:'Salt Therapy Facial Mist',cat:'Face',status:'Concept',priority:'Low',notes:'Isotonic saline + aloe + hyaluronic acid blend'},
+      {name:'Mineral Bath Bomb',cat:'Body',status:'Concept',priority:'Medium',notes:'Citric + bicarb + mineral blend, no colorants'},
+    ],
+    packaging:[
+      {text:'Source kraft stand-up pouches for salt soaks (4oz, 8oz)',status:'inprog'},
+      {text:'Design Salt Spa & Yoga label system',status:'todo'},
+      {text:'Find amber glass for body oil (2oz, 4oz)',status:'todo'},
+      {text:'Order tissue paper + branded inserts for retail packaging',status:'todo'},
+    ],
+    design:[
+      {text:'Create Salt Spa brand identity (logo, palette)',status:'inprog'},
+      {text:'Design retail shelf display and signage',status:'todo'},
+      {text:'Service menu — print and digital versions',status:'todo'},
+      {text:'Create gift set box design for retail',status:'todo'},
+    ],
+    website:[
+      {text:'Add Salt Spa services page to website',status:'todo'},
+      {text:'Set up online booking integration (Acuity or similar)',status:'todo'},
+      {text:'Write SEO copy for services page',status:'todo'},
+    ],
+    marketing:[
+      {text:'Create @saltspaandyoga Instagram account',status:'todo'},
+      {text:'Partner with local yoga studios for cross-promo',status:'todo'},
+      {text:'Design King Street soft open event flyer',status:'inprog'},
+      {text:'Build email list via soft open signups',status:'todo'},
+      {text:'Create "salt therapy explainer" Reel',status:'todo'},
+    ],
+    tasks:[
+      {text:'Finalize service menu and pricing',status:'inprog'},
+      {text:'Source Himalayan salt therapy room equipment',status:'todo'},
+      {text:'Hire part-time service provider / yoga instructor',status:'todo'},
+      {text:'Create intake forms and liability waivers',status:'todo'},
+      {text:'Set up booking system',status:'todo'},
+    ],
+    suppliers:[
+      {name:'Bulk Apothecary',type:'Salts & Raw Materials',contact:'sales@bulkapothecary.com'},
+      {name:'Wholesale Supplies Plus',type:'Raw Materials',contact:'—'},
+    ],
+    photography:[
+      {text:'Salt therapy room ambiance shots',status:'todo'},
+      {text:'Product line flat lay — all Salt Spa SKUs',status:'todo'},
+      {text:'Lifestyle: yoga + product in use',status:'todo'},
+    ],
+    documents:[
+      {text:'Service provider contracts',status:'todo'},
+      {text:'Health & safety protocols',status:'todo'},
+      {text:'Insurance documentation for services',status:'todo'},
+    ],
+    notes:'Location: King Street, Charleston SC. First soft open event to coincide with facility opening. Products and services under one roof.',
+    calendar:[],
+  },
+  tcf:{
+    id:'tcf',name:'The Cosmetic Formulary',tagline:'Contract formulation, education & cosmetic R&D',
+    color:'#1A1208',accent:'#7A5020',
+    overview:'The Cosmetic Formulary (TCF) is the parent operating entity. Provides contract formulation services, cosmetic R&D consulting, and manufacturing support for indie beauty brands. GMP-compliant lab environment. Also operates King Street retail, Salt Spa, and incubates portfolio brands (NÉVOO, Skin Axis, Daily Roux).',
+    formulas:[
+      {name:'Barrier Repair Serum v2',cat:'Face',status:'Benching',priority:'High',notes:'Tested pH at 5.0 and 5.5 — 5.5 more stable. Re-test at 0.8% ceramide concentration.'},
+      {name:'Brightening Mist',cat:'Face',status:'Stability',priority:'Medium',notes:'Niacinamide 5% + tranexamic 2% — stable at week 4. Begin full stability panel.'},
+      {name:'Client: Peptide Eye Cream',cat:'Face',status:'Concept',priority:'High',notes:'Matrixyl 3000 + caffeine, target viscosity 15,000 cps'},
+      {name:'Client: Vitamin C 15%',cat:'Face',status:'Benching',priority:'High',notes:'L-ascorbic acid, pH 3.2 target, need antioxidant stabilizer'},
+      {name:'Functional Adaptogen Tonic',cat:'Functional Beverage',status:'On Hold',priority:'Low',notes:'Ashwagandha + reishi — regulatory review pending'},
+    ],
+    packaging:[
+      {text:'Order dropper bottles McKernan eg-38470 and eg-46842',status:'inprog'},
+      {text:'Source 1oz airless pumps for serum SKUs',status:'todo'},
+      {text:'Review Container & Packaging quote for bulk order',status:'todo'},
+      {text:'Create packaging spec sheets for all active SKUs',status:'todo'},
+      {text:'Order GS1 UPC barcodes for retail products',status:'todo'},
+    ],
+    design:[
+      {text:'Build TCF brand asset library in Kive.ai',status:'inprog'},
+      {text:'Update website visual direction and photography',status:'todo'},
+      {text:'Create client-facing presentation templates',status:'todo'},
+      {text:'Photography: lab environment + product lifestyle',status:'todo'},
+    ],
+    website:[
+      {text:'Update TCF website with new facility address',status:'inprog'},
+      {text:'Add client services / formulation inquiry page',status:'todo'},
+      {text:'Write 2 blog posts — formulation education topics',status:'todo'},
+      {text:'Fix mobile responsiveness on shop page',status:'todo'},
+      {text:'Set up Google Analytics 4',status:'todo'},
+      {text:'Add Sip & Formulate landing page',status:'inprog'},
+    ],
+    marketing:[
+      {text:'Build press kit with full brand story',status:'inprog'},
+      {text:'Pitch to local media — Post & Courier, WCSC',status:'todo'},
+      {text:'Create email newsletter — monthly edition',status:'todo'},
+      {text:'Submit products for beauty editorial consideration',status:'todo'},
+    ],
+    tasks:[
+      {text:'Update business license with new facility address',status:'inprog'},
+      {text:'Submit cosmetology salon permit application',status:'inprog'},
+      {text:'Obtain Certificate of Occupancy',status:'todo'},
+      {text:'Notify all suppliers of new address',status:'todo'},
+      {text:'Fire marshal inspection and clearance',status:'todo'},
+      {text:'Health department pre-inspection walkthrough',status:'todo'},
+    ],
+    suppliers:[
+      {name:'Bulk Apothecary',type:'Raw Materials',contact:'sales@bulkapothecary.com'},
+      {name:'McKernan Packaging',type:'Packaging',contact:'mckernan.com'},
+      {name:'Making Cosmetics',type:'Ingredients',contact:'sales@makingcosmetics.com'},
+      {name:'Spectrum Chemical',type:'Specialty Chemicals',contact:'spectrumchemical.com'},
+      {name:'Wholesale Supplies Plus',type:'Raw Materials',contact:'wholesalesuppliesplus.com'},
+      {name:'Custom Essence',type:'Fragrance',contact:'customer.customessence.com'},
+      {name:'Container & Packaging',type:'Packaging',contact:'containerandpackaging.com'},
+      {name:'Knowde',type:'Ingredient Discovery',contact:'knowde.com'},
+    ],
+    photography:[
+      {text:'Lab environment — clinical and editorial shots',status:'todo'},
+      {text:'All active SKU product shots',status:'todo'},
+      {text:'Founder/Nicole brand story photography',status:'todo'},
+    ],
+    documents:[
+      {text:'GMP standard operating procedures (SOPs)',status:'inprog'},
+      {text:'Ingredient safety dossiers — all active SKUs',status:'todo'},
+      {text:'Client contract templates',status:'todo'},
+      {text:'Lab safety protocols',status:'todo'},
+      {text:'Certificate of Analysis archive',status:'inprog'},
+    ],
+    notes:'GMP lab, King Street retail + spa. Parent company for NÉVOO, Skin Axis, Daily Roux. Regulatory compliance is priority for Q2–Q3 2026.',
+    calendar:[],
+  },
+  dailyroux:{
+    id:'dailyroux',name:'Daily Roux',tagline:'Everyday hair wellness — accessible, clean, results-driven',
+    color:'#1A0C06',accent:'#C07040',
+    overview:"Daily Roux is a consumer-facing clean hair care brand positioned for everyday use. Accessible price point, clean formulas, approachable and vibrant branding. Focused on multicultural hair needs. Currently in early development — brand strategy and initial formula concepts in progress.",
+    formulas:[
+      {name:'Protein Treatment',cat:'Hair',status:'Concept',priority:'High',notes:'Hydrolyzed wheat protein + keratin — strengthening, for all textures'},
+      {name:'Leave-In Conditioner',cat:'Hair',status:'Concept',priority:'High',notes:'Lightweight, no-crunch, humidity-resistant formula'},
+      {name:'Edge Control',cat:'Hair',status:'Concept',priority:'Medium',notes:'Flaxseed gel + castor oil + beeswax base — firm hold'},
+      {name:'Moisture Retention Masque',cat:'Hair',status:'Concept',priority:'Medium',notes:'Deep conditioning — shea, avocado, panthenol'},
+    ],
+    packaging:[
+      {text:'Research cost-effective tube packaging for treatments',status:'todo'},
+      {text:'Define Daily Roux label look — bold, accessible aesthetic',status:'inprog'},
+      {text:'Get quotes for 500-unit MOQ packaging runs',status:'todo'},
+    ],
+    design:[
+      {text:'Develop Daily Roux brand name + logo',status:'inprog'},
+      {text:'Define visual identity — fun, vibrant, approachable',status:'todo'},
+      {text:'Create brand mood board',status:'todo'},
+      {text:'Design sample label for Leave-In',status:'todo'},
+    ],
+    website:[
+      {text:'Reserve dailyroux.com domain',status:'todo'},
+      {text:'Plan Shopify store structure',status:'todo'},
+      {text:'Create brand launch landing page',status:'todo'},
+    ],
+    marketing:[
+      {text:'Define target customer persona (multicultural hair)',status:'inprog'},
+      {text:'Research TikTok hair care community — hashtags, creators',status:'todo'},
+      {text:'Plan launch content strategy — TikTok first',status:'todo'},
+      {text:'Identify 10 micro-influencers in curl/natural hair space',status:'todo'},
+    ],
+    tasks:[
+      {text:'Complete brand positioning document',status:'inprog'},
+      {text:'Develop initial 3–4 SKUs',status:'inprog'},
+      {text:'Trademark search for "Daily Roux"',status:'todo'},
+      {text:'Market research — competitive landscape (SheaMoisture, Mielle, etc.)',status:'todo'},
+    ],
+    suppliers:[],
+    photography:[
+      {text:'Brand identity concept imagery',status:'todo'},
+      {text:'Model shoot — textured hair focus',status:'todo'},
+    ],
+    documents:[
+      {text:'Brand strategy document',status:'inprog'},
+      {text:'Competitive analysis',status:'todo'},
+    ],
+    notes:'Early stage. Brand-first approach before formulas are finalized. TikTok-native launch strategy. Accessible price point ($14–$28).',
+    calendar:[],
+  },
+  skinaxis:{
+    id:'skinaxis',name:'Skin Axis',tagline:'Evidence-based skincare — science-led, results-driven',
+    color:'#081A10',accent:'#2A6A50',
+    overview:"Skin Axis is Nicole's flagship skincare brand. Evidence-based formulations grounded in cosmetic chemistry. Targets the educated clean beauty consumer who wants clinical results without compromise. Active social presence built on ingredient education. DTC via website + King Street retail. Strongest existing brand identity of the portfolio.",
+    formulas:[
+      {name:'Ceramide Barrier Cream',cat:'Face',status:'Approved',priority:'High',notes:'3-ceramide complex (NP, AP, EOP) + squalane + cholesterol — moisture barrier focus'},
+      {name:'AHA Exfoliating Toner',cat:'Face',status:'Stability',priority:'High',notes:'10% glycolic acid, pH 3.8 — stability testing week 8'},
+      {name:'Niacinamide 10% Serum',cat:'Face',status:'Approved',priority:'Medium',notes:'10% niacinamide + 1% zinc PCA — pore-minimizing, brightening'},
+      {name:'Retinal Serum 0.05%',cat:'Face',status:'Benching',priority:'High',notes:'Retinaldehyde in squalane — testing encapsulated vs. free form'},
+      {name:'Vitamin C 15% Serum',cat:'Face',status:'Benching',priority:'High',notes:'L-ascorbic acid, pH 3.0, need antioxidant pairing to stabilize'},
+      {name:'SPF 50 Mineral Sunscreen',cat:'Face',status:'Concept',priority:'Medium',notes:'Zinc oxide 20% + titanium dioxide 5%, elegant skin finish'},
+    ],
+    packaging:[
+      {text:'Finalize airless pump for Ceramide Barrier Cream',status:'inprog'},
+      {text:'Order amber glass 1oz for Vitamin C Serum',status:'todo'},
+      {text:'Redesign Skin Axis label system for 2026',status:'inprog'},
+      {text:'Create mockup renders — all 5 active SKUs',status:'todo'},
+      {text:'Order 100-unit test run for Ceramide Cream',status:'todo'},
+    ],
+    design:[
+      {text:'Refresh Skin Axis visual identity — clean clinical aesthetic',status:'inprog'},
+      {text:'Create ingredient story carousel templates for IG',status:'todo'},
+      {text:'Design hero product photography sets / backdrops',status:'todo'},
+      {text:'Update product page design on Shopify',status:'todo'},
+      {text:'Create Reels cover templates for content series',status:'todo'},
+    ],
+    website:[
+      {text:'Update product descriptions with updated formulas',status:'inprog'},
+      {text:'Add ingredient glossary page',status:'todo'},
+      {text:'Improve product photography across all PDPs',status:'todo'},
+      {text:'Build skincare quiz / routine builder tool',status:'todo'},
+      {text:'Set up subscription / loyalty program',status:'todo'},
+    ],
+    marketing:[
+      {text:'Develop Q3 2026 content calendar',status:'inprog'},
+      {text:'Film hero product demo series (5 videos)',status:'todo'},
+      {text:'Launch ingredient story Reels series',status:'todo'},
+      {text:'Set up ambassador + affiliate program',status:'todo'},
+      {text:'Email welcome sequence for new subscribers (5 emails)',status:'todo'},
+      {text:'Collab pitch: 3 skincare educators / derms',status:'todo'},
+    ],
+    tasks:[
+      {text:'Complete stability testing for Retinal Serum 0.05%',status:'inprog'},
+      {text:'Full product photography shoot — all SKUs',status:'todo'},
+      {text:'Submit Ceramide Cream for claim substantiation',status:'todo'},
+      {text:'Launch Q3 product drop (2 new SKUs)',status:'todo'},
+    ],
+    suppliers:[
+      {name:'Bulk Apothecary',type:'Raw Materials',contact:'sales@bulkapothecary.com'},
+      {name:'Making Cosmetics',type:'Ingredients',contact:'—'},
+      {name:'Spectrum Chemical',type:'Specialty Chemicals',contact:'—'},
+      {name:'McKernan Packaging',type:'Packaging',contact:'—'},
+    ],
+    photography:[
+      {text:'Hero flat lay — all 5 active SKUs',status:'todo'},
+      {text:'Texture / ingredient macro shots',status:'todo'},
+      {text:'Lifestyle on-skin application shots',status:'todo'},
+      {text:'UGC-style video content for social',status:'todo'},
+    ],
+    documents:[
+      {text:'Product claims documentation',status:'inprog'},
+      {text:'Stability testing reports — all active SKUs',status:'todo'},
+      {text:'INCI labels and spec sheets',status:'inprog'},
+      {text:'Supplier COA archive',status:'todo'},
+    ],
+    notes:'Strongest brand in portfolio for immediate revenue. Q3 2026 priority: Retinal Serum launch + full photography refresh. Ingredient education is core brand voice.',
+    calendar:[],
+  },
+};
+
+let activeBrand = 'skinaxis';
+let activeBrandSection = 'overview';
+
+const BRAND_SECTIONS = ['overview','formulas','packaging','design','website','marketing','tasks','photography','suppliers','documents','ai'];
+const BRAND_SECTION_LABELS = {
+  overview:'Overview',formulas:'Products & Formulas',packaging:'Packaging',
+  design:'Design Assets',website:'Website',marketing:'Marketing',
+  tasks:'Open Tasks',photography:'Photography',suppliers:'Suppliers',
+  documents:'Documents',ai:'AI Assistant'
+};
+
+const FORMULA_STATUS_COLORS = {
+  Approved:'var(--green)',Benching:'var(--teal)',Stability:'var(--gold)',
+  Concept:'var(--text3)','On Hold':'var(--red)','Archived':'var(--text3)'
+};
+const PRIORITY_COLORS = {High:'var(--red)',Medium:'var(--amber)',Low:'var(--text3)'};
+
+function renderBrandHub(){
+  renderBrandSidebar();
+  renderBrandWorkspace();
+}
+
+function renderBrandSidebar(){
+  const el = document.getElementById('brandSidebar');
+  if(!el) return;
+  el.innerHTML = `<div class="brand-sidebar-hd">Brand Hub</div>` +
+    Object.values(BRANDS_CONFIG).map(b=>`
+      <button class="brand-sidebar-btn ${b.id===activeBrand?'active':''}" onclick="selectBrand('${b.id}')">
+        <div class="bsb-name">${b.name}</div>
+        <div class="bsb-tag">${b.tagline.split('—')[0].trim().replace(/&/g,'&amp;')}</div>
+      </button>`).join('');
+}
+
+function selectBrand(id){
+  activeBrand = id;
+  activeBrandSection = 'overview';
+  renderBrandHub();
+}
+
+function selectBrandSection(sec){
+  activeBrandSection = sec;
+  renderBrandWorkspace();
+}
+
+function renderBrandWorkspace(){
+  const brand = BRANDS_CONFIG[activeBrand];
+  const ws = document.getElementById('brandWorkspace');
+  if(!ws) return;
+  const tabs = BRAND_SECTIONS.map(s=>`<button class="bst ${s===activeBrandSection?'active':''}" onclick="selectBrandSection('${s}')">${BRAND_SECTION_LABELS[s]}</button>`).join('');
+  ws.innerHTML = `
+    <div class="brand-ws-header">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div class="brand-ws-icon" style="background:${brand.color};">${brand.name.charAt(0)}</div>
+        <div>
+          <div class="brand-ws-title">${brand.name}</div>
+          <div class="brand-ws-sub">${brand.tagline}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-sm btn-teal" onclick="openBrandAddTask()">+ Add Task</button>
+      </div>
+    </div>
+    <div class="brand-section-tabs">${tabs}</div>
+    <div id="bsc">${renderBrandSectionContent(brand, activeBrandSection)}</div>`;
+  // Re-render sidebar to keep brand selection highlighted
+  renderBrandSidebar();
+}
+
+function renderBrandSectionContent(brand, section){
+  switch(section){
+    case 'overview':    return renderBrandOverview(brand);
+    case 'formulas':    return renderBrandFormulas(brand);
+    case 'packaging':   return renderBrandChecklist(brand,'packaging','Packaging Tasks');
+    case 'design':      return renderBrandChecklist(brand,'design','Design & Creative Assets');
+    case 'website':     return renderBrandChecklist(brand,'website','Website Tasks');
+    case 'marketing':   return renderBrandChecklist(brand,'marketing','Marketing Tasks');
+    case 'tasks':       return renderBrandChecklist(brand,'tasks','Open Tasks');
+    case 'photography': return renderBrandChecklist(brand,'photography','Product Photography');
+    case 'suppliers':   return renderBrandSuppliers(brand);
+    case 'documents':   return renderBrandChecklist(brand,'documents','Documents & Reference Files');
+    case 'ai':          return renderBrandAI(brand);
+    default: return '';
+  }
+}
+
+function renderBrandOverview(brand){
+  const allTasks = ['packaging','design','website','marketing','tasks','photography','documents']
+    .flatMap(k=>(brand[k]||[]).map(t=>({...t,cat:k})));
+  const done = allTasks.filter(t=>t.status==='done').length;
+  const inprog = allTasks.filter(t=>t.status==='inprog').length;
+  const todo = allTasks.filter(t=>t.status==='todo').length;
+  const pct = allTasks.length ? Math.round(done/allTasks.length*100) : 0;
+  const formulaCount = (brand.formulas||[]).length;
+  const activeFormulas = (brand.formulas||[]).filter(f=>f.status==='Benching'||f.status==='Stability').length;
+  return `
+    <div class="brand-stat-row">
+      <div class="brand-stat"><div class="brand-stat-lbl">Total Tasks</div><div class="brand-stat-val">${allTasks.length}</div><div class="brand-stat-sub">${done} done · ${inprog} in progress</div></div>
+      <div class="brand-stat"><div class="brand-stat-lbl">Completion</div><div class="brand-stat-val">${pct}%</div><div class="prog mt16"><div class="prog-fill" style="width:${pct}%;background:var(--teal);"></div></div></div>
+      <div class="brand-stat"><div class="brand-stat-lbl">Formulas</div><div class="brand-stat-val">${formulaCount}</div><div class="brand-stat-sub">${activeFormulas} active bench / stability</div></div>
+      <div class="brand-stat"><div class="brand-stat-lbl">Open To-Do</div><div class="brand-stat-val" style="color:var(--gold2);">${todo}</div><div class="brand-stat-sub">awaiting action</div></div>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-head"><span class="card-title">Brand Overview</span></div>
+        <div class="card-body">
+          <p style="font-size:13px;line-height:1.8;color:var(--text2);">${brand.overview}</p>
+          ${brand.notes?`<div style="margin-top:14px;padding:12px 14px;background:var(--s3);border-radius:4px;border-left:3px solid var(--gold);font-size:11px;color:var(--text2);line-height:1.7;">${brand.notes}</div>`:''}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-title">In Progress Now</span></div>
+        <div style="padding:0 12px;">
+          ${allTasks.filter(t=>t.status==='inprog').slice(0,8).map(t=>`
+            <div class="btask-row">
+              <span class="btask-status" style="color:var(--teal);">In Progress</span>
+              <span style="flex:1;font-size:12px;">${t.text}</span>
+              <span style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;">${t.cat||''}</span>
+            </div>`).join('')}
+          ${allTasks.filter(t=>t.status==='inprog').length===0?'<div style="color:var(--text3);font-size:12px;padding:14px 0;">No tasks in progress.</div>':''}
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderBrandFormulas(brand){
+  const formulas = brand.formulas || [];
+  const bench = brand.benchSessions || [];
+  return `
+    <div class="card mb16">
+      <div class="card-head">
+        <span class="card-title">Formula Ledger</span>
+        <button class="btn btn-sm btn-teal" onclick="openBrandFormulaAdd('${brand.id}')">+ Add Formula</button>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="bft">
+          <thead><tr>
+            <th>Formula Name</th><th>Category</th><th>Status</th><th>Priority</th><th>Notes</th><th style="width:36px;"></th>
+          </tr></thead>
+          <tbody>
+            ${formulas.map((f,i)=>`
+              <tr>
+                <td style="font-weight:500;">${f.name}</td>
+                <td style="color:var(--text3);">${f.cat||'—'}</td>
+                <td><span style="font-size:10px;padding:2px 8px;border-radius:10px;background:var(--s3);color:${FORMULA_STATUS_COLORS[f.status]||'var(--text3)'};font-weight:600;">${f.status}</span></td>
+                <td><span style="font-size:10px;color:${PRIORITY_COLORS[f.priority]||'var(--text3)'};">${f.priority||'—'}</span></td>
+                <td style="font-size:11px;color:var(--text2);max-width:280px;">${f.notes||''}</td>
+                <td><span onclick="BRANDS_CONFIG['${brand.id}'].formulas.splice(${i},1);renderBrandWorkspace()" style="cursor:pointer;color:var(--text3);font-size:11px;">✕</span></td>
+              </tr>`).join('')}
+            ${formulas.length===0?'<tr><td colspan="6" style="color:var(--text3);padding:16px;text-align:center;">No formulas yet.</td></tr>':''}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">Bench Session Log</span>
+        <button class="btn btn-sm btn-teal" onclick="openBrandBenchAdd('${brand.id}')">+ Log Session</button>
+      </div>
+      <div id="benchBody_${brand.id}">
+        ${bench.length===0?'<div style="color:var(--text3);font-size:12px;padding:16px;">No bench sessions logged yet.</div>':''}
+        ${bench.map((s,i)=>`
+          <div style="padding:12px;border-bottom:1px solid var(--border);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:5px;">
+              <span style="font-weight:500;font-size:12px;">${s.formula}</span>
+              <span style="font-size:10px;color:var(--text3);">${s.date}</span>
+              <span style="font-size:10px;padding:2px 7px;border-radius:10px;background:var(--s3);color:var(--teal);">${s.status}</span>
+              <span onclick="BRANDS_CONFIG['${brand.id}'].benchSessions.splice(${i},1);renderBrandWorkspace()" style="cursor:pointer;color:var(--text3);font-size:11px;margin-left:auto;">✕</span>
+            </div>
+            <div style="font-size:11px;color:var(--text2);line-height:1.6;"><b>What I did:</b> ${s.notes}</div>
+            <div style="font-size:11px;color:var(--teal);margin-top:3px;"><b>Next step:</b> ${s.next}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function renderBrandChecklist(brand, key, title){
+  const arr = brand[key] || [];
+  const doneCount = arr.filter(t=>t.status==='done').length;
+  return `
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">${title}</span>
+        <span style="font-size:10px;color:var(--text3);">${doneCount}/${arr.length} done</span>
+      </div>
+      <div style="padding:0 12px;" id="bcl_${brand.id}_${key}">
+        ${arr.map((t,i)=>`
+          <div class="btask-row">
+            <span class="btask-status" onclick="cycleBrandTask('${brand.id}','${key}',${i})" style="color:${DEPT_STATUS_COLORS[t.status]||'var(--text3)'};">${DEPT_STATUS_LABELS[t.status]||t.status}</span>
+            <span style="flex:1;font-size:12px;${t.status==='done'?'text-decoration:line-through;color:var(--text3);':''}">${t.text}</span>
+            <span onclick="BRANDS_CONFIG['${brand.id}']['${key}'].splice(${i},1);selectBrandSection('${activeBrandSection}')" style="cursor:pointer;color:var(--text3);font-size:11px;padding:2px 4px;">✕</span>
+          </div>`).join('')}
+        ${arr.length===0?'<div style="color:var(--text3);font-size:12px;padding:14px 0;">No items yet.</div>':''}
+      </div>
+      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+        <input class="add-task-input" id="bci_${brand.id}_${key}" placeholder="Add item..." onkeydown="if(event.key==='Enter')addBrandTask('${brand.id}','${key}',this)">
+        <button class="btn btn-sm btn-teal" onclick="addBrandTask('${brand.id}','${key}',document.getElementById('bci_${brand.id}_${key}'))">Add</button>
+      </div>
+    </div>`;
+}
+
+function renderBrandSuppliers(brand){
+  const sups = brand.suppliers || [];
+  if(sups.length===0) return `
+    <div class="card">
+      <div class="card-head"><span class="card-title">Suppliers & Vendors</span>
+        <button class="btn btn-sm btn-teal" onclick="addBrandSupplier('${brand.id}')">+ Add Supplier</button>
+      </div>
+      <div class="card-body" style="color:var(--text3);">No suppliers added yet.</div>
+    </div>`;
+  return `
+    <div class="card">
+      <div class="card-head"><span class="card-title">Suppliers & Vendors</span>
+        <button class="btn btn-sm btn-teal" onclick="addBrandSupplier('${brand.id}')">+ Add Supplier</button>
+      </div>
+      <div style="padding:0 12px;">
+        <div style="display:grid;grid-template-columns:1fr 160px 1fr 40px;gap:8px;padding:8px 0;border-bottom:2px solid var(--border);">
+          <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);">Supplier</span>
+          <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);">Type</span>
+          <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);">Contact / URL</span>
+          <span></span>
+        </div>
+        ${sups.map((s,i)=>`
+          <div class="bsup-row">
+            <span style="font-weight:500;">${s.name}</span>
+            <span style="color:var(--text3);">${s.type}</span>
+            <span style="color:var(--teal);font-size:11px;">${s.contact}</span>
+            <span onclick="BRANDS_CONFIG['${brand.id}'].suppliers.splice(${i},1);selectBrandSection('suppliers')" style="cursor:pointer;color:var(--text3);">✕</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function renderBrandAI(brand){
+  const chatId = `ai_chat_${brand.id}`;
+  return `
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">AI Assistant — ${brand.name}</span>
+        <button class="btn btn-sm" onclick="clearBrandChat('${brand.id}')">Clear Chat</button>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <div class="ai-key-bar">
+          <span>Anthropic API Key:</span>
+          <input type="password" id="aiKeyInput_${brand.id}" placeholder="sk-ant-..." value="${localStorage.getItem('tcf_ai_key')||''}" onchange="localStorage.setItem('tcf_ai_key',this.value)">
+          <span style="color:var(--text3);font-size:10px;">Stored locally — never transmitted anywhere but Anthropic</span>
+        </div>
+        <div class="ai-chat-wrap">
+          <div class="ai-chat-msgs" id="${chatId}">
+            <div class="ai-msg sys">Ask me anything about ${brand.name} — tasks, formulas, strategy, or what to do next.</div>
+          </div>
+          <div class="ai-chat-foot">
+            <input type="text" id="aiInput_${brand.id}" placeholder="Ask about ${brand.name}..." onkeydown="if(event.key==='Enter')sendBrandAIMsg('${brand.id}')">
+            <button class="btn btn-teal" onclick="sendBrandAIMsg('${brand.id}')">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function cycleBrandTask(brandId, key, i){
+  const cycle=['todo','inprog','done'];
+  const arr = BRANDS_CONFIG[brandId][key];
+  arr[i].status = cycle[(cycle.indexOf(arr[i].status)+1)%cycle.length];
+  selectBrandSection(activeBrandSection);
+}
+
+function addBrandTask(brandId, key, inputEl){
+  const text = inputEl.value.trim();
+  if(!text) return;
+  if(!BRANDS_CONFIG[brandId][key]) BRANDS_CONFIG[brandId][key] = [];
+  BRANDS_CONFIG[brandId][key].push({text, status:'todo'});
+  inputEl.value = '';
+  selectBrandSection(activeBrandSection);
+}
+
+function addBrandSupplier(brandId){
+  const name = prompt('Supplier name:');
+  if(!name) return;
+  const type = prompt('Type (e.g. Raw Materials, Packaging):') || '';
+  const contact = prompt('Contact / URL:') || '—';
+  if(!BRANDS_CONFIG[brandId].suppliers) BRANDS_CONFIG[brandId].suppliers = [];
+  BRANDS_CONFIG[brandId].suppliers.push({name, type, contact});
+  selectBrandSection('suppliers');
+}
+
+function openBrandAddTask(){
+  const brand = BRANDS_CONFIG[activeBrand];
+  const cat = prompt(`Add task to which section?\n\n1 packaging\n2 design\n3 website\n4 marketing\n5 tasks\n6 photography\n7 documents\n\nType the section name:`);
+  if(!cat || !brand[cat]) { alert('Section not found. Try: packaging, design, website, marketing, tasks, photography, or documents'); return; }
+  const text = prompt('Task description:');
+  if(!text) return;
+  brand[cat].push({text, status:'todo'});
+  activeBrandSection = cat;
+  renderBrandWorkspace();
+}
+
+function openBrandFormulaAdd(brandId){
+  const name = prompt('Formula name:');
+  if(!name) return;
+  const status = prompt('Status (Concept/Benching/Stability/Approved/On Hold):') || 'Concept';
+  const priority = prompt('Priority (High/Medium/Low):') || 'Medium';
+  const cat = prompt('Category (Face/Body/Hair/etc.):') || '';
+  const notes = prompt('Notes:') || '';
+  BRANDS_CONFIG[brandId].formulas.push({name, cat, status, priority, notes});
+  renderBrandWorkspace();
+}
+
+function openBrandBenchAdd(brandId){
+  const formula = prompt('Formula name:');
+  if(!formula) return;
+  const notes = prompt('What I did today:') || '';
+  const next = prompt('Next step:') || '';
+  if(!BRANDS_CONFIG[brandId].benchSessions) BRANDS_CONFIG[brandId].benchSessions = [];
+  BRANDS_CONFIG[brandId].benchSessions.unshift({
+    formula, date: new Date().toISOString().slice(0,10), notes, next, status:'In Progress'
+  });
+  renderBrandWorkspace();
+}
+
+// Pre-populate bench sessions for existing brands
+BRANDS_CONFIG.tcf.benchSessions = [
+  {formula:'Barrier Repair Serum v2',date:'2026-05-30',notes:'Tested pH at 5.0 and 5.5 — 5.5 more stable with current emulsifier system.',next:'Re-test at 0.8% ceramide concentration, check viscosity.',status:'In Progress'},
+  {formula:'Brightening Mist',date:'2026-05-28',notes:'Niacinamide 5% + tranexamic acid 2% — stable at week 4 ambient.',next:'Begin 4-week accelerated stability panel at 45°C.',status:'Needs Review'},
+];
+BRANDS_CONFIG.skinaxis.benchSessions = [
+  {formula:'Retinal Serum 0.05%',date:'2026-05-29',notes:'Tested encapsulated retinaldehyde vs. free form — encapsulated shows better 48hr stability.',next:'Continue accelerated stability, test pH drift at week 2.',status:'In Progress'},
+  {formula:'Vitamin C 15% Serum',date:'2026-05-25',notes:'L-ascorbic acid at pH 3.0 — oxidizing faster than expected. Added 0.5% ferulic acid.',next:'Re-test color stability with ferulic + vitamin E combination.',status:'In Progress'},
+];
+
+// AI chat state
+const brandChatHistory = {};
+
+function getBrandSystemPrompt(brand){
+  const allTasks = ['packaging','design','website','marketing','tasks','photography','documents']
+    .flatMap(k=>(brand[k]||[]).map(t=>({...t,section:k})));
+  const urgent = allTasks.filter(t=>t.status==='todo').slice(0,10).map(t=>`- ${t.text} (${t.section})`).join('\n');
+  const inprog = allTasks.filter(t=>t.status==='inprog').map(t=>`- ${t.text} (${t.section})`).join('\n');
+  const formulas = (brand.formulas||[]).map(f=>`- ${f.name}: ${f.status}, ${f.priority} priority. ${f.notes}`).join('\n');
+  return `You are an expert brand operations assistant for ${brand.name}. You have full context on this brand.
+
+Brand overview: ${brand.overview}
+Notes: ${brand.notes||'None'}
+
+Active formulas:
+${formulas||'None'}
+
+In Progress:
+${inprog||'None'}
+
+Top open tasks:
+${urgent||'None'}
+
+You help Nicole (the founder) think through strategy, prioritize tasks, solve formulation challenges, plan marketing, and manage operations. Be specific, practical, and concise. Always reference the actual brand data above when answering.`;
+}
+
+async function sendBrandAIMsg(brandId){
+  const brand = BRANDS_CONFIG[brandId];
+  const input = document.getElementById(`aiInput_${brandId}`);
+  const chatEl = document.getElementById(`ai_chat_${brandId}`);
+  const apiKey = localStorage.getItem('tcf_ai_key') || document.getElementById(`aiKeyInput_${brandId}`)?.value;
+  const msg = input?.value?.trim();
+  if(!msg || !chatEl) return;
+  if(!apiKey){ chatEl.innerHTML += '<div class="ai-msg sys">Please enter your Anthropic API key above.</div>'; return; }
+  input.value = '';
+  chatEl.innerHTML += `<div class="ai-msg user">${msg.replace(/</g,'&lt;')}</div>`;
+  chatEl.innerHTML += `<div class="ai-msg bot" id="aiStream_${brandId}">Thinking...</div>`;
+  chatEl.scrollTop = chatEl.scrollHeight;
+  if(!brandChatHistory[brandId]) brandChatHistory[brandId] = [];
+  brandChatHistory[brandId].push({role:'user',content:msg});
+  try{
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':apiKey,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:800,
+        system:getBrandSystemPrompt(brand),
+        messages:brandChatHistory[brandId]
+      })
+    });
+    const data = await resp.json();
+    if(data.error){ throw new Error(data.error.message); }
+    const reply = data.content?.[0]?.text || 'No response.';
+    brandChatHistory[brandId].push({role:'assistant',content:reply});
+    const streamEl = document.getElementById(`aiStream_${brandId}`);
+    if(streamEl) streamEl.innerHTML = reply.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+    chatEl.scrollTop = chatEl.scrollHeight;
+  }catch(e){
+    const streamEl = document.getElementById(`aiStream_${brandId}`);
+    if(streamEl) streamEl.innerHTML = `<span style="color:var(--red);">Error: ${e.message}</span>`;
+  }
+}
+
+function clearBrandChat(brandId){
+  brandChatHistory[brandId] = [];
+  const chatEl = document.getElementById(`ai_chat_${brandId}`);
+  if(chatEl) chatEl.innerHTML = `<div class="ai-msg sys">Chat cleared. Ask me anything about ${BRANDS_CONFIG[brandId].name}.</div>`;
+}
+
+// ===================================================================
 // TOPBAR DATE
 // ===================================================================
 function updateDate(){
@@ -3048,10 +3655,7 @@ function initDashboard(){
   setGreeting();
   renderHomeActions();
   renderAreaCards();
-  renderLaunchCards();
-  renderDecisions();
-  renderFormulas();
-  renderBenchSessions();
+  renderBrandHub();
   buildCalGrid('calGrid',calYear,calMonth,S.calEvents,'calMonthLabel');
   renderContentList();
   renderProdPipeline();
