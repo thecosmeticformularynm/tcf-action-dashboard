@@ -774,6 +774,45 @@ a.link-teal:hover{text-decoration:underline;}
 .brand-stat-val{font-size:20px;font-weight:300;color:var(--text);}
 .brand-stat-sub{font-size:10px;color:var(--text3);margin-top:3px;}
 
+/* ===== CHARTS ===== */
+.chart-card{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:20px;position:relative;overflow:hidden;}
+.chart-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--chart-accent,linear-gradient(90deg,var(--teal),var(--teal2)));}
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:24px;}
+.chart-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.chart-hero-num{font-size:36px;font-weight:200;color:var(--text);letter-spacing:-1px;line-height:1;}
+.chart-hero-sub{font-size:11px;color:var(--text3);margin-top:4px;}
+.chart-inner{margin-top:16px;}
+/* Donut chart */
+.donut-wrap{display:flex;align-items:center;gap:20px;}
+.donut-legend{display:flex;flex-direction:column;gap:8px;flex:1;}
+.donut-leg-row{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text2);}
+.donut-leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.donut-leg-val{margin-left:auto;font-weight:600;font-size:12px;color:var(--text);}
+/* Bar chart */
+.bar-chart{display:flex;flex-direction:column;gap:10px;}
+.bar-row{display:grid;grid-template-columns:120px 1fr 40px;align-items:center;gap:10px;}
+.bar-label{font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-track{height:7px;background:var(--s3);border-radius:4px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;transition:width 1s cubic-bezier(0.4,0,0.2,1);}
+.bar-pct{font-size:10px;color:var(--text3);text-align:right;font-weight:500;}
+/* Ring progress */
+.ring-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px;}
+.ring-item{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.ring-label{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);text-align:center;}
+/* Stat mini row */
+.stat-mini-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+.stat-mini{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;flex:1;min-width:100px;}
+.stat-mini-val{font-size:22px;font-weight:200;color:var(--text);}
+.stat-mini-lbl{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-top:3px;}
+/* Ops section header */
+.ops-section{margin-top:28px;padding-top:24px;border-top:1px solid var(--border);}
+.ops-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.ops-section-title{font-size:13px;font-weight:600;color:var(--text);letter-spacing:-0.3px;}
+.ops-section-sub{font-size:10px;color:var(--text3);margin-top:2px;}
+body.dark .chart-card{background:var(--s1);}
+body.dark .bar-track{background:var(--s3);}
+body.dark .stat-mini{background:var(--s2);}
+
 /* ===== DARK MODE ===== */
 body.dark{
   --bg:#111111;--s1:#1C1C1C;--s2:#232323;--s3:#2B2B2B;--s4:#363636;
@@ -955,8 +994,6 @@ body.dark .dark-toggle::after{transform:translateX(16px);background:var(--gold);
     <div class="nav-tab" onclick="showTab('content')">Content</div>
     <div class="nav-tab" onclick="showTab('operations')">Operations</div>
     <div class="nav-tab" onclick="showTab('files')">Files</div>
-    <div class="nav-tab" onclick="showTab('facility')">Facility</div>
-    <div class="nav-tab" onclick="showTab('kingstreet')">King Street</div>
     <div class="nav-tab" onclick="showTab('events')">Events</div>
     <div class="nav-tab" onclick="showTab('social')">Social</div>
     <div class="nav-tab" onclick="showTab('sip')">Sip &amp; Formulate</div>
@@ -973,6 +1010,8 @@ body.dark .dark-toggle::after{transform:translateX(16px);background:var(--gold);
       <div id="searchResults" style="display:none;position:absolute;top:calc(100% + 6px);right:0;width:360px;background:#fff;border:1px solid var(--border);box-shadow:0 6px 24px rgba(42,20,8,0.12);z-index:500;max-height:400px;overflow-y:auto;"></div>
     </div>
     <span class="topbar-date" id="topDate"></span>
+    <span id="saveIndicator" style="font-size:9px;letter-spacing:1px;color:rgba(212,175,122,0.4);text-transform:uppercase;transition:opacity 0.5s;opacity:0;">Saved</span>
+    <button class="btn btn-sm" style="font-size:9px;padding:3px 10px;background:transparent;border-color:rgba(212,175,122,0.2);color:rgba(212,175,122,0.45);" onclick="resetData()" title="Reset all data to defaults">Reset</button>
     <div class="dark-toggle" id="darkToggle" onclick="toggleDarkMode()" title="Toggle dark mode"></div>
     <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">
       <div class="voice-dot"></div><span id="voiceBtnTxt">Voice</span>
@@ -1145,44 +1184,12 @@ body.dark .dark-toggle::after{transform:translateX(16px);background:var(--gold);
 <!-- ===================== OPERATIONS TAB ===================== -->
 <div class="panel" id="tab-operations">
 
-  <div class="g2 mb16">
-    <!-- EMAIL PANEL -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-title">Gmail — Recent Threads</span>
-        <span style="font-size:10px;color:var(--text3);">10 most recent</span>
-      </div>
-      <div style="padding:0;" id="emailPanel">
-        <!-- rendered by JS -->
-      </div>
-    </div>
-
-    <!-- TASKS PANEL -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-title"><span class="sync-dot"></span>Notion Tasks</span>
-        <button class="btn btn-sm btn-teal" onclick="openModal('taskModal')">+ Add Task</button>
-      </div>
-      <div style="padding:0;">
-        <div class="filter-bar" style="padding:10px 12px;margin:0;border-bottom:1px solid var(--border);gap:6px;">
-          <select id="tFilterBrand" style="font-size:10px;padding:4px 6px;" onchange="renderTasks()">
-            <option value="">All Brands</option>
-            <option>Skin Axis</option><option>TCF</option><option>Personal</option>
-          </select>
-          <select id="tFilterStatus" style="font-size:10px;padding:4px 6px;" onchange="renderTasks()">
-            <option value="">All</option>
-            <option value="todo">To Do</option>
-            <option value="inprog">In Progress</option>
-            <option value="done">Done</option>
-            <option value="urgent">Urgent</option>
-          </select>
-        </div>
-        <div id="tasksBody" style="max-height:360px;overflow-y:auto;"></div>
-      </div>
-    </div>
+  <!-- Charts row -->
+  <div class="chart-grid" id="opsChartGrid">
+    <!-- rendered by JS -->
   </div>
 
-  <!-- CONTACTS (full width now) -->
+  <!-- Contacts -->
   <div class="card">
     <div class="card-head">
       <span class="card-title">Key Contacts</span>
@@ -1195,19 +1202,101 @@ body.dark .dark-toggle::after{transform:translateX(16px);background:var(--gold);
       <div class="contact-row head" style="padding:10px 12px;">
         <span>Name</span><span>Company</span><span>Role</span><span>Last Contact</span><span>Notes</span><span></span>
       </div>
-      <div id="contactsBody" style="max-height:340px;overflow-y:auto;"></div>
+      <div id="contactsBody" style="max-height:280px;overflow-y:auto;"></div>
     </div>
   </div>
 
-  <!-- REMOTE WORK SPOTS -->
-  <div class="divider"></div>
-  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;">
-    <div>
-      <div class="section-label" style="margin:0;border:none;padding:0;">Remote Work Spots — Near North Charleston</div>
-      <div style="font-size:10px;color:var(--text3);margin-top:3px;">Twice-weekly remote sessions with strong WiFi. Click any card to open in Google Maps.</div>
+  <!-- Remote Work Spots -->
+  <div class="ops-section">
+    <div class="ops-section-head">
+      <div>
+        <div class="ops-section-title">Remote Work Spots</div>
+        <div class="ops-section-sub">Near North Charleston — click to open in Maps</div>
+      </div>
+    </div>
+    <div class="g3 mb16" id="remoteSpots"></div>
+  </div>
+
+  <!-- Facility & Compliance -->
+  <div class="ops-section" id="ops-facility-section">
+    <div class="ops-section-head">
+      <div>
+        <div class="ops-section-title">Facility &amp; Compliance</div>
+        <div class="ops-section-sub">New location setup, permits, regulatory requirements</div>
+      </div>
+      <button class="btn btn-sm btn-teal" onclick="document.querySelector('#ops-facility-section .add-task-input').focus()">+ Add Task</button>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-head"><span class="card-title">Move Out &amp; Immediate Setup</span></div>
+        <div id="facility-moveout" style="max-height:300px;overflow-y:auto;padding:0 12px;"></div>
+        <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+          <input class="add-task-input" placeholder="Add task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('facility-moveout','urgent',this)">
+          <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('facility-moveout','urgent',this.previousElementSibling)">Add</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-title">Permits &amp; Regulatory</span></div>
+        <div id="facility-permits" style="max-height:300px;overflow-y:auto;padding:0 12px;"></div>
+        <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+          <input class="add-task-input" placeholder="Add permit task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('facility-permits','todo',this)">
+          <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('facility-permits','todo',this.previousElementSibling)">Add</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-title">Space Setup</span></div>
+        <div id="facility-setup" style="max-height:300px;overflow-y:auto;padding:0 12px;"></div>
+        <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+          <input class="add-task-input" placeholder="Add setup task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('facility-setup','todo',this)">
+          <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('facility-setup','todo',this.previousElementSibling)">Add</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-title">Equipment</span></div>
+        <div id="facility-equip" style="max-height:300px;overflow-y:auto;padding:0 12px;"></div>
+        <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+          <input class="add-task-input" placeholder="Add equipment task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('facility-equip','todo',this)">
+          <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('facility-equip','todo',this.previousElementSibling)">Add</button>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="g3 mb16" id="remoteSpots"></div>
+
+  <!-- King Street -->
+  <div class="ops-section" id="ops-ks-section">
+    <div class="ops-section-head">
+      <div>
+        <div class="ops-section-title">King Street Retail &amp; Spa</div>
+        <div class="ops-section-sub">Retail build-out, Salt Spa integration, merchandising</div>
+      </div>
+    </div>
+    <div class="g3">
+      <div class="card">
+        <div class="card-head"><span class="card-title">Retail</span></div>
+        <div id="ks-retail" style="max-height:280px;overflow-y:auto;padding:0 12px;"></div>
+        <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+          <input class="add-task-input" placeholder="Add retail task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('ks-retail','todo',this)">
+          <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('ks-retail','todo',this.previousElementSibling)">Add</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-title">Salt Spa</span></div>
+        <div id="ks-spa" style="max-height:280px;overflow-y:auto;padding:0 12px;"></div>
+        <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+          <input class="add-task-input" placeholder="Add spa task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('ks-spa','todo',this)">
+          <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('ks-spa','todo',this.previousElementSibling)">Add</button>
+        </div>
+      </div>
+      <div class="card" style="grid-column:span 1;">
+        <div class="card-head"><span class="card-title">Merchandising</span></div>
+        <div id="ks-merch" style="max-height:280px;overflow-y:auto;padding:0 12px;"></div>
+        <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+          <input class="add-task-input" placeholder="Add merchandising task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('ks-merch','todo',this)">
+          <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('ks-merch','todo',this.previousElementSibling)">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
 
@@ -1254,88 +1343,6 @@ body.dark .dark-toggle::after{transform:translateX(16px);background:var(--gold);
   </div>
 
 </div>
-
-<!-- ===================== FACILITY TAB ===================== -->
-<div class="panel" id="tab-facility">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-    <div>
-      <div class="section-label" style="margin:0;border:none;padding:0;">Facility &amp; Compliance</div>
-      <div style="font-size:11px;color:var(--text3);margin-top:3px;">New location setup, permits, regulatory requirements</div>
-    </div>
-    <button class="btn btn-sm btn-teal" onclick="document.querySelector('#tab-facility .add-task-input').focus()">+ Add Task</button>
-  </div>
-  <div class="g2">
-    <div class="card">
-      <div class="card-head"><span class="card-title">Immediate — Move Out &amp; Setup</span></div>
-      <div id="facility-moveout" style="max-height:340px;overflow-y:auto;"></div>
-      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
-        <input class="add-task-input" placeholder="Add task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('facility-moveout','urgent',this)">
-        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('facility-moveout','urgent',this.previousElementSibling)">Add</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-head"><span class="card-title">Permits &amp; Compliance</span></div>
-      <div id="facility-permits" style="max-height:340px;overflow-y:auto;"></div>
-      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
-        <input class="add-task-input" placeholder="Add permit task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('facility-permits','todo',this)">
-        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('facility-permits','todo',this.previousElementSibling)">Add</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-head"><span class="card-title">New Facility Setup</span></div>
-      <div id="facility-setup" style="max-height:340px;overflow-y:auto;"></div>
-      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
-        <input class="add-task-input" placeholder="Add setup task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('facility-setup','todo',this)">
-        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('facility-setup','todo',this.previousElementSibling)">Add</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-head"><span class="card-title">Equipment &amp; Supplies</span></div>
-      <div id="facility-equip" style="max-height:340px;overflow-y:auto;"></div>
-      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
-        <input class="add-task-input" placeholder="Add equipment task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('facility-equip','todo',this)">
-        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('facility-equip','todo',this.previousElementSibling)">Add</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ===================== KING STREET TAB ===================== -->
-<div class="panel" id="tab-kingstreet">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-    <div>
-      <div class="section-label" style="margin:0;border:none;padding:0;">King Street Retail &amp; Spa</div>
-      <div style="font-size:11px;color:var(--text3);margin-top:3px;">Retail build-out, Salt Spa integration, merchandising</div>
-    </div>
-  </div>
-  <div class="g2">
-    <div class="card">
-      <div class="card-head"><span class="card-title">Retail Build-Out</span></div>
-      <div id="ks-retail" style="max-height:340px;overflow-y:auto;"></div>
-      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
-        <input class="add-task-input" placeholder="Add retail task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('ks-retail','todo',this)">
-        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('ks-retail','todo',this.previousElementSibling)">Add</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-head"><span class="card-title">Salt Spa Integration</span></div>
-      <div id="ks-spa" style="max-height:340px;overflow-y:auto;"></div>
-      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
-        <input class="add-task-input" placeholder="Add spa task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('ks-spa','todo',this)">
-        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('ks-spa','todo',this.previousElementSibling)">Add</button>
-      </div>
-    </div>
-    <div class="card" style="grid-column:span 2;">
-      <div class="card-head"><span class="card-title">Inventory &amp; Merchandising</span></div>
-      <div id="ks-merch" style="max-height:280px;overflow-y:auto;"></div>
-      <div style="padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;">
-        <input class="add-task-input" placeholder="Add merchandising task..." onkeydown="if(event.key==='Enter')addDeptTaskInput('ks-merch','todo',this)">
-        <button class="btn btn-sm btn-teal" onclick="addDeptTaskInput('ks-merch','todo',this.previousElementSibling)">Add</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 
 <!-- ===================== EVENTS TAB ===================== -->
 <div class="panel" id="tab-events">
@@ -1797,7 +1804,7 @@ Fragrance base: explore alcohol-free options for scent blending stations.</texta
 // ===================================================================
 // STATE
 // ===================================================================
-const S = {
+const S_RAW = {
   products: [
     { name:'Barrier Repair Serum', sub:'Face — Phase II', status:'Benching', formula:'https://docs.google.com', packaging:'In Progress', label:'Concept', photography:'Not Started', launch:'Q3 2026' },
     { name:'Brightening Mist', sub:'Face — Finishing Toner', status:'Stability', formula:'https://docs.google.com', packaging:'Ordered', label:'In Design', photography:'Not Started', launch:'Q3 2026' },
@@ -1898,6 +1905,30 @@ const S = {
   metrics: [],
 };
 
+// ===================================================================
+// PERSISTENCE — load S from localStorage, autosave every 3s
+// ===================================================================
+const S_DEFAULTS_STR = JSON.stringify(S_RAW);
+(function loadS(){
+  const stored = localStorage.getItem('tcf_s');
+  if(stored){ try{ const p=JSON.parse(stored); Object.assign(S_RAW,p); }catch(e){} }
+})();
+const S = S_RAW;
+function save(){
+  try{
+    localStorage.setItem('tcf_s',JSON.stringify(S));
+    const ind=document.getElementById('saveIndicator');
+    if(ind){ ind.style.opacity='1'; setTimeout(()=>{ ind.style.opacity='0'; },1200); }
+  }catch(e){}
+}
+function resetData(){
+  if(!confirm('Reset all data to defaults? This cannot be undone.')) return;
+  localStorage.removeItem('tcf_s');
+  location.reload();
+}
+setInterval(save, 3000);
+window.addEventListener('beforeunload', save);
+
 // Calendar state
 let calYear = new Date().getFullYear();
 let calMonth = new Date().getMonth();
@@ -1913,7 +1944,7 @@ function showTab(id) {
   document.getElementById('tab-'+id).classList.add('active');
   const tabLabels = {
     home:'Home',brandhub:'Brand Hub',content:'Content',operations:'Operations',
-    files:'Files',facility:'Facility',kingstreet:'King Street',events:'Events',
+    files:'Files',events:'Events',
     social:'Social',sip:'Sip',calendar:'Calendar',links:'Links',personal:'Personal'
   };
   document.querySelectorAll('.nav-tab').forEach(t=>{
@@ -1921,6 +1952,7 @@ function showTab(id) {
   });
   if(id==='calendar') buildMainCal();
   if(id==='personal') initPersonal();
+  if(id==='operations') renderOpsCharts();
 }
 
 // ===================================================================
@@ -2638,7 +2670,7 @@ function checkPw(){
 // ===================================================================
 // HOME TAB
 // ===================================================================
-const HOME_ACTIONS = [
+if(!S.homeActions) S.homeActions = [
   {text:'Complete Venture X move-out — final walkthrough, keys, and paperwork',pri:'crit',dept:'Facility',time:'Today',status:'todo'},
   {text:'Confirm LLC/EIN active + get Certificate of Occupancy',pri:'crit',dept:'Facility',time:'Day 1',status:'todo'},
   {text:'Get Product Liability Insurance — The Hartford account active',pri:'crit',dept:'Facility',time:'Day 1–3',status:'todo'},
@@ -2655,7 +2687,7 @@ function renderHomeActions(){
   const el=document.getElementById('homeActions');
   if(!el) return;
   el.innerHTML='';
-  HOME_ACTIONS.forEach((a,i)=>{
+  S.homeActions.forEach((a,i)=>{
     const row=document.createElement('div');
     row.className='action-row';row.dataset.s=a.status;
     const priTag=a.pri==='crit'
@@ -2675,14 +2707,14 @@ function renderHomeActions(){
 function cycleActionStatus(e,i){
   e.stopPropagation();
   const cycle=['todo','inprog','done'];
-  HOME_ACTIONS[i].status=cycle[(cycle.indexOf(HOME_ACTIONS[i].status)+1)%cycle.length];
+  S.homeActions[i].status=cycle[(cycle.indexOf(S.homeActions[i].status)+1)%cycle.length];
   renderHomeActions();
 }
 
 const AREAS=[
   {name:'Brand Hub',desc:'All 5 brands — formulas, design, tasks, AI',bg:'#2A1408',nav:'brandhub',prog:35,stats:'NÉVOO · Salt Spa · TCF · Daily Roux · Skin Axis'},
-  {name:'Facility &amp; Compliance',desc:'New location setup, permits, inspections',bg:'#2A1208',nav:'facility',prog:35,stats:'13 Critical &nbsp;|&nbsp; 52+ Checklist Items'},
-  {name:'King Street Retail &amp; Spa',desc:'Retail build-out, Salt Spa integration',bg:'#0A2A18',nav:'kingstreet',prog:20,stats:'18 To-Do &nbsp;|&nbsp; 2 In Progress'},
+  {name:'Facility &amp; Compliance',desc:'New location setup, permits, inspections',bg:'#2A1208',nav:'operations',prog:35,stats:'13 Critical &nbsp;|&nbsp; 52+ Checklist Items'},
+  {name:'King Street Retail &amp; Spa',desc:'Retail build-out, Salt Spa integration',bg:'#0A2A18',nav:'operations',prog:20,stats:'18 To-Do &nbsp;|&nbsp; 2 In Progress'},
   {name:'Sip &amp; Formulate',desc:'8-week mixer event launch timeline',bg:'#082820',nav:'sip',prog:25,stats:'6 Done &nbsp;|&nbsp; 8 In Progress &nbsp;|&nbsp; 22 To-Do'},
   {name:'Events &amp; PR',desc:'Press, partnerships, community events',bg:'#08101E',nav:'events',prog:15,stats:'4 In Progress &nbsp;|&nbsp; 10 To-Do'},
   {name:'Social &amp; Web',desc:'Content, social accounts, website',bg:'#101420',nav:'social',prog:30,stats:'8 To-Do'},
@@ -2720,7 +2752,7 @@ function setGreeting(){
 // ===================================================================
 // BENCH SESSIONS
 // ===================================================================
-S.benchSessions = [
+if(!S.benchSessions) S.benchSessions = [
   {formula:'Barrier Repair Serum v2',date:'2026-05-30',notes:'Tested pH at 5.0 and 5.5 — 5.5 preferred for skin feel. Ceramide concentration at 1% caused slight cloudiness at low temp.',next:'Re-test at 0.8% ceramide, check cold stability',status:'In Progress'},
   {formula:'Brightening Mist',date:'2026-05-28',notes:'Niacinamide 5% + tranexamic 2% stable at pH 6. Spray pattern good with 0.12mm nozzle.',next:'Begin stability panel — 4 weeks at 40°C',status:'Needs Review'},
 ];
@@ -2761,7 +2793,7 @@ function addBenchSession(){
 // ===================================================================
 // SOCIAL PRODUCTION PIPELINE
 // ===================================================================
-S.prodDays = [
+if(!S.prodDays) S.prodDays = [
   {date:'2026-06-03',type:'plan',items:['Plan June content calendar','Script Barrier Serum educational series','Outline Sip & Formulate teaser content'],notes:'Personal SM planning session — 11:30–12pm'},
   {date:'2026-06-05',type:'cam',items:['Barrier Serum demo reel (Instagram Reel + TikTok)','Lab coat GRWM — formulation day','Sip & Formulate behind the scenes teaser'],notes:'Shoot at new facility. Gold hour lighting 10am.'},
   {date:'2026-06-07',type:'edit',items:['Edit Barrier Serum demo reel','Add captions and B-roll to lab GRWM','Color grade Sip & Formulate teaser'],notes:'Export at 1080p for IG, 4K for YouTube archive'},
@@ -2823,6 +2855,80 @@ const REMOTE_SPOTS = [
   {name:'Indie Cowork',addr:'4975 Lacross Rd #120, North Charleston, SC 29406',hours:'Mon–Fri 8am–6pm',wifi:'Business-grade WiFi',tags:['Coworking','Private desks','Meeting rooms'],maps:'https://maps.google.com/?q=Indie+Cowork+North+Charleston+SC'},
   {name:'North Charleston Public Library',addr:'5284 Rivers Ave, North Charleston, SC 29406',hours:'Mon–Sat 9am–6pm',wifi:'Free WiFi',tags:['Free','Quiet','Study rooms'],maps:'https://maps.google.com/?q=North+Charleston+Public+Library'},
 ];
+
+function makeSVGDonut(segments, size, thick){
+  size=size||100; thick=thick||18;
+  const total=segments.reduce((s,x)=>s+x.val,0)||1;
+  const cx=size/2, cy=size/2, r=(size-thick)/2;
+  const circ=2*Math.PI*r;
+  let offset=0;
+  const slices=segments.map(seg=>{
+    const frac=seg.val/total;
+    const dash=frac*circ;
+    const sl=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${seg.color}" stroke-width="${thick}" stroke-dasharray="${dash.toFixed(2)} ${(circ-dash).toFixed(2)}" stroke-dashoffset="${(-offset*circ).toFixed(2)}" stroke-linecap="round" transform="rotate(-90 ${cx} ${cy})"/>`;
+    offset+=frac;
+    return sl;
+  });
+  return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" style="display:block;">${slices.join('')}</svg>`;
+}
+
+function renderOpsCharts(){
+  const el=document.getElementById('opsChartGrid');
+  if(!el) return;
+  let todo=0,inprog=0,done=0;
+  const areaData={};
+  let crit=0,urg=0,norm=0;
+  Object.entries(DEPT_DATA).forEach(([lid,arr])=>{
+    const area=lid.split('-')[0]==='facility'?'Facility':lid.split('-')[0]==='ks'?'King St':lid.split('-')[0]==='events'?'Events':lid.split('-')[0]==='social'?'Social':lid.split('-')[0]==='sip'?'Sip':'Other';
+    if(!areaData[area]) areaData[area]={done:0,total:0};
+    arr.forEach(t=>{
+      areaData[area].total++;
+      if(t.status==='done'){done++;areaData[area].done++;}
+      else if(t.status==='inprog') inprog++;
+      else todo++;
+      if(t.status!=='done'){if(t.pri==='crit')crit++;else if(t.pri==='urgent')urg++;else norm++;}
+    });
+  });
+  const total=todo+inprog+done||1;
+  const pct=Math.round(done/total*100);
+  const areaRows=Object.entries(areaData).map(([name,d])=>{
+    const p=d.total?Math.round(d.done/d.total*100):0;
+    return `<div class="bar-row"><div class="bar-label">${name}</div><div class="bar-track"><div class="bar-fill" style="width:${p}%;background:linear-gradient(90deg,var(--teal),var(--teal2));"></div></div><div class="bar-pct">${p}%</div></div>`;
+  }).join('');
+  const tot2=crit+urg+norm||1;
+  el.innerHTML=`
+    <div class="chart-card" style="--chart-accent:linear-gradient(90deg,var(--teal),var(--gold));">
+      <div class="chart-title">Task Completion</div>
+      <div class="chart-hero-num">${pct}<span style="font-size:16px;font-weight:400;color:var(--text3);">%</span></div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:16px;">${done} of ${total} tasks completed</div>
+      <div class="donut-wrap">
+        <div style="flex-shrink:0;">${makeSVGDonut([{val:done,color:'var(--teal)'},{val:inprog,color:'var(--gold)'},{val:todo,color:'var(--border2)'}],110,20)}</div>
+        <div class="donut-legend">
+          <div class="donut-leg-row"><div class="donut-leg-dot" style="background:var(--teal);"></div>Done<div class="donut-leg-val">${done}</div></div>
+          <div class="donut-leg-row"><div class="donut-leg-dot" style="background:var(--gold);"></div>In Progress<div class="donut-leg-val">${inprog}</div></div>
+          <div class="donut-leg-row"><div class="donut-leg-dot" style="background:var(--border2);"></div>To-Do<div class="donut-leg-val">${todo}</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-card" style="--chart-accent:linear-gradient(90deg,var(--gold),var(--teal));">
+      <div class="chart-title">Completion by Area</div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:16px;">% of tasks marked done per section</div>
+      <div class="bar-chart">${areaRows}</div>
+    </div>
+    <div class="chart-card" style="--chart-accent:linear-gradient(90deg,var(--red),var(--amber2));">
+      <div class="chart-title">Open Tasks by Priority</div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:12px;">${crit+urg+norm} open tasks remaining</div>
+      <div class="donut-wrap">
+        <div style="flex-shrink:0;">${makeSVGDonut([{val:crit,color:'var(--red)'},{val:urg,color:'var(--amber2)'},{val:norm,color:'var(--teal)'}],110,20)}</div>
+        <div class="donut-legend">
+          <div class="donut-leg-row"><div class="donut-leg-dot" style="background:var(--red);"></div>Critical<div class="donut-leg-val">${crit}</div></div>
+          <div class="donut-leg-row"><div class="donut-leg-dot" style="background:var(--amber2);"></div>Urgent<div class="donut-leg-val">${urg}</div></div>
+          <div class="donut-leg-row"><div class="donut-leg-dot" style="background:var(--teal);"></div>Normal<div class="donut-leg-val">${norm}</div></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
 
 function renderRemoteSpots(){
   const el=document.getElementById('remoteSpots');
@@ -3071,11 +3177,11 @@ const SEARCH_INDEX = [
   {label:'Content — Production Pipeline',tab:'content'},
   {label:'Operations — Tasks & Emails',tab:'operations'},
   {label:'Files — Documents',tab:'files'},
-  {label:'Facility & Compliance — Moveout',tab:'facility'},
-  {label:'Facility & Compliance — Permits',tab:'facility'},
-  {label:'Facility & Compliance — Setup',tab:'facility'},
-  {label:'King Street — Retail',tab:'kingstreet'},
-  {label:'King Street — Salt Spa',tab:'kingstreet'},
+  {label:'Facility & Compliance — Moveout',tab:'operations'},
+  {label:'Facility & Compliance — Permits',tab:'operations'},
+  {label:'Facility & Compliance — Setup',tab:'operations'},
+  {label:'King Street — Retail',tab:'operations'},
+  {label:'King Street — Salt Spa',tab:'operations'},
   {label:'Brands — NEVOO',tab:'brands'},
   {label:'Brands — Skin Axis',tab:'brands'},
   {label:'Brands — Rinse & Restore',tab:'brands'},
@@ -3096,7 +3202,7 @@ function runTopSearch(query){
   Object.entries(DEPT_DATA).forEach(([listId,arr])=>{
     arr.forEach((t,i)=>{
       if(t.text.toLowerCase().includes(q)){
-        results.push({label:t.text, sub:listId.replace('-',' › '), tab:listId.split('-')[0]==='facility'?'facility':listId.split('-')[0]==='ks'?'kingstreet':listId.split('-')[0]==='brand'?'brands':listId.split('-')[0]==='events'?'events':'social'});
+        results.push({label:t.text, sub:listId.replace('-',' › '), tab:listId.split('-')[0]==='facility'?'operations':listId.split('-')[0]==='ks'?'operations':listId.split('-')[0]==='brand'?'brands':listId.split('-')[0]==='events'?'events':'social'});
       }
     });
   });
@@ -3855,13 +3961,12 @@ function initDashboard(){
   buildCalGrid('calGrid',calYear,calMonth,S.calEvents,'calMonthLabel');
   renderContentList();
   renderProdPipeline();
-  renderEmails();
-  renderTasks();
   renderContacts();
   renderFiles();
   renderSipList('sipTaskList',S.sipTasks);
   renderSipList('sipEquipList',S.sipEquip);
   renderSipList('sipMktgList',S.sipMktg);
+  renderOpsCharts();
   renderRemoteSpots();
   renderLinks();
   buildMainCal();
@@ -4152,7 +4257,42 @@ function renderPHome(){
           </div>
         </div>`}
       </div>
+    </div>
+    ${(()=>{
+      // Personal charts — todo breakdown + habit completion
+      const cats=['Business','Urgent','Personal','Wellness'];
+      const catCounts=cats.map(c=>P.todos.filter(t=>t.cat===c&&!t.done).length);
+      const catColors=['var(--teal)','var(--red)','var(--gold)','var(--green)'];
+      const catTotal=catCounts.reduce((a,b)=>a+b,0)||1;
+      const todoPct=P.todos.length?Math.round(P.todos.filter(t=>t.done).length/P.todos.length*100):0;
+      const donutSegs=cats.map((c,i)=>({val:catCounts[i],color:catColors[i]}));
+      // habit bars this week
+      const dates=getWeekDates();
+      const habitBars=HABIT_KEYS.map((k,hi)=>{
+        const completedDays=dates.filter(d=>(P.habits[d]||{})[k]).length;
+        const pct=Math.round(completedDays/7*100);
+        return `<div class="bar-row"><div class="bar-label">${HABIT_NAMES[hi]}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${completedDays>=5?'var(--green)':completedDays>=3?'var(--gold)':'var(--red)'};"></div></div><div class="bar-pct">${completedDays}/7</div></div>`;
+      }).join('');
+      return `
+    <div class="chart-grid" style="margin-top:24px;">
+      <div class="chart-card" style="--chart-accent:linear-gradient(90deg,var(--teal),var(--gold));">
+        <div class="chart-title">To-Do Breakdown</div>
+        <div class="chart-hero-num">${todoPct}<span style="font-size:16px;font-weight:400;color:var(--text3);">%</span></div>
+        <div style="font-size:10px;color:var(--text3);margin-bottom:16px;">${P.todos.filter(t=>t.done).length} of ${P.todos.length} tasks done</div>
+        <div class="donut-wrap">
+          <div style="flex-shrink:0;">${makeSVGDonut(donutSegs,110,20)}</div>
+          <div class="donut-legend">
+            ${cats.map((c,i)=>`<div class="donut-leg-row"><div class="donut-leg-dot" style="background:${catColors[i]};"></div>${c}<div class="donut-leg-val">${catCounts[i]}</div></div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="chart-card" style="--chart-accent:linear-gradient(90deg,var(--green),var(--teal));">
+        <div class="chart-title">Weekly Habit Completion</div>
+        <div style="font-size:10px;color:var(--text3);margin-bottom:16px;">Days completed this week (out of 7)</div>
+        <div class="bar-chart">${habitBars}</div>
+      </div>
     </div>`;
+    })()}`;
 }
 
 function getTimeOfDay(){
