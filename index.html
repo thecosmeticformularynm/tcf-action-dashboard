@@ -979,6 +979,110 @@
 .ai-brain-task-add:hover { background: var(--blue); color: white; }
 .ai-brain-task-add.added { background: rgba(52,201,148,0.15); color: #34C994; }
 
+/* SETTINGS CARD */
+.settings-card {
+  background: linear-gradient(135deg,rgba(79,126,247,0.04),rgba(255,91,174,0.04));
+  border: 1px solid var(--border);
+}
+.settings-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.settings-row:last-child { border-bottom: none; }
+.settings-label {
+  font-size: 0.85rem; font-weight: 800; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  min-width: 120px; flex-shrink: 0;
+}
+.settings-input {
+  flex: 1; padding: 10px 16px; border-radius: 10px;
+  border: 1.5px solid var(--border); background: var(--input-bg);
+  font-family: inherit; font-size: 0.9rem; color: var(--text);
+  outline: none; transition: border-color 0.2s; min-width: 0;
+}
+.settings-input:focus { border-color: var(--pink); }
+.settings-save-btn {
+  padding: 10px 20px; border-radius: 999px; border: none;
+  background: linear-gradient(135deg,#FF5BAE,#c44dff);
+  color: white; font-family: inherit; font-size: 0.85rem;
+  font-weight: 800; cursor: pointer; flex-shrink: 0;
+  transition: all 0.15s;
+}
+.settings-save-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.settings-status {
+  font-size: 0.78rem; font-weight: 700; margin-top: 4px;
+  padding: 3px 10px; border-radius: 999px; display: inline-block;
+}
+.settings-status.connected { background: rgba(52,201,148,0.15); color: #34C994; }
+.settings-status.missing { background: rgba(255,91,174,0.1); color: var(--pink); }
+.settings-toggle {
+  font-size: 0.8rem; font-weight: 700; color: var(--muted);
+  cursor: pointer; text-decoration: underline; white-space: nowrap;
+}
+
+/* END OF DAY SUMMARY PANEL */
+.eod-panel {
+  background: linear-gradient(160deg,rgba(255,91,174,0.07),rgba(79,126,247,0.07));
+  border: 1.5px solid rgba(255,91,174,0.2);
+  border-radius: 20px; padding: 22px;
+  position: sticky; top: 100px;
+}
+.eod-panel-title {
+  font-size: 1rem; font-weight: 900; margin-bottom: 4px;
+  background: linear-gradient(135deg,#FF5BAE,#4F7EF7);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.eod-time-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 999px;
+  background: rgba(79,126,247,0.1); color: var(--blue);
+  font-size: 0.75rem; font-weight: 800; margin-bottom: 14px;
+}
+.eod-content {
+  font-size: 0.88rem; font-weight: 600; line-height: 1.75;
+  color: var(--text); white-space: pre-wrap;
+}
+.eod-empty {
+  font-size: 0.85rem; color: var(--muted); font-weight: 600;
+  font-style: italic; line-height: 1.6;
+}
+.eod-completed-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+  font-size: 0.85rem; font-weight: 600;
+}
+.eod-completed-item:last-child { border-bottom: none; }
+.eod-check { color: #34C994; font-size: 0.9rem; flex-shrink: 0; margin-top: 2px; }
+.eod-section-label {
+  font-size: 0.72rem; font-weight: 900; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--muted); margin: 10px 0 4px;
+}
+.eod-refresh-btn {
+  margin-top: 14px; width: 100%; padding: 10px; border-radius: 999px;
+  border: 1.5px solid rgba(255,91,174,0.3);
+  background: transparent; color: var(--pink);
+  font-family: inherit; font-size: 0.85rem; font-weight: 800;
+  cursor: pointer; transition: all 0.2s;
+}
+.eod-refresh-btn:hover { background: rgba(255,91,174,0.08); }
+.eod-ai-recap {
+  margin-top: 12px; padding: 12px 14px; border-radius: 12px;
+  background: var(--card-bg); border: 1px solid var(--border);
+  font-size: 0.85rem; font-weight: 600; line-height: 1.7;
+  font-style: italic; color: var(--text);
+}
+
+/* HOME LAYOUT WITH SIDE PANEL */
+.home-with-side {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .home-with-side { grid-template-columns: 1fr; }
+  .eod-panel { position: static; }
+}
+
 /* DAILY SUMMARY */
 .summary-stats {
   display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
@@ -1067,131 +1171,132 @@
       </div>
     </div>
 
-    <!-- QUICK COMMAND PANEL -->
-    <div class="card quick-cmd-card" style="margin-bottom:24px;">
-      <div class="quick-cmd-header">
-        <div class="quick-cmd-icon">⚡</div>
+    <!-- CONNECTIONS SETTINGS CARD -->
+    <div class="card settings-card" id="settings-card" style="margin-bottom:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
         <div>
-          <div class="card-title" style="margin-bottom:2px;">Quick Update</div>
-          <div style="color:var(--muted);font-size:0.88rem;font-weight:600;">Type anything — add tasks, move things, set reminders, update your list</div>
+          <div class="card-title" style="margin-bottom:2px;">Connections</div>
+          <div style="color:var(--muted);font-size:0.85rem;font-weight:600;">Connect Claude + Notion so everything stays in sync</div>
         </div>
+        <span class="settings-toggle" onclick="toggleSettings()">Hide ▲</span>
       </div>
-      <div class="quick-cmd-chips" id="quick-cmd-chips">
-        <span class="quick-cmd-chip" onclick="quickCmdFill('Add to my list: ')">+ Add task</span>
-        <span class="quick-cmd-chip" onclick="quickCmdFill('Mark as done: ')">✓ Mark done</span>
-        <span class="quick-cmd-chip" onclick="quickCmdFill('I need to focus on ')">🎯 Focus</span>
-        <span class="quick-cmd-chip" onclick="quickCmdFill('Remind me to ')">⏰ Reminder</span>
-        <span class="quick-cmd-chip" onclick="quickCmdFill('Clear my list and start fresh with: ')">🗑️ Clear & reset</span>
-        <span class="quick-cmd-chip" onclick="quickCmdFill('What should I prioritize today for ')">💡 Prioritize</span>
+      <div id="settings-body">
+        <!-- Claude / Anthropic Key -->
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Claude API Key</div>
+            <div id="claude-key-status" class="settings-status missing">Not connected</div>
+          </div>
+          <input type="password" id="claude-key-input" class="settings-input"
+            placeholder="sk-ant-api03-..."
+            oninput="this.dataset.changed='1'">
+          <button class="settings-save-btn" onclick="saveClaudeKey()">Save</button>
+        </div>
+        <div style="padding:8px 0 4px;font-size:0.8rem;color:var(--muted);font-weight:600;line-height:1.6;">
+          Get your key → <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:var(--pink);font-weight:800;">console.anthropic.com</a> → API Keys → Create Key. Add $5 credit at <a href="https://console.anthropic.com/settings/billing" target="_blank" style="color:var(--pink);font-weight:800;">billing</a>.
+        </div>
+
+        <!-- Notion Token -->
+        <div class="settings-row" style="margin-top:8px;">
+          <div>
+            <div class="settings-label">Notion Token</div>
+            <div id="notion-key-status" class="settings-status missing">Not connected</div>
+          </div>
+          <input type="password" id="notion-token-input-main" class="settings-input"
+            placeholder="secret_xxxx..."
+            oninput="this.dataset.changed='1'">
+          <button class="settings-save-btn" onclick="saveNotionTokenMain()">Save</button>
+        </div>
+        <div style="padding:8px 0 4px;font-size:0.8rem;color:var(--muted);font-weight:600;line-height:1.6;">
+          Get your token → <a href="https://www.notion.so/profile/integrations" target="_blank" style="color:var(--blue);font-weight:800;">notion.so/profile/integrations</a> → New integration → copy token. Then open your <strong>NICOLES WORLD</strong> Notion page → ··· menu → Connections → add your integration.
+        </div>
+
+        <!-- Notion Sync -->
+        <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <button onclick="syncNotion()" id="notion-sync-btn" style="padding:10px 22px;border-radius:999px;border:none;background:linear-gradient(135deg,#1A1A2E,#4F7EF7);color:white;font-family:inherit;font-size:0.9rem;font-weight:800;cursor:pointer;transition:all 0.2s;">Sync Notion Now</button>
+          <span id="notion-status-text" style="font-size:0.85rem;color:var(--muted);font-weight:600;"></span>
+        </div>
+        <div id="notion-tasks-list" style="margin-top:12px;"></div>
       </div>
-      <textarea id="quick-cmd-input" class="quick-cmd-input"
-        placeholder="e.g. &quot;Add finalize NEVOO formula to my list&quot; or &quot;Mark TCF website as done&quot; or &quot;What should I focus on today?&quot;"
-        onkeydown="if(event.key==='Enter'&&event.metaKey){runQuickCommand();}"></textarea>
-      <div class="quick-cmd-actions">
-        <button class="quick-cmd-btn quick-cmd-btn-primary" onclick="runQuickCommand()">Run ⌘↵</button>
-        <button class="quick-cmd-btn quick-cmd-btn-secondary" onclick="document.getElementById('quick-cmd-input').value=''">Clear</button>
-      </div>
-      <div class="quick-cmd-feedback" id="quick-cmd-feedback">Done! ✓</div>
     </div>
 
-    <!-- AI DAILY BRAIN -->
-    <div class="card ai-brain-card" id="ai-brain-card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px;">
-        <div>
-          <div class="card-title" style="margin-bottom:4px;">Your Thinking Machine</div>
-          <div style="color:var(--muted);font-size:0.9rem;font-weight:600;">Claude reads your Drive, Notion, Google Calendar, and all your tasks — then builds your day.</div>
+    <!-- MAIN HOME LAYOUT WITH SIDE EOD PANEL -->
+    <div class="home-with-side">
+
+      <!-- LEFT MAIN COLUMN -->
+      <div style="display:flex;flex-direction:column;gap:24px;">
+
+        <!-- AI DAILY BRAIN -->
+        <div class="card ai-brain-card" id="ai-brain-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px;">
+            <div>
+              <div class="card-title" style="margin-bottom:4px;">Your Thinking Machine</div>
+              <div style="color:var(--muted);font-size:0.9rem;font-weight:600;">Claude reads your Drive, Notion, and all tasks — then builds your day.</div>
+            </div>
+            <button class="ai-gen-btn" id="ai-gen-btn" onclick="generateMyDay()">Generate My Day</button>
+          </div>
+          <div id="ai-brain-status" class="ai-brain-status hidden"></div>
+          <div id="ai-brain-result" class="ai-brain-result hidden"></div>
         </div>
-        <button class="ai-gen-btn" id="ai-gen-btn" onclick="generateMyDay()">Generate My Day</button>
-      </div>
-      <div id="ai-brain-status" class="ai-brain-status hidden"></div>
-      <div id="ai-brain-result" class="ai-brain-result hidden"></div>
-    </div>
 
-    <div class="home-grid">
-      <!-- Today's Focus -->
-      <div class="card">
-        <div class="card-title">Today's Focus</div>
-        <ul class="task-list" id="home-tasks"></ul>
-        <button class="add-btn" onclick="addTask('tcf_home_tasks','home-tasks')">＋ Add task</button>
-      </div>
-
-      <!-- Right column: donut + quick links -->
-      <div style="display:flex; flex-direction:column; gap:24px;">
-        <div class="card">
-          <div class="card-title">Progress</div>
-          <div class="donut-wrap">
-            <svg id="donut-svg" width="160" height="160" viewBox="0 0 160 160">
-              <circle cx="80" cy="80" r="60" fill="none" stroke="var(--border)" stroke-width="20"/>
-              <circle id="donut-arc" cx="80" cy="80" r="60" fill="none"
-                stroke="#FF5BAE" stroke-width="20"
-                stroke-dasharray="0 377"
-                stroke-linecap="round"
-                transform="rotate(-90 80 80)"/>
-              <text id="donut-center" x="80" y="74" text-anchor="middle"
-                font-family="Nunito" font-weight="900" font-size="28" fill="var(--text)">0/0</text>
-              <text id="donut-pct" x="80" y="96" text-anchor="middle"
-                font-family="Nunito" font-weight="700" font-size="13" fill="var(--muted)">tasks done</text>
-            </svg>
+        <!-- Today's Focus + Progress -->
+        <div class="home-grid">
+          <div class="card">
+            <div class="card-title">Today's Focus</div>
+            <ul class="task-list" id="home-tasks"></ul>
+            <button class="add-btn" onclick="addTask('tcf_home_tasks','home-tasks')">＋ Add task</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:24px;">
+            <div class="card">
+              <div class="card-title">Progress</div>
+              <div class="donut-wrap">
+                <svg id="donut-svg" width="160" height="160" viewBox="0 0 160 160">
+                  <circle cx="80" cy="80" r="60" fill="none" stroke="var(--border)" stroke-width="20"/>
+                  <circle id="donut-arc" cx="80" cy="80" r="60" fill="none"
+                    stroke="#FF5BAE" stroke-width="20"
+                    stroke-dasharray="0 377" stroke-linecap="round"
+                    transform="rotate(-90 80 80)"/>
+                  <text id="donut-center" x="80" y="74" text-anchor="middle"
+                    font-family="Nunito" font-weight="900" font-size="28" fill="var(--text)">0/0</text>
+                  <text id="donut-pct" x="80" y="96" text-anchor="middle"
+                    font-family="Nunito" font-weight="700" font-size="13" fill="var(--muted)">tasks done</text>
+                </svg>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">Quick Links</div>
+              <div class="pill-row">
+                <a href="https://notion.so" target="_blank" class="pill pill-purple">📝 Notion</a>
+                <a href="https://canva.com" target="_blank" class="pill pill-pink">🎨 Canva</a>
+                <a href="https://shopify.com" target="_blank" class="pill pill-green">🛍️ Shopify</a>
+                <a href="https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG" target="_blank" class="pill pill-blue">📁 Drive</a>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-title">Quick Links</div>
-          <div class="pill-row">
-            <a href="https://github.com" target="_blank" class="pill pill-blue">🐙 GitHub</a>
-            <a href="https://notion.so" target="_blank" class="pill pill-purple">📝 Notion</a>
-            <a href="https://canva.com" target="_blank" class="pill pill-pink">🎨 Canva</a>
-            <a href="https://shopify.com" target="_blank" class="pill pill-green">🛍️ Shopify</a>
+        <!-- Bible Verse -->
+        <div class="bible-verse-card" id="bible-verse-card" onclick="rotateBibleVerse()">
+          <div class="bible-verse-text" id="bible-verse-text"></div>
+          <div class="bible-verse-ref" id="bible-verse-ref"></div>
+          <div class="bible-verse-hint">click to change verse</div>
+        </div>
+
+      </div><!-- end left column -->
+
+      <!-- RIGHT SIDE: END OF DAY SUMMARY -->
+      <div>
+        <div class="eod-panel" id="eod-panel">
+          <div class="eod-panel-title">End of Day Recap</div>
+          <div class="eod-time-badge" id="eod-time-badge">Updates at 4:00 PM daily</div>
+          <div id="eod-body">
+            <div class="eod-empty">Your daily wrap-up will appear here at 4 PM — a full list of everything you checked off across all tabs, plus a Claude recap of your day.</div>
           </div>
+          <button class="eod-refresh-btn" onclick="runEodSummary(true)">Generate Now ↻</button>
         </div>
       </div>
-    </div>
 
-    <!-- Bible Verse -->
-    <div class="bible-verse-card" id="bible-verse-card" onclick="rotateBibleVerse()">
-      <div class="bible-verse-text" id="bible-verse-text"></div>
-      <div class="bible-verse-ref" id="bible-verse-ref"></div>
-      <div class="bible-verse-hint">click to change verse</div>
-    </div>
-
-    <!-- DAILY SUMMARY -->
-    <div class="card" id="daily-summary-card" style="margin-top:24px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
-        <div class="card-title">Today's Summary</div>
-        <button onclick="generateDailySummary()" style="padding:8px 18px;border-radius:999px;border:1px solid var(--border);background:var(--pill-bg);font-family:inherit;font-size:0.85rem;font-weight:700;cursor:pointer;color:var(--text);transition:all 0.2s;" onmouseover="this.style.borderColor='var(--pink)'" onmouseout="this.style.borderColor='var(--border)'">Refresh Summary</button>
-      </div>
-      <div id="daily-summary-content">
-        <div class="summary-stats" id="summary-stats"></div>
-        <div id="summary-completed-list"></div>
-        <div id="summary-ai-text" class="summary-ai-text"></div>
-      </div>
-    </div>
-
-    <!-- NOTION SYNC -->
-    <div class="card" id="notion-sync-card" style="margin-top:0;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px;">
-        <div class="card-title">Notion Sync</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button onclick="syncNotion()" id="notion-sync-btn" style="padding:8px 18px;border-radius:999px;border:none;background:linear-gradient(135deg,#1A1A2E,#4F7EF7);color:white;font-family:inherit;font-size:0.85rem;font-weight:800;cursor:pointer;transition:all 0.2s;">Sync Now</button>
-          <button onclick="toggleNotionSetup()" style="padding:8px 18px;border-radius:999px;border:1px solid var(--border);background:var(--pill-bg);font-family:inherit;font-size:0.85rem;font-weight:700;cursor:pointer;color:var(--text);">Setup</button>
-        </div>
-      </div>
-      <div id="notion-setup-panel" style="display:none;background:var(--pill-bg);border-radius:14px;padding:16px;margin-bottom:14px;">
-        <p style="font-size:0.85rem;color:var(--muted);font-weight:600;margin-bottom:10px;">To connect Notion: go to notion.so/my-integrations → New integration → copy the token. Then share your "NICOLES WORLD" page with the integration.</p>
-        <div style="display:flex;gap:8px;margin-bottom:8px;">
-          <input id="notion-token-input" type="password" placeholder="secret_xxxx (Notion integration token)" style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:0.85rem;color:var(--text);outline:none;">
-          <button onclick="saveNotionToken()" style="padding:10px 18px;border-radius:999px;border:none;background:var(--pink);color:white;font-family:inherit;font-size:0.85rem;font-weight:700;cursor:pointer;">Save</button>
-        </div>
-        <div style="display:flex;gap:8px;">
-          <input id="notion-page-input" type="text" placeholder="Notion Page/DB ID (from page URL)" style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:0.85rem;color:var(--text);outline:none;" value="3375956898b5806fa77ff52b67ed706f">
-          <button onclick="saveNotionPage()" style="padding:10px 18px;border-radius:999px;border:none;background:var(--blue);color:white;font-family:inherit;font-size:0.85rem;font-weight:700;cursor:pointer;">Save</button>
-        </div>
-      </div>
-      <div id="notion-sync-status" style="font-size:0.9rem;color:var(--muted);font-weight:600;">
-        <span id="notion-status-text">Not connected — set up your integration token above.</span>
-      </div>
-      <div id="notion-tasks-list" style="margin-top:12px;"></div>
-    </div>
+    </div><!-- end home-with-side -->
 
   </div><!-- end home -->
 
@@ -2989,6 +3094,8 @@ function initApp() {
   renderTasks('tcf_beauty', 'beauty-tasks');
   // Daily summary
   generateDailySummary();
+  // Settings UI
+  initSettings();
 }
 
 // ============================================================
@@ -3607,11 +3714,157 @@ function applyQuickCmdFallback(cmd) {
 
 function showQuickFeedback(msg, isError, isLoading) {
   var el = document.getElementById('quick-cmd-feedback');
+  if (!el) return;
   el.textContent = msg;
   el.style.color = isError ? 'var(--pink)' : isLoading ? 'var(--muted)' : '#34C994';
   el.classList.add('visible');
   if (!isLoading) setTimeout(function(){ el.classList.remove('visible'); }, 3000);
 }
+
+/* ============================================================
+   SETTINGS — Claude key + Notion token
+   ============================================================ */
+function initSettings() {
+  var claudeKey = getClaudeKey();
+  var notionToken = localStorage.getItem('tcf_notion_token') || '';
+  var claudeStatus = document.getElementById('claude-key-status');
+  var notionStatus = document.getElementById('notion-key-status');
+  if (claudeKey && claudeStatus) {
+    claudeStatus.textContent = 'Connected ✓';
+    claudeStatus.className = 'settings-status connected';
+    var inp = document.getElementById('claude-key-input');
+    if (inp) inp.placeholder = 'sk-ant-... (saved)';
+  }
+  if (notionToken && notionStatus) {
+    notionStatus.textContent = 'Connected ✓';
+    notionStatus.className = 'settings-status connected';
+    var ni = document.getElementById('notion-token-input-main');
+    if (ni) ni.placeholder = 'secret_... (saved)';
+  }
+}
+
+function saveClaudeKey() {
+  var val = document.getElementById('claude-key-input').value.trim();
+  if (!val) return;
+  localStorage.setItem('tcf_claude_key', val);
+  document.getElementById('claude-key-status').textContent = 'Connected ✓';
+  document.getElementById('claude-key-status').className = 'settings-status connected';
+  document.getElementById('claude-key-input').value = '';
+  document.getElementById('claude-key-input').placeholder = 'sk-ant-... (saved)';
+}
+
+function saveNotionTokenMain() {
+  var val = document.getElementById('notion-token-input-main').value.trim();
+  if (!val) return;
+  localStorage.setItem('tcf_notion_token', val);
+  document.getElementById('notion-key-status').textContent = 'Connected ✓';
+  document.getElementById('notion-key-status').className = 'settings-status connected';
+  document.getElementById('notion-token-input-main').value = '';
+  document.getElementById('notion-token-input-main').placeholder = 'secret_... (saved)';
+  document.getElementById('notion-status-text').textContent = 'Token saved — click Sync Notion Now';
+}
+
+function toggleSettings() {
+  var body = document.getElementById('settings-body');
+  var toggle = document.querySelector('.settings-toggle');
+  if (body.style.display === 'none') {
+    body.style.display = 'block';
+    toggle.textContent = 'Hide ▲';
+  } else {
+    body.style.display = 'none';
+    toggle.textContent = 'Show ▼';
+  }
+}
+
+/* ============================================================
+   END OF DAY SUMMARY — auto at 4pm, manual anytime
+   ============================================================ */
+function getAllCompletedItems() {
+  var sections = [
+    { name: 'Today\'s Focus', key: 'tcf_home_tasks' },
+    { name: 'TCF Brand', key: 'tcf_brand_tcf' },
+    { name: 'NEVOO Brand', key: 'tcf_brand_nevoo' },
+    { name: 'Rinse & Repeat', key: 'tcf_brand_dailyrou' },
+    { name: 'Skin Axis', key: 'tcf_brand_skinaxis' },
+    { name: 'Content & Social', key: 'tcf_tasks_content' },
+    { name: 'Operations', key: 'tcf_tasks_ops' },
+    { name: 'Personal', key: 'tcf_personal_todos' },
+  ];
+  var result = [];
+  sections.forEach(function(s) {
+    var tasks = lsGet(s.key, []);
+    var done = tasks.filter(function(t){ return t.done; });
+    if (done.length) result.push({ section: s.name, items: done.map(function(t){ return t.text; }) });
+  });
+  return result;
+}
+
+function runEodSummary(manual) {
+  var today = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  var badge = document.getElementById('eod-time-badge');
+  var body = document.getElementById('eod-body');
+  if (!body) return;
+
+  var completed = getAllCompletedItems();
+  var totalDone = completed.reduce(function(a,s){ return a + s.items.length; }, 0);
+
+  // Save that we ran today
+  if (manual || true) {
+    localStorage.setItem('tcf_eod_ran', new Date().toDateString());
+  }
+
+  // Build completed list HTML
+  if (totalDone === 0) {
+    body.innerHTML = '<div class="eod-empty">Nothing checked off yet today. Keep going — you\'ve got this! Check back at 4 PM for your full recap.</div>';
+    if (badge) badge.textContent = manual ? 'Updated just now' : 'Updates at 4:00 PM daily';
+    return;
+  }
+
+  var html = '<div style="margin-bottom:10px;font-size:0.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;">' + totalDone + ' things done today</div>';
+  completed.forEach(function(s) {
+    html += '<div class="eod-section-label">' + s.section + '</div>';
+    s.items.forEach(function(item) {
+      html += '<div class="eod-completed-item"><span class="eod-check">✓</span><span>' + item + '</span></div>';
+    });
+  });
+  body.innerHTML = html;
+
+  if (badge) badge.textContent = manual ? 'Updated ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) : 'Updated at 4:00 PM';
+
+  // AI recap if Claude key available
+  if (getClaudeKey()) {
+    var recapDiv = document.createElement('div');
+    recapDiv.className = 'eod-ai-recap';
+    recapDiv.textContent = 'Writing your recap...';
+    body.appendChild(recapDiv);
+
+    var completedStr = completed.map(function(s){
+      return s.section + ': ' + s.items.join(', ');
+    }).join('\n');
+
+    var prompt = 'Today is ' + today + '. Nicole completed:\n' + completedStr + '\n\nWrite a short (2-3 sentences), warm, specific end-of-day message that acknowledges what she actually accomplished today across her brands and celebrates the progress. Be personal to TCF, NEVOO, Skin Axis, Rinse & Repeat, and Sip & Formulate. Then add one encouraging line about tomorrow.';
+
+    callClaude(prompt, null, 180, null,
+      function(text){ recapDiv.textContent = text; },
+      function(){ recapDiv.remove(); }
+    );
+  }
+}
+
+function checkEodTime() {
+  var now = new Date();
+  var todayStr = now.toDateString();
+  var lastRan = localStorage.getItem('tcf_eod_ran');
+  // Trigger at 4pm (hour 16) if not yet run today
+  if (now.getHours() >= 16 && lastRan !== todayStr) {
+    runEodSummary(false);
+  }
+}
+
+// Check every minute if it's 4pm
+setInterval(checkEodTime, 60000);
+// Also run on load if already past 4pm today
+setTimeout(checkEodTime, 2000);
 </script>
 
 <!-- ASK AI BUTTON + PANEL -->
@@ -3623,11 +3876,7 @@ function showQuickFeedback(msg, isError, isLoading) {
     <button class="ask-ai-close" onclick="toggleAskAI()">×</button>
   </div>
   <div id="ask-ai-context-tag" class="ask-ai-context-tag">Home</div>
-  <div id="ask-ai-key-section" class="ask-ai-key-row" style="display:none;">
-    <span style="color:var(--muted);white-space:nowrap;">Anthropic Key:</span>
-    <input type="password" id="ask-ai-key-input" class="ask-ai-key-input" placeholder="sk-ant-...">
-    <button class="ask-ai-key-save" onclick="saveAIKey()">Save</button>
-  </div>
+  <div id="ask-ai-key-section" style="display:none;"></div>
   <div class="ask-ai-input-row">
     <input type="text" id="ask-ai-input" class="ask-ai-input"
       placeholder="What should I focus on today? What should I post?"
