@@ -1053,7 +1053,7 @@
       <div class="big-search-inner">
         <span class="big-search-icon">✦</span>
         <input type="text" id="big-search-input" class="big-search-input"
-          placeholder="Ask me anything — business, formulas, strategy, ideas..."
+          placeholder="Ask Claude anything — your brands, formulas, strategy, what to do next..."
           onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();bigSearch();}">
         <button class="big-search-btn" id="big-search-btn" onclick="bigSearch()">Ask</button>
       </div>
@@ -1099,7 +1099,7 @@
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px;">
         <div>
           <div class="card-title" style="margin-bottom:4px;">Your Thinking Machine</div>
-          <div style="color:var(--muted);font-size:0.9rem;font-weight:600;">I read your Drive, your tasks, and what you did yesterday — then build your day.</div>
+          <div style="color:var(--muted);font-size:0.9rem;font-weight:600;">Claude reads your Drive, Notion, Google Calendar, and all your tasks — then builds your day.</div>
         </div>
         <button class="ai-gen-btn" id="ai-gen-btn" onclick="generateMyDay()">Generate My Day</button>
       </div>
@@ -3002,7 +3002,7 @@ function toggleAskAI() {
   panel.classList.toggle('open', aiPanelOpen);
   if (aiPanelOpen) {
     updateAIContext();
-    var key = localStorage.getItem('tcf_openai_key');
+    var key = getClaudeKey();
     document.getElementById('ask-ai-key-section').style.display = key ? 'none' : 'flex';
     setTimeout(function(){ document.getElementById('ask-ai-input').focus(); }, 350);
   }
@@ -3011,7 +3011,7 @@ function toggleAskAI() {
 function saveAIKey() {
   var val = document.getElementById('ask-ai-key-input').value.trim();
   if (val) {
-    localStorage.setItem('tcf_openai_key', val);
+    localStorage.setItem('tcf_claude_key', val);
     document.getElementById('ask-ai-key-section').style.display = 'none';
   }
 }
@@ -3067,11 +3067,87 @@ function getActiveTaskKey() {
   return map[tabName] || { key: 'tcf_home_tasks', id: 'home-tasks' };
 }
 
+/* ============================================================
+   CLAUDE API — single shared call function
+   ============================================================ */
+function getClaudeKey() { return localStorage.getItem('tcf_claude_key') || ''; }
+
+function buildSourceOfTruth(extra) {
+  var taskCtx = getAllTasksContext();
+  var notionToken = localStorage.getItem('tcf_notion_token') ? '(connected)' : '(not yet connected)';
+  return 'You are Claude, Nicole\'s personal AI business partner and thinking machine for The Cosmetic Formulary.\n\n' +
+    '=== NICOLE\'S WORLD — SOURCE OF TRUTH ===\n\n' +
+    'OWNER: Nicole M. — co-founder, The Cosmetic Formulary (TCF)\n' +
+    'TEAM: Pauly (operations/packaging/logistics)\n' +
+    'LOCATION: King Street, New Mexico\n\n' +
+    'BRANDS:\n' +
+    '• TCF (The Cosmetic Formulary) — flagship luxury brand. FDA registration in progress. Logo/labels in progress. First products launching soon.\n' +
+    '• NEVOO — wellness brand. Formulation files in Drive. Brand identity being built.\n' +
+    '• Skin Axis — clinical skincare. Deciding packaging + product type. Has an acne tea line. Cleanser pitch ready.\n' +
+    '• Rinse & Repeat — haircare. Catalog and packaging ready.\n' +
+    '• Sip & Formulate — experiences/events brand at King Street. Classes for customers to formulate their own products. First class date not yet set.\n\n' +
+    'GOOGLE DRIVE FOLDERS (Nicole\'s World):\n' +
+    '• BRANDS: TCF, NEVOO, Skin Axis, RINSE AND REPEAT\n' +
+    '• FORMULATION: Formulation Tracker spreadsheet, NEVOO formulation files\n' +
+    '• TCF KING STREET: Sip & Formulate, retail, spa layout and ideas\n' +
+    '• EVENTS AND PR: influencer list, sorority outreach, vendor sheets, PR bags, items purchased\n' +
+    '• SOCIAL MEDIA: Instagram, TikTok, posts and prints\n' +
+    '• PRODUCT RESEARCH: best sellers research, cleanser pitch, acne tea\n' +
+    '• FACILITY: Compliance Checklist (FDA/OSHA/GMP), McKernan Packaging Spreadsheet\n' +
+    '• WEBSITE: website assets and updates\n' +
+    '• INTERIOR DESIGN: King Street space design\n\n' +
+    'NOTION STATUS: ' + notionToken + '\n\n' +
+    'KEY PRIORITIES RIGHT NOW:\n' +
+    '1. Set first Sip & Formulate class date\n' +
+    '2. Complete FDA facility registration\n' +
+    '3. McKernan packaging — get Pauly approval\n' +
+    '4. Make first Instagram post / video\n' +
+    '5. Order chairs + mixer for classes\n' +
+    '6. Hire social media person\n' +
+    '7. Connect with video editor\n' +
+    '8. Set up payment/booking system for classes\n' +
+    '9. Alibaba wall order\n\n' +
+    'PAULY\'S RESPONSIBILITIES:\n' +
+    'Facility compliance, packaging sourcing (McKernan), equipment orders, vendor relationships, FDA registration paperwork, King Street buildout logistics\n\n' +
+    'CURRENT TASK STATE (from dashboard):\n' + taskCtx + '\n\n' +
+    (extra ? 'ADDITIONAL CONTEXT:\n' + extra + '\n\n' : '') +
+    'Be direct, warm, and specific. You know Nicole\'s business deeply. When you suggest tasks, they should be actionable and relevant to her real priorities above.';
+}
+
+function callClaude(userMessage, systemExtra, maxTokens, temperature, onSuccess, onError) {
+  var key = getClaudeKey();
+  if (!key) {
+    onError('no_key');
+    return;
+  }
+  fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5',
+      max_tokens: maxTokens || 600,
+      system: buildSourceOfTruth(systemExtra),
+      messages: [{ role: 'user', content: userMessage }]
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    if (data.error) { onError(data.error.message); return; }
+    onSuccess(data.content[0].text.trim());
+  })
+  .catch(function(err){ onError(err.message || 'Connection error'); });
+}
+
 function sendAIQuestion() {
-  var apiKey = localStorage.getItem('tcf_openai_key');
-  if (!apiKey) {
+  var key = getClaudeKey();
+  if (!key) {
     document.getElementById('ask-ai-key-section').style.display = 'flex';
-    document.getElementById('ask-ai-results').innerHTML = '<div class="ask-ai-error">Please enter your OpenAI API key above to use Ask AI.</div>';
+    document.getElementById('ask-ai-results').innerHTML = '<div class="ask-ai-error">Enter your Anthropic API key above to activate Claude.</div>';
     return;
   }
   var question = document.getElementById('ask-ai-input').value.trim();
@@ -3083,60 +3159,45 @@ function sendAIQuestion() {
   sendBtn.textContent = '...';
 
   var context = getAIContext();
-  var systemPrompt = 'You are a productivity assistant for Nicole, a cosmetic brand founder. Context: ' + context + '\n\nWhen answering, respond with ONLY a numbered list of 4-6 specific, actionable tasks or ideas. Each item should be on its own line starting with a number and period. Be specific and practical. No intro text, no conclusion, just the numbered list.';
+  var prompt = 'Nicole is asking about: ' + context + '\n\nHer question: ' + question + '\n\nRespond with ONLY a numbered list of 4-6 specific, actionable tasks or ideas (one per line, starting with number and period). No intro, no conclusion — just the list.';
 
-  fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + apiKey
+  callClaude(prompt, null, 400, null,
+    function(content) {
+      sendBtn.disabled = false;
+      sendBtn.textContent = 'Ask';
+      var lines = content.split('\n').map(function(l){ return l.replace(/^\d+\.\s*/,'').trim(); }).filter(function(l){ return l.length > 3; });
+      var taskInfo = getActiveTaskKey();
+      resultsEl.innerHTML = '';
+      lines.forEach(function(line, i) {
+        var div = document.createElement('div');
+        div.className = 'ask-ai-result-item';
+        div.innerHTML = '<div class="ask-ai-result-text">'+line+'</div>' +
+          '<button class="ask-ai-add-btn" id="ai-add-'+i+'">+ Add to list</button>';
+        div.querySelector('.ask-ai-add-btn').onclick = function() {
+          var tasks = lsGet(taskInfo.key, []);
+          tasks.push({ text: line, done: false });
+          lsSet(taskInfo.key, tasks);
+          renderTasks(taskInfo.key, taskInfo.id);
+          if (taskInfo.key === 'tcf_home_tasks') updateDonut();
+          var btn = document.getElementById('ai-add-'+i);
+          btn.textContent = 'Added!';
+          btn.classList.add('added');
+          btn.disabled = true;
+        };
+        resultsEl.appendChild(div);
+      });
     },
-    body: JSON.stringify({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: question }
-      ],
-      max_tokens: 400,
-      temperature: 0.7
-    })
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data) {
-    sendBtn.disabled = false;
-    sendBtn.textContent = 'Ask';
-    if (data.error) {
-      resultsEl.innerHTML = '<div class="ask-ai-error">Error: ' + data.error.message + '</div>';
-      return;
+    function(err) {
+      sendBtn.disabled = false;
+      sendBtn.textContent = 'Ask';
+      if (err === 'no_key') {
+        document.getElementById('ask-ai-key-section').style.display = 'flex';
+        resultsEl.innerHTML = '<div class="ask-ai-error">Enter your Anthropic API key above.</div>';
+      } else {
+        resultsEl.innerHTML = '<div class="ask-ai-error">Error: ' + err + '</div>';
+      }
     }
-    var content = data.choices[0].message.content.trim();
-    var lines = content.split('\n').map(function(l){ return l.replace(/^\d+\.\s*/,'').trim(); }).filter(function(l){ return l.length > 3; });
-    var taskInfo = getActiveTaskKey();
-    resultsEl.innerHTML = '';
-    lines.forEach(function(line, i) {
-      var div = document.createElement('div');
-      div.className = 'ask-ai-result-item';
-      div.innerHTML = '<div class="ask-ai-result-text">'+line+'</div>' +
-        '<button class="ask-ai-add-btn" id="ai-add-'+i+'">+ Add to list</button>';
-      div.querySelector('.ask-ai-add-btn').onclick = function() {
-        var tasks = lsGet(taskInfo.key, []);
-        tasks.push({ text: line, done: false });
-        lsSet(taskInfo.key, tasks);
-        renderTasks(taskInfo.key, taskInfo.id);
-        if (taskInfo.key === 'tcf_home_tasks') updateDonut();
-        var btn = document.getElementById('ai-add-'+i);
-        btn.textContent = 'Added!';
-        btn.classList.add('added');
-        btn.disabled = true;
-      };
-      resultsEl.appendChild(div);
-    });
-  })
-  .catch(function(err) {
-    sendBtn.disabled = false;
-    sendBtn.textContent = 'Ask';
-    resultsEl.innerHTML = '<div class="ask-ai-error">Connection error. Check your API key and try again.</div>';
-  });
+  );
 }
 
 // ============================================================
@@ -3165,89 +3226,57 @@ function getAllTasksContext() {
 }
 
 function generateMyDay() {
-  var apiKey = localStorage.getItem('tcf_openai_key');
-  if (!apiKey) {
-    toggleAskAI();
-    return;
-  }
+  var key = getClaudeKey();
+  if (!key) { toggleAskAI(); return; }
   var btn = document.getElementById('ai-gen-btn');
   var statusEl = document.getElementById('ai-brain-status');
   var resultEl = document.getElementById('ai-brain-result');
   btn.disabled = true;
   btn.textContent = 'Thinking...';
   statusEl.classList.remove('hidden');
-  statusEl.textContent = 'Reading your tasks and Drive context...';
+  statusEl.textContent = 'Reading your tasks, Drive, and Notion context...';
   resultEl.classList.add('hidden');
 
-  var taskContext = getAllTasksContext();
   var today = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  var prompt = 'Today is ' + today + '. Based on everything you know about Nicole\'s business, her Drive folders, her Notion tasks, and her current task state, give her TOP 6 most important tasks for today. Prioritize what moves the needle most — FDA registration, Sip & Formulate launch, brand tasks, social media, Pauly items.\n\nRespond ONLY as a JSON array with no other text:\n[{"task":"task text","priority":"high|medium|low","category":"category","reason":"one sentence why today"}]';
 
-  var systemPrompt = `You are Nicole's personal AI thinking machine and business partner. You know everything about her world:
-
-BRANDS: TCF (The Cosmetic Formulary) — main brand, FDA registration needed, logo/labels in progress. NEVOO — building brand identity, formulation in Drive. Skin Axis — deciding packaging + product type, has tea line. Rinse & Repeat — catalog/packaging ready. Sip & Formulate — King Street space for classes and events.
-
-DRIVE FOLDERS: BRANDS, FORMULATION (tracker + NEVOO), TCF KING STREET (sip & formulate/retail/spa), EVENTS AND PR (influencer/sorority/vendor contacts, PR bags), SOCIAL MEDIA (instagram/tiktok/posts), PRODUCT RESEARCH (best sellers, cleanser pitch, acne tea), FACILITY (compliance checklist — FDA/OSHA/GMP), WEBSITE, INTERIOR DESIGN.
-
-KEY PRIORITIES: First Sip & Formulate class date needs to be set. FDA facility registration must be completed. McKernan packaging needs Pauly approval. Instagram first post video needs to be made. Chairs/mixer for classes need to be ordered. Social media person needed. Video editor to connect with. Payment/booking system for classes. Alibaba wall order.
-
-Today is ${today}.
-
-CURRENT TASK STATE:
-${taskContext}
-
-Based on ALL of this, give Nicole her TOP 6 most important tasks for today. Prioritize what moves the needle most. Format as a JSON array ONLY with no other text:
-[{"task":"task text here","priority":"high|medium|low","category":"category name","reason":"one sentence why this is important today"}]`;
-
-  fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-    body: JSON.stringify({
-      model: 'gpt-4o-mini',
-      messages: [{ role: 'user', content: systemPrompt }],
-      max_tokens: 600, temperature: 0.6
-    })
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data) {
-    btn.disabled = false;
-    btn.textContent = 'Generate My Day';
-    statusEl.classList.add('hidden');
-    if (data.error) { statusEl.classList.remove('hidden'); statusEl.textContent = 'Error: ' + data.error.message; return; }
-    var raw = data.choices[0].message.content.trim();
-    var jsonMatch = raw.match(/\[[\s\S]*\]/);
-    if (!jsonMatch) { statusEl.classList.remove('hidden'); statusEl.textContent = 'Could not parse AI response. Try again.'; return; }
-    var tasks = JSON.parse(jsonMatch[0]);
-    var colors = { high: '#FF5BAE', medium: '#4F7EF7', low: '#34C994' };
-    resultEl.classList.remove('hidden');
-    resultEl.innerHTML = '<div style="font-weight:800;font-size:0.9rem;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.05em;">Your priorities for today — click to add</div>';
-    tasks.forEach(function(t, i) {
-      var div = document.createElement('div');
-      div.className = 'ai-brain-result-task';
-      div.innerHTML = '<div class="ai-brain-priority-dot" style="background:' + (colors[t.priority]||'#4F7EF7') + '"></div>' +
-        '<div class="ai-brain-task-text"><strong>' + t.task + '</strong><div style="font-size:0.8rem;color:var(--muted);margin-top:2px;">' + (t.reason||'') + '</div></div>' +
-        '<button class="ai-brain-task-add" id="brain-add-'+i+'">+ Add</button>';
-      div.querySelector('.ai-brain-task-add').onclick = function() {
-        var tasks2 = lsGet('tcf_home_tasks', []);
-        tasks2.push({ text: t.task, done: false, addedAt: Date.now() });
-        lsSet('tcf_home_tasks', tasks2);
-        renderTasks('tcf_home_tasks', 'home-tasks');
-        updateDonut();
-        var btn2 = document.getElementById('brain-add-'+i);
-        btn2.textContent = 'Added!';
-        btn2.classList.add('added');
-        btn2.disabled = true;
-      };
-      resultEl.appendChild(div);
-    });
-    lsSet('tcf_last_generated', new Date().toISOString());
-    generateDailySummary();
-  })
-  .catch(function(err) {
-    btn.disabled = false;
-    btn.textContent = 'Generate My Day';
-    statusEl.classList.remove('hidden');
-    statusEl.textContent = 'Connection error — check your API key.';
-  });
+  callClaude(prompt, null, 700, null,
+    function(raw) {
+      btn.disabled = false; btn.textContent = 'Generate My Day';
+      statusEl.classList.add('hidden');
+      var jsonMatch = raw.match(/\[[\s\S]*\]/);
+      if (!jsonMatch) { statusEl.classList.remove('hidden'); statusEl.textContent = 'Try again — response format issue.'; return; }
+      var tasks;
+      try { tasks = JSON.parse(jsonMatch[0]); } catch(e) { statusEl.classList.remove('hidden'); statusEl.textContent = 'Parse error. Try again.'; return; }
+      var colors = { high: '#FF5BAE', medium: '#4F7EF7', low: '#34C994' };
+      resultEl.classList.remove('hidden');
+      resultEl.innerHTML = '<div style="font-weight:800;font-size:0.9rem;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.05em;">Your priorities for today — click to add</div>';
+      tasks.forEach(function(t, i) {
+        var div = document.createElement('div');
+        div.className = 'ai-brain-result-task';
+        div.innerHTML = '<div class="ai-brain-priority-dot" style="background:' + (colors[t.priority]||'#4F7EF7') + '"></div>' +
+          '<div class="ai-brain-task-text"><strong>' + t.task + '</strong><div style="font-size:0.8rem;color:var(--muted);margin-top:2px;">' + (t.reason||'') + '</div></div>' +
+          '<button class="ai-brain-task-add" id="brain-add-'+i+'">+ Add</button>';
+        div.querySelector('.ai-brain-task-add').onclick = function() {
+          var tasks2 = lsGet('tcf_home_tasks', []);
+          tasks2.push({ text: t.task, done: false, addedAt: Date.now() });
+          lsSet('tcf_home_tasks', tasks2);
+          renderTasks('tcf_home_tasks', 'home-tasks');
+          updateDonut();
+          var btn2 = document.getElementById('brain-add-'+i);
+          btn2.textContent = 'Added!'; btn2.classList.add('added'); btn2.disabled = true;
+        };
+        resultEl.appendChild(div);
+      });
+      lsSet('tcf_last_generated', new Date().toISOString());
+      generateDailySummary();
+    },
+    function(err) {
+      btn.disabled = false; btn.textContent = 'Generate My Day';
+      statusEl.classList.remove('hidden');
+      statusEl.textContent = err === 'no_key' ? 'Add your Anthropic API key first.' : 'Error: ' + err;
+    }
+  );
 }
 
 // ============================================================
@@ -3291,28 +3320,16 @@ function generateDailySummary() {
     });
   }
 
-  // AI summary if key available
-  var apiKey = localStorage.getItem('tcf_openai_key');
-  if (!apiKey || totalDone === 0) {
-    aiTextEl.style.display = 'none';
-    return;
-  }
+  // AI summary via Claude
+  if (!getClaudeKey() || totalDone === 0) { aiTextEl.style.display = 'none'; return; }
   aiTextEl.style.display = 'block';
-  aiTextEl.textContent = 'Generating your daily recap...';
-
+  aiTextEl.textContent = 'Writing your daily recap...';
   var completedStr = completedItems.join(', ') || 'nothing yet';
-  var prompt = 'Nicole is a cosmetic brand founder (TCF, NEVOO, Skin Axis, Rinse & Repeat, Sip & Formulate). Today she completed: ' + completedStr + '. She still has ' + totalPending + ' tasks pending. Write a warm, motivating 2-3 sentence daily recap that acknowledges what she accomplished, and encourages her for tomorrow. Be personal and supportive, not generic.';
-
-  fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-    body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'user', content: prompt }], max_tokens: 150, temperature: 0.8 })
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data) {
-    if (data.choices) aiTextEl.textContent = data.choices[0].message.content.trim();
-  })
-  .catch(function(){ aiTextEl.style.display = 'none'; });
+  var prompt = 'Nicole completed these tasks today: ' + completedStr + '. She still has ' + totalPending + ' tasks pending. Write a warm, motivating 2-3 sentence daily recap that acknowledges what she accomplished and encourages her for tomorrow. Be personal, specific to her brands, and genuinely supportive — not generic.';
+  callClaude(prompt, null, 180, null,
+    function(text){ aiTextEl.textContent = text; },
+    function(){ aiTextEl.style.display = 'none'; }
+  );
 }
 
 // ============================================================
@@ -3434,72 +3451,43 @@ function bigSearch() {
   answerBox.classList.add('visible');
   btn.disabled = true;
 
-  var key = localStorage.getItem('tcf_openai_key') || '';
+  var key = getClaudeKey();
   if (!key) {
-    answerText.innerHTML = '<span style="color:var(--pink);font-weight:700;">Enter your OpenAI key in the Ask AI panel (bottom right) first, then I can answer anything.</span>';
+    answerText.innerHTML = '<span style="color:var(--pink);font-weight:700;">Add your Anthropic API key in the Ask AI panel (bottom right) to activate Claude.</span>';
     btn.disabled = false;
     return;
   }
 
-  var ctx = getAllTasksContext();
-  var systemPrompt = 'You are Nicole\'s personal AI assistant for The Cosmetic Formulary (TCF), a luxury cosmetic atelier based in New Mexico. You know her business deeply:\n\n' +
-    '- 4 brands: TCF (flagship), NEVOO (wellness), Skin Axis (clinical), Rinse & Repeat (haircare)\n' +
-    '- King Street location, Sip & Formulate events, private label formulation\n' +
-    '- Team member: Pauly\n' +
-    '- Current tasks context:\n' + ctx + '\n\n' +
-    'Answer Nicole\'s questions concisely and practically. If the question is about tasks, end your answer with a line that starts with "TASKS:" followed by comma-separated actionable to-do items she could add to her list.';
-
-  fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
-    body: JSON.stringify({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: q }
-      ],
-      max_tokens: 600,
-      temperature: 0.7
-    })
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data) {
-    btn.disabled = false;
-    if (data.error) {
-      answerText.innerHTML = '<span style="color:var(--pink);font-weight:700;">Error: ' + data.error.message + '</span>';
-      return;
+  var prompt = q + '\n\nIf your answer includes things Nicole could do, end with a line: TASKS: task1, task2, task3';
+  callClaude(prompt, null, 700, null,
+    function(full) {
+      btn.disabled = false;
+      var taskSplit = full.split(/\nTASKS:/i);
+      answerText.textContent = taskSplit[0];
+      if (taskSplit[1]) {
+        var taskItems = taskSplit[1].split(',').map(function(t){ return t.trim(); }).filter(Boolean);
+        addRow.innerHTML = '<span style="font-size:0.8rem;font-weight:700;color:var(--muted);margin-right:4px;align-self:center;">Add to list:</span>';
+        taskItems.forEach(function(t) {
+          var b = document.createElement('button');
+          b.className = 'big-search-add-task';
+          b.textContent = '+ ' + t;
+          b.onclick = function() {
+            var tasks = lsGet('tcf_home_tasks', []);
+            tasks.push({ text: t, done: false });
+            lsSet('tcf_home_tasks', tasks);
+            renderTasks('tcf_home_tasks', 'home-tasks');
+            updateDonut();
+            b.textContent = '✓ Added'; b.style.background = 'rgba(52,201,148,0.15)'; b.style.color = '#34C994'; b.disabled = true;
+          };
+          addRow.appendChild(b);
+        });
+      }
+    },
+    function(err) {
+      btn.disabled = false;
+      answerText.innerHTML = '<span style="color:var(--pink);font-weight:700;">' + err + '</span>';
     }
-    var full = data.choices[0].message.content.trim();
-    var taskSplit = full.split(/\nTASKS:/i);
-    var answer = taskSplit[0];
-    answerText.textContent = answer;
-
-    if (taskSplit[1]) {
-      var taskItems = taskSplit[1].split(',').map(function(t){ return t.trim(); }).filter(Boolean);
-      addRow.innerHTML = '<span style="font-size:0.8rem;font-weight:700;color:var(--muted);margin-right:4px;align-self:center;">Add to list:</span>';
-      taskItems.forEach(function(t) {
-        var b = document.createElement('button');
-        b.className = 'big-search-add-task';
-        b.textContent = '+ ' + t;
-        b.onclick = function() {
-          var tasks = lsGet('tcf_home_tasks', []);
-          tasks.push({ text: t, done: false });
-          lsSet('tcf_home_tasks', tasks);
-          renderTasks('tcf_home_tasks', 'home-tasks');
-          updateDonut();
-          b.textContent = '✓ Added';
-          b.style.background = 'rgba(52,201,148,0.15)';
-          b.style.color = '#34C994';
-          b.disabled = true;
-        };
-        addRow.appendChild(b);
-      });
-    }
-  })
-  .catch(function(err) {
-    btn.disabled = false;
-    answerText.innerHTML = '<span style="color:var(--pink);font-weight:700;">Connection error. Try again.</span>';
-  });
+  );
 }
 
 /* =============================================
@@ -3564,70 +3552,48 @@ function runQuickCommand() {
     return;
   }
 
-  // Everything else — use AI to interpret
-  var key = localStorage.getItem('tcf_openai_key') || '';
-  if (!key) {
-    // Fallback: just add whatever they typed as a task
-    var tasks = lsGet('tcf_home_tasks', []);
-    tasks.push({ text: cmd, done: false });
-    lsSet('tcf_home_tasks', tasks);
-    renderTasks('tcf_home_tasks', 'home-tasks');
-    updateDonut();
-    input.value = '';
+  // Everything else — use Claude to interpret
+  if (!getClaudeKey()) {
+    applyQuickCmdFallback(cmd);
     showQuickFeedback('Added to your list ✓');
     return;
   }
 
-  showQuickFeedback('Processing...', false, true);
+  showQuickFeedback('Claude is thinking...', false, true);
   var currentTasks = lsGet('tcf_home_tasks', []);
   var taskListText = currentTasks.map(function(t,i){ return (i+1)+'. ['+(t.done?'done':'pending')+'] '+t.text; }).join('\n') || 'Empty';
 
-  fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
-    body: JSON.stringify({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: 'You are a to-do list assistant for Nicole (The Cosmetic Formulary). Current task list:\n' + taskListText + '\n\nRespond with ONLY valid JSON in this shape:\n{"action":"add"|"mark_done"|"remove"|"clear"|"reorder","items":["task1","task2"],"message":"brief confirmation"}\n\nFor "add": items = new tasks to add.\nFor "mark_done": items = task text fragments to match and mark done.\nFor "remove": items = task text fragments to remove.\nFor "clear": items = [].\nFor "reorder": items = full task texts in new order.\nAlways return valid JSON, nothing else.' },
-        { role: 'user', content: cmd }
-      ],
-      max_tokens: 400,
-      temperature: 0.2
-    })
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data) {
-    if (data.error) { showQuickFeedback('AI error — task added as-is'); applyQuickCmdFallback(cmd); return; }
-    var raw = data.choices[0].message.content.trim();
-    var parsed;
-    try { parsed = JSON.parse(raw); } catch(e) { showQuickFeedback('Task added ✓'); applyQuickCmdFallback(cmd); return; }
+  var cmdPrompt = 'Current task list:\n' + taskListText + '\n\nNicole says: "' + cmd + '"\n\nRespond ONLY with valid JSON:\n{"action":"add"|"mark_done"|"remove"|"clear","items":["task1","task2"],"message":"brief confirmation"}\n\nJSON only, nothing else.';
 
-    var tasks = lsGet('tcf_home_tasks', []);
-    if (parsed.action === 'add' && parsed.items) {
-      parsed.items.forEach(function(t){ tasks.push({ text: t, done: false }); });
-    } else if (parsed.action === 'mark_done' && parsed.items) {
-      tasks = tasks.map(function(t) {
-        var match = parsed.items.some(function(s){ return t.text.toLowerCase().indexOf(s.toLowerCase()) !== -1; });
-        return match ? { text: t.text, done: true } : t;
-      });
-    } else if (parsed.action === 'remove' && parsed.items) {
-      tasks = tasks.filter(function(t) {
-        return !parsed.items.some(function(s){ return t.text.toLowerCase().indexOf(s.toLowerCase()) !== -1; });
-      });
-    } else if (parsed.action === 'clear') {
-      tasks = [];
-    } else if (parsed.action === 'reorder' && parsed.items) {
-      tasks = parsed.items.map(function(text){ return { text: text, done: false }; });
-    } else {
-      parsed.items && parsed.items.forEach(function(t){ tasks.push({ text: t, done: false }); });
-    }
-    lsSet('tcf_home_tasks', tasks);
-    renderTasks('tcf_home_tasks', 'home-tasks');
-    updateDonut();
-    input.value = '';
-    showQuickFeedback((parsed.message || 'Done') + ' ✓');
-  })
-  .catch(function(){ showQuickFeedback('Task added ✓'); applyQuickCmdFallback(cmd); });
+  callClaude(cmdPrompt, 'You are Nicole\'s task list assistant. Interpret her natural language commands and respond ONLY with JSON.', 300, null,
+    function(raw) {
+      var parsed;
+      try { parsed = JSON.parse(raw.match(/\{[\s\S]*\}/)[0]); } catch(e) { showQuickFeedback('Task added ✓'); applyQuickCmdFallback(cmd); return; }
+      var tasks = lsGet('tcf_home_tasks', []);
+      if (parsed.action === 'add' && parsed.items) {
+        parsed.items.forEach(function(t){ tasks.push({ text: t, done: false }); });
+      } else if (parsed.action === 'mark_done' && parsed.items) {
+        tasks = tasks.map(function(t) {
+          var match = parsed.items.some(function(s){ return t.text.toLowerCase().indexOf(s.toLowerCase()) !== -1; });
+          return match ? { text: t.text, done: true } : t;
+        });
+      } else if (parsed.action === 'remove' && parsed.items) {
+        tasks = tasks.filter(function(t) {
+          return !parsed.items.some(function(s){ return t.text.toLowerCase().indexOf(s.toLowerCase()) !== -1; });
+        });
+      } else if (parsed.action === 'clear') {
+        tasks = [];
+      } else {
+        parsed.items && parsed.items.forEach(function(t){ tasks.push({ text: t, done: false }); });
+      }
+      lsSet('tcf_home_tasks', tasks);
+      renderTasks('tcf_home_tasks', 'home-tasks');
+      updateDonut();
+      input.value = '';
+      showQuickFeedback((parsed.message || 'Done') + ' ✓');
+    },
+    function(){ showQuickFeedback('Task added ✓'); applyQuickCmdFallback(cmd); }
+  );
 }
 
 function applyQuickCmdFallback(cmd) {
@@ -3653,13 +3619,13 @@ function showQuickFeedback(msg, isError, isLoading) {
 
 <div id="ask-ai-panel" class="ask-ai-panel">
   <div class="ask-ai-panel-header">
-    <div class="ask-ai-panel-title">Ask AI — Get Tasks & Ideas</div>
+    <div class="ask-ai-panel-title">Ask Claude — Your Business Partner</div>
     <button class="ask-ai-close" onclick="toggleAskAI()">×</button>
   </div>
   <div id="ask-ai-context-tag" class="ask-ai-context-tag">Home</div>
   <div id="ask-ai-key-section" class="ask-ai-key-row" style="display:none;">
-    <span style="color:var(--muted);white-space:nowrap;">OpenAI Key:</span>
-    <input type="password" id="ask-ai-key-input" class="ask-ai-key-input" placeholder="sk-...">
+    <span style="color:var(--muted);white-space:nowrap;">Anthropic Key:</span>
+    <input type="password" id="ask-ai-key-input" class="ask-ai-key-input" placeholder="sk-ant-...">
     <button class="ask-ai-key-save" onclick="saveAIKey()">Save</button>
   </div>
   <div class="ask-ai-input-row">
