@@ -247,6 +247,103 @@
   .kanban-card .formula-del:hover { color: #FF5BAE; background: rgba(255,91,174,0.1); }
   .kanban-col.drag-over { background: rgba(79,126,247,0.08); border-color: var(--blue); }
 
+  /* NICOLE'S WORLD */
+  .world-hero {
+    text-align: center; padding: 32px; margin-bottom: 28px;
+    background: linear-gradient(135deg,rgba(255,91,174,0.07),rgba(79,126,247,0.07));
+    border-radius: 20px; border: 1px solid var(--border);
+  }
+  .world-hero h2 { font-size: 1.9rem; font-weight: 900; margin-bottom: 6px; }
+  .world-hero p { color: var(--muted); font-size: 0.95rem; font-weight: 600; }
+  .world-section-title {
+    font-size: 1.1rem; font-weight: 900; color: var(--text);
+    margin: 28px 0 14px; padding-left: 4px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .world-section-title::after {
+    content: ''; flex: 1; height: 2px;
+    background: linear-gradient(to right, var(--border), transparent);
+    border-radius: 999px; margin-left: 8px;
+  }
+  .world-grid {
+    display: grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap: 14px;
+    margin-bottom: 8px;
+  }
+  .world-folder {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 18px 20px;
+    display: flex; align-items: center; gap: 14px;
+    transition: all 0.2s; position: relative; group: true;
+    box-shadow: var(--card-shadow);
+  }
+  .world-folder:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(79,126,247,0.13); border-color: var(--blue); }
+  .world-folder-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .world-folder-info { flex: 1; min-width: 0; }
+  .world-folder-name { font-weight: 800; font-size: 0.95rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .world-folder-sub { font-size: 0.78rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
+  .world-folder-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .world-open-btn {
+    padding: 6px 14px; border-radius: 999px;
+    border: none; background: linear-gradient(135deg,#FF5BAE,#c44dff);
+    color: white; font-family: inherit; font-size: 0.8rem;
+    font-weight: 800; cursor: pointer; text-decoration: none;
+    transition: all 0.15s; display: inline-flex; align-items: center; gap: 4px;
+  }
+  .world-open-btn:hover { opacity: 0.85; transform: scale(1.05); }
+  .world-edit-btn {
+    padding: 6px 8px; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--pill-bg);
+    color: var(--muted); font-family: inherit; font-size: 0.85rem;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .world-edit-btn:hover { color: var(--pink); border-color: var(--pink); }
+
+  /* LINKS PAGE */
+  .links-grid {
+    display: grid; grid-template-columns: repeat(auto-fill,minmax(340px,1fr)); gap: 20px;
+  }
+  .links-section {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 20px; padding: 22px 24px;
+    box-shadow: var(--card-shadow);
+  }
+  .links-section-title {
+    font-size: 1rem; font-weight: 900; margin-bottom: 14px;
+    padding-bottom: 10px; border-bottom: 2px solid currentColor;
+    opacity: 0.9;
+  }
+  .links-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+  .link-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 12px;
+    background: var(--pill-bg); border: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .link-item:hover { border-color: var(--blue); background: rgba(79,126,247,0.05); }
+  .link-item-favicon { font-size: 1.1rem; flex-shrink: 0; }
+  .link-item a {
+    flex: 1; font-weight: 700; font-size: 0.95rem;
+    color: var(--blue); text-decoration: none; min-width: 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .link-item a:hover { text-decoration: underline; }
+  .link-edit-btn {
+    opacity: 0; background: none; border: none;
+    color: var(--muted); font-size: 1rem; cursor: pointer;
+    padding: 2px 6px; border-radius: 6px; transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .link-item:hover .link-edit-btn { opacity: 1; }
+  .link-edit-btn:hover { color: var(--pink); }
+  .link-del-btn {
+    opacity: 0; background: none; border: none;
+    color: var(--muted); font-size: 1.1rem; cursor: pointer;
+    padding: 2px 6px; border-radius: 6px; transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .link-item:hover .link-del-btn { opacity: 1; }
+  .link-del-btn:hover { color: var(--pink); }
+
   /* PAULY TAB */
   .nav-tab.pauly-tab { color: #4F7EF7; }
   .nav-tab.pauly-tab.active { color: #4F7EF7; background: rgba(79,126,247,0.08); }
@@ -603,6 +700,8 @@
     <button class="nav-tab" onclick="showTab('ops',this)">⚙️ Operations</button>
     <button class="nav-tab" onclick="showTab('calendar',this)">📅 Calendar</button>
     <button class="nav-tab pauly-tab" onclick="showTab('pauly',this)">🧑‍💼 Pauly</button>
+    <button class="nav-tab" onclick="showTab('world',this)">🗂️ Nicole's World</button>
+    <button class="nav-tab" onclick="showTab('links',this)">🔗 Links</button>
     <button class="nav-tab" onclick="showTab('personal',this)">✦ Personal</button>
   </div>
   <button id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
@@ -903,6 +1002,133 @@
       <button class="add-btn" onclick="addTask('tcf_beauty','beauty-tasks')">＋ Add task</button>
     </div>
   </div><!-- end personal -->
+
+  <!-- ===== NICOLE'S WORLD TAB ===== -->
+  <div id="tab-world" class="tab-panel">
+
+    <div class="world-hero">
+      <h2>🗂️ Nicole's World</h2>
+      <p>Every folder, every brand — all in one place. Click any folder to open it. Click the pencil to update the link.</p>
+    </div>
+
+    <!-- BRAND FOLDERS -->
+    <div class="world-section-title">💄 Brand Folders</div>
+    <div class="world-grid" id="world-brands-grid">
+      <!-- rendered by JS -->
+    </div>
+
+    <!-- OPERATIONS & ADMIN -->
+    <div class="world-section-title">⚙️ Operations &amp; Admin</div>
+    <div class="world-grid" id="world-ops-grid"></div>
+
+    <!-- FINANCE -->
+    <div class="world-section-title">💰 Finance &amp; Accounting</div>
+    <div class="world-grid" id="world-finance-grid"></div>
+
+    <!-- MARKETING & CONTENT -->
+    <div class="world-section-title">📱 Marketing &amp; Content</div>
+    <div class="world-grid" id="world-marketing-grid"></div>
+
+    <!-- LEGAL & COMPLIANCE -->
+    <div class="world-section-title">⚖️ Legal &amp; Compliance</div>
+    <div class="world-grid" id="world-legal-grid"></div>
+
+    <!-- FORMULATION & R&D -->
+    <div class="world-section-title">🧪 Formulation &amp; R&amp;D</div>
+    <div class="world-grid" id="world-formulation-grid"></div>
+
+    <!-- EVENTS & PR -->
+    <div class="world-section-title">🎉 Events &amp; PR</div>
+    <div class="world-grid" id="world-events-grid"></div>
+
+    <!-- PERSONAL -->
+    <div class="world-section-title">✦ Personal</div>
+    <div class="world-grid" id="world-personal-grid"></div>
+
+  </div><!-- end world -->
+
+  <!-- ===== LINKS TAB ===== -->
+  <div id="tab-links" class="tab-panel">
+
+    <div class="world-hero" style="background:linear-gradient(135deg,rgba(79,126,247,0.07),rgba(255,91,174,0.07));">
+      <h2>🔗 All Links</h2>
+      <p>Every website, tool, and platform in one place. Click to open, click ✏️ to edit.</p>
+    </div>
+
+    <div class="links-grid">
+
+      <!-- BRAND WEBSITES -->
+      <div class="links-section">
+        <div class="links-section-title" style="color:#FF5BAE;">💄 Brand Websites</div>
+        <div class="links-list" id="linklist-brand"></div>
+        <button class="add-btn" onclick="addLinkItem('links_brand','linklist-brand')">＋ Add link</button>
+      </div>
+
+      <!-- SHOPIFY / E-COMMERCE -->
+      <div class="links-section">
+        <div class="links-section-title" style="color:#34C994;">🛍️ Shopify &amp; E-Commerce</div>
+        <div class="links-list" id="linklist-shopify"></div>
+        <button class="add-btn" onclick="addLinkItem('links_shopify','linklist-shopify')">＋ Add link</button>
+      </div>
+
+      <!-- SOCIAL MEDIA -->
+      <div class="links-section">
+        <div class="links-section-title" style="color:#c44dff;">📸 Social Media</div>
+        <div class="links-list" id="linklist-social"></div>
+        <button class="add-btn" onclick="addLinkItem('links_social','linklist-social')">＋ Add link</button>
+      </div>
+
+      <!-- DESIGN TOOLS -->
+      <div class="links-section">
+        <div class="links-section-title" style="color:#4F7EF7;">🎨 Design &amp; Creative</div>
+        <div class="links-list" id="linklist-design"></div>
+        <button class="add-btn" onclick="addLinkItem('links_design','linklist-design')">＋ Add link</button>
+      </div>
+
+      <!-- FILES & STORAGE -->
+      <div class="links-section">
+        <div class="links-section-title" style="color:#FF8C00;">📁 Files &amp; Storage</div>
+        <div class="links-list" id="linklist-files"></div>
+        <button class="add-btn" onclick="addLinkItem('links_files','linklist-files')">＋ Add link</button>
+      </div>
+
+      <!-- FINANCE & ACCOUNTING -->
+      <div class="links-section">
+        <div class="links-section-title" style="color:#34C994;">💰 Finance &amp; Accounting</div>
+        <div class="links-list" id="linklist-finance"></div>
+        <button class="add-btn" onclick="addLinkItem('links_finance','linklist-finance')">＋ Add link</button>
+      </div>
+
+      <!-- COMMUNICATION -->
+      <div class="links-section">
+        <div class="links-section-title" style="color:#FF5BAE;">💬 Communication</div>
+        <div class="links-list" id="linklist-comms"></div>
+        <button class="add-btn" onclick="addLinkItem('links_comms','linklist-comms')">＋ Add link</button>
+      </div>
+
+      <!-- SUPPLIERS & VENDORS -->
+      <div class="links-section">
+        <div class="links-section-title" style="color:#c44dff;">🤝 Suppliers &amp; Vendors</div>
+        <div class="links-list" id="linklist-vendors"></div>
+        <button class="add-btn" onclick="addLinkItem('links_vendors','linklist-vendors')">＋ Add link</button>
+      </div>
+
+      <!-- LEGAL & COMPLIANCE -->
+      <div class="links-section">
+        <div class="links-section-title" style="color:#FF8C00;">⚖️ Legal &amp; Compliance</div>
+        <div class="links-list" id="linklist-legal"></div>
+        <button class="add-btn" onclick="addLinkItem('links_legal','linklist-legal')">＋ Add link</button>
+      </div>
+
+      <!-- PRODUCTIVITY -->
+      <div class="links-section">
+        <div class="links-section-title" style="color:#4F7EF7;">⚡ Productivity &amp; Tools</div>
+        <div class="links-list" id="linklist-productivity"></div>
+        <button class="add-btn" onclick="addLinkItem('links_productivity','linklist-productivity')">＋ Add link</button>
+      </div>
+
+    </div>
+  </div><!-- end links -->
 
   <!-- ===== CALENDAR TAB ===== -->
   <div id="tab-calendar" class="tab-panel">
@@ -1928,6 +2154,227 @@ document.addEventListener('click', function(e) {
 });
 
 // ============================================================
+// NICOLE'S WORLD — FOLDER BROWSER
+// ============================================================
+var WORLD_DATA = {
+  'world-brands-grid': [
+    {icon:'💄',name:'TCF — The Cosmetic Formulary',sub:'All brand files',url:'https://www.dropbox.com/home'},
+    {icon:'✨',name:'Nevoo',sub:'All brand files',url:'https://www.dropbox.com/home'},
+    {icon:'🌿',name:'Daily Rou',sub:'All brand files',url:'https://www.dropbox.com/home'},
+    {icon:'💙',name:'Skin Axis',sub:'All brand files',url:'https://www.dropbox.com/home'},
+    {icon:'🍹',name:'Sip & Formulate',sub:'All brand files',url:'https://www.dropbox.com/home'},
+  ],
+  'world-ops-grid': [
+    {icon:'📋',name:'SOPs & Procedures',sub:'Operations docs',url:'https://www.dropbox.com/home'},
+    {icon:'📦',name:'Inventory & Orders',sub:'Stock tracking',url:'https://www.dropbox.com/home'},
+    {icon:'🏢',name:'Facility & Permits',sub:'Lease, permits, licenses',url:'https://www.dropbox.com/home'},
+    {icon:'📅',name:'Business Calendar',sub:'Dates & deadlines',url:'https://www.dropbox.com/home'},
+    {icon:'👥',name:'Team & HR',sub:'Contracts, onboarding',url:'https://www.dropbox.com/home'},
+  ],
+  'world-finance-grid': [
+    {icon:'💵',name:'Invoices & Receipts',sub:'All billing docs',url:'https://www.dropbox.com/home'},
+    {icon:'📊',name:'P&L & Budgets',sub:'Financial reports',url:'https://www.dropbox.com/home'},
+    {icon:'🧾',name:'Tax Documents',sub:'Annual filings',url:'https://www.dropbox.com/home'},
+    {icon:'🏦',name:'Banking & Accounts',sub:'Account docs',url:'https://www.dropbox.com/home'},
+    {icon:'💳',name:'Expense Tracking',sub:'Monthly expenses',url:'https://www.dropbox.com/home'},
+  ],
+  'world-marketing-grid': [
+    {icon:'📸',name:'Social Media Assets',sub:'Photos, videos, graphics',url:'https://www.dropbox.com/home'},
+    {icon:'📆',name:'Content Calendar',sub:'Posts & campaigns',url:'https://www.dropbox.com/home'},
+    {icon:'✉️',name:'Email Marketing',sub:'Templates & lists',url:'https://www.dropbox.com/home'},
+    {icon:'🎥',name:'Video & Reels',sub:'Raw & edited footage',url:'https://www.dropbox.com/home'},
+    {icon:'📣',name:'Campaigns & Launches',sub:'Launch materials',url:'https://www.dropbox.com/home'},
+  ],
+  'world-legal-grid': [
+    {icon:'™️',name:'Trademarks & IP',sub:'Filings & certificates',url:'https://www.dropbox.com/home'},
+    {icon:'📝',name:'Contracts & Agreements',sub:'All signed docs',url:'https://www.dropbox.com/home'},
+    {icon:'🧴',name:'FDA & Compliance',sub:'Cosmetic labeling docs',url:'https://www.dropbox.com/home'},
+    {icon:'🔒',name:'Privacy & Terms',sub:'Website legal docs',url:'https://www.dropbox.com/home'},
+    {icon:'📄',name:'Business Formation',sub:'LLC, EIN, articles',url:'https://www.dropbox.com/home'},
+  ],
+  'world-formulation-grid': [
+    {icon:'🧪',name:'Master Formulas',sub:'All formula docs',url:'https://www.dropbox.com/home'},
+    {icon:'🔬',name:'Lab Results & Testing',sub:'Stability, safety',url:'https://www.dropbox.com/home'},
+    {icon:'🌿',name:'Ingredient Library',sub:'INCI, suppliers, specs',url:'https://www.dropbox.com/home'},
+    {icon:'📋',name:'Batch Records',sub:'Production logs',url:'https://www.dropbox.com/home'},
+    {icon:'⚗️',name:'R&D Notes',sub:'Experiments & ideas',url:'https://www.dropbox.com/home'},
+  ],
+  'world-events-grid': [
+    {icon:'🎪',name:'Pop-Ups & Events',sub:'Event plans & recaps',url:'https://www.dropbox.com/home'},
+    {icon:'📰',name:'Press & Media',sub:'Press releases, coverage',url:'https://www.dropbox.com/home'},
+    {icon:'🤳',name:'Influencer & Collabs',sub:'Partnership docs',url:'https://www.dropbox.com/home'},
+    {icon:'🎁',name:'PR Sends & Gifting',sub:'Send lists, tracking',url:'https://www.dropbox.com/home'},
+  ],
+  'world-personal-grid': [
+    {icon:'✦',name:'Personal Goals',sub:'Vision & planning',url:'https://www.dropbox.com/home'},
+    {icon:'📓',name:'Journal & Notes',sub:'Personal notes',url:'https://www.dropbox.com/home'},
+    {icon:'🏠',name:'Home & Life',sub:'Personal docs',url:'https://www.dropbox.com/home'},
+    {icon:'💕',name:'Vision Board',sub:'Inspiration & goals',url:'https://www.dropbox.com/home'},
+  ]
+};
+
+function renderWorldGrid(gridId, items) {
+  var grid = document.getElementById(gridId);
+  if (!grid) return;
+  // Load saved URLs
+  var saved = lsGet('world_urls_'+gridId, {});
+  grid.innerHTML = '';
+  items.forEach(function(item, i) {
+    var url = saved[i] || item.url;
+    var div = document.createElement('div');
+    div.className = 'world-folder';
+    div.innerHTML =
+      '<div class="world-folder-icon">'+item.icon+'</div>' +
+      '<div class="world-folder-info">' +
+        '<div class="world-folder-name">'+item.name+'</div>' +
+        '<div class="world-folder-sub">'+item.sub+'</div>' +
+      '</div>' +
+      '<div class="world-folder-actions">' +
+        '<a href="'+url+'" target="_blank" rel="noopener" class="world-open-btn">Open ↗</a>' +
+        '<button class="world-edit-btn" title="Edit URL" onclick="editWorldUrl(\''+gridId+'\','+i+',\''+item.name+'\')">✏️</button>' +
+      '</div>';
+    grid.appendChild(div);
+  });
+}
+
+function editWorldUrl(gridId, idx, name) {
+  var saved = lsGet('world_urls_'+gridId, {});
+  var current = saved[idx] || WORLD_DATA[gridId][idx].url;
+  var newUrl = prompt('Update URL for "'+name+'":\n(paste the full link, e.g. https://dropbox.com/...)', current);
+  if (newUrl && newUrl.trim()) {
+    saved[idx] = newUrl.trim();
+    lsSet('world_urls_'+gridId, saved);
+    renderWorldGrid(gridId, WORLD_DATA[gridId]);
+  }
+}
+
+function renderAllWorldGrids() {
+  Object.keys(WORLD_DATA).forEach(function(gridId) {
+    renderWorldGrid(gridId, WORLD_DATA[gridId]);
+  });
+}
+
+// ============================================================
+// LINKS PAGE
+// ============================================================
+var LINKS_DEFAULTS = {
+  links_brand: [
+    {icon:'💄',name:'TCF Website',url:'https://www.thecosmeticformulary.com'},
+    {icon:'✨',name:'Nevoo Website',url:'https://nevoo.com'},
+    {icon:'🌿',name:'Daily Rou Website',url:'https://dailyrou.com'},
+    {icon:'💙',name:'Skin Axis Website',url:'https://skinaxis.com'},
+  ],
+  links_shopify: [
+    {icon:'🛍️',name:'TCF Shopify Admin',url:'https://admin.shopify.com'},
+    {icon:'🛍️',name:'Shopify Partners',url:'https://partners.shopify.com'},
+  ],
+  links_social: [
+    {icon:'📸',name:'Instagram',url:'https://www.instagram.com'},
+    {icon:'🎵',name:'TikTok Studio',url:'https://www.tiktok.com/creator-center'},
+    {icon:'📌',name:'Pinterest',url:'https://www.pinterest.com'},
+    {icon:'💼',name:'LinkedIn',url:'https://www.linkedin.com'},
+    {icon:'▶️',name:'YouTube Studio',url:'https://studio.youtube.com'},
+  ],
+  links_design: [
+    {icon:'🎨',name:'Canva',url:'https://www.canva.com'},
+    {icon:'🖼️',name:'Adobe Creative Cloud',url:'https://creativecloud.adobe.com'},
+    {icon:'✏️',name:'Figma',url:'https://www.figma.com'},
+  ],
+  links_files: [
+    {icon:'📦',name:'Dropbox — Nicole\'s World',url:'https://www.dropbox.com/home'},
+    {icon:'📂',name:'Google Drive',url:'https://drive.google.com'},
+    {icon:'📝',name:'Notion',url:'https://www.notion.so'},
+    {icon:'📋',name:'Google Docs',url:'https://docs.google.com'},
+    {icon:'📊',name:'Google Sheets',url:'https://sheets.google.com'},
+  ],
+  links_finance: [
+    {icon:'💰',name:'QuickBooks',url:'https://quickbooks.intuit.com'},
+    {icon:'🏦',name:'Bank — Online Banking',url:'https://www.chase.com'},
+    {icon:'🧾',name:'Wave Accounting',url:'https://www.waveapps.com'},
+    {icon:'💳',name:'Stripe Dashboard',url:'https://dashboard.stripe.com'},
+  ],
+  links_comms: [
+    {icon:'✉️',name:'Gmail',url:'https://mail.google.com'},
+    {icon:'💬',name:'Slack',url:'https://slack.com'},
+    {icon:'📞',name:'Google Meet',url:'https://meet.google.com'},
+    {icon:'📹',name:'Zoom',url:'https://zoom.us'},
+  ],
+  links_vendors: [
+    {icon:'🤝',name:'McKernan Packaging',url:'https://mckernan.com'},
+    {icon:'🔬',name:'Lab Partner Portal',url:'https://www.dropbox.com/home'},
+    {icon:'🌿',name:'Ingredient Supplier',url:'https://www.dropbox.com/home'},
+  ],
+  links_legal: [
+    {icon:'™️',name:'USPTO Trademark Search',url:'https://www.uspto.gov/trademarks'},
+    {icon:'🧴',name:'FDA Cosmetic Info',url:'https://www.fda.gov/cosmetics'},
+    {icon:'📝',name:'DocuSign',url:'https://www.docusign.com'},
+  ],
+  links_productivity: [
+    {icon:'📋',name:'Notion Workspace',url:'https://www.notion.so'},
+    {icon:'✅',name:'Asana',url:'https://app.asana.com'},
+    {icon:'🗓️',name:'Google Calendar',url:'https://calendar.google.com'},
+    {icon:'🐙',name:'GitHub',url:'https://github.com'},
+    {icon:'🤖',name:'ChatGPT',url:'https://chat.openai.com'},
+    {icon:'✦',name:'Claude',url:'https://claude.ai'},
+  ]
+};
+
+function renderLinksList(storageKey, containerId) {
+  var items = lsGet(storageKey, null);
+  if (items === null) {
+    items = LINKS_DEFAULTS[storageKey] || [];
+    lsSet(storageKey, items);
+  }
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+  items.forEach(function(item, i) {
+    var div = document.createElement('div');
+    div.className = 'link-item';
+    div.innerHTML =
+      '<span class="link-item-favicon">'+item.icon+'</span>' +
+      '<a href="'+item.url+'" target="_blank" rel="noopener">'+item.name+'</a>' +
+      '<button class="link-edit-btn" title="Edit">✏️</button>' +
+      '<button class="link-del-btn" title="Delete">×</button>';
+    div.querySelector('.link-edit-btn').onclick = function() {
+      var newName = prompt('Link name:', item.name);
+      if (!newName) return;
+      var newUrl = prompt('URL:', item.url);
+      if (!newUrl) return;
+      items[i] = {icon:item.icon, name:newName.trim(), url:newUrl.trim()};
+      lsSet(storageKey, items);
+      renderLinksList(storageKey, containerId);
+    };
+    div.querySelector('.link-del-btn').onclick = function() {
+      items.splice(i, 1);
+      lsSet(storageKey, items);
+      renderLinksList(storageKey, containerId);
+    };
+    container.appendChild(div);
+  });
+}
+
+function addLinkItem(storageKey, containerId) {
+  var name = prompt('Link name (e.g. "TCF Instagram"):');
+  if (!name || !name.trim()) return;
+  var url = prompt('URL (paste full link):');
+  if (!url || !url.trim()) return;
+  if (!url.match(/^https?:\/\//)) url = 'https://' + url;
+  var icon = prompt('Icon emoji (optional, press Enter to skip):', '🔗') || '🔗';
+  var items = lsGet(storageKey, LINKS_DEFAULTS[storageKey] || []);
+  items.push({icon:icon.trim()||'🔗', name:name.trim(), url:url.trim()});
+  lsSet(storageKey, items);
+  renderLinksList(storageKey, containerId);
+}
+
+function renderAllLinks() {
+  Object.keys(LINKS_DEFAULTS).forEach(function(key) {
+    var cid = 'linklist-' + key.replace('links_','');
+    renderLinksList(key, cid);
+  });
+}
+
+// ============================================================
 // PAULY DEFAULTS
 // ============================================================
 var PAULY_DEFAULTS = {
@@ -2038,6 +2485,10 @@ function initApp() {
   renderTasks('tcf_tasks_ops', 'ops-tasks');
   renderContacts();
   renderFiles('tcf_files_ops', 'ops-files');
+  // Nicole's World folders
+  renderAllWorldGrids();
+  // Links
+  renderAllLinks();
   // Calendar
   renderCalendar();
   // Pauly
