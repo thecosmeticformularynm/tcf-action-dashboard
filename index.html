@@ -1806,28 +1806,82 @@
 
   <!-- ===== OPERATIONS TAB ===== -->
   <div id="tab-ops" class="tab-panel">
-    <div class="card">
-      <div class="card-title">Operations Tasks</div>
-      <ul class="task-list" id="ops-tasks"></ul>
-      <button class="add-btn" onclick="addTask('tcf_tasks_ops','ops-tasks')">＋ Add task</button>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-bottom:24px;">
+
+      <!-- FACILITY -->
+      <div class="card" style="border-top:3px solid #FF5BAE;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#FF5BAE,#c44dff);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏭</div>
+          <div>
+            <div class="card-title" style="margin-bottom:0;">Facility</div>
+            <div style="font-size:0.78rem;color:var(--muted);font-weight:600;">FDA · DHEC · Compliance · Buildout</div>
+          </div>
+        </div>
+        <ul class="task-list" id="ops-facility-tasks"></ul>
+        <button class="add-btn" onclick="addTask('tcf_ops_facility','ops-facility-tasks')">＋ Add task</button>
+        <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Files &amp; Links</div>
+          <ul class="file-list" id="ops-facility-files"></ul>
+          <button class="add-btn" onclick="addFile('tcf_files_facility','ops-facility-files')" style="margin-top:8px;font-size:0.82rem;padding:6px 14px;">＋ Add link</button>
+        </div>
+      </div>
+
+      <!-- SIP & FORMULATE -->
+      <div class="card" style="border-top:3px solid #4F7EF7;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#4F7EF7,#c44dff);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🧪</div>
+          <div>
+            <div class="card-title" style="margin-bottom:0;">Sip &amp; Formulate</div>
+            <div style="font-size:0.78rem;color:var(--muted);font-weight:600;">Classes · Events · Launch · Booking</div>
+          </div>
+        </div>
+        <ul class="task-list" id="ops-sip-tasks"></ul>
+        <button class="add-btn" onclick="addTask('tcf_ops_sip','ops-sip-tasks')">＋ Add task</button>
+        <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Files &amp; Links</div>
+          <ul class="file-list" id="ops-sip-files"></ul>
+          <button class="add-btn" onclick="addFile('tcf_files_sip','ops-sip-files')" style="margin-top:8px;font-size:0.82rem;padding:6px 14px;">＋ Add link</button>
+        </div>
+      </div>
+
+      <!-- RETAIL SPACE -->
+      <div class="card" style="border-top:3px solid #27a87a;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#27a87a,#4F7EF7);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏪</div>
+          <div>
+            <div class="card-title" style="margin-bottom:0;">Retail Space</div>
+            <div style="font-size:0.78rem;color:var(--muted);font-weight:600;">King Street · Spa · Interior · Shelving</div>
+          </div>
+        </div>
+        <ul class="task-list" id="ops-retail-tasks"></ul>
+        <button class="add-btn" onclick="addTask('tcf_ops_retail','ops-retail-tasks')">＋ Add task</button>
+        <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Files &amp; Links</div>
+          <ul class="file-list" id="ops-retail-files"></ul>
+          <button class="add-btn" onclick="addFile('tcf_files_retail','ops-retail-files')" style="margin-top:8px;font-size:0.82rem;padding:6px 14px;">＋ Add link</button>
+        </div>
+      </div>
+
     </div>
-    <div class="card">
-      <div class="card-title">Key Contacts</div>
-      <table class="contacts-table">
-        <thead>
-          <tr>
-            <th>Role</th><th>Name</th><th>Email</th><th></th>
-          </tr>
-        </thead>
-        <tbody id="contacts-body"></tbody>
-      </table>
-      <button class="add-btn" onclick="addContact()" style="margin-top:14px;">＋ Add contact</button>
+
+    <!-- KEY CONTACTS + FILES -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="card">
+        <div class="card-title">Key Contacts</div>
+        <table class="contacts-table">
+          <thead><tr><th>Role</th><th>Name</th><th>Email</th><th></th></tr></thead>
+          <tbody id="contacts-body"></tbody>
+        </table>
+        <button class="add-btn" onclick="addContact()" style="margin-top:14px;">＋ Add contact</button>
+      </div>
+      <div class="card">
+        <div class="card-title">General Ops Files</div>
+        <ul class="file-list" id="ops-files"></ul>
+        <button class="add-btn" onclick="addFile('tcf_files_ops','ops-files')">＋ Add link</button>
+      </div>
     </div>
-    <div class="card">
-      <div class="card-title">Operations Files &amp; Links</div>
-      <ul class="file-list" id="ops-files"></ul>
-      <button class="add-btn" onclick="addFile('tcf_files_ops','ops-files')">＋ Add link</button>
-    </div>
+
   </div><!-- end ops -->
 
   <!-- ===== PERSONAL TAB ===== -->
@@ -2654,18 +2708,42 @@ var DEFAULTS = {
     { text: 'Talk to video editor', done: false }
   ],
 
-  tcf_tasks_ops: [
-    { text: 'Approve McKernan packaging — review spreadsheet', done: false },
-    { text: 'Find handheld mixer for classes', done: false },
-    { text: 'Find chairs for classes (Costway or Wayfair options)', done: false },
-    { text: 'Set up payment and booking system for classes', done: false },
-    { text: 'Set date for first ever Sip & Formulate class', done: false },
-    { text: 'Contact vendors for influencer event', done: false },
-    { text: 'Order wall from Alibaba', done: false },
-    { text: 'Review Ghost Kitchen checklist (SC_Ghost_Kitchen_Tea_Checklist.pdf)', done: false },
-    { text: 'Finalize TCF King Street — concept for spa space', done: false },
-    { text: 'Create checklist for popup classes', done: false },
-    { text: 'Finalize retail concept for King Street', done: false }
+  tcf_tasks_ops: [],
+
+  tcf_ops_facility: [
+    { text: '🔴 Complete FDA facility registration (MoCRA) — free, 30 min online', done: false },
+    { text: '🔴 Complete ServSafe Food Manager Certification before DHEC inspection', done: false },
+    { text: '🔴 Apply for DHEC Food Service Establishment Permit', done: false },
+    { text: '🟡 Apply for SC Food Processing License (2–4 week wait — apply first)', done: false },
+    { text: '🟡 Review FACILITY COMPLIANCE CHECKLIST — FDA/OSHA/GMP items', done: false },
+    { text: '🟡 Approve McKernan packaging — review spreadsheet with Pauly', done: false },
+    { text: '🟢 Set calendar reminder 60 days before DHEC permit expiry', done: false },
+    { text: '🟢 Review SC Spa Tea Permit Checklist', done: false }
+  ],
+
+  tcf_ops_sip: [
+    { text: '🔴 Set date for first ever Sip & Formulate class', done: false },
+    { text: '🔴 Set up payment and booking system for classes', done: false },
+    { text: '🔴 Find handheld mixer for classes', done: false },
+    { text: '🔴 Find and order chairs for classes (Costway or Wayfair)', done: false },
+    { text: '🟡 Contact food/drink vendor partner for event', done: false },
+    { text: '🟡 Book photographer + videographer for launch event', done: false },
+    { text: '🟡 Set up RSVP system for influencer event', done: false },
+    { text: '🟡 Print formula menu + spiral class booklet', done: false },
+    { text: '🟡 Assemble PR bags for launch event', done: false },
+    { text: '🟡 Create checklist for popup classes', done: false },
+    { text: '🟢 Confirm water bottle delivery from Alibaba (50 custom)', done: false },
+    { text: '🟢 Check Tapstitch merch order status (40 pieces)', done: false }
+  ],
+
+  tcf_ops_retail: [
+    { text: '🟡 Order wall from Alibaba for King Street', done: false },
+    { text: '🟡 Finalize TCF King Street — spa layout and concept', done: false },
+    { text: '🟡 Finalize retail concept — shelving, display, flow', done: false },
+    { text: '🟡 Interior design plan — review spa layout ideas folder in Drive', done: false },
+    { text: '🟢 Review SC Ghost Kitchen Tea Checklist for retail tea operations', done: false },
+    { text: '🟢 Research retail display fixtures + signage', done: false },
+    { text: '🟢 Plan product display for each brand at King Street', done: false }
   ],
 
   tcf_personal_todos: [
@@ -3432,8 +3510,13 @@ function initApp() {
   // Content
   renderTasks('tcf_tasks_content', 'content-tasks');
   renderFiles('tcf_files_content', 'content-files');
-  // Ops
-  renderTasks('tcf_tasks_ops', 'ops-tasks');
+  // Ops — three sections
+  renderTasks('tcf_ops_facility', 'ops-facility-tasks');
+  renderTasks('tcf_ops_sip', 'ops-sip-tasks');
+  renderTasks('tcf_ops_retail', 'ops-retail-tasks');
+  renderFiles('tcf_files_facility', 'ops-facility-files');
+  renderFiles('tcf_files_sip', 'ops-sip-files');
+  renderFiles('tcf_files_retail', 'ops-retail-files');
   renderContacts();
   renderFiles('tcf_files_ops', 'ops-files');
   // Nicole's World folders
@@ -3680,7 +3763,9 @@ function getAllTasksContext() {
     { name: 'Rinse & Repeat', key: 'tcf_brand_dailyrou' },
     { name: 'Skin Axis', key: 'tcf_brand_skinaxis' },
     { name: 'Content & Social', key: 'tcf_tasks_content' },
-    { name: 'Operations', key: 'tcf_tasks_ops' },
+    { name: 'Facility', key: 'tcf_ops_facility' },
+    { name: 'Sip & Formulate', key: 'tcf_ops_sip' },
+    { name: 'Retail Space', key: 'tcf_ops_retail' },
     { name: 'Personal', key: 'tcf_personal_todos' },
   ];
   var summary = [];
@@ -3757,7 +3842,7 @@ function generateDailySummary() {
   var aiTextEl = document.getElementById('summary-ai-text');
   if (!statsEl) return;
 
-  var allKeys = ['tcf_home_tasks','tcf_brand_tcf','tcf_brand_nevoo','tcf_brand_dailyrou','tcf_brand_skinaxis','tcf_tasks_content','tcf_tasks_ops','tcf_personal_todos'];
+  var allKeys = ['tcf_home_tasks','tcf_brand_tcf','tcf_brand_nevoo','tcf_brand_dailyrou','tcf_brand_skinaxis','tcf_tasks_content','tcf_ops_facility','tcf_ops_sip','tcf_ops_retail','tcf_personal_todos'];
   var totalDone = 0, totalPending = 0;
   var completedItems = [];
 
@@ -4153,7 +4238,9 @@ function getAllCompletedItems() {
     { name: 'Rinse & Repeat', key: 'tcf_brand_dailyrou' },
     { name: 'Skin Axis', key: 'tcf_brand_skinaxis' },
     { name: 'Content & Social', key: 'tcf_tasks_content' },
-    { name: 'Operations', key: 'tcf_tasks_ops' },
+    { name: 'Facility', key: 'tcf_ops_facility' },
+    { name: 'Sip & Formulate', key: 'tcf_ops_sip' },
+    { name: 'Retail Space', key: 'tcf_ops_retail' },
     { name: 'Personal', key: 'tcf_personal_todos' },
   ];
   var result = [];
