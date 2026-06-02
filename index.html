@@ -979,6 +979,110 @@
 .ai-brain-task-add:hover { background: var(--blue); color: white; }
 .ai-brain-task-add.added { background: rgba(52,201,148,0.15); color: #34C994; }
 
+/* SMART CALENDAR */
+.smart-cal-wrap { margin-bottom: 28px; }
+.smart-cal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+}
+.smart-cal-nav {
+  display: flex; align-items: center; gap: 12px;
+}
+.smart-cal-nav-btn {
+  width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--border);
+  background: var(--pill-bg); cursor: pointer; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; color: var(--text);
+}
+.smart-cal-nav-btn:hover { border-color: var(--pink); color: var(--pink); background: rgba(255,91,174,0.06); }
+.smart-cal-month-label { font-size: 1.3rem; font-weight: 900; min-width: 180px; text-align: center; }
+.smart-cal-legend {
+  display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+}
+.smart-cal-legend-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 0.75rem; font-weight: 700; color: var(--muted);
+}
+.smart-cal-legend-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.smart-cal-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 2px; background: var(--border); border-radius: 16px; overflow: hidden;
+}
+.smart-cal-dow {
+  background: var(--pill-bg); padding: 8px 4px;
+  text-align: center; font-size: 0.72rem; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted);
+}
+.smart-cal-cell {
+  background: var(--card-bg); min-height: 90px; padding: 6px 8px;
+  cursor: pointer; transition: background 0.15s; position: relative;
+}
+.smart-cal-cell:hover { background: var(--pill-bg); }
+.smart-cal-cell.other-month { opacity: 0.35; }
+.smart-cal-cell.today { background: linear-gradient(135deg,rgba(255,91,174,0.07),rgba(79,126,247,0.07)); }
+.smart-cal-cell.selected { background: rgba(79,126,247,0.1); outline: 2px solid var(--blue); outline-offset: -2px; }
+.smart-cal-day-num {
+  font-size: 0.85rem; font-weight: 900; margin-bottom: 4px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.smart-cal-today-badge {
+  background: var(--pink); color: white; border-radius: 50%;
+  width: 22px; height: 22px; display: flex; align-items: center;
+  justify-content: center; font-size: 0.78rem; font-weight: 900;
+}
+.smart-cal-events { display: flex; flex-direction: column; gap: 2px; }
+.smart-cal-event {
+  font-size: 0.68rem; font-weight: 700; padding: 2px 5px;
+  border-radius: 4px; line-height: 1.3; cursor: pointer;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.smart-cal-event.urgent { background: rgba(255,91,174,0.15); color: #e03a8b; }
+.smart-cal-event.milestone { background: rgba(79,126,247,0.15); color: #3a6fd8; }
+.smart-cal-event.task { background: rgba(52,201,148,0.15); color: #27a87a; }
+.smart-cal-event.delivery { background: rgba(255,165,0,0.15); color: #c87800; }
+.smart-cal-event.launch { background: linear-gradient(90deg,rgba(255,91,174,0.2),rgba(79,126,247,0.2)); color: var(--text); }
+
+/* EVENT DETAIL PANEL */
+.smart-cal-detail {
+  margin-top: 16px; padding: 20px 24px; border-radius: 16px;
+  background: var(--pill-bg); border: 1px solid var(--border);
+  display: none;
+}
+.smart-cal-detail.visible { display: block; }
+.smart-cal-detail-date {
+  font-size: 0.8rem; font-weight: 900; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--muted); margin-bottom: 10px;
+}
+.smart-cal-detail-events { display: flex; flex-direction: column; gap: 10px; }
+.smart-cal-detail-event {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 14px; border-radius: 12px;
+  background: var(--card-bg); border: 1px solid var(--border);
+}
+.smart-cal-detail-dot {
+  width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 4px;
+}
+.smart-cal-detail-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 3px; }
+.smart-cal-detail-desc { font-size: 0.82rem; color: var(--muted); font-weight: 600; line-height: 1.5; }
+.smart-cal-add-event-row {
+  margin-top: 14px; display: flex; gap: 10px;
+}
+.smart-cal-add-input {
+  flex: 1; padding: 10px 16px; border-radius: 999px;
+  border: 1.5px solid var(--border); background: var(--input-bg);
+  font-family: inherit; font-size: 0.9rem; color: var(--text); outline: none;
+  transition: border-color 0.2s;
+}
+.smart-cal-add-input:focus { border-color: var(--pink); }
+.smart-cal-add-btn {
+  padding: 10px 20px; border-radius: 999px; border: none;
+  background: linear-gradient(135deg,#FF5BAE,#c44dff);
+  color: white; font-family: inherit; font-size: 0.85rem;
+  font-weight: 800; cursor: pointer; white-space: nowrap;
+}
+
 /* SETTINGS CARD */
 .settings-card {
   background: linear-gradient(135deg,rgba(79,126,247,0.04),rgba(255,91,174,0.04));
@@ -1667,6 +1771,42 @@
   <!-- ===== CALENDAR TAB ===== -->
   <div id="tab-calendar" class="tab-panel">
 
+    <!-- SMART COMMAND CALENDAR -->
+    <div class="card smart-cal-wrap">
+      <div class="smart-cal-header">
+        <div>
+          <div class="card-title" style="margin-bottom:4px;">TCF Master Calendar</div>
+          <div style="color:var(--muted);font-size:0.88rem;font-weight:600;">Built from your Drive files — Sip & Formulate launch, FDA deadlines, permits, milestones</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end;">
+          <div class="smart-cal-legend">
+            <div class="smart-cal-legend-item"><div class="smart-cal-legend-dot" style="background:#e03a8b"></div>Urgent</div>
+            <div class="smart-cal-legend-item"><div class="smart-cal-legend-dot" style="background:#3a6fd8"></div>Milestone</div>
+            <div class="smart-cal-legend-item"><div class="smart-cal-legend-dot" style="background:#27a87a"></div>Task</div>
+            <div class="smart-cal-legend-item"><div class="smart-cal-legend-dot" style="background:#c87800"></div>Delivery</div>
+          </div>
+          <div class="smart-cal-nav">
+            <button class="smart-cal-nav-btn" onclick="smartCalPrev()">‹</button>
+            <div class="smart-cal-month-label" id="smart-cal-month-label"></div>
+            <button class="smart-cal-nav-btn" onclick="smartCalNext()">›</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="smart-cal-grid" id="smart-cal-grid"></div>
+
+      <!-- Day detail panel -->
+      <div class="smart-cal-detail" id="smart-cal-detail">
+        <div class="smart-cal-detail-date" id="smart-cal-detail-date"></div>
+        <div class="smart-cal-detail-events" id="smart-cal-detail-events"></div>
+        <div class="smart-cal-add-event-row">
+          <input type="text" class="smart-cal-add-input" id="smart-cal-add-input" placeholder="Add event for this day...">
+          <button class="smart-cal-add-btn" onclick="smartCalAddEvent()">+ Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GOOGLE CALENDAR -->
     <div class="card">
       <div class="cal-header">
         <h2 class="cal-month-title">Google Calendar</h2>
@@ -3868,6 +4008,245 @@ function checkEodTime() {
 setInterval(checkEodTime, 60000);
 // Also run on load if already past 4pm today
 setTimeout(checkEodTime, 2000);
+
+/* ============================================================
+   SMART TCF MASTER CALENDAR
+   Built from real Drive data — Sip & Formulate launch plan,
+   FDA/permit deadlines, deliveries, milestones
+   ============================================================ */
+
+// EVENT DATABASE — sourced from Drive files
+// Sip & Formulate influencer event: August 4, 2026 (Tuesday)
+// Working backwards with 8-week launch plan
+var SMART_CAL_EVENTS = (function() {
+  var ev = {};
+  function add(dateStr, type, title, desc) {
+    if (!ev[dateStr]) ev[dateStr] = [];
+    ev[dateStr].push({ type: type, title: title, desc: desc || '' });
+  }
+
+  // ── TODAY ──────────────────────────────────────────────
+  add('2026-06-02','urgent','🔴 FDA Registration NOW','MoCRA facility registration — free, ~30 min online. Blocks everything else legally.');
+  add('2026-06-02','urgent','🔴 Set Sip & Formulate Date','Lock event date today. Everything on this calendar depends on this one decision.');
+  add('2026-06-02','task','Review Alibaba Supplier Tracker','Updated this morning — follow up on outstanding orders.');
+
+  // ── JUNE 2026 ──────────────────────────────────────────
+  add('2026-06-05','urgent','🔴 McKernan Packaging — Pauly Approval','Packaging is the gate between formulas and sellable product. Pauly\'s sign-off is the blocker.');
+  add('2026-06-09','milestone','T-8 Wks: Lock Event Date DEADLINE','If event is Aug 4, today is the absolute latest to lock the date and start Wave 1 outreach.');
+  add('2026-06-09','task','Wave 1 Influencer Outreach','Macro + mid-tier influencers — personal email with 1-page PDF one-sheet.');
+  add('2026-06-09','task','Confirm Food/Drink Partner','Lock caterer/drink partner for the event.');
+  add('2026-06-09','task','Finalize PR Bag SKU List','Confirm exactly what goes in every PR bag.');
+  add('2026-06-10','urgent','🔴 ServSafe Certification','Must complete BEFORE DHEC inspection. ~3–5 hour online course. Do this week.');
+  add('2026-06-10','task','Apply for DHEC Food Service Permit','Inspection within 1–3 weeks of applying. Apply now so inspection lands before launch.');
+  add('2026-06-10','task','Apply for SC Food Processing License','Longest wait (2–4 weeks). Apply FIRST.');
+  add('2026-06-12','task','Website: Add Class Section','Get class info page live so RSVP system can be linked.');
+  add('2026-06-15','task','Hire Social Media Person','Need content creator before first Instagram post goes out.');
+  add('2026-06-17','task','Instagram: Film First TCF Video','First post goes up this week. No more waiting.');
+  add('2026-06-18','task','Order Chairs + Mixer for Classes','Equipment must arrive before dry-run (July 21). Order with enough lead time.');
+  add('2026-06-20','milestone','Payment/Booking System Live','Set up class booking + payment system. Needed by T-3 wks (July 14) at latest.');
+  add('2026-06-23','milestone','T-6 Wks: Wave 2 Influencer Outreach','Charleston micros + unrepped mids — DM-first approach.');
+  add('2026-06-23','task','Set Up RSVP System','Tech stack for event RSVPs must be live this week.');
+  add('2026-06-23','task','Book Photographer + Videographer','Lock your event photographer and videographer NOW.');
+  add('2026-06-24','task','NEVOO Brand Identity Work','Dilution samples done (NVS-001/002/003). Move to brand identity: name lock, logo, palette.');
+  add('2026-06-25','task','Skin Axis Packaging Decision','Hormonal Acne Tea brief is done. Decide packaging this week.');
+  add('2026-06-27','delivery','Water Bottles (50 custom, Alibaba)','50 custom Alibaba water bottles — late May ETA (check if arrived, reorder if needed for PR bags).');
+  add('2026-06-30','milestone','DHEC Inspection Window Opens','If applied June 10, inspection should land this week. Be ready.');
+
+  // ── JULY 2026 ──────────────────────────────────────────
+  add('2026-07-07','milestone','T-4 Wks: Vendors + Print + Website','Confirm vendor partners, print formula menu/spiral booklet, business cards, website class section live.');
+  add('2026-07-07','task','Print Formula Menu + Spiral Booklet','Class attendees need this for the event. Send to printer this week.');
+  add('2026-07-07','task','Print Business Cards','Restock TCF business cards for event.');
+  add('2026-07-08','task','Sorority Outreach (Wave 3)','T-4 weeks: Chapter-level outreach for group bookings.');
+  add('2026-07-10','task','Rinse & Repeat: Catalog Launch Prep','Catalog + packaging ready. Begin launch prep: website page, social content plan.');
+  add('2026-07-14','milestone','T-3 Wks: Instagram Content Calendar Locked','Plan + schedule all Instagram content leading up to launch event.');
+  add('2026-07-14','task','Confirm All Influencer RSVPs','Lock headcount for catering. Follow up on all outstanding RSVPs.');
+  add('2026-07-14','task','PR Bags: Assembly Ready','All PR bag items should be in-hand. Begin assembly if all arrived.');
+  add('2026-07-20','task','DHEC Annual Permit Reminder','Set calendar reminder 60 days before permit expiry (once you receive it).');
+  add('2026-07-21','milestone','T-2 Wks: Dry-Run Class','Full dry-run of the class experience. Test timing, ingredients, run of show.');
+  add('2026-07-21','task','PR Bags: Fully Assembled','Every PR bag must be complete and ready to ship/hand out.');
+  add('2026-07-21','task','Finalize Day-Of Run of Show','Minute-by-minute agenda for event day.');
+  add('2026-07-21','task','Print Labels','All product labels for class samples.');
+  add('2026-07-21','task','Clear Shopping List','Final ingredient + supply shopping list for event day.');
+  add('2026-07-28','milestone','T-1 Wk: Final Stretch','Send reminder emails to confirmed influencers. Install tablecloths, neon sign, pop-up wall.');
+  add('2026-07-28','task','Stock Ingredient Stations','Set up all ingredient stations at King Street.');
+  add('2026-07-28','task','Final Headcount to Caterer','Lock final number with food/drink partner.');
+
+  // ── AUGUST 2026 ──────────────────────────────────────────
+  add('2026-08-03','milestone','T-1 Day: Full Setup','Full venue setup at King Street. Everything in place.');
+  add('2026-08-04','launch','🌟 SIP & FORMULATE LAUNCH EVENT','INFLUENCER SOFT LAUNCH — First Sip & Formulate class. King Street. This is the moment.');
+  add('2026-08-05','task','Thank-You Emails + Repost UGC','Send thank-you emails to all attendees. Repost all influencer content.');
+  add('2026-08-05','task','Send PR Bags to No-Shows','Ship PR bags to influencers who couldn\'t attend in person.');
+  add('2026-08-11','milestone','Public Booking Goes LIVE','T+1 week: Open public class booking on website. First revenue-generating classes.');
+  add('2026-08-11','task','Compile UGC Reel','Pull together all influencer content into a launch highlight reel.');
+  add('2026-08-11','task','Influencer Follow-Up','Thank-you + check-in with all influencer attendees. Nurture relationships.');
+  add('2026-08-11','task','Launch Debrief with Pauly','Full debrief: what worked, what didn\'t, next class date, pricing confirmation.');
+
+  // ── ONGOING COMPLIANCE ─────────────────────────────────
+  add('2026-09-01','task','FDA Registration Biennial Renewal Note','FDA facility registration renews every 2 years in even-numbered years. Track your renewal date.');
+  add('2026-10-01','task','DHEC Permit Renewal Window','They send a renewal notice. Respond immediately — don\'t let permit lapse.');
+
+  return ev;
+})();
+
+var smartCalYear = 2026;
+var smartCalMonth = 5; // 0-indexed, so 5 = June
+var smartCalSelectedDate = null;
+var smartCalCustomEvents = JSON.parse(localStorage.getItem('tcf_smart_cal') || '{}');
+
+function smartCalKey(y, m, d) {
+  return y + '-' + String(m+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+}
+
+function smartCalGetEvents(dateStr) {
+  var base = SMART_CAL_EVENTS[dateStr] || [];
+  var custom = smartCalCustomEvents[dateStr] || [];
+  return base.concat(custom);
+}
+
+function smartCalRender() {
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('smart-cal-month-label').textContent = months[smartCalMonth] + ' ' + smartCalYear;
+
+  var grid = document.getElementById('smart-cal-grid');
+  grid.innerHTML = '';
+
+  // Day-of-week headers
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(function(d) {
+    var div = document.createElement('div');
+    div.className = 'smart-cal-dow';
+    div.textContent = d;
+    grid.appendChild(div);
+  });
+
+  var today = new Date();
+  var todayStr = smartCalKey(today.getFullYear(), today.getMonth(), today.getDate());
+  var firstDay = new Date(smartCalYear, smartCalMonth, 1).getDay();
+  var daysInMonth = new Date(smartCalYear, smartCalMonth + 1, 0).getDate();
+  var daysInPrev = new Date(smartCalYear, smartCalMonth, 0).getDate();
+
+  // Fill grid: 6 rows × 7 cols
+  for (var i = 0; i < 42; i++) {
+    var cell = document.createElement('div');
+    cell.className = 'smart-cal-cell';
+    var day, month = smartCalMonth, year = smartCalYear, otherMonth = false;
+
+    if (i < firstDay) {
+      day = daysInPrev - firstDay + i + 1;
+      month = smartCalMonth - 1;
+      if (month < 0) { month = 11; year--; }
+      otherMonth = true;
+    } else if (i - firstDay >= daysInMonth) {
+      day = i - firstDay - daysInMonth + 1;
+      month = smartCalMonth + 1;
+      if (month > 11) { month = 0; year++; }
+      otherMonth = true;
+    } else {
+      day = i - firstDay + 1;
+    }
+
+    var dateStr = smartCalKey(year, month, day);
+    if (otherMonth) cell.classList.add('other-month');
+    if (dateStr === todayStr) cell.classList.add('today');
+    if (dateStr === smartCalSelectedDate) cell.classList.add('selected');
+
+    var numDiv = document.createElement('div');
+    numDiv.className = 'smart-cal-day-num';
+    if (dateStr === todayStr) {
+      numDiv.innerHTML = '<div class="smart-cal-today-badge">' + day + '</div>';
+    } else {
+      numDiv.textContent = day;
+    }
+    cell.appendChild(numDiv);
+
+    var eventsDiv = document.createElement('div');
+    eventsDiv.className = 'smart-cal-events';
+    var dayEvents = smartCalGetEvents(dateStr);
+    var typeColors = { urgent:'#e03a8b', milestone:'#3a6fd8', task:'#27a87a', delivery:'#c87800', launch:'#FF5BAE' };
+    dayEvents.slice(0, 3).forEach(function(ev) {
+      var evDiv = document.createElement('div');
+      evDiv.className = 'smart-cal-event ' + ev.type;
+      evDiv.textContent = ev.title;
+      eventsDiv.appendChild(evDiv);
+    });
+    if (dayEvents.length > 3) {
+      var more = document.createElement('div');
+      more.style.cssText = 'font-size:0.65rem;color:var(--muted);font-weight:700;padding:1px 5px;';
+      more.textContent = '+' + (dayEvents.length - 3) + ' more';
+      eventsDiv.appendChild(more);
+    }
+    cell.appendChild(eventsDiv);
+
+    (function(ds) {
+      cell.onclick = function() { smartCalSelectDay(ds); };
+    })(dateStr);
+
+    grid.appendChild(cell);
+  }
+}
+
+function smartCalSelectDay(dateStr) {
+  smartCalSelectedDate = dateStr;
+  smartCalRender();
+
+  var detail = document.getElementById('smart-cal-detail');
+  var detailDate = document.getElementById('smart-cal-detail-date');
+  var detailEvents = document.getElementById('smart-cal-detail-events');
+
+  var d = new Date(dateStr + 'T12:00:00');
+  detailDate.textContent = d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+  detail.classList.add('visible');
+
+  var events = smartCalGetEvents(dateStr);
+  var typeColors = { urgent:'#e03a8b', milestone:'#3a6fd8', task:'#27a87a', delivery:'#c87800', launch:'#FF5BAE', custom:'#9966ff' };
+
+  if (events.length === 0) {
+    detailEvents.innerHTML = '<div style="color:var(--muted);font-size:0.9rem;font-weight:600;font-style:italic;">Nothing scheduled — add something below.</div>';
+  } else {
+    detailEvents.innerHTML = '';
+    events.forEach(function(ev) {
+      var div = document.createElement('div');
+      div.className = 'smart-cal-detail-event';
+      div.innerHTML = '<div class="smart-cal-detail-dot" style="background:' + (typeColors[ev.type]||'#9966ff') + '"></div>' +
+        '<div><div class="smart-cal-detail-title">' + ev.title + '</div>' +
+        (ev.desc ? '<div class="smart-cal-detail-desc">' + ev.desc + '</div>' : '') + '</div>';
+      detailEvents.appendChild(div);
+    });
+  }
+
+  // Pre-fill the add input's date context
+  document.getElementById('smart-cal-add-input').focus();
+}
+
+function smartCalAddEvent() {
+  var input = document.getElementById('smart-cal-add-input');
+  var text = input.value.trim();
+  if (!text || !smartCalSelectedDate) return;
+  if (!smartCalCustomEvents[smartCalSelectedDate]) smartCalCustomEvents[smartCalSelectedDate] = [];
+  smartCalCustomEvents[smartCalSelectedDate].push({ type: 'custom', title: text, desc: '' });
+  localStorage.setItem('tcf_smart_cal', JSON.stringify(smartCalCustomEvents));
+  input.value = '';
+  smartCalSelectDay(smartCalSelectedDate);
+  smartCalRender();
+}
+
+function smartCalPrev() {
+  smartCalMonth--;
+  if (smartCalMonth < 0) { smartCalMonth = 11; smartCalYear--; }
+  smartCalSelectedDate = null;
+  document.getElementById('smart-cal-detail').classList.remove('visible');
+  smartCalRender();
+}
+
+function smartCalNext() {
+  smartCalMonth++;
+  if (smartCalMonth > 11) { smartCalMonth = 0; smartCalYear++; }
+  smartCalSelectedDate = null;
+  document.getElementById('smart-cal-detail').classList.remove('visible');
+  smartCalRender();
+}
+
+// Initialize smart calendar
+setTimeout(function(){ smartCalRender(); }, 100);
 </script>
 
 <!-- ASK AI BUTTON + PANEL -->
