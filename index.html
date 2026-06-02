@@ -172,6 +172,85 @@
     gap: 10px;
   }
 
+  /* BRANDS TOOLBAR */
+  .brands-toolbar {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 20px;
+  }
+  .search-wrap {
+    flex: 1; position: relative;
+    display: flex; align-items: center;
+  }
+  .search-icon {
+    position: absolute; left: 16px; font-size: 1.1rem; pointer-events: none;
+  }
+  .brands-search-input {
+    width: 100%; padding: 14px 20px 14px 46px;
+    border-radius: 999px; border: 2px solid var(--border);
+    background: var(--input-bg); font-family: inherit; font-size: 1rem;
+    font-weight: 600; color: var(--text); outline: none;
+    transition: border-color 0.2s;
+  }
+  .brands-search-input:focus { border-color: var(--pink); }
+  .voice-btn {
+    padding: 14px 24px; border-radius: 999px;
+    border: none; background: linear-gradient(135deg,#FF5BAE,#c44dff);
+    color: white; font-family: inherit; font-size: 1rem;
+    font-weight: 800; cursor: pointer; white-space: nowrap;
+    transition: all 0.2s; box-shadow: 0 4px 14px rgba(255,91,174,0.3);
+  }
+  .voice-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,91,174,0.4); }
+  .voice-btn.listening { background: linear-gradient(135deg,#FF3B3B,#FF8C00); animation: pulse-mic 1s infinite; }
+  @keyframes pulse-mic { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+  .voice-status {
+    text-align: center; padding: 12px 20px; border-radius: 14px;
+    background: rgba(255,91,174,0.08); border: 1px solid rgba(255,91,174,0.2);
+    color: var(--pink); font-weight: 700; font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+  .voice-status.hidden { display: none; }
+
+  /* KANBAN */
+  .kanban-board {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 16px;
+  }
+  @media (max-width: 768px) { .kanban-board { grid-template-columns: 1fr; } }
+  .kanban-col {
+    background: var(--pill-bg); border-radius: 16px;
+    padding: 16px; border: 1px solid var(--border);
+    min-height: 160px;
+  }
+  .kanban-col-header {
+    font-weight: 800; font-size: 0.95rem;
+    padding: 8px 14px; border-radius: 10px;
+    margin-bottom: 14px; text-align: center;
+  }
+  .kanban-cards { display: flex; flex-direction: column; gap: 10px; min-height: 40px; }
+  .kanban-card {
+    background: var(--card-bg); border-radius: 12px;
+    padding: 12px 14px; border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    cursor: grab; display: flex; align-items: center; gap: 10px;
+    font-size: 0.95rem; font-weight: 600; transition: all 0.15s;
+    user-select: none;
+  }
+  .kanban-card:hover { box-shadow: 0 4px 16px rgba(79,126,247,0.14); transform: translateY(-1px); }
+  .kanban-card.dragging { opacity: 0.4; cursor: grabbing; }
+  .kanban-card .formula-icon { font-size: 1.1rem; flex-shrink:0; }
+  .kanban-card .formula-name { flex: 1; }
+  .kanban-card .formula-del {
+    opacity: 0; background: none; border: none;
+    color: var(--muted); font-size: 1.1rem; cursor: pointer;
+    padding: 2px 5px; border-radius: 6px; transition: all 0.15s;
+  }
+  .kanban-card:hover .formula-del { opacity: 1; }
+  .kanban-card .formula-del:hover { color: #FF5BAE; background: rgba(255,91,174,0.1); }
+  .kanban-col.drag-over { background: rgba(79,126,247,0.08); border-color: var(--blue); }
+
+  /* SEARCH HIGHLIGHT */
+  .search-hidden { display: none !important; }
+  .search-match .formula-name { background: rgba(255,91,174,0.2); border-radius: 4px; padding: 0 3px; }
+
   /* GREETING */
   .greeting {
     text-align: center;
@@ -495,36 +574,160 @@
 
   <!-- ===== BRANDS TAB ===== -->
   <div id="tab-brands" class="tab-panel">
-    <div class="sub-tabs">
+
+    <!-- Search + Voice toolbar -->
+    <div class="brands-toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="brands-search" class="brands-search-input" placeholder="Search formulas & tasks..." oninput="brandSearch(this.value)">
+      </div>
+      <button class="voice-btn" id="voice-btn" onclick="toggleVoice()" title="Speak to add a task">🎤 Talk</button>
+    </div>
+    <div id="voice-status" class="voice-status hidden"></div>
+
+    <div class="sub-tabs" id="brands-subtabs">
       <button class="sub-tab active" onclick="showSubTab('brands','tcf',this)">💄 TCF</button>
-      <button class="sub-tab" onclick="showSubTab('brands','sip',this)">🍹 Sip &amp; Formulate</button>
+      <button class="sub-tab" onclick="showSubTab('brands','nevoo',this)">✨ Nevoo</button>
+      <button class="sub-tab" onclick="showSubTab('brands','dailyrou',this)">🌿 Daily Rou</button>
+      <button class="sub-tab" onclick="showSubTab('brands','skinaxis',this)">💙 Skin Axis</button>
     </div>
 
+    <!-- TCF -->
     <div id="brands-sub-tcf" class="sub-panel active">
       <div class="card">
-        <div class="card-title">💄 TCF — Brand Tasks</div>
+        <div class="card-title">🧪 TCF — Formulas</div>
+        <div class="kanban-board">
+          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'tcf','notstarted')">
+            <div class="kanban-col-header" style="background:rgba(255,91,174,0.10);color:#FF5BAE;">📋 Not Yet Started</div>
+            <div class="kanban-cards" id="kan-tcf-notstarted"></div>
+            <button class="add-btn" onclick="addFormula('tcf','notstarted')">＋ Add formula</button>
+          </div>
+          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'tcf','inprogress')">
+            <div class="kanban-col-header" style="background:rgba(79,126,247,0.10);color:#4F7EF7;">⚗️ In Progress</div>
+            <div class="kanban-cards" id="kan-tcf-inprogress"></div>
+            <button class="add-btn" onclick="addFormula('tcf','inprogress')">＋ Add formula</button>
+          </div>
+          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'tcf','done')">
+            <div class="kanban-col-header" style="background:rgba(52,201,148,0.12);color:#34C994;">✅ Completed</div>
+            <div class="kanban-cards" id="kan-tcf-done"></div>
+            <button class="add-btn" onclick="addFormula('tcf','done')">＋ Add formula</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">✅ TCF — To-Do</div>
         <ul class="task-list" id="tcf-tasks"></ul>
         <button class="add-btn" onclick="addTask('tcf_brand_tcf','tcf-tasks')">＋ Add task</button>
       </div>
       <div class="card">
-        <div class="card-title">📎 TCF — Files &amp; Links</div>
+        <div class="card-title">📁 TCF — Files &amp; Links</div>
         <ul class="file-list" id="tcf-files"></ul>
         <button class="add-btn" onclick="addFile('tcf_files_tcf','tcf-files')">＋ Add link</button>
       </div>
     </div>
 
-    <div id="brands-sub-sip" class="sub-panel">
+    <!-- NEVOO -->
+    <div id="brands-sub-nevoo" class="sub-panel">
       <div class="card">
-        <div class="card-title">🍹 Sip &amp; Formulate — Brand Tasks</div>
-        <ul class="task-list" id="sip-tasks"></ul>
-        <button class="add-btn" onclick="addTask('tcf_brand_sip','sip-tasks')">＋ Add task</button>
+        <div class="card-title">🧪 Nevoo — Formulas</div>
+        <div class="kanban-board">
+          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'nevoo','notstarted')">
+            <div class="kanban-col-header" style="background:rgba(255,91,174,0.10);color:#FF5BAE;">📋 Not Yet Started</div>
+            <div class="kanban-cards" id="kan-nevoo-notstarted"></div>
+            <button class="add-btn" onclick="addFormula('nevoo','notstarted')">＋ Add formula</button>
+          </div>
+          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'nevoo','inprogress')">
+            <div class="kanban-col-header" style="background:rgba(79,126,247,0.10);color:#4F7EF7;">⚗️ In Progress</div>
+            <div class="kanban-cards" id="kan-nevoo-inprogress"></div>
+            <button class="add-btn" onclick="addFormula('nevoo','inprogress')">＋ Add formula</button>
+          </div>
+          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'nevoo','done')">
+            <div class="kanban-col-header" style="background:rgba(52,201,148,0.12);color:#34C994;">✅ Completed</div>
+            <div class="kanban-cards" id="kan-nevoo-done"></div>
+            <button class="add-btn" onclick="addFormula('nevoo','done')">＋ Add formula</button>
+          </div>
+        </div>
       </div>
       <div class="card">
-        <div class="card-title">📎 Sip &amp; Formulate — Files &amp; Links</div>
-        <ul class="file-list" id="sip-files"></ul>
-        <button class="add-btn" onclick="addFile('tcf_files_sip','sip-files')">＋ Add link</button>
+        <div class="card-title">✅ Nevoo — To-Do</div>
+        <ul class="task-list" id="nevoo-tasks"></ul>
+        <button class="add-btn" onclick="addTask('tcf_brand_nevoo','nevoo-tasks')">＋ Add task</button>
+      </div>
+      <div class="card">
+        <div class="card-title">📁 Nevoo — Files &amp; Links</div>
+        <ul class="file-list" id="nevoo-files"></ul>
+        <button class="add-btn" onclick="addFile('tcf_files_nevoo','nevoo-files')">＋ Add link</button>
       </div>
     </div>
+
+    <!-- DAILY ROU -->
+    <div id="brands-sub-dailyrou" class="sub-panel">
+      <div class="card">
+        <div class="card-title">🧪 Daily Rou — Formulas</div>
+        <div class="kanban-board">
+          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'dailyrou','notstarted')">
+            <div class="kanban-col-header" style="background:rgba(255,91,174,0.10);color:#FF5BAE;">📋 Not Yet Started</div>
+            <div class="kanban-cards" id="kan-dailyrou-notstarted"></div>
+            <button class="add-btn" onclick="addFormula('dailyrou','notstarted')">＋ Add formula</button>
+          </div>
+          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'dailyrou','inprogress')">
+            <div class="kanban-col-header" style="background:rgba(79,126,247,0.10);color:#4F7EF7;">⚗️ In Progress</div>
+            <div class="kanban-cards" id="kan-dailyrou-inprogress"></div>
+            <button class="add-btn" onclick="addFormula('dailyrou','inprogress')">＋ Add formula</button>
+          </div>
+          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'dailyrou','done')">
+            <div class="kanban-col-header" style="background:rgba(52,201,148,0.12);color:#34C994;">✅ Completed</div>
+            <div class="kanban-cards" id="kan-dailyrou-done"></div>
+            <button class="add-btn" onclick="addFormula('dailyrou','done')">＋ Add formula</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">✅ Daily Rou — To-Do</div>
+        <ul class="task-list" id="dailyrou-tasks"></ul>
+        <button class="add-btn" onclick="addTask('tcf_brand_dailyrou','dailyrou-tasks')">＋ Add task</button>
+      </div>
+      <div class="card">
+        <div class="card-title">📁 Daily Rou — Files &amp; Links</div>
+        <ul class="file-list" id="dailyrou-files"></ul>
+        <button class="add-btn" onclick="addFile('tcf_files_dailyrou','dailyrou-files')">＋ Add link</button>
+      </div>
+    </div>
+
+    <!-- SKIN AXIS -->
+    <div id="brands-sub-skinaxis" class="sub-panel">
+      <div class="card">
+        <div class="card-title">🧪 Skin Axis — Formulas</div>
+        <div class="kanban-board">
+          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'skinaxis','notstarted')">
+            <div class="kanban-col-header" style="background:rgba(255,91,174,0.10);color:#FF5BAE;">📋 Not Yet Started</div>
+            <div class="kanban-cards" id="kan-skinaxis-notstarted"></div>
+            <button class="add-btn" onclick="addFormula('skinaxis','notstarted')">＋ Add formula</button>
+          </div>
+          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'skinaxis','inprogress')">
+            <div class="kanban-col-header" style="background:rgba(79,126,247,0.10);color:#4F7EF7;">⚗️ In Progress</div>
+            <div class="kanban-cards" id="kan-skinaxis-inprogress"></div>
+            <button class="add-btn" onclick="addFormula('skinaxis','inprogress')">＋ Add formula</button>
+          </div>
+          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'skinaxis','done')">
+            <div class="kanban-col-header" style="background:rgba(52,201,148,0.12);color:#34C994;">✅ Completed</div>
+            <div class="kanban-cards" id="kan-skinaxis-done"></div>
+            <button class="add-btn" onclick="addFormula('skinaxis','done')">＋ Add formula</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">✅ Skin Axis — To-Do</div>
+        <ul class="task-list" id="skinaxis-tasks"></ul>
+        <button class="add-btn" onclick="addTask('tcf_brand_skinaxis','skinaxis-tasks')">＋ Add task</button>
+      </div>
+      <div class="card">
+        <div class="card-title">📁 Skin Axis — Files &amp; Links</div>
+        <ul class="file-list" id="skinaxis-files"></ul>
+        <button class="add-btn" onclick="addFile('tcf_files_skinaxis','skinaxis-files')">＋ Add link</button>
+      </div>
+    </div>
+
   </div><!-- end brands -->
 
   <!-- ===== CONTENT TAB ===== -->
@@ -1026,10 +1229,22 @@ var DEFAULTS = {
     'Update product descriptions'
   ].map(function(t) { return { text: t, done: false }; }),
 
-  tcf_brand_sip: [
-    'Develop new flavor profile',
-    'Order base ingredients',
-    'Schedule tasting session'
+  tcf_brand_nevoo: [
+    'Source new botanical extracts',
+    'Review batch testing results',
+    'Update INCI list'
+  ].map(function(t) { return { text: t, done: false }; }),
+
+  tcf_brand_dailyrou: [
+    'Design packaging mockups',
+    'Order sample bottles',
+    'Create product FAQ page'
+  ].map(function(t) { return { text: t, done: false }; }),
+
+  tcf_brand_skinaxis: [
+    'Research actives compatibility',
+    'Send formulas to lab',
+    'Set up consumer testing panel'
   ].map(function(t) { return { text: t, done: false }; }),
 
   tcf_tasks_content: [
@@ -1065,12 +1280,21 @@ var DEFAULTS = {
   ].map(function(t) { return { text: t, done: false }; }),
 
   tcf_files_tcf: [
+    { name: '📁 TCF Formulation Folder (Dropbox)', url: 'https://www.dropbox.com/home' },
     { name: 'TCF Brand Guide', url: 'https://notion.so' },
     { name: 'Formula Master Sheet', url: 'https://docs.google.com' }
   ],
-  tcf_files_sip: [
-    { name: 'Sip & Formulate Recipe Log', url: 'https://docs.google.com' },
-    { name: 'Ingredient Suppliers List', url: 'https://notion.so' }
+  tcf_files_nevoo: [
+    { name: '📁 Nevoo Formulation Folder (Dropbox)', url: 'https://www.dropbox.com/home' },
+    { name: 'Nevoo Ingredient Log', url: 'https://docs.google.com' }
+  ],
+  tcf_files_dailyrou: [
+    { name: '📁 Daily Rou Formulation Folder (Dropbox)', url: 'https://www.dropbox.com/home' },
+    { name: 'Daily Rou Packaging Notes', url: 'https://docs.google.com' }
+  ],
+  tcf_files_skinaxis: [
+    { name: '📁 Skin Axis Formulation Folder (Dropbox)', url: 'https://www.dropbox.com/home' },
+    { name: 'Skin Axis Lab Results', url: 'https://docs.google.com' }
   ],
   tcf_files_content: [
     { name: 'Content Calendar', url: 'https://notion.so' },
@@ -1091,6 +1315,234 @@ function ensureDefaults() {
 }
 
 // ============================================================
+// KANBAN — FORMULAS
+// ============================================================
+var BRANDS = ['tcf','nevoo','dailyrou','skinaxis'];
+var BRAND_DEFAULTS = {
+  tcf: [
+    {id:1,title:'Hydrating Serum v2',status:'inprogress'},
+    {id:2,title:'Vitamin C Brightening Cream',status:'notstarted'},
+    {id:3,title:'Peptide Eye Gel',status:'notstarted'},
+    {id:4,title:'Gentle Cleansing Balm',status:'done'}
+  ],
+  nevoo: [
+    {id:1,title:'Nourishing Facial Oil',status:'notstarted'},
+    {id:2,title:'Calming Rose Mist',status:'inprogress'},
+    {id:3,title:'Overnight Repair Mask',status:'notstarted'}
+  ],
+  dailyrou: [
+    {id:1,title:'Daily SPF Moisturizer',status:'inprogress'},
+    {id:2,title:'Gentle Foaming Cleanser',status:'notstarted'},
+    {id:3,title:'Tinted Lip Balm',status:'done'}
+  ],
+  skinaxis: [
+    {id:1,title:'Barrier Repair Cream',status:'notstarted'},
+    {id:2,title:'AHA Exfoliating Toner',status:'inprogress'},
+    {id:3,title:'Probiotic Serum',status:'notstarted'}
+  ]
+};
+
+var FORMULA_ICONS = {notstarted:'🧴',inprogress:'⚗️',done:'✅'};
+var dragFormula = null; // {brand, id}
+
+function renderKanban(brand) {
+  var key = 'tcf_formulas_' + brand;
+  if (localStorage.getItem(key) === null) lsSet(key, BRAND_DEFAULTS[brand] || []);
+  var formulas = lsGet(key, []);
+  ['notstarted','inprogress','done'].forEach(function(status) {
+    var container = document.getElementById('kan-'+brand+'-'+status);
+    if (!container) return;
+    container.innerHTML = '';
+    formulas.filter(function(f){return f.status===status;}).forEach(function(f) {
+      var card = document.createElement('div');
+      card.className = 'kanban-card';
+      card.draggable = true;
+      card.dataset.id = f.id;
+      card.dataset.brand = brand;
+      card.innerHTML = '<span class="formula-icon">'+FORMULA_ICONS[status]+'</span>' +
+        '<span class="formula-name">'+f.title+'</span>' +
+        '<button class="formula-del" onclick="deleteFormula(\''+brand+'\','+f.id+',event)" title="Delete">×</button>';
+      // Click name to edit
+      card.querySelector('.formula-name').onclick = function(e) {
+        e.stopPropagation();
+        var span = card.querySelector('.formula-name');
+        inlineEdit(span, function(v){
+          var fs = lsGet(key,[]);
+          var idx = fs.findIndex(function(x){return x.id===f.id;});
+          if(idx>-1){fs[idx].title=v; lsSet(key,fs); renderKanban(brand);}
+        });
+      };
+      card.addEventListener('dragstart', function(e){
+        dragFormula = {brand:brand, id:f.id};
+        card.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      card.addEventListener('dragend', function(){ card.classList.remove('dragging'); });
+      container.appendChild(card);
+    });
+  });
+}
+
+function kanbanDrop(e, brand, newStatus) {
+  e.preventDefault();
+  if (!dragFormula || dragFormula.brand !== brand) return;
+  var key = 'tcf_formulas_' + brand;
+  var fs = lsGet(key, []);
+  var idx = fs.findIndex(function(x){return x.id===dragFormula.id;});
+  if (idx > -1) { fs[idx].status = newStatus; lsSet(key, fs); renderKanban(brand); }
+  dragFormula = null;
+  document.querySelectorAll('.kanban-col').forEach(function(c){c.classList.remove('drag-over');});
+}
+
+function addFormula(brand, status) {
+  var key = 'tcf_formulas_' + brand;
+  var fs = lsGet(key, BRAND_DEFAULTS[brand]||[]);
+  var maxId = fs.reduce(function(m,x){return Math.max(m,x.id||0);},0);
+  fs.push({id:maxId+1, title:'New Formula', status:status});
+  lsSet(key, fs);
+  renderKanban(brand);
+  // Auto-edit the new card
+  setTimeout(function(){
+    var cols = document.querySelectorAll('#kan-'+brand+'-'+status+' .formula-name');
+    if (cols.length) cols[cols.length-1].click();
+  }, 60);
+}
+
+function deleteFormula(brand, id, e) {
+  e.stopPropagation();
+  var key = 'tcf_formulas_' + brand;
+  var fs = lsGet(key, []);
+  lsSet(key, fs.filter(function(x){return x.id!==id;}));
+  renderKanban(brand);
+}
+
+// Drag-over highlight
+document.addEventListener('dragover', function(e){
+  var col = e.target.closest('.kanban-col');
+  document.querySelectorAll('.kanban-col').forEach(function(c){c.classList.remove('drag-over');});
+  if (col) col.classList.add('drag-over');
+});
+
+// ============================================================
+// VOICE INPUT (Web Speech API)
+// ============================================================
+var voiceRecognition = null;
+var voiceActive = false;
+
+function toggleVoice() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    alert('Voice input is not supported in this browser. Try Chrome! 🎤');
+    return;
+  }
+  if (voiceActive) {
+    voiceActive = false;
+    if (voiceRecognition) voiceRecognition.stop();
+    updateVoiceUI(false);
+    return;
+  }
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  voiceRecognition = new SpeechRecognition();
+  voiceRecognition.lang = 'en-US';
+  voiceRecognition.interimResults = true;
+  voiceRecognition.maxAlternatives = 1;
+
+  voiceActive = true;
+  updateVoiceUI(true, 'Listening... speak now 🎤');
+
+  voiceRecognition.onresult = function(event) {
+    var transcript = '';
+    for (var i = event.resultIndex; i < event.results.length; i++) {
+      transcript += event.results[i][0].transcript;
+    }
+    updateVoiceUI(true, '🎤 Heard: "' + transcript + '"');
+    if (event.results[event.results.length-1].isFinal) {
+      var text = transcript.trim();
+      if (text) {
+        // Add to currently active brand's task list
+        var activeBrand = getActiveBrand();
+        if (activeBrand) {
+          var key = 'tcf_brand_' + activeBrand.key;
+          var cid = activeBrand.key + '-tasks';
+          var tasks = lsGet(key,[]);
+          tasks.push({text:text, done:false});
+          lsSet(key,tasks);
+          renderTasks(key, cid);
+          updateVoiceUI(false, '✅ Added: "'+text+'" to '+activeBrand.name);
+          setTimeout(function(){document.getElementById('voice-status').classList.add('hidden');},3000);
+        }
+      }
+      voiceActive = false;
+      updateVoiceUI(false);
+    }
+  };
+  voiceRecognition.onerror = function(e) {
+    updateVoiceUI(false, '❌ Voice error: ' + e.error);
+    voiceActive = false;
+    setTimeout(function(){document.getElementById('voice-status').classList.add('hidden');},3000);
+  };
+  voiceRecognition.onend = function() {
+    if (voiceActive) { voiceActive = false; updateVoiceUI(false); }
+  };
+  voiceRecognition.start();
+}
+
+function updateVoiceUI(active, msg) {
+  var btn = document.getElementById('voice-btn');
+  var status = document.getElementById('voice-status');
+  if (btn) {
+    btn.classList.toggle('listening', active);
+    btn.textContent = active ? '🔴 Listening...' : '🎤 Talk';
+  }
+  if (status) {
+    if (msg) { status.textContent = msg; status.classList.remove('hidden'); }
+    else if (!active) { status.classList.add('hidden'); }
+  }
+}
+
+function getActiveBrand() {
+  var map = {tcf:'TCF',nevoo:'Nevoo',dailyrou:'Daily Rou',skinaxis:'Skin Axis'};
+  var active = document.querySelector('#brands-subtabs .sub-tab.active');
+  if (!active) return null;
+  var text = active.textContent.replace(/[^\w\s]/g,'').trim().toLowerCase().replace(/\s+/g,'');
+  for (var k in map) {
+    if (text.includes(k) || active.getAttribute('onclick').includes(k)) {
+      return {key:k, name:map[k]};
+    }
+  }
+  return null;
+}
+
+// ============================================================
+// SEARCH
+// ============================================================
+function brandSearch(query) {
+  var q = query.toLowerCase().trim();
+  // Search kanban cards
+  document.querySelectorAll('#tab-brands .kanban-card').forEach(function(card) {
+    var name = card.querySelector('.formula-name');
+    if (!name) return;
+    if (!q) { card.classList.remove('search-hidden','search-match'); name.innerHTML = name.textContent; return; }
+    if (name.textContent.toLowerCase().includes(q)) {
+      card.classList.remove('search-hidden');
+      card.classList.add('search-match');
+    } else {
+      card.classList.add('search-hidden');
+      card.classList.remove('search-match');
+    }
+  });
+  // Search task items
+  document.querySelectorAll('#tab-brands .task-item').forEach(function(item) {
+    var span = item.querySelector('.task-text');
+    if (!span) return;
+    if (!q || span.textContent.toLowerCase().includes(q)) {
+      item.classList.remove('search-hidden');
+    } else {
+      item.classList.add('search-hidden');
+    }
+  });
+}
+
+// ============================================================
 // INIT
 // ============================================================
 function initApp() {
@@ -1099,11 +1551,17 @@ function initApp() {
   // Home
   renderTasks('tcf_home_tasks', 'home-tasks');
   updateDonut();
-  // Brands
+  // Brands — Kanban
+  BRANDS.forEach(function(b){ renderKanban(b); });
+  // Brands — Tasks
   renderTasks('tcf_brand_tcf', 'tcf-tasks');
   renderFiles('tcf_files_tcf', 'tcf-files');
-  renderTasks('tcf_brand_sip', 'sip-tasks');
-  renderFiles('tcf_files_sip', 'sip-files');
+  renderTasks('tcf_brand_nevoo', 'nevoo-tasks');
+  renderFiles('tcf_files_nevoo', 'nevoo-files');
+  renderTasks('tcf_brand_dailyrou', 'dailyrou-tasks');
+  renderFiles('tcf_files_dailyrou', 'dailyrou-files');
+  renderTasks('tcf_brand_skinaxis', 'skinaxis-tasks');
+  renderFiles('tcf_files_skinaxis', 'skinaxis-files');
   // Content
   renderTasks('tcf_tasks_content', 'content-tasks');
   renderFiles('tcf_files_content', 'content-files');
