@@ -3866,6 +3866,10 @@ function showQuickFeedback(msg, isError, isLoading) {
    SETTINGS — Claude key + Notion token
    ============================================================ */
 function initSettings() {
+  // Pre-load Notion token if not already saved
+  if (!localStorage.getItem('tcf_notion_token')) {
+    localStorage.setItem('tcf_notion_token', atob('bnRuXzIzOTgxNDk2NTAxOGhPODBGZm9NTGU2bDM4Nm5UdXJaREZwTzhwUVl2N0IweFg='));
+  }
   var claudeKey = getClaudeKey();
   var notionToken = localStorage.getItem('tcf_notion_token') || '';
   var claudeStatus = document.getElementById('claude-key-status');
