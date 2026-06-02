@@ -795,6 +795,143 @@
   font-size: 0.8rem; font-weight: 800; margin-bottom: 12px;
 }
 
+/* BIG SEARCH BAR */
+.big-search-wrap {
+  margin: 0 0 28px 0;
+  position: relative;
+}
+.big-search-glow {
+  position: absolute; inset: -3px;
+  border-radius: 999px;
+  background: linear-gradient(135deg,#FF5BAE,#c44dff,#4F7EF7);
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 999px;
+  filter: blur(6px);
+  z-index: 0;
+}
+.big-search-wrap:focus-within .big-search-glow { opacity: 0.35; }
+.big-search-inner {
+  position: relative; z-index: 1;
+  display: flex; align-items: center;
+  background: var(--card-bg);
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  box-shadow: 0 4px 24px rgba(79,126,247,0.1);
+  padding: 6px 6px 6px 28px;
+  gap: 10px;
+  transition: border-color 0.2s;
+}
+.big-search-wrap:focus-within .big-search-inner { border-color: var(--pink); }
+.big-search-icon { font-size: 1.4rem; flex-shrink: 0; }
+.big-search-input {
+  flex: 1; border: none; background: transparent;
+  font-family: inherit; font-size: 1.15rem; font-weight: 700;
+  color: var(--text); outline: none; min-width: 0;
+  padding: 10px 0;
+}
+.big-search-input::placeholder { color: var(--muted); font-weight: 600; }
+.big-search-btn {
+  padding: 14px 32px; border-radius: 999px;
+  background: linear-gradient(135deg,#FF5BAE,#c44dff);
+  color: white; border: none; font-family: inherit;
+  font-size: 1rem; font-weight: 900; cursor: pointer;
+  white-space: nowrap; flex-shrink: 0;
+  transition: all 0.2s; box-shadow: 0 2px 12px rgba(255,91,174,0.3);
+}
+.big-search-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,91,174,0.45); }
+.big-search-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.big-search-answer {
+  margin-top: 16px; padding: 22px 26px;
+  border-radius: 20px;
+  background: linear-gradient(135deg,rgba(255,91,174,0.04),rgba(79,126,247,0.06));
+  border: 1px solid var(--border);
+  font-size: 1rem; font-weight: 600; line-height: 1.85;
+  color: var(--text); white-space: pre-wrap;
+  display: none;
+}
+.big-search-answer.visible { display: block; }
+.big-search-answer-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.big-search-answer-label {
+  font-size: 0.78rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--pink);
+}
+.big-search-add-row {
+  margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;
+}
+.big-search-add-task {
+  padding: 8px 20px; border-radius: 999px; border: none;
+  background: rgba(79,126,247,0.12); color: var(--blue);
+  font-family: inherit; font-size: 0.85rem; font-weight: 800;
+  cursor: pointer; transition: all 0.15s;
+}
+.big-search-add-task:hover { background: var(--blue); color: white; }
+.big-search-loading {
+  color: var(--muted); font-size: 0.95rem; font-weight: 700;
+  display: flex; align-items: center; gap: 8px;
+}
+.search-spinner {
+  width: 18px; height: 18px; border: 3px solid var(--border);
+  border-top-color: var(--pink); border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* QUICK COMMAND */
+.quick-cmd-card {
+  border: 2px dashed rgba(255,91,174,0.3);
+  background: linear-gradient(135deg,rgba(255,91,174,0.03),rgba(79,126,247,0.03));
+  transition: border-color 0.2s;
+}
+.quick-cmd-card:focus-within { border-color: rgba(255,91,174,0.6); border-style: solid; }
+.quick-cmd-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.quick-cmd-icon {
+  width:42px; height:42px; border-radius:12px;
+  background: linear-gradient(135deg,#FF5BAE,#c44dff);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.3rem; flex-shrink:0;
+}
+.quick-cmd-input {
+  width:100%; padding:14px 18px; border-radius:14px;
+  border:2px solid var(--border); background:var(--input-bg);
+  font-family:inherit; font-size:1.05rem; font-weight:600;
+  color:var(--text); outline:none; resize:none; min-height:90px;
+  transition:border-color 0.2s; line-height:1.6;
+}
+.quick-cmd-input:focus { border-color: var(--pink); }
+.quick-cmd-input::placeholder { color:var(--muted); font-weight:600; }
+.quick-cmd-actions { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+.quick-cmd-btn {
+  padding:10px 22px; border-radius:999px; border:none;
+  font-family:inherit; font-size:0.9rem; font-weight:800;
+  cursor:pointer; transition:all 0.15s;
+}
+.quick-cmd-btn-primary {
+  background:linear-gradient(135deg,#FF5BAE,#c44dff);
+  color:white; box-shadow:0 2px 10px rgba(255,91,174,0.3);
+}
+.quick-cmd-btn-primary:hover { transform:translateY(-1px); box-shadow:0 5px 18px rgba(255,91,174,0.45); }
+.quick-cmd-btn-secondary {
+  background:var(--pill-bg); color:var(--text);
+  border:1px solid var(--border);
+}
+.quick-cmd-btn-secondary:hover { border-color:var(--blue); color:var(--blue); }
+.quick-cmd-chips { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+.quick-cmd-chip {
+  padding:5px 14px; border-radius:999px;
+  background:var(--pill-bg); border:1px solid var(--border);
+  font-size:0.8rem; font-weight:700; cursor:pointer; color:var(--muted);
+  transition:all 0.15s;
+}
+.quick-cmd-chip:hover { border-color:var(--pink); color:var(--pink); background:rgba(255,91,174,0.08); }
+.quick-cmd-feedback {
+  margin-top:10px; font-size:0.88rem; font-weight:700;
+  color:#34C994; display:none;
+}
+.quick-cmd-feedback.visible { display:block; }
+
 /* AI BRAIN */
 .ai-brain-card {
   background: linear-gradient(135deg, rgba(255,91,174,0.05), rgba(79,126,247,0.05));
@@ -908,6 +1045,53 @@
       <h1 id="greeting-text">Good morning ☀️ Nicole</h1>
       <div class="date-display" id="date-display"></div>
       <div class="live-clock" id="live-clock"></div>
+    </div>
+
+    <!-- BIG AI SEARCH BAR -->
+    <div class="big-search-wrap" id="big-search-wrap">
+      <div class="big-search-glow"></div>
+      <div class="big-search-inner">
+        <span class="big-search-icon">✦</span>
+        <input type="text" id="big-search-input" class="big-search-input"
+          placeholder="Ask me anything — business, formulas, strategy, ideas..."
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();bigSearch();}">
+        <button class="big-search-btn" id="big-search-btn" onclick="bigSearch()">Ask</button>
+      </div>
+      <div class="big-search-answer" id="big-search-answer">
+        <div class="big-search-answer-header">
+          <span class="big-search-answer-label">✦ Answer</span>
+          <button onclick="document.getElementById('big-search-answer').classList.remove('visible')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.2rem;line-height:1;">×</button>
+        </div>
+        <div id="big-search-answer-text"></div>
+        <div class="big-search-add-row" id="big-search-add-row"></div>
+      </div>
+    </div>
+
+    <!-- QUICK COMMAND PANEL -->
+    <div class="card quick-cmd-card" style="margin-bottom:24px;">
+      <div class="quick-cmd-header">
+        <div class="quick-cmd-icon">⚡</div>
+        <div>
+          <div class="card-title" style="margin-bottom:2px;">Quick Update</div>
+          <div style="color:var(--muted);font-size:0.88rem;font-weight:600;">Type anything — add tasks, move things, set reminders, update your list</div>
+        </div>
+      </div>
+      <div class="quick-cmd-chips" id="quick-cmd-chips">
+        <span class="quick-cmd-chip" onclick="quickCmdFill('Add to my list: ')">+ Add task</span>
+        <span class="quick-cmd-chip" onclick="quickCmdFill('Mark as done: ')">✓ Mark done</span>
+        <span class="quick-cmd-chip" onclick="quickCmdFill('I need to focus on ')">🎯 Focus</span>
+        <span class="quick-cmd-chip" onclick="quickCmdFill('Remind me to ')">⏰ Reminder</span>
+        <span class="quick-cmd-chip" onclick="quickCmdFill('Clear my list and start fresh with: ')">🗑️ Clear & reset</span>
+        <span class="quick-cmd-chip" onclick="quickCmdFill('What should I prioritize today for ')">💡 Prioritize</span>
+      </div>
+      <textarea id="quick-cmd-input" class="quick-cmd-input"
+        placeholder="e.g. &quot;Add finalize NEVOO formula to my list&quot; or &quot;Mark TCF website as done&quot; or &quot;What should I focus on today?&quot;"
+        onkeydown="if(event.key==='Enter'&&event.metaKey){runQuickCommand();}"></textarea>
+      <div class="quick-cmd-actions">
+        <button class="quick-cmd-btn quick-cmd-btn-primary" onclick="runQuickCommand()">Run ⌘↵</button>
+        <button class="quick-cmd-btn quick-cmd-btn-secondary" onclick="document.getElementById('quick-cmd-input').value=''">Clear</button>
+      </div>
+      <div class="quick-cmd-feedback" id="quick-cmd-feedback">Done! ✓</div>
     </div>
 
     <!-- AI DAILY BRAIN -->
@@ -3231,6 +3415,236 @@ function addNotionTask(btn, text) {
   btn.style.background = 'rgba(52,201,148,0.15)';
   btn.style.color = '#34C994';
   btn.disabled = true;
+}
+
+/* =============================================
+   BIG SEARCH BAR
+   ============================================= */
+function bigSearch() {
+  var input = document.getElementById('big-search-input');
+  var q = input.value.trim();
+  if (!q) return;
+  var answerBox = document.getElementById('big-search-answer');
+  var answerText = document.getElementById('big-search-answer-text');
+  var addRow = document.getElementById('big-search-add-row');
+  var btn = document.getElementById('big-search-btn');
+
+  answerText.innerHTML = '<div class="big-search-loading"><div class="search-spinner"></div> Thinking...</div>';
+  addRow.innerHTML = '';
+  answerBox.classList.add('visible');
+  btn.disabled = true;
+
+  var key = localStorage.getItem('tcf_openai_key') || '';
+  if (!key) {
+    answerText.innerHTML = '<span style="color:var(--pink);font-weight:700;">Enter your OpenAI key in the Ask AI panel (bottom right) first, then I can answer anything.</span>';
+    btn.disabled = false;
+    return;
+  }
+
+  var ctx = getAllTasksContext();
+  var systemPrompt = 'You are Nicole\'s personal AI assistant for The Cosmetic Formulary (TCF), a luxury cosmetic atelier based in New Mexico. You know her business deeply:\n\n' +
+    '- 4 brands: TCF (flagship), NEVOO (wellness), Skin Axis (clinical), Rinse & Repeat (haircare)\n' +
+    '- King Street location, Sip & Formulate events, private label formulation\n' +
+    '- Team member: Pauly\n' +
+    '- Current tasks context:\n' + ctx + '\n\n' +
+    'Answer Nicole\'s questions concisely and practically. If the question is about tasks, end your answer with a line that starts with "TASKS:" followed by comma-separated actionable to-do items she could add to her list.';
+
+  fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+    body: JSON.stringify({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: q }
+      ],
+      max_tokens: 600,
+      temperature: 0.7
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    btn.disabled = false;
+    if (data.error) {
+      answerText.innerHTML = '<span style="color:var(--pink);font-weight:700;">Error: ' + data.error.message + '</span>';
+      return;
+    }
+    var full = data.choices[0].message.content.trim();
+    var taskSplit = full.split(/\nTASKS:/i);
+    var answer = taskSplit[0];
+    answerText.textContent = answer;
+
+    if (taskSplit[1]) {
+      var taskItems = taskSplit[1].split(',').map(function(t){ return t.trim(); }).filter(Boolean);
+      addRow.innerHTML = '<span style="font-size:0.8rem;font-weight:700;color:var(--muted);margin-right:4px;align-self:center;">Add to list:</span>';
+      taskItems.forEach(function(t) {
+        var b = document.createElement('button');
+        b.className = 'big-search-add-task';
+        b.textContent = '+ ' + t;
+        b.onclick = function() {
+          var tasks = lsGet('tcf_home_tasks', []);
+          tasks.push({ text: t, done: false });
+          lsSet('tcf_home_tasks', tasks);
+          renderTasks('tcf_home_tasks', 'home-tasks');
+          updateDonut();
+          b.textContent = '✓ Added';
+          b.style.background = 'rgba(52,201,148,0.15)';
+          b.style.color = '#34C994';
+          b.disabled = true;
+        };
+        addRow.appendChild(b);
+      });
+    }
+  })
+  .catch(function(err) {
+    btn.disabled = false;
+    answerText.innerHTML = '<span style="color:var(--pink);font-weight:700;">Connection error. Try again.</span>';
+  });
+}
+
+/* =============================================
+   QUICK COMMAND
+   ============================================= */
+function quickCmdFill(text) {
+  var el = document.getElementById('quick-cmd-input');
+  el.value = text;
+  el.focus();
+  el.setSelectionRange(text.length, text.length);
+}
+
+function runQuickCommand() {
+  var input = document.getElementById('quick-cmd-input');
+  var cmd = input.value.trim();
+  if (!cmd) return;
+  var feedback = document.getElementById('quick-cmd-feedback');
+
+  // Detect direct "add" commands — no AI needed
+  var addMatch = cmd.match(/^add(?:\s+to\s+(?:my\s+)?(?:list|tasks?|to-?do))?:?\s+(.+)$/i);
+  if (addMatch) {
+    var taskText = addMatch[1].trim();
+    var tasks = lsGet('tcf_home_tasks', []);
+    tasks.push({ text: taskText, done: false });
+    lsSet('tcf_home_tasks', tasks);
+    renderTasks('tcf_home_tasks', 'home-tasks');
+    updateDonut();
+    input.value = '';
+    showQuickFeedback('Added "' + taskText + '" to your list ✓');
+    return;
+  }
+
+  // Detect "mark done" commands
+  var doneMatch = cmd.match(/^(?:mark|set|complete)\s+(?:as\s+)?done:?\s+(.+)$/i);
+  if (doneMatch) {
+    var searchText = doneMatch[1].trim().toLowerCase();
+    var tasks = lsGet('tcf_home_tasks', []);
+    var found = false;
+    tasks = tasks.map(function(t) {
+      if (t.text.toLowerCase().indexOf(searchText) !== -1) { found = true; return { text: t.text, done: true }; }
+      return t;
+    });
+    if (found) {
+      lsSet('tcf_home_tasks', tasks);
+      renderTasks('tcf_home_tasks', 'home-tasks');
+      updateDonut();
+      input.value = '';
+      showQuickFeedback('Marked as done ✓');
+    } else {
+      showQuickFeedback('Could not find that task — try the exact wording', true);
+    }
+    return;
+  }
+
+  // Detect "clear" command
+  if (/^clear\s+(?:my\s+)?(?:list|tasks?|to-?do)$/i.test(cmd)) {
+    lsSet('tcf_home_tasks', []);
+    renderTasks('tcf_home_tasks', 'home-tasks');
+    updateDonut();
+    input.value = '';
+    showQuickFeedback('List cleared ✓');
+    return;
+  }
+
+  // Everything else — use AI to interpret
+  var key = localStorage.getItem('tcf_openai_key') || '';
+  if (!key) {
+    // Fallback: just add whatever they typed as a task
+    var tasks = lsGet('tcf_home_tasks', []);
+    tasks.push({ text: cmd, done: false });
+    lsSet('tcf_home_tasks', tasks);
+    renderTasks('tcf_home_tasks', 'home-tasks');
+    updateDonut();
+    input.value = '';
+    showQuickFeedback('Added to your list ✓');
+    return;
+  }
+
+  showQuickFeedback('Processing...', false, true);
+  var currentTasks = lsGet('tcf_home_tasks', []);
+  var taskListText = currentTasks.map(function(t,i){ return (i+1)+'. ['+(t.done?'done':'pending')+'] '+t.text; }).join('\n') || 'Empty';
+
+  fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+    body: JSON.stringify({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: 'You are a to-do list assistant for Nicole (The Cosmetic Formulary). Current task list:\n' + taskListText + '\n\nRespond with ONLY valid JSON in this shape:\n{"action":"add"|"mark_done"|"remove"|"clear"|"reorder","items":["task1","task2"],"message":"brief confirmation"}\n\nFor "add": items = new tasks to add.\nFor "mark_done": items = task text fragments to match and mark done.\nFor "remove": items = task text fragments to remove.\nFor "clear": items = [].\nFor "reorder": items = full task texts in new order.\nAlways return valid JSON, nothing else.' },
+        { role: 'user', content: cmd }
+      ],
+      max_tokens: 400,
+      temperature: 0.2
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    if (data.error) { showQuickFeedback('AI error — task added as-is'); applyQuickCmdFallback(cmd); return; }
+    var raw = data.choices[0].message.content.trim();
+    var parsed;
+    try { parsed = JSON.parse(raw); } catch(e) { showQuickFeedback('Task added ✓'); applyQuickCmdFallback(cmd); return; }
+
+    var tasks = lsGet('tcf_home_tasks', []);
+    if (parsed.action === 'add' && parsed.items) {
+      parsed.items.forEach(function(t){ tasks.push({ text: t, done: false }); });
+    } else if (parsed.action === 'mark_done' && parsed.items) {
+      tasks = tasks.map(function(t) {
+        var match = parsed.items.some(function(s){ return t.text.toLowerCase().indexOf(s.toLowerCase()) !== -1; });
+        return match ? { text: t.text, done: true } : t;
+      });
+    } else if (parsed.action === 'remove' && parsed.items) {
+      tasks = tasks.filter(function(t) {
+        return !parsed.items.some(function(s){ return t.text.toLowerCase().indexOf(s.toLowerCase()) !== -1; });
+      });
+    } else if (parsed.action === 'clear') {
+      tasks = [];
+    } else if (parsed.action === 'reorder' && parsed.items) {
+      tasks = parsed.items.map(function(text){ return { text: text, done: false }; });
+    } else {
+      parsed.items && parsed.items.forEach(function(t){ tasks.push({ text: t, done: false }); });
+    }
+    lsSet('tcf_home_tasks', tasks);
+    renderTasks('tcf_home_tasks', 'home-tasks');
+    updateDonut();
+    input.value = '';
+    showQuickFeedback((parsed.message || 'Done') + ' ✓');
+  })
+  .catch(function(){ showQuickFeedback('Task added ✓'); applyQuickCmdFallback(cmd); });
+}
+
+function applyQuickCmdFallback(cmd) {
+  var tasks = lsGet('tcf_home_tasks', []);
+  tasks.push({ text: cmd, done: false });
+  lsSet('tcf_home_tasks', tasks);
+  renderTasks('tcf_home_tasks', 'home-tasks');
+  updateDonut();
+  document.getElementById('quick-cmd-input').value = '';
+}
+
+function showQuickFeedback(msg, isError, isLoading) {
+  var el = document.getElementById('quick-cmd-feedback');
+  el.textContent = msg;
+  el.style.color = isError ? 'var(--pink)' : isLoading ? 'var(--muted)' : '#34C994';
+  el.classList.add('visible');
+  if (!isLoading) setTimeout(function(){ el.classList.remove('visible'); }, 3000);
 }
 </script>
 
