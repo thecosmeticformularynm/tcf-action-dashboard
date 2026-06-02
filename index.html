@@ -829,7 +829,7 @@
     <div class="sub-tabs" id="brands-subtabs">
       <button class="sub-tab active" onclick="showSubTab('brands','tcf',this)">💄 TCF</button>
       <button class="sub-tab" onclick="showSubTab('brands','nevoo',this)">✨ Nevoo</button>
-      <button class="sub-tab" onclick="showSubTab('brands','dailyrou',this)">🌿 Daily Rou</button>
+      <button class="sub-tab" onclick="showSubTab('brands','dailyrou',this)">🌿 Rinse & Repeat</button>
       <button class="sub-tab" onclick="showSubTab('brands','skinaxis',this)">💙 Skin Axis</button>
     </div>
 
@@ -904,7 +904,7 @@
     <!-- DAILY ROU -->
     <div id="brands-sub-dailyrou" class="sub-panel">
       <div class="card">
-        <div class="card-title">Daily Rou — Formulas</div>
+        <div class="card-title">Rinse &amp; Repeat — Formulas</div>
         <div class="kanban-board">
           <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'dailyrou','notstarted')">
             <div class="kanban-col-header" style="background:rgba(255,91,174,0.10);color:#FF5BAE;">📋 Not Yet Started</div>
@@ -924,12 +924,12 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Daily Rou — To-Do</div>
+        <div class="card-title">Rinse &amp; Repeat — To-Do</div>
         <ul class="task-list" id="dailyrou-tasks"></ul>
         <button class="add-btn" onclick="addTask('tcf_brand_dailyrou','dailyrou-tasks')">＋ Add task</button>
       </div>
       <div class="card">
-        <div class="card-title">Daily Rou — Files &amp; Links</div>
+        <div class="card-title">Rinse &amp; Repeat — Files &amp; Links</div>
         <ul class="file-list" id="dailyrou-files"></ul>
         <button class="add-btn" onclick="addFile('tcf_files_dailyrou','dailyrou-files')">＋ Add link</button>
       </div>
@@ -1588,7 +1588,7 @@ var DEFAULT_SCHEDULE = [
   { time: '6:45 AM', text: 'Journaling + review daily goals' },
   { time: '7:30 AM', text: 'Deep work block — formulas, product dev, R&D' },
   { time: '8:30 AM', text: 'Email triage + respond to vendors & team' },
-  { time: '9:30 AM', text: 'Brand work — TCF / Nevoo / Daily Rou / Skin Axis' },
+  { time: '9:30 AM', text: 'Brand work — TCF / Nevoo / Rinse & Repeat / Skin Axis' },
   { time: '10:30 AM', text: 'Calls, meetings & collaborations' },
   { time: '11:30 AM', text: 'Operations + admin tasks' },
   { time: '12:30 PM', text: 'Lunch break — step away from the screen' },
@@ -1780,27 +1780,35 @@ var DEFAULTS = {
   ].map(function(t) { return { text: t, done: false }; }),
 
   tcf_brand_tcf: [
-    'Finalize fall formula lineup',
-    'Review lab results',
-    'Update product descriptions'
+    'Finalize logo and label designs for TCF product line',
+    'Complete FDA facility registration',
+    'Build out product specification sheets',
+    'Set up Shopify store for TCF',
+    'Develop brand guidelines document'
   ].map(function(t) { return { text: t, done: false }; }),
 
   tcf_brand_nevoo: [
-    'Source new botanical extracts',
-    'Review batch testing results',
-    'Update INCI list'
+    'Develop NEVOO brand identity and positioning',
+    'Create NEVOO product line concept',
+    'Source ingredients for NEVOO formulas',
+    'Design NEVOO packaging concepts',
+    'Register NEVOO trademark'
   ].map(function(t) { return { text: t, done: false }; }),
 
   tcf_brand_dailyrou: [
-    'Design packaging mockups',
-    'Order sample bottles',
-    'Create product FAQ page'
+    'Finalize Rinse & Repeat product catalog',
+    'Review logo and design options',
+    'Confirm packaging specs',
+    'Set up Rinse & Repeat social profiles',
+    'Create Rinse & Repeat brand guidelines'
   ].map(function(t) { return { text: t, done: false }; }),
 
   tcf_brand_skinaxis: [
-    'Research actives compatibility',
-    'Send formulas to lab',
-    'Set up consumer testing panel'
+    'Finalize Skin Axis product line concepts',
+    'Develop tea product line strategy',
+    'Review skin axis concept documents',
+    'Source ingredients for Skin Axis formulas',
+    'Create Skin Axis brand deck'
   ].map(function(t) { return { text: t, done: false }; }),
 
   tcf_tasks_content: [
@@ -1812,11 +1820,12 @@ var DEFAULTS = {
   ].map(function(t) { return { text: t, done: false }; }),
 
   tcf_tasks_ops: [
-    'Review vendor invoices',
-    'Check inventory levels',
-    'Update business calendar',
-    'Follow up: permits',
-    'Equipment maintenance check'
+    'Complete FDA Facility Registration (MoCRA)',
+    'Get Certificate of Occupancy for King Street',
+    'Finalize facility compliance checklist',
+    'Review spa layout and retail area for King Street',
+    'Set up Sip & Formulate space',
+    'Organize Drive folders — link all to dashboard'
   ].map(function(t) { return { text: t, done: false }; }),
 
   tcf_personal_todos: [
@@ -1836,29 +1845,37 @@ var DEFAULTS = {
   ].map(function(t) { return { text: t, done: false }; }),
 
   tcf_files_tcf: [
-    { name: '📁 TCF Formulation Folder (Drive)', url: 'https://drive.google.com/drive/my-drive' },
-    { name: 'TCF Brand Guide', url: 'https://notion.so' },
-    { name: 'Formula Master Sheet', url: 'https://docs.google.com' }
+    { name: 'TCF Brand Folder (Drive)', url: 'https://drive.google.com/drive/folders/16bRRtwpPHaR_0flTPXhwBaaTMLIACalI' },
+    { name: 'Logo & Label Ideas', url: 'https://drive.google.com/file/d/1ci8C2KW9gwdaXoayvh3uhbecQrze0FVF/view' },
   ],
   tcf_files_nevoo: [
-    { name: '📁 Nevoo Formulation Folder (Drive)', url: 'https://drive.google.com/drive/my-drive' },
-    { name: 'Nevoo Ingredient Log', url: 'https://docs.google.com' }
+    { name: 'NEVOO Brand Folder (Drive)', url: 'https://drive.google.com/drive/folders/1HmDPG2PY7MLI8oTiX33LXikgl1VEqVty' },
+    { name: 'NEVOO Formulation Folder', url: 'https://drive.google.com/drive/folders/1JHUP6xkwQvyxpxsTZaRig-Cy_SUYagjL' },
+    { name: 'Formulation Tracker', url: 'https://drive.google.com/file/d/16R5G-w_Oq94RXRQ9Ghbb-eDrOXtN1TnJ/view' },
   ],
   tcf_files_dailyrou: [
-    { name: '📁 Daily Rou Formulation Folder (Drive)', url: 'https://drive.google.com/drive/my-drive' },
-    { name: 'Daily Rou Packaging Notes', url: 'https://docs.google.com' }
+    { name: 'Rinse & Repeat Brand Folder (Drive)', url: 'https://drive.google.com/drive/folders/1BGxEEnV4xG2UzGcobqzxnUfeGmIQ7vYZ' },
+    { name: 'Logo & Design Options', url: 'https://drive.google.com/file/d/1o5nxgfI0ZmoFtFl1c63MfjJR8LrFf1N5/view' },
+    { name: 'Rinse & Repeat Packaging', url: 'https://drive.google.com/file/d/1MkASqP4h2LNf0Go3SEBAZU1F-PCCZqWf/view' },
+    { name: 'Rinse & Repeat Complete Catalog', url: 'https://drive.google.com/file/d/14Ose7LeEGzrys1MK9SSVA2EKvnXxI_57/view' },
   ],
   tcf_files_skinaxis: [
-    { name: '📁 Skin Axis Formulation Folder (Drive)', url: 'https://drive.google.com/drive/my-drive' },
-    { name: 'Skin Axis Lab Results', url: 'https://docs.google.com' }
+    { name: 'Skin Axis Brand Folder (Drive)', url: 'https://drive.google.com/drive/folders/1XgTsGoAU7Teb0W4e6g6B-oyXyWs61fUs' },
+    { name: 'Skin Axis Concept Folder', url: 'https://drive.google.com/drive/folders/1LztDnipqPzuQ-slg-pdb_EIWbQcqi_UK' },
+    { name: 'Product Line Folder', url: 'https://drive.google.com/drive/folders/1x2X0uPgYEhh804KlCnlu3BPjoo6lZwUS' },
+    { name: 'Tea Product Line', url: 'https://drive.google.com/drive/folders/1TLa8SCgOXYAGGlnrPEZp3twZOnPgyKNO' },
   ],
   tcf_files_content: [
-    { name: 'Content Calendar', url: 'https://notion.so' },
-    { name: 'Brand Assets Folder', url: 'https://canva.com' }
+    { name: 'Social Media Folder (Drive)', url: 'https://drive.google.com/drive/folders/1PNLdaeCWTHfSAUPwncBojo64hvc8dmE8' },
+    { name: 'Instagram Assets', url: 'https://drive.google.com/drive/folders/1CACxTtGY4fyGSpSJmi4SWuHwOR4EMilt' },
+    { name: 'TikTok Content', url: 'https://drive.google.com/drive/folders/1KfZ8uZsqDtHRQxb83KBRGCb_29c0H_jz' },
+    { name: 'Posts & Prints', url: 'https://drive.google.com/drive/folders/1qI_y8y_wJgDcPhVAAXBZEP6MUMlWX9wv' },
   ],
   tcf_files_ops: [
-    { name: 'Vendor Contracts', url: 'https://drive.google.com' },
-    { name: 'Business License Docs', url: 'https://drive.google.com' }
+    { name: 'Nicole\'s World Root (Drive)', url: 'https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG' },
+    { name: 'Facility Folder', url: 'https://drive.google.com/drive/folders/1_adyEQgJJ7xUtjAvxCjStDi0NEhzPzZq' },
+    { name: 'Facility Compliance Checklist', url: 'https://docs.google.com/document/d/1Id21wyN3sQTh664D4h99azGCiJ3Xn3_CIvLU6PBQE5Y/edit' },
+    { name: 'TCF King Street Folder', url: 'https://drive.google.com/drive/folders/1sxawoU6dnM0k6Jsa6NRzWrseqxXGLIO9' },
   ]
 };
 
@@ -1866,6 +1883,24 @@ function ensureDefaults() {
   // Force reset schedule to new 4:30am version
   var schedVer = localStorage.getItem('tcf_schedule_ver');
   if (schedVer !== '2') { localStorage.removeItem('tcf_schedule'); localStorage.setItem('tcf_schedule_ver','2'); }
+  // Force reset world data to real Drive URLs
+  var worldVer = localStorage.getItem('tcf_world_ver');
+  if (worldVer !== '2') {
+    ['world_urls_world-brands-grid','world_urls_world-ops-grid','world_urls_world-finance-grid','world_urls_world-marketing-grid','world_urls_world-legal-grid','world_urls_world-formulation-grid','world_urls_world-events-grid','world_urls_world-personal-grid'].forEach(function(k){ localStorage.removeItem(k); });
+    localStorage.setItem('tcf_world_ver','2');
+  }
+  // Force reset brand files to real Drive links
+  var filesVer = localStorage.getItem('tcf_files_ver');
+  if (filesVer !== '2') {
+    ['tcf_files_tcf','tcf_files_nevoo','tcf_files_dailyrou','tcf_files_skinaxis','tcf_files_content','tcf_files_ops'].forEach(function(k){ localStorage.removeItem(k); });
+    localStorage.setItem('tcf_files_ver','2');
+  }
+  // Force reset brand tasks to real tasks
+  var brandTaskVer = localStorage.getItem('tcf_brand_tasks_ver');
+  if (brandTaskVer !== '2') {
+    ['tcf_brand_tcf','tcf_brand_nevoo','tcf_brand_dailyrou','tcf_brand_skinaxis','tcf_tasks_ops','pauly_formulation','pauly_ops','pauly_finance','pauly_marketing','pauly_legal','pauly_vendors','pauly_packaging','pauly_brand','pauly_events','pauly_tech'].forEach(function(k){ localStorage.removeItem(k); });
+    localStorage.setItem('tcf_brand_tasks_ver','2');
+  }
   Object.keys(DEFAULTS).forEach(function(key) {
     if (localStorage.getItem(key) === null) {
       lsSet(key, DEFAULTS[key]);
@@ -2059,7 +2094,7 @@ function updateVoiceUI(active, msg) {
 }
 
 function getActiveBrand() {
-  var map = {tcf:'TCF',nevoo:'Nevoo',dailyrou:'Daily Rou',skinaxis:'Skin Axis'};
+  var map = {tcf:'TCF',nevoo:'Nevoo',dailyrou:'Rinse & Repeat',skinaxis:'Skin Axis'};
   var active = document.querySelector('#brands-subtabs .sub-tab.active');
   if (!active) return null;
   var text = active.textContent.replace(/[^\w\s]/g,'').trim().toLowerCase().replace(/\s+/g,'');
@@ -2321,58 +2356,59 @@ document.addEventListener('click', function(e) {
 // ============================================================
 var WORLD_DATA = {
   'world-brands-grid': [
-    {icon:'💄',name:'TCF — The Cosmetic Formulary',sub:'All brand files',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'✨',name:'Nevoo',sub:'All brand files',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'🌿',name:'Daily Rou',sub:'All brand files',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'💙',name:'Skin Axis',sub:'All brand files',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'🍹',name:'Sip & Formulate',sub:'All brand files',url:'https://drive.google.com/drive/my-drive'},
+    {icon:'📁',name:'TCF — The Cosmetic Formulary',sub:'Brand assets, logos, labels',url:'https://drive.google.com/drive/folders/16bRRtwpPHaR_0flTPXhwBaaTMLIACalI'},
+    {icon:'📁',name:'NEVOO',sub:'Brand assets & formulation',url:'https://drive.google.com/drive/folders/1HmDPG2PY7MLI8oTiX33LXikgl1VEqVty'},
+    {icon:'📁',name:'Skin Axis',sub:'Concepts, product line, tea',url:'https://drive.google.com/drive/folders/1XgTsGoAU7Teb0W4e6g6B-oyXyWs61fUs'},
+    {icon:'📁',name:'Rinse & Repeat',sub:'Catalog, packaging, logos',url:'https://drive.google.com/drive/folders/1BGxEEnV4xG2UzGcobqzxnUfeGmIQ7vYZ'},
   ],
   'world-ops-grid': [
-    {icon:'📋',name:'SOPs & Procedures',sub:'Operations docs',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'📦',name:'Inventory & Orders',sub:'Stock tracking',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'🏢',name:'Facility & Permits',sub:'Lease, permits, licenses',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'📅',name:'Business Calendar',sub:'Dates & deadlines',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'👥',name:'Team & HR',sub:'Contracts, onboarding',url:'https://drive.google.com/drive/my-drive'},
+    {icon:'📁',name:'FACILITY',sub:'Compliance, permits, inspections',url:'https://drive.google.com/drive/folders/1_adyEQgJJ7xUtjAvxCjStDi0NEhzPzZq'},
+    {icon:'📄',name:'Facility Compliance Checklist',sub:'FDA, OSHA, GMP, legal',url:'https://docs.google.com/document/d/1Id21wyN3sQTh664D4h99azGCiJ3Xn3_CIvLU6PBQE5Y/edit'},
+    {icon:'📁',name:'TCF King Street',sub:'Spa, retail, Sip & Formulate',url:'https://drive.google.com/drive/folders/1sxawoU6dnM0k6Jsa6NRzWrseqxXGLIO9'},
+    {icon:'📁',name:'Sip & Formulate',sub:'King Street location',url:'https://drive.google.com/drive/folders/11D97op1wwrqkyhV503h2-nBQjm_NXw4j'},
+    {icon:'📁',name:'Retail',sub:'King Street retail plans',url:'https://drive.google.com/drive/folders/1EGjCUK08tbF70gCIEARZv5kMdljz3Mkn'},
+    {icon:'📁',name:'Spa Layout & Ideas',sub:'King Street spa concepts',url:'https://drive.google.com/drive/folders/1Mzy35iPXqfATnYSU6UTA5uNiwiSE2vou'},
   ],
   'world-finance-grid': [
-    {icon:'💵',name:'Invoices & Receipts',sub:'All billing docs',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'📊',name:'P&L & Budgets',sub:'Financial reports',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'🧾',name:'Tax Documents',sub:'Annual filings',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'🏦',name:'Banking & Accounts',sub:'Account docs',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'💳',name:'Expense Tracking',sub:'Monthly expenses',url:'https://drive.google.com/drive/my-drive'},
+    {icon:'📁',name:'Interior Design & Budget',sub:'Office decor & budget sheet',url:'https://drive.google.com/drive/folders/1iWjqH5Ng7VdwK3bjRfV7I9DBSBcOEz29'},
+    {icon:'📄',name:'New Office Decor & Budget Sheet',sub:'Interior planning doc',url:'https://drive.google.com/file/d/1aqZM3anOWC5J3Qgk0TOGjuS-A_LiSlBw/view'},
+    {icon:'📄',name:'Office Design',sub:'Design references',url:'https://drive.google.com/file/d/1hjm7WYunANxgOxXMraXRd-pvqzX_TD3g/view'},
   ],
   'world-marketing-grid': [
-    {icon:'📸',name:'Social Media Assets',sub:'Photos, videos, graphics',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'📆',name:'Content Calendar',sub:'Posts & campaigns',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'✉️',name:'Email Marketing',sub:'Templates & lists',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'🎥',name:'Video & Reels',sub:'Raw & edited footage',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'📣',name:'Campaigns & Launches',sub:'Launch materials',url:'https://drive.google.com/drive/my-drive'},
+    {icon:'📁',name:'Social Media',sub:'Posts, Instagram, TikTok',url:'https://drive.google.com/drive/folders/1PNLdaeCWTHfSAUPwncBojo64hvc8dmE8'},
+    {icon:'📁',name:'Instagram Assets',sub:'Instagram content',url:'https://drive.google.com/drive/folders/1CACxTtGY4fyGSpSJmi4SWuHwOR4EMilt'},
+    {icon:'📁',name:'TikTok Content',sub:'TikTok videos & assets',url:'https://drive.google.com/drive/folders/1KfZ8uZsqDtHRQxb83KBRGCb_29c0H_jz'},
+    {icon:'📁',name:'Posts & Prints',sub:'Printed materials & posts',url:'https://drive.google.com/drive/folders/1qI_y8y_wJgDcPhVAAXBZEP6MUMlWX9wv'},
+    {icon:'📄',name:'Brand Guidelines Presentation',sub:'Website & brand identity',url:'https://drive.google.com/file/d/1hLFGIm8PjlfGgxCF96QU52p-UWu1_606/view'},
   ],
   'world-legal-grid': [
-    {icon:'™️',name:'Trademarks & IP',sub:'Filings & certificates',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'📝',name:'Contracts & Agreements',sub:'All signed docs',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'🧴',name:'FDA & Compliance',sub:'Cosmetic labeling docs',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'🔒',name:'Privacy & Terms',sub:'Website legal docs',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'📄',name:'Business Formation',sub:'LLC, EIN, articles',url:'https://drive.google.com/drive/my-drive'},
+    {icon:'📄',name:'Facility Compliance Checklist',sub:'Full FDA/OSHA/GMP checklist',url:'https://docs.google.com/document/d/1Id21wyN3sQTh664D4h99azGCiJ3Xn3_CIvLU6PBQE5Y/edit'},
+    {icon:'📁',name:'Facility Folder',sub:'All facility compliance docs',url:'https://drive.google.com/drive/folders/1_adyEQgJJ7xUtjAvxCjStDi0NEhzPzZq'},
   ],
   'world-formulation-grid': [
-    {icon:'🧪',name:'Master Formulas',sub:'All formula docs',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'🔬',name:'Lab Results & Testing',sub:'Stability, safety',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'🌿',name:'Ingredient Library',sub:'INCI, suppliers, specs',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'📋',name:'Batch Records',sub:'Production logs',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'⚗️',name:'R&D Notes',sub:'Experiments & ideas',url:'https://drive.google.com/drive/my-drive'},
+    {icon:'📁',name:'FORMULATION',sub:'All formulation files & tracker',url:'https://drive.google.com/drive/folders/1PVy64PRDZzc98H31Ogyfh7XrIC5iIPkG'},
+    {icon:'📄',name:'Formulation Tracker',sub:'Master formula tracking sheet',url:'https://drive.google.com/file/d/16R5G-w_Oq94RXRQ9Ghbb-eDrOXtN1TnJ/view'},
+    {icon:'📁',name:'NEVOO Formulation',sub:'NEVOO formula files',url:'https://drive.google.com/drive/folders/1JHUP6xkwQvyxpxsTZaRig-Cy_SUYagjL'},
+    {icon:'📁',name:'Product Research',sub:'Bestsellers, actives, tea, acne',url:'https://drive.google.com/drive/folders/1lLDI-zRZ8Sf-NIhC1zhr-FX9lm754FRX'},
+    {icon:'📄',name:'Sensitive Skin Cream Cleanser Pitch',sub:'Formula & positioning analysis',url:'https://drive.google.com/file/d/11ebEeC9zmpIVvzWX5LfcXD8IeIgO7nBB/view'},
+    {icon:'📄',name:'Seabuckthorn Research',sub:'Ingredient research',url:'https://drive.google.com/file/d/1yXASQjOC61TZk1jaTcyc_UlqVUHDKUSi/view'},
+    {icon:'📄',name:'Best Sellers Skincare',sub:'Market research',url:'https://drive.google.com/file/d/1qWg7ug3mb6_4P_3Hv8H0Y1kDstaJiHMT/view'},
+    {icon:'📄',name:'Best Seller Hair Care',sub:'Market research',url:'https://drive.google.com/file/d/1-UiTDe8m6ytmqcxhlFfRDF3HmC6yxeJv/view'},
+    {icon:'📄',name:'Acne Tea Kit Research',sub:'Product concept',url:'https://drive.google.com/file/d/1Y1eaqVpEeGz_mvHi-ti8e561ZUxRwToS/view'},
   ],
   'world-events-grid': [
-    {icon:'🎪',name:'Pop-Ups & Events',sub:'Event plans & recaps',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'📰',name:'Press & Media',sub:'Press releases, coverage',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'🤳',name:'Influencer & Collabs',sub:'Partnership docs',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'🎁',name:'PR Sends & Gifting',sub:'Send lists, tracking',url:'https://drive.google.com/drive/my-drive'},
+    {icon:'📁',name:'EVENTS AND PR',sub:'PR bags, influencers, custom items',url:'https://drive.google.com/drive/folders/1Wt6GqyWX7IbbiosxlRfJVnUMAi-vu_Rr'},
+    {icon:'📄',name:'Influencer Contact Sheet',sub:'Influencer outreach list',url:'https://drive.google.com/file/d/10JlIYb8j1uEF886A63txU5STlvyiQXa5/view'},
+    {icon:'📄',name:'Sorority Contact Sheet',sub:'Sorority outreach',url:'https://drive.google.com/file/d/1AEzvCommyL4Rck1kUCjKWfHk0qxdHwzm/view'},
+    {icon:'📄',name:'Local Vendor Contact Sheet',sub:'Local vendor contacts',url:'https://drive.google.com/file/d/1mzlWrXZJIdxFhD6os3HoSMrx0T_mN29t/view'},
+    {icon:'📄',name:'Script to Email Influencers',sub:'Outreach email templates',url:'https://drive.google.com/file/d/1hUWlpheWCyCVShkLbj1OpeAxK7tQoMLH/view'},
+    {icon:'📄',name:'PR Bags & Custom Uniforms',sub:'PR gifting & merch',url:'https://drive.google.com/file/d/1TXRsNF5V1FrJbYKdIM6MT8t39sKISHX4/view'},
+    {icon:'📄',name:'Custom Items for PR',sub:'Non-Alibaba custom items',url:'https://drive.google.com/file/d/15_h_YD2SeV3hpiWkm1NOFQuMFlQOMFl3/view'},
+    {icon:'📄',name:'Items Purchased',sub:'PR items purchased log',url:'https://drive.google.com/file/d/10-wQXyo0fDCAP-OfIaYJftP-vuw5xkcX/view'},
   ],
   'world-personal-grid': [
-    {icon:'✦',name:'Personal Goals',sub:'Vision & planning',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'📓',name:'Journal & Notes',sub:'Personal notes',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'🏠',name:'Home & Life',sub:'Personal docs',url:'https://drive.google.com/drive/my-drive'},
-    {icon:'💕',name:'Vision Board',sub:'Inspiration & goals',url:'https://drive.google.com/drive/my-drive'},
+    {icon:'📁',name:'Nicole\'s World (Root)',sub:'All folders — top level',url:'https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG'},
+    {icon:'📁',name:'Website Folder',sub:'Brand guidelines & web assets',url:'https://drive.google.com/drive/folders/18hMwft5byhCKIm_-L8amr6S7jUU99bJS'},
   ]
 };
 
@@ -2424,7 +2460,7 @@ var LINKS_DEFAULTS = {
   links_brand: [
     {icon:'💄',name:'TCF Website',url:'https://www.thecosmeticformulary.com'},
     {icon:'✨',name:'Nevoo Website',url:'https://nevoo.com'},
-    {icon:'🌿',name:'Daily Rou Website',url:'https://dailyrou.com'},
+    {icon:'🌿',name:'Rinse & Repeat Website',url:'https://rinseandrepeat.com'},
     {icon:'💙',name:'Skin Axis Website',url:'https://skinaxis.com'},
   ],
   links_shopify: [
@@ -2542,74 +2578,100 @@ function renderAllLinks() {
 // ============================================================
 var PAULY_DEFAULTS = {
   pauly_formulation: [
-    'Review formula stability reports for all 4 brands',
-    'Confirm lab submission schedule with Dr. Chen',
-    'Update master formula spreadsheet',
-    'Follow up on pending batch testing results',
-    'Source COSMOS-certified ingredients for Nevoo line'
+    'Review Formulation Tracker — update status for all active formulas',
+    'Follow up on NEVOO formulation folder — confirm formula pipeline',
+    'Review Sensitive Skin Cream Cleanser pitch — decide Option A vs B',
+    'Research seabuckthorn applications for TCF line',
+    'Analyze best seller skincare & hair care lists — identify formula gaps',
+    'Develop Acne Tea Kit formula concept for Skin Axis',
+    'Schedule stability testing for any completed formulas',
+    'Build INCI lists for all finalized formulas'
   ],
   pauly_ops: [
-    'Renew facility lease documentation',
-    'Update SOPs for production workflow',
-    'Audit inventory levels across all brands',
-    'Set up vendor onboarding process',
-    'Review and renew business insurance'
+    'Complete FDA Facility Registration (MoCRA required)',
+    'Obtain Facility FEI number',
+    'List all cosmetic products with FDA',
+    'Set up Certificate of Occupancy for facility',
+    'Confirm zoning allows manufacturing at King Street location',
+    'Set up adverse event reporting procedure',
+    'Set up consumer complaint procedure',
+    'Create safety substantiation records for every SKU',
+    'Review TCF King Street spa layout — finalize floor plan',
+    'Set up retail area at King Street',
+    'Launch Sip & Formulate at King Street location'
   ],
   pauly_finance: [
-    'Reconcile Q2 expenses',
-    'Review vendor payment schedules',
-    'Prepare cost-of-goods analysis per brand',
-    'Chase outstanding invoices',
-    'Set up separate brand P&L tracking'
+    'Review new office decor & budget sheet — approve spend',
+    'Set up separate P&L tracking per brand',
+    'Reconcile all vendor invoices',
+    'Review items purchased for Events & PR — track spend',
+    'Set up accounting system for all 4 brands',
+    'Get product liability insurance',
+    'Get workers compensation insurance'
   ],
   pauly_marketing: [
-    'Approve content calendar for next month',
-    'Brief designer on new packaging concepts',
-    'Coordinate influencer outreach list',
-    'Review brand voice guidelines for all 4 brands',
-    'Set up email marketing automation'
+    'Build out Instagram content calendar',
+    'Set up TikTok content schedule',
+    'Organize posts & prints folder in Drive',
+    'Finalize brand guidelines presentation for website',
+    'Execute influencer outreach using Drive script',
+    'Contact sorority list for brand partnerships',
+    'Contact local vendor list for collaborations',
+    'Send PR bags to first influencer wave'
   ],
   pauly_legal: [
-    'Trademark filings — Nevoo, Daily Rou, Skin Axis',
-    'Review FDA cosmetic labeling compliance',
-    'Update safety data sheets for all formulas',
-    'Confirm business entity structure',
-    'Review contractor/vendor agreements'
+    'Complete FDA Facility Registration',
+    'Get South Carolina retail license',
+    'Get local business license',
+    'Confirm LLC/Corporation is active',
+    'Confirm EIN is active',
+    'Get product liability insurance',
+    'File trademarks for NEVOO, Skin Axis, Rinse & Repeat',
+    'Review all contracts with vendors and suppliers',
+    'Set up SDS binder — all chemicals',
+    'Build compliance binder: license, CO, insurance, FDA reg, SOPs'
   ],
   pauly_vendors: [
-    'Confirm packaging supplier lead times',
-    'Get quotes from 2 backup ingredient suppliers',
-    'Renegotiate lab testing contract',
-    'Set up vendor portal / master contact list',
-    'Review McKernan packaging order status'
+    'Finalize approved supplier list',
+    'Contact local vendor contact sheet — follow up on partnerships',
+    'Review all custom PR items (non-Alibaba sources)',
+    'Get COA and SDS from every ingredient supplier',
+    'Set up incoming material inspection process',
+    'Review items purchased log — restock what\'s needed'
   ],
   pauly_packaging: [
-    'Finalize packaging specs for TCF fall line',
-    'Request Nevoo sample bottles',
-    'Review Daily Rou label dielines',
-    'Confirm Skin Axis tube supplier MOQ',
-    'Set up packaging asset folder in Dropbox'
+    'Finalize Rinse & Repeat complete catalog packaging',
+    'Confirm Rinse & Repeat packaging specs with supplier',
+    'Review Rinse & Repeat logo and design options — approve final',
+    'Review TCF logo and label ideas — select final',
+    'Review NEVOO packaging concepts',
+    'Get skin axis product line packaging quotes',
+    'Order PR bags and custom uniforms',
+    'Review custom items for PR — confirm orders'
   ],
   pauly_brand: [
-    'Define brand hierarchy — TCF vs sub-brands',
-    'Create brand one-pagers for each brand',
-    'Set pricing strategy per brand tier',
-    'Develop retail pitch deck',
-    'Identify 3 key launch markets'
+    'Define brand hierarchy: TCF (parent) vs NEVOO / Skin Axis / Rinse & Repeat',
+    'Complete brand guidelines for all 4 brands',
+    'Finalize website for TCF King Street',
+    'Set up Shopify stores per brand',
+    'Build pitch deck for retail buyers',
+    'Create one-pager for each brand for press & partners'
   ],
   pauly_events: [
-    'Book pop-up event space for Q3',
-    'Coordinate press sample sends',
-    'Build media contact list',
-    'Plan brand launch timeline',
-    'Draft press release templates'
+    'Send influencer outreach emails using Drive script',
+    'Finalize sorority partnership outreach',
+    'Assemble and ship PR bags',
+    'Contact local vendors for pop-up / event partnerships',
+    'Plan TCF King Street soft launch event',
+    'Book Sip & Formulate first public event'
   ],
   pauly_tech: [
-    'Set up Shopify for all 4 brands',
-    'Configure email domains & forwarding',
-    'Audit dashboard and fix any broken links',
-    'Set up Dropbox folder structure for all brands',
-    'Configure Google Workspace for team'
+    'Set up all brand websites',
+    'Configure Shopify for TCF + all sub-brands',
+    'Organize Google Drive folder structure — link all to dashboard',
+    'Set up Google Workspace (email per brand)',
+    'Set up social media accounts for all brands',
+    'Connect all Drive folders to TCF Dashboard'
   ]
 };
 
