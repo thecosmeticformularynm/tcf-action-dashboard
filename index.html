@@ -1772,61 +1772,72 @@ function rotateBibleVerse() {
 // ============================================================
 var DEFAULTS = {
   tcf_home_tasks: [
-    'Check emails & respond to vendors',
-    'Review formula batch notes',
-    'Post to Instagram',
-    'Follow up on packaging order',
-    'Team check-in call'
-  ].map(function(t) { return { text: t, done: false }; }),
+    { text: 'Check email', done: true },
+    { text: 'Check texts from Pauly — review to-do list', done: true },
+    { text: 'See if you can complete anything from master checklist', done: true },
+    { text: 'Look at Pinterest to spark creativity and ideas', done: false },
+    { text: 'Review formulation tracker', done: false }
+  ],
 
   tcf_brand_tcf: [
-    'Finalize logo and label designs for TCF product line',
-    'Complete FDA facility registration',
-    'Build out product specification sheets',
-    'Set up Shopify store for TCF',
-    'Develop brand guidelines document'
-  ].map(function(t) { return { text: t, done: false }; }),
+    { text: 'Make Instagram first post video', done: false },
+    { text: 'Talk to video editor', done: false },
+    { text: 'Find social media person (later)', done: false },
+    { text: 'Contact marketing agency or influencers on sheet', done: false },
+    { text: 'Finalize logo and label ideas for TCF', done: false },
+    { text: 'Complete FDA facility registration (MoCRA)', done: false },
+    { text: 'Build product specification sheets', done: false }
+  ],
 
   tcf_brand_nevoo: [
-    'Develop NEVOO brand identity and positioning',
-    'Create NEVOO product line concept',
-    'Source ingredients for NEVOO formulas',
-    'Design NEVOO packaging concepts',
-    'Register NEVOO trademark'
-  ].map(function(t) { return { text: t, done: false }; }),
+    { text: 'Develop NEVOO brand identity and positioning', done: false },
+    { text: 'Review NEVOO formulation folder in Drive', done: false },
+    { text: 'Source ingredients for NEVOO formulas', done: false },
+    { text: 'Design NEVOO packaging concepts', done: false },
+    { text: 'Register NEVOO trademark', done: false }
+  ],
 
   tcf_brand_dailyrou: [
-    'Finalize Rinse & Repeat product catalog',
-    'Review logo and design options',
-    'Confirm packaging specs',
-    'Set up Rinse & Repeat social profiles',
-    'Create Rinse & Repeat brand guidelines'
-  ].map(function(t) { return { text: t, done: false }; }),
+    { text: 'Review and approve Rinse & Repeat complete catalog', done: false },
+    { text: 'Finalize Rinse & Repeat logo and design options', done: false },
+    { text: 'Confirm Rinse & Repeat packaging specs', done: false },
+    { text: 'Set up Rinse & Repeat social media profiles', done: false },
+    { text: 'Create Rinse & Repeat brand guidelines', done: false }
+  ],
 
   tcf_brand_skinaxis: [
-    'Finalize Skin Axis product line concepts',
-    'Develop tea product line strategy',
-    'Review skin axis concept documents',
-    'Source ingredients for Skin Axis formulas',
-    'Create Skin Axis brand deck'
-  ].map(function(t) { return { text: t, done: false }; }),
+    { text: 'Decide on packaging for Skin Axis', done: false },
+    { text: 'Decide on product type / line direction', done: false },
+    { text: 'Connect with tea suppliers', done: false },
+    { text: 'Review skin axis concept documents in Drive', done: false },
+    { text: 'Develop product line strategy', done: false }
+  ],
 
   tcf_tasks_content: [
-    'Film product demo reel',
-    'Write 3 caption drafts',
-    "Schedule week's posts",
-    'Reply to DMs',
-    'Update link in bio'
-  ].map(function(t) { return { text: t, done: false }; }),
+    { text: 'Make Instagram first post video for TCF', done: false },
+    { text: 'Create coming soon flyer', done: false },
+    { text: 'Print photos for first clip of Instagram reel (bulletin board)', done: false },
+    { text: 'Design graphics to post on Instagram', done: false },
+    { text: 'Browse Pinterest for creativity and ideas', done: false },
+    { text: 'Plan TikTok content strategy', done: false },
+    { text: 'Contact marketing agency or influencers on sheet', done: false },
+    { text: 'Find social media person (later)', done: false },
+    { text: 'Talk to video editor', done: false }
+  ],
 
   tcf_tasks_ops: [
-    'Complete FDA Facility Registration (MoCRA)',
-    'Get Certificate of Occupancy for King Street',
-    'Finalize facility compliance checklist',
-    'Review spa layout and retail area for King Street',
-    'Set up Sip & Formulate space',
-    'Organize Drive folders — link all to dashboard'
-  ].map(function(t) { return { text: t, done: false }; }),
+    { text: 'Approve McKernan packaging — review spreadsheet', done: false },
+    { text: 'Find handheld mixer for classes', done: false },
+    { text: 'Find chairs for classes (Costway or Wayfair options)', done: false },
+    { text: 'Set up payment and booking system for classes', done: false },
+    { text: 'Set date for first ever Sip & Formulate class', done: false },
+    { text: 'Contact vendors for influencer event', done: false },
+    { text: 'Order wall from Alibaba', done: false },
+    { text: 'Review Ghost Kitchen checklist (SC_Ghost_Kitchen_Tea_Checklist.pdf)', done: false },
+    { text: 'Finalize TCF King Street — concept for spa space', done: false },
+    { text: 'Create checklist for popup classes', done: false },
+    { text: 'Finalize retail concept for King Street', done: false }
+  ],
 
   tcf_personal_todos: [
     '🧘 Wellness — Morning stretch routine',
@@ -1861,21 +1872,28 @@ var DEFAULTS = {
   ],
   tcf_files_skinaxis: [
     { name: 'Skin Axis Brand Folder (Drive)', url: 'https://drive.google.com/drive/folders/1XgTsGoAU7Teb0W4e6g6B-oyXyWs61fUs' },
-    { name: 'Skin Axis Concept Folder', url: 'https://drive.google.com/drive/folders/1LztDnipqPzuQ-slg-pdb_EIWbQcqi_UK' },
-    { name: 'Product Line Folder', url: 'https://drive.google.com/drive/folders/1x2X0uPgYEhh804KlCnlu3BPjoo6lZwUS' },
+    { name: 'Skin Axis Concept', url: 'https://drive.google.com/drive/folders/1LztDnipqPzuQ-slg-pdb_EIWbQcqi_UK' },
+    { name: 'Product Line', url: 'https://drive.google.com/drive/folders/1x2X0uPgYEhh804KlCnlu3BPjoo6lZwUS' },
     { name: 'Tea Product Line', url: 'https://drive.google.com/drive/folders/1TLa8SCgOXYAGGlnrPEZp3twZOnPgyKNO' },
+    { name: 'Acne Tea Kit Research', url: 'https://drive.google.com/file/d/1Y1eaqVpEeGz_mvHi-ti8e561ZUxRwToS/view' }
   ],
   tcf_files_content: [
     { name: 'Social Media Folder (Drive)', url: 'https://drive.google.com/drive/folders/1PNLdaeCWTHfSAUPwncBojo64hvc8dmE8' },
     { name: 'Instagram Assets', url: 'https://drive.google.com/drive/folders/1CACxTtGY4fyGSpSJmi4SWuHwOR4EMilt' },
     { name: 'TikTok Content', url: 'https://drive.google.com/drive/folders/1KfZ8uZsqDtHRQxb83KBRGCb_29c0H_jz' },
     { name: 'Posts & Prints', url: 'https://drive.google.com/drive/folders/1qI_y8y_wJgDcPhVAAXBZEP6MUMlWX9wv' },
+    { name: 'Website Folder', url: 'https://drive.google.com/drive/folders/18hMwft5byhCKIm_-L8amr6S7jUU99bJS' },
+    { name: 'Influencer Contact Sheet', url: 'https://drive.google.com/file/d/10JlIYb8j1uEF886A63txU5STlvyiQXa5/view' },
+    { name: 'Sorority Contact Sheet', url: 'https://drive.google.com/file/d/1AEzvCommyL4Rck1kUCjKWfHk0qxdHwzm/view' },
+    { name: 'Script to Email Influencers', url: 'https://drive.google.com/file/d/1hUWlpheWCyCVShkLbj1OpeAxK7tQoMLH/view' }
   ],
   tcf_files_ops: [
-    { name: 'Nicole\'s World Root (Drive)', url: 'https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG' },
-    { name: 'Facility Folder', url: 'https://drive.google.com/drive/folders/1_adyEQgJJ7xUtjAvxCjStDi0NEhzPzZq' },
+    { name: 'McKernan Packaging Spreadsheet', url: 'https://docs.google.com/spreadsheets/d/1SUd-mFgHWO68jfxTejvyqjNi9syrEWs5k-PI-ttgcR0/edit' },
+    { name: 'Formulation Tracker', url: 'https://docs.google.com/spreadsheets/d/1g0Xhsc4GEoanf6WC76JOj2Kil_11XTP3EEBp6QWA8GM/edit' },
     { name: 'Facility Compliance Checklist', url: 'https://docs.google.com/document/d/1Id21wyN3sQTh664D4h99azGCiJ3Xn3_CIvLU6PBQE5Y/edit' },
+    { name: 'Nicole\'s World Google Drive', url: 'https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG' },
     { name: 'TCF King Street Folder', url: 'https://drive.google.com/drive/folders/1sxawoU6dnM0k6Jsa6NRzWrseqxXGLIO9' },
+    { name: 'Facility Folder', url: 'https://drive.google.com/drive/folders/1_adyEQgJJ7xUtjAvxCjStDi0NEhzPzZq' }
   ]
 };
 
@@ -1891,15 +1909,27 @@ function ensureDefaults() {
   }
   // Force reset brand files to real Drive links
   var filesVer = localStorage.getItem('tcf_files_ver');
-  if (filesVer !== '2') {
+  if (filesVer !== '3') {
     ['tcf_files_tcf','tcf_files_nevoo','tcf_files_dailyrou','tcf_files_skinaxis','tcf_files_content','tcf_files_ops'].forEach(function(k){ localStorage.removeItem(k); });
-    localStorage.setItem('tcf_files_ver','2');
+    localStorage.setItem('tcf_files_ver','3');
   }
   // Force reset brand tasks to real tasks
   var brandTaskVer = localStorage.getItem('tcf_brand_tasks_ver');
-  if (brandTaskVer !== '2') {
+  if (brandTaskVer !== '3') {
     ['tcf_brand_tcf','tcf_brand_nevoo','tcf_brand_dailyrou','tcf_brand_skinaxis','tcf_tasks_ops','pauly_formulation','pauly_ops','pauly_finance','pauly_marketing','pauly_legal','pauly_vendors','pauly_packaging','pauly_brand','pauly_events','pauly_tech'].forEach(function(k){ localStorage.removeItem(k); });
-    localStorage.setItem('tcf_brand_tasks_ver','2');
+    localStorage.setItem('tcf_brand_tasks_ver','3');
+  }
+  // Force reset Pauly tasks
+  var paulyVer = localStorage.getItem('tcf_pauly_ver');
+  if (paulyVer !== '2') {
+    ['pauly_formulation','pauly_ops','pauly_finance','pauly_marketing','pauly_legal','pauly_vendors','pauly_packaging','pauly_brand','pauly_events','pauly_tech'].forEach(function(k){ localStorage.removeItem(k); });
+    localStorage.setItem('tcf_pauly_ver','2');
+  }
+  // Force reset home tasks
+  var homeTaskVer = localStorage.getItem('tcf_home_task_ver');
+  if (homeTaskVer !== '2') {
+    localStorage.removeItem('tcf_home_tasks');
+    localStorage.setItem('tcf_home_task_ver','2');
   }
   Object.keys(DEFAULTS).forEach(function(key) {
     if (localStorage.getItem(key) === null) {
@@ -2578,107 +2608,97 @@ function renderAllLinks() {
 // ============================================================
 var PAULY_DEFAULTS = {
   pauly_formulation: [
-    'Review Formulation Tracker — update status for all active formulas',
-    'Follow up on NEVOO formulation folder — confirm formula pipeline',
-    'Review Sensitive Skin Cream Cleanser pitch — decide Option A vs B',
-    'Research seabuckthorn applications for TCF line',
-    'Analyze best seller skincare & hair care lists — identify formula gaps',
-    'Develop Acne Tea Kit formula concept for Skin Axis',
-    'Schedule stability testing for any completed formulas',
-    'Build INCI lists for all finalized formulas'
+    { text: 'Share update on formulation tracker status', done: false },
+    { text: 'Review NEVOO formula pipeline — where are we?', done: false },
+    { text: 'Decide: Sensitive Skin Cream Cleanser — Option A or Option B?', done: false },
+    { text: 'Connect with tea suppliers for Skin Axis', done: false },
+    { text: 'Review seabuckthorn research for TCF line', done: false },
+    { text: 'Confirm lab testing schedule for active formulas', done: false }
   ],
   pauly_ops: [
-    'Complete FDA Facility Registration (MoCRA required)',
-    'Obtain Facility FEI number',
-    'List all cosmetic products with FDA',
-    'Set up Certificate of Occupancy for facility',
-    'Confirm zoning allows manufacturing at King Street location',
-    'Set up adverse event reporting procedure',
-    'Set up consumer complaint procedure',
-    'Create safety substantiation records for every SKU',
-    'Review TCF King Street spa layout — finalize floor plan',
-    'Set up retail area at King Street',
-    'Launch Sip & Formulate at King Street location'
+    { text: 'Approve or update: wall from Alibaba', done: false },
+    { text: 'Approve McKernan packaging — link in files', done: false },
+    { text: 'Set date for first ever Sip & Formulate class', done: false },
+    { text: 'Set up payment and booking system for classes', done: false },
+    { text: 'Review Ghost Kitchen checklist — go/no-go decision', done: false },
+    { text: 'Finalize TCF King Street spa layout and retail concept', done: false },
+    { text: 'Confirm chairs for classes — approve purchase', done: false },
+    { text: 'Find handheld mixer — approve purchase', done: false },
+    { text: 'Review Alibaba items list — approve orders', done: false }
   ],
   pauly_finance: [
-    'Review new office decor & budget sheet — approve spend',
-    'Set up separate P&L tracking per brand',
-    'Reconcile all vendor invoices',
-    'Review items purchased for Events & PR — track spend',
-    'Set up accounting system for all 4 brands',
-    'Get product liability insurance',
-    'Get workers compensation insurance'
+    { text: 'Review McKernan pricing spreadsheet and approve', done: false },
+    { text: 'Review items purchased log — approve spend', done: false },
+    { text: 'Set up separate budget per brand', done: false },
+    { text: 'Review Amazon order and go through with Nicole', done: true },
+    { text: 'Confirm insurance: product liability + workers comp', done: false },
+    { text: 'Set up accounting for all 4 brands', done: false }
   ],
   pauly_marketing: [
-    'Build out Instagram content calendar',
-    'Set up TikTok content schedule',
-    'Organize posts & prints folder in Drive',
-    'Finalize brand guidelines presentation for website',
-    'Execute influencer outreach using Drive script',
-    'Contact sorority list for brand partnerships',
-    'Contact local vendor list for collaborations',
-    'Send PR bags to first influencer wave'
+    { text: 'Approve: contact marketing agency or influencers on sheet', done: false },
+    { text: 'Review influencer contact sheet — give green light to reach out', done: false },
+    { text: 'Review sorority contact sheet — approve outreach', done: false },
+    { text: 'Review local vendor contact sheet — approve partnerships', done: false },
+    { text: 'Talk to video editor — connect with Nicole', done: false },
+    { text: 'Find and approve social media person (later)', done: false },
+    { text: 'Approve PR bag contents and custom uniforms', done: false },
+    { text: 'Set date for influencer event for Sip & Formulate', done: false }
   ],
   pauly_legal: [
-    'Complete FDA Facility Registration',
-    'Get South Carolina retail license',
-    'Get local business license',
-    'Confirm LLC/Corporation is active',
-    'Confirm EIN is active',
-    'Get product liability insurance',
-    'File trademarks for NEVOO, Skin Axis, Rinse & Repeat',
-    'Review all contracts with vendors and suppliers',
-    'Set up SDS binder — all chemicals',
-    'Build compliance binder: license, CO, insurance, FDA reg, SOPs'
+    { text: 'Complete FDA Facility Registration (MoCRA)', done: false },
+    { text: 'Get Certificate of Occupancy for King Street', done: false },
+    { text: 'Confirm LLC and EIN are active', done: false },
+    { text: 'Get local business license', done: false },
+    { text: 'Get South Carolina retail license', done: false },
+    { text: 'Get product liability insurance', done: false },
+    { text: 'File trademarks for NEVOO, Skin Axis, Rinse & Repeat', done: false },
+    { text: 'Set up compliance binder (FDA, SDS, SOPs, COAs)', done: false }
   ],
   pauly_vendors: [
-    'Finalize approved supplier list',
-    'Contact local vendor contact sheet — follow up on partnerships',
-    'Review all custom PR items (non-Alibaba sources)',
-    'Get COA and SDS from every ingredient supplier',
-    'Set up incoming material inspection process',
-    'Review items purchased log — restock what\'s needed'
+    { text: 'Approve McKernan packaging order', done: false },
+    { text: 'Contact vendors for Sip & Formulate influencer event', done: false },
+    { text: 'Review local vendor contact sheet — follow up', done: false },
+    { text: 'Confirm tea suppliers for Skin Axis', done: false },
+    { text: 'Finalize Alibaba wall order — approve', done: false },
+    { text: 'Review custom PR items (non-Alibaba) — approve', done: false }
   ],
   pauly_packaging: [
-    'Finalize Rinse & Repeat complete catalog packaging',
-    'Confirm Rinse & Repeat packaging specs with supplier',
-    'Review Rinse & Repeat logo and design options — approve final',
-    'Review TCF logo and label ideas — select final',
-    'Review NEVOO packaging concepts',
-    'Get skin axis product line packaging quotes',
-    'Order PR bags and custom uniforms',
-    'Review custom items for PR — confirm orders'
+    { text: 'Approve McKernan packaging — review spreadsheet', done: false },
+    { text: 'Approve Rinse & Repeat logo and design options', done: false },
+    { text: 'Approve Rinse & Repeat packaging specs', done: false },
+    { text: 'Review TCF logo and label ideas — select final version', done: false },
+    { text: 'Decide on Skin Axis packaging style', done: false },
+    { text: 'Approve PR bags and custom uniforms order', done: false }
   ],
   pauly_brand: [
-    'Define brand hierarchy: TCF (parent) vs NEVOO / Skin Axis / Rinse & Repeat',
-    'Complete brand guidelines for all 4 brands',
-    'Finalize website for TCF King Street',
-    'Set up Shopify stores per brand',
-    'Build pitch deck for retail buyers',
-    'Create one-pager for each brand for press & partners'
+    { text: 'Define brand hierarchy: TCF vs NEVOO / Skin Axis / Rinse & Repeat', done: false },
+    { text: 'Review and approve brand guidelines for all brands', done: false },
+    { text: 'Approve website direction for TCF', done: false },
+    { text: 'Set up Shopify per brand — approve structure', done: false },
+    { text: 'Review retail concept for King Street — approve', done: false },
+    { text: 'Create pitch deck for retail buyers', done: false }
   ],
   pauly_events: [
-    'Send influencer outreach emails using Drive script',
-    'Finalize sorority partnership outreach',
-    'Assemble and ship PR bags',
-    'Contact local vendors for pop-up / event partnerships',
-    'Plan TCF King Street soft launch event',
-    'Book Sip & Formulate first public event'
+    { text: 'Set date for FIRST Sip & Formulate class — this is priority', done: false },
+    { text: 'Give green light on contacting vendors for influencer event', done: false },
+    { text: 'Approve sorority partnership outreach', done: false },
+    { text: 'Approve influencer contact sheet outreach', done: false },
+    { text: 'Review popup shop inspo — approve concept', done: false },
+    { text: 'Plan TCF King Street soft launch event', done: false }
   ],
   pauly_tech: [
-    'Set up all brand websites',
-    'Configure Shopify for TCF + all sub-brands',
-    'Organize Google Drive folder structure — link all to dashboard',
-    'Set up Google Workspace (email per brand)',
-    'Set up social media accounts for all brands',
-    'Connect all Drive folders to TCF Dashboard'
+    { text: 'Set up payment and booking system for classes', done: false },
+    { text: 'Set up Shopify for all brands', done: false },
+    { text: 'Configure Google Workspace (email per brand)', done: false },
+    { text: 'Confirm all Drive folders are organized and shared with Nicole', done: false },
+    { text: 'Connect all Drive folders to TCF Dashboard', done: false }
   ]
 };
 
 function ensurePaulyDefaults() {
   Object.keys(PAULY_DEFAULTS).forEach(function(key) {
     if (localStorage.getItem(key) === null) {
-      lsSet(key, PAULY_DEFAULTS[key].map(function(t){ return {text:t,done:false}; }));
+      lsSet(key, PAULY_DEFAULTS[key]);
     }
   });
 }
