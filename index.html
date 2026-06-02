@@ -1266,7 +1266,7 @@
   <div id="tab-home" class="tab-panel active">
 
     <div class="greeting">
-      <h1 id="greeting-text">Good morning ☀️ Nicole</h1>
+      <h1 id="greeting-text">Good morning ✝️ Nicole</h1>
       <div class="date-display" id="date-display"></div>
       <div class="live-clock" id="live-clock"></div>
     </div>
@@ -2579,8 +2579,8 @@ function editAffirmation() {
 function renderGreeting() {
   const h = new Date().getHours();
   var greet;
-  if (h < 12) greet = 'Good morning ☀️ Nicole';
-  else if (h < 17) greet = 'Good afternoon 🌸 Nicole';
+  if (h < 12) greet = 'Good morning ✝️ Nicole';
+  else if (h < 17) greet = 'Good afternoon ✝️ Nicole';
   else greet = 'Good evening 🌙 Nicole';
   const g = document.getElementById('greeting-text');
   if (g) g.textContent = greet;
