@@ -384,8 +384,10 @@ textarea{resize:vertical;min-height:60px;}
 .task-row[data-s="done"] .task-check::after{content:"✓";}
 .task-row[data-s="inprog"] .task-check{background:var(--amber2);border-color:var(--amber2);color:#fff;}
 .task-row[data-s="inprog"] .task-check::after{content:"·";}
-.task-row[data-s="urgent"] .task-check{background:var(--teal);border-color:var(--teal);color:#fff;}
+.task-row[data-s="urgent"]{background:rgba(255,91,174,0.07);border-left:4px solid var(--pink);padding-left:12px;border-radius:10px;margin-bottom:4px;}
+.task-row[data-s="urgent"] .task-check{background:var(--pink);border-color:var(--pink);color:#fff;width:20px;height:20px;font-size:14px;font-weight:900;border-radius:50%;}
 .task-row[data-s="urgent"] .task-check::after{content:"!";}
+.task-row[data-s="urgent"] .task-title{font-size:19px;font-weight:800;color:var(--pink);}
 .task-text-wrap{flex:1;min-width:0;}
 .task-title{font-size:17px;color:var(--text);}
 .task-row[data-s="done"] .task-title{color:var(--text3);text-decoration:line-through;}
