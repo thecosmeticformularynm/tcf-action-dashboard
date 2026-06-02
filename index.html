@@ -247,6 +247,93 @@
   .kanban-card .formula-del:hover { color: #FF5BAE; background: rgba(255,91,174,0.1); }
   .kanban-col.drag-over { background: rgba(79,126,247,0.08); border-color: var(--blue); }
 
+  /* PAULY TAB */
+  .nav-tab.pauly-tab { color: #4F7EF7; }
+  .nav-tab.pauly-tab.active { color: #4F7EF7; background: rgba(79,126,247,0.08); }
+  .nav-tab.pauly-tab.active::after { background: #4F7EF7; }
+  .pauly-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px; padding: 28px 32px;
+    background: linear-gradient(135deg,rgba(79,126,247,0.06),rgba(255,91,174,0.06));
+    border-radius: 20px; border: 1px solid var(--border);
+  }
+  .pauly-section {
+    background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border);
+    box-shadow: var(--card-shadow); padding: 24px 28px; margin-bottom: 20px;
+  }
+  .pauly-section-title {
+    font-size: 1.15rem; font-weight: 900; margin-bottom: 16px;
+    padding-bottom: 12px; border-bottom: 2px solid var(--sc,var(--pink));
+    color: var(--sc,var(--pink));
+  }
+
+  /* CALENDAR */
+  .cal-header {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+  }
+  .cal-month-title { font-size: 1.6rem; font-weight: 900; flex: 1; text-align: center; }
+  .cal-nav-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 2px solid var(--border); background: var(--pill-bg);
+    font-size: 1.4rem; font-weight: 900; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text); transition: all 0.2s;
+  }
+  .cal-nav-btn:hover { border-color: var(--pink); color: var(--pink); transform: scale(1.1); }
+  .cal-grid-header {
+    display: grid; grid-template-columns: repeat(7,1fr);
+    text-align: center; font-weight: 800; font-size: 0.85rem;
+    color: var(--muted); padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .cal-grid {
+    display: grid; grid-template-columns: repeat(7,1fr);
+    gap: 3px;
+  }
+  .cal-day {
+    min-height: 90px; border-radius: 12px; padding: 8px;
+    border: 1px solid transparent; transition: all 0.15s; cursor: pointer;
+    position: relative;
+  }
+  .cal-day:hover { background: var(--pill-bg); border-color: var(--border); }
+  .cal-day.today { background: rgba(255,91,174,0.07); border-color: var(--pink) !important; }
+  .cal-day.other-month .cal-day-num { color: var(--muted); opacity: 0.4; }
+  .cal-day-num {
+    font-size: 0.9rem; font-weight: 800; color: var(--text);
+    margin-bottom: 4px; display: block;
+  }
+  .cal-day.today .cal-day-num {
+    background: var(--pink); color: white; border-radius: 50%;
+    width: 26px; height: 26px; display: flex; align-items: center;
+    justify-content: center; font-size: 0.85rem;
+  }
+  .cal-event-dot {
+    display: block; font-size: 0.7rem; font-weight: 700;
+    padding: 2px 7px; border-radius: 999px; margin-bottom: 3px;
+    color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    cursor: pointer;
+  }
+  .cal-event-dot:hover { opacity: 0.8; }
+
+  /* MODAL */
+  .cal-modal {
+    position: fixed; inset: 0; z-index: 9998;
+    background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cal-modal.hidden { display: none; }
+  .cal-modal-card {
+    background: var(--card-bg); border-radius: 24px;
+    padding: 36px 40px; max-width: 440px; width: 92%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+  .cal-color-picker { display: flex; gap: 10px; padding: 8px 0; }
+  .cal-color-dot {
+    width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+    border: 3px solid transparent; transition: all 0.15s;
+  }
+  .cal-color-dot.selected { border-color: var(--text); transform: scale(1.2); }
+
   /* SEARCH HIGHLIGHT */
   .search-hidden { display: none !important; }
   .search-match .formula-name { background: rgba(255,91,174,0.2); border-radius: 4px; padding: 0 3px; }
@@ -514,6 +601,8 @@
     <button class="nav-tab" onclick="showTab('brands',this)">💄 Brands</button>
     <button class="nav-tab" onclick="showTab('content',this)">📱 Content</button>
     <button class="nav-tab" onclick="showTab('ops',this)">⚙️ Operations</button>
+    <button class="nav-tab" onclick="showTab('calendar',this)">📅 Calendar</button>
+    <button class="nav-tab pauly-tab" onclick="showTab('pauly',this)">🧑‍💼 Pauly</button>
     <button class="nav-tab" onclick="showTab('personal',this)">✦ Personal</button>
   </div>
   <button id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
@@ -815,7 +904,132 @@
     </div>
   </div><!-- end personal -->
 
+  <!-- ===== CALENDAR TAB ===== -->
+  <div id="tab-calendar" class="tab-panel">
+    <div class="card">
+      <div class="cal-header">
+        <button class="cal-nav-btn" onclick="calNav(-1)">‹</button>
+        <h2 class="cal-month-title" id="cal-month-title">June 2026</h2>
+        <button class="cal-nav-btn" onclick="calNav(1)">›</button>
+        <button class="add-btn" onclick="calAddEvent()" style="margin-left:auto;width:auto;padding:10px 22px;">＋ Add Event</button>
+      </div>
+      <div class="cal-grid-header">
+        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📋 Upcoming Events</div>
+      <ul class="task-list" id="cal-upcoming"></ul>
+    </div>
+  </div><!-- end calendar -->
+
+  <!-- ===== PAULY TAB ===== -->
+  <div id="tab-pauly" class="tab-panel">
+    <div class="pauly-header">
+      <div>
+        <h2 style="font-size:1.8rem;font-weight:900;margin-bottom:4px;">🧑‍💼 Pauly's Action Board</h2>
+        <p style="color:var(--muted);font-size:1rem;font-weight:600;">Essential items organized by category — Nicole's World</p>
+      </div>
+    </div>
+
+    <!-- FORMULATION & R&D -->
+    <div class="pauly-section">
+      <div class="pauly-section-title" style="--sc:#FF5BAE;">🧪 Formulation &amp; R&amp;D</div>
+      <ul class="task-list" id="pauly-formulation"></ul>
+      <button class="add-btn" onclick="addTask('pauly_formulation','pauly-formulation')">＋ Add item</button>
+    </div>
+
+    <!-- OPERATIONS & ADMIN -->
+    <div class="pauly-section">
+      <div class="pauly-section-title" style="--sc:#4F7EF7;">⚙️ Operations &amp; Admin</div>
+      <ul class="task-list" id="pauly-ops"></ul>
+      <button class="add-btn" onclick="addTask('pauly_ops','pauly-ops')">＋ Add item</button>
+    </div>
+
+    <!-- FINANCE & ACCOUNTING -->
+    <div class="pauly-section">
+      <div class="pauly-section-title" style="--sc:#34C994;">💰 Finance &amp; Accounting</div>
+      <ul class="task-list" id="pauly-finance"></ul>
+      <button class="add-btn" onclick="addTask('pauly_finance','pauly-finance')">＋ Add item</button>
+    </div>
+
+    <!-- MARKETING & CONTENT -->
+    <div class="pauly-section">
+      <div class="pauly-section-title" style="--sc:#c44dff;">📱 Marketing &amp; Content</div>
+      <ul class="task-list" id="pauly-marketing"></ul>
+      <button class="add-btn" onclick="addTask('pauly_marketing','pauly-marketing')">＋ Add item</button>
+    </div>
+
+    <!-- LEGAL & COMPLIANCE -->
+    <div class="pauly-section">
+      <div class="pauly-section-title" style="--sc:#FF8C00;">⚖️ Legal &amp; Compliance</div>
+      <ul class="task-list" id="pauly-legal"></ul>
+      <button class="add-btn" onclick="addTask('pauly_legal','pauly-legal')">＋ Add item</button>
+    </div>
+
+    <!-- VENDOR & SUPPLIER -->
+    <div class="pauly-section">
+      <div class="pauly-section-title" style="--sc:#FF5BAE;">🤝 Vendors &amp; Suppliers</div>
+      <ul class="task-list" id="pauly-vendors"></ul>
+      <button class="add-btn" onclick="addTask('pauly_vendors','pauly-vendors')">＋ Add item</button>
+    </div>
+
+    <!-- PACKAGING & DESIGN -->
+    <div class="pauly-section">
+      <div class="pauly-section-title" style="--sc:#4F7EF7;">🎨 Packaging &amp; Design</div>
+      <ul class="task-list" id="pauly-packaging"></ul>
+      <button class="add-btn" onclick="addTask('pauly_packaging','pauly-packaging')">＋ Add item</button>
+    </div>
+
+    <!-- BRAND STRATEGY -->
+    <div class="pauly-section">
+      <div class="pauly-section-title" style="--sc:#34C994;">✨ Brand Strategy</div>
+      <ul class="task-list" id="pauly-brand"></ul>
+      <button class="add-btn" onclick="addTask('pauly_brand','pauly-brand')">＋ Add item</button>
+    </div>
+
+    <!-- EVENTS & PR -->
+    <div class="pauly-section">
+      <div class="pauly-section-title" style="--sc:#c44dff;">🎉 Events &amp; PR</div>
+      <ul class="task-list" id="pauly-events"></ul>
+      <button class="add-btn" onclick="addTask('pauly_events','pauly-events')">＋ Add item</button>
+    </div>
+
+    <!-- TECHNOLOGY & SYSTEMS -->
+    <div class="pauly-section">
+      <div class="pauly-section-title" style="--sc:#FF8C00;">💻 Technology &amp; Systems</div>
+      <ul class="task-list" id="pauly-tech"></ul>
+      <button class="add-btn" onclick="addTask('pauly_tech','pauly-tech')">＋ Add item</button>
+    </div>
+
+  </div><!-- end pauly -->
+
 </div><!-- end #app -->
+
+<!-- EVENT MODAL -->
+<div id="cal-modal" class="cal-modal hidden">
+  <div class="cal-modal-card">
+    <h3 style="font-weight:900;margin-bottom:18px;">📅 Add Event</h3>
+    <label style="font-weight:700;font-size:0.9rem;">Event Title</label>
+    <input id="cal-ev-title" type="text" placeholder="e.g. Lab meeting, Launch day..." style="width:100%;padding:12px 16px;border-radius:12px;border:2px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:1rem;margin:8px 0 16px;outline:none;color:var(--text);">
+    <label style="font-weight:700;font-size:0.9rem;">Date</label>
+    <input id="cal-ev-date" type="date" style="width:100%;padding:12px 16px;border-radius:12px;border:2px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:1rem;margin:8px 0 16px;outline:none;color:var(--text);">
+    <label style="font-weight:700;font-size:0.9rem;">Color</label>
+    <div class="cal-color-picker" id="cal-color-picker">
+      <div class="cal-color-dot selected" style="background:#FF5BAE;" data-color="#FF5BAE"></div>
+      <div class="cal-color-dot" style="background:#4F7EF7;" data-color="#4F7EF7"></div>
+      <div class="cal-color-dot" style="background:#34C994;" data-color="#34C994"></div>
+      <div class="cal-color-dot" style="background:#c44dff;" data-color="#c44dff"></div>
+      <div class="cal-color-dot" style="background:#FF8C00;" data-color="#FF8C00"></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:20px;">
+      <button onclick="calSaveEvent()" style="flex:1;padding:14px;border-radius:999px;border:none;background:linear-gradient(135deg,#FF5BAE,#c44dff);color:white;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;">Save Event ✦</button>
+      <button onclick="calCloseModal()" style="flex:1;padding:14px;border-radius:999px;border:2px solid var(--border);background:transparent;font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;color:var(--text);">Cancel</button>
+    </div>
+  </div>
+</div>
 
 <script>
 // ============================================================
@@ -1543,6 +1757,261 @@ function brandSearch(query) {
 }
 
 // ============================================================
+// CALENDAR
+// ============================================================
+var calYear = new Date().getFullYear();
+var calMonth = new Date().getMonth();
+var calSelectedColor = '#FF5BAE';
+var calEditId = null;
+
+var MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function renderCalendar() {
+  var title = document.getElementById('cal-month-title');
+  if (title) title.textContent = MONTH_NAMES[calMonth] + ' ' + calYear;
+  var grid = document.getElementById('cal-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  var events = lsGet('tcf_calendar_events', []);
+  var today = new Date(); today.setHours(0,0,0,0);
+  var firstDay = new Date(calYear, calMonth, 1).getDay();
+  var daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  var daysInPrev = new Date(calYear, calMonth, 0).getDate();
+
+  // Prev month fill
+  for (var i = firstDay - 1; i >= 0; i--) {
+    var d = daysInPrev - i;
+    var cell = makeCalCell(d, calMonth - 1, calYear, true, events, today);
+    grid.appendChild(cell);
+  }
+  // Current month
+  for (var d2 = 1; d2 <= daysInMonth; d2++) {
+    var cell2 = makeCalCell(d2, calMonth, calYear, false, events, today);
+    grid.appendChild(cell2);
+  }
+  // Next month fill
+  var filled = firstDay + daysInMonth;
+  var remaining = filled % 7 === 0 ? 0 : 7 - (filled % 7);
+  for (var d3 = 1; d3 <= remaining; d3++) {
+    var cell3 = makeCalCell(d3, calMonth + 1, calYear, true, events, today);
+    grid.appendChild(cell3);
+  }
+
+  renderUpcoming(events);
+}
+
+function makeCalCell(day, month, year, otherMonth, events, today) {
+  var actualMonth = month;
+  var actualYear = year;
+  if (month < 0) { actualMonth = 11; actualYear = year - 1; }
+  else if (month > 11) { actualMonth = 0; actualYear = year + 1; }
+
+  var dateStr = actualYear + '-' + String(actualMonth+1).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+  var cellDate = new Date(actualYear, actualMonth, day);
+  var isToday = cellDate.getTime() === today.getTime();
+
+  var div = document.createElement('div');
+  div.className = 'cal-day' + (otherMonth ? ' other-month' : '') + (isToday ? ' today' : '');
+
+  var numEl = document.createElement('span');
+  numEl.className = 'cal-day-num';
+  numEl.textContent = day;
+  div.appendChild(numEl);
+
+  // Events for this day
+  var dayEvents = events.filter(function(e){ return e.date === dateStr; });
+  dayEvents.forEach(function(ev) {
+    var dot = document.createElement('span');
+    dot.className = 'cal-event-dot';
+    dot.style.background = ev.color || '#FF5BAE';
+    dot.textContent = ev.title;
+    dot.title = ev.title;
+    dot.onclick = function(e) {
+      e.stopPropagation();
+      if (confirm('Delete "' + ev.title + '"?')) {
+        var all = lsGet('tcf_calendar_events', []);
+        lsSet('tcf_calendar_events', all.filter(function(x){ return x.id !== ev.id; }));
+        renderCalendar();
+      }
+    };
+    div.appendChild(dot);
+  });
+
+  div.onclick = function() {
+    calOpenModal(dateStr);
+  };
+  return div;
+}
+
+function renderUpcoming(events) {
+  var ul = document.getElementById('cal-upcoming');
+  if (!ul) return;
+  ul.innerHTML = '';
+  var today = new Date(); today.setHours(0,0,0,0);
+  var upcoming = events
+    .filter(function(e){ return new Date(e.date) >= today; })
+    .sort(function(a,b){ return a.date.localeCompare(b.date); })
+    .slice(0, 15);
+  if (!upcoming.length) {
+    ul.innerHTML = '<li style="color:var(--muted);padding:12px 0;font-weight:600;">No upcoming events — add some! 📅</li>';
+    return;
+  }
+  upcoming.forEach(function(ev) {
+    var li = document.createElement('li');
+    li.className = 'task-item';
+    li.style.cssText = 'border-left:4px solid '+ev.color+';padding-left:14px;border-radius:8px;';
+    var d = new Date(ev.date + 'T00:00:00');
+    var dateLabel = d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    li.innerHTML = '<span style="flex:1;font-weight:700;">'+ev.title+'</span>' +
+      '<span style="color:var(--muted);font-size:0.85rem;font-weight:600;">'+dateLabel+'</span>' +
+      '<button class="task-del" onclick="(function(){var all=JSON.parse(localStorage.getItem(\'tcf_calendar_events\')||\'[]\');localStorage.setItem(\'tcf_calendar_events\',JSON.stringify(all.filter(function(x){return x.id!==\''+ev.id+'\'})));renderCalendar();})();event.stopPropagation();" style="opacity:1;">×</button>';
+    ul.appendChild(li);
+  });
+}
+
+function calNav(dir) {
+  calMonth += dir;
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  renderCalendar();
+}
+
+function calOpenModal(dateStr) {
+  var modal = document.getElementById('cal-modal');
+  var dateInput = document.getElementById('cal-ev-date');
+  if (dateInput && dateStr) dateInput.value = dateStr;
+  document.getElementById('cal-ev-title').value = '';
+  calSelectedColor = '#FF5BAE';
+  document.querySelectorAll('.cal-color-dot').forEach(function(d){
+    d.classList.toggle('selected', d.dataset.color === calSelectedColor);
+  });
+  if (modal) modal.classList.remove('hidden');
+  setTimeout(function(){ document.getElementById('cal-ev-title').focus(); }, 100);
+}
+
+function calAddEvent() {
+  var today = new Date();
+  var ds = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+  calOpenModal(ds);
+}
+
+function calCloseModal() {
+  document.getElementById('cal-modal').classList.add('hidden');
+}
+
+function calSaveEvent() {
+  var title = document.getElementById('cal-ev-title').value.trim();
+  var date = document.getElementById('cal-ev-date').value;
+  if (!title || !date) { alert('Please enter a title and date!'); return; }
+  var events = lsGet('tcf_calendar_events', []);
+  events.push({ id: Date.now().toString(), title: title, date: date, color: calSelectedColor });
+  lsSet('tcf_calendar_events', events);
+  calCloseModal();
+  renderCalendar();
+}
+
+// Color picker
+document.addEventListener('click', function(e) {
+  var dot = e.target.closest('.cal-color-dot');
+  if (dot) {
+    calSelectedColor = dot.dataset.color;
+    document.querySelectorAll('.cal-color-dot').forEach(function(d){ d.classList.remove('selected'); });
+    dot.classList.add('selected');
+  }
+});
+
+// Close modal on backdrop click
+document.addEventListener('click', function(e) {
+  var modal = document.getElementById('cal-modal');
+  if (modal && e.target === modal) calCloseModal();
+});
+
+// ============================================================
+// PAULY DEFAULTS
+// ============================================================
+var PAULY_DEFAULTS = {
+  pauly_formulation: [
+    'Review formula stability reports for all 4 brands',
+    'Confirm lab submission schedule with Dr. Chen',
+    'Update master formula spreadsheet',
+    'Follow up on pending batch testing results',
+    'Source COSMOS-certified ingredients for Nevoo line'
+  ],
+  pauly_ops: [
+    'Renew facility lease documentation',
+    'Update SOPs for production workflow',
+    'Audit inventory levels across all brands',
+    'Set up vendor onboarding process',
+    'Review and renew business insurance'
+  ],
+  pauly_finance: [
+    'Reconcile Q2 expenses',
+    'Review vendor payment schedules',
+    'Prepare cost-of-goods analysis per brand',
+    'Chase outstanding invoices',
+    'Set up separate brand P&L tracking'
+  ],
+  pauly_marketing: [
+    'Approve content calendar for next month',
+    'Brief designer on new packaging concepts',
+    'Coordinate influencer outreach list',
+    'Review brand voice guidelines for all 4 brands',
+    'Set up email marketing automation'
+  ],
+  pauly_legal: [
+    'Trademark filings — Nevoo, Daily Rou, Skin Axis',
+    'Review FDA cosmetic labeling compliance',
+    'Update safety data sheets for all formulas',
+    'Confirm business entity structure',
+    'Review contractor/vendor agreements'
+  ],
+  pauly_vendors: [
+    'Confirm packaging supplier lead times',
+    'Get quotes from 2 backup ingredient suppliers',
+    'Renegotiate lab testing contract',
+    'Set up vendor portal / master contact list',
+    'Review McKernan packaging order status'
+  ],
+  pauly_packaging: [
+    'Finalize packaging specs for TCF fall line',
+    'Request Nevoo sample bottles',
+    'Review Daily Rou label dielines',
+    'Confirm Skin Axis tube supplier MOQ',
+    'Set up packaging asset folder in Dropbox'
+  ],
+  pauly_brand: [
+    'Define brand hierarchy — TCF vs sub-brands',
+    'Create brand one-pagers for each brand',
+    'Set pricing strategy per brand tier',
+    'Develop retail pitch deck',
+    'Identify 3 key launch markets'
+  ],
+  pauly_events: [
+    'Book pop-up event space for Q3',
+    'Coordinate press sample sends',
+    'Build media contact list',
+    'Plan brand launch timeline',
+    'Draft press release templates'
+  ],
+  pauly_tech: [
+    'Set up Shopify for all 4 brands',
+    'Configure email domains & forwarding',
+    'Audit dashboard and fix any broken links',
+    'Set up Dropbox folder structure for all brands',
+    'Configure Google Workspace for team'
+  ]
+};
+
+function ensurePaulyDefaults() {
+  Object.keys(PAULY_DEFAULTS).forEach(function(key) {
+    if (localStorage.getItem(key) === null) {
+      lsSet(key, PAULY_DEFAULTS[key].map(function(t){ return {text:t,done:false}; }));
+    }
+  });
+}
+
+// ============================================================
 // INIT
 // ============================================================
 function initApp() {
@@ -1569,6 +2038,14 @@ function initApp() {
   renderTasks('tcf_tasks_ops', 'ops-tasks');
   renderContacts();
   renderFiles('tcf_files_ops', 'ops-files');
+  // Calendar
+  renderCalendar();
+  // Pauly
+  ensurePaulyDefaults();
+  Object.keys(PAULY_DEFAULTS).forEach(function(key) {
+    var cid = key.replace('pauly_', 'pauly-');
+    renderTasks(key, cid);
+  });
   // Personal
   renderSchedule();
   renderWellness();
