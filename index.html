@@ -46,6 +46,7 @@
     display: flex; align-items: center; justify-content: center;
   }
   #gate.hidden { display: none; }
+  .hidden { display: none; }
   .gate-card {
     background: white;
     border-radius: 28px;
@@ -793,6 +794,78 @@
   background: rgba(255,91,174,0.1); color: var(--pink);
   font-size: 0.8rem; font-weight: 800; margin-bottom: 12px;
 }
+
+/* AI BRAIN */
+.ai-brain-card {
+  background: linear-gradient(135deg, rgba(255,91,174,0.05), rgba(79,126,247,0.05));
+  border: 1px solid rgba(255,91,174,0.2);
+}
+.ai-gen-btn {
+  padding: 14px 28px; border-radius: 999px;
+  background: linear-gradient(135deg, #FF5BAE, #c44dff, #4F7EF7);
+  background-size: 200% 200%;
+  animation: gradshift 3s ease infinite;
+  color: white; border: none; font-family: inherit;
+  font-size: 1rem; font-weight: 900; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(255,91,174,0.35);
+  transition: all 0.2s; white-space: nowrap;
+}
+.ai-gen-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,91,174,0.5); }
+.ai-gen-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+@keyframes gradshift {
+  0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%}
+}
+.ai-brain-status {
+  padding: 10px 14px; border-radius: 10px;
+  background: rgba(79,126,247,0.08); color: var(--blue);
+  font-weight: 700; font-size: 0.9rem; margin-bottom: 12px;
+}
+.ai-brain-result {
+  border-top: 1px solid var(--border); padding-top: 16px;
+}
+.ai-brain-result-task {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.ai-brain-result-task:last-child { border-bottom: none; }
+.ai-brain-priority-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 7px;
+}
+.ai-brain-task-text { flex: 1; font-size: 0.95rem; font-weight: 600; line-height: 1.5; }
+.ai-brain-task-add {
+  padding: 5px 14px; border-radius: 999px; border: none;
+  background: rgba(79,126,247,0.1); color: var(--blue);
+  font-family: inherit; font-size: 0.8rem; font-weight: 800;
+  cursor: pointer; transition: all 0.15s; flex-shrink: 0;
+}
+.ai-brain-task-add:hover { background: var(--blue); color: white; }
+.ai-brain-task-add.added { background: rgba(52,201,148,0.15); color: #34C994; }
+
+/* DAILY SUMMARY */
+.summary-stats {
+  display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
+}
+.summary-stat {
+  background: var(--pill-bg); border-radius: 14px; padding: 14px 20px;
+  text-align: center; flex: 1; min-width: 100px; border: 1px solid var(--border);
+}
+.summary-stat-num { font-size: 2rem; font-weight: 900; line-height: 1; }
+.summary-stat-label { font-size: 0.8rem; color: var(--muted); font-weight: 700; margin-top: 4px; }
+.summary-completed-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0; font-size: 0.9rem; font-weight: 600;
+  color: var(--muted); text-decoration: line-through;
+  border-bottom: 1px solid var(--border);
+}
+.summary-completed-item:last-child { border-bottom: none; }
+.summary-ai-text {
+  margin-top: 16px; padding: 16px; border-radius: 14px;
+  background: linear-gradient(135deg,rgba(255,91,174,0.06),rgba(79,126,247,0.06));
+  font-size: 0.95rem; font-weight: 600; line-height: 1.8;
+  color: var(--text); font-style: italic; border: 1px solid var(--border);
+  white-space: pre-line;
+}
 </style>
 </head>
 <body>
@@ -835,6 +908,19 @@
       <h1 id="greeting-text">Good morning ☀️ Nicole</h1>
       <div class="date-display" id="date-display"></div>
       <div class="live-clock" id="live-clock"></div>
+    </div>
+
+    <!-- AI DAILY BRAIN -->
+    <div class="card ai-brain-card" id="ai-brain-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px;">
+        <div>
+          <div class="card-title" style="margin-bottom:4px;">Your Thinking Machine</div>
+          <div style="color:var(--muted);font-size:0.9rem;font-weight:600;">I read your Drive, your tasks, and what you did yesterday — then build your day.</div>
+        </div>
+        <button class="ai-gen-btn" id="ai-gen-btn" onclick="generateMyDay()">Generate My Day</button>
+      </div>
+      <div id="ai-brain-status" class="ai-brain-status hidden"></div>
+      <div id="ai-brain-result" class="ai-brain-result hidden"></div>
     </div>
 
     <div class="home-grid">
@@ -882,6 +968,45 @@
       <div class="bible-verse-text" id="bible-verse-text"></div>
       <div class="bible-verse-ref" id="bible-verse-ref"></div>
       <div class="bible-verse-hint">click to change verse</div>
+    </div>
+
+    <!-- DAILY SUMMARY -->
+    <div class="card" id="daily-summary-card" style="margin-top:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+        <div class="card-title">Today's Summary</div>
+        <button onclick="generateDailySummary()" style="padding:8px 18px;border-radius:999px;border:1px solid var(--border);background:var(--pill-bg);font-family:inherit;font-size:0.85rem;font-weight:700;cursor:pointer;color:var(--text);transition:all 0.2s;" onmouseover="this.style.borderColor='var(--pink)'" onmouseout="this.style.borderColor='var(--border)'">Refresh Summary</button>
+      </div>
+      <div id="daily-summary-content">
+        <div class="summary-stats" id="summary-stats"></div>
+        <div id="summary-completed-list"></div>
+        <div id="summary-ai-text" class="summary-ai-text"></div>
+      </div>
+    </div>
+
+    <!-- NOTION SYNC -->
+    <div class="card" id="notion-sync-card" style="margin-top:0;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px;">
+        <div class="card-title">Notion Sync</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button onclick="syncNotion()" id="notion-sync-btn" style="padding:8px 18px;border-radius:999px;border:none;background:linear-gradient(135deg,#1A1A2E,#4F7EF7);color:white;font-family:inherit;font-size:0.85rem;font-weight:800;cursor:pointer;transition:all 0.2s;">Sync Now</button>
+          <button onclick="toggleNotionSetup()" style="padding:8px 18px;border-radius:999px;border:1px solid var(--border);background:var(--pill-bg);font-family:inherit;font-size:0.85rem;font-weight:700;cursor:pointer;color:var(--text);">Setup</button>
+        </div>
+      </div>
+      <div id="notion-setup-panel" style="display:none;background:var(--pill-bg);border-radius:14px;padding:16px;margin-bottom:14px;">
+        <p style="font-size:0.85rem;color:var(--muted);font-weight:600;margin-bottom:10px;">To connect Notion: go to notion.so/my-integrations → New integration → copy the token. Then share your "NICOLES WORLD" page with the integration.</p>
+        <div style="display:flex;gap:8px;margin-bottom:8px;">
+          <input id="notion-token-input" type="password" placeholder="secret_xxxx (Notion integration token)" style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:0.85rem;color:var(--text);outline:none;">
+          <button onclick="saveNotionToken()" style="padding:10px 18px;border-radius:999px;border:none;background:var(--pink);color:white;font-family:inherit;font-size:0.85rem;font-weight:700;cursor:pointer;">Save</button>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <input id="notion-page-input" type="text" placeholder="Notion Page/DB ID (from page URL)" style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:0.85rem;color:var(--text);outline:none;" value="3375956898b5806fa77ff52b67ed706f">
+          <button onclick="saveNotionPage()" style="padding:10px 18px;border-radius:999px;border:none;background:var(--blue);color:white;font-family:inherit;font-size:0.85rem;font-weight:700;cursor:pointer;">Save</button>
+        </div>
+      </div>
+      <div id="notion-sync-status" style="font-size:0.9rem;color:var(--muted);font-weight:600;">
+        <span id="notion-status-text">Not connected — set up your integration token above.</span>
+      </div>
+      <div id="notion-tasks-list" style="margin-top:12px;"></div>
     </div>
 
   </div><!-- end home -->
@@ -2678,6 +2803,8 @@ function initApp() {
   renderAffirmation();
   renderTasks('tcf_personal_todos', 'personal-tasks');
   renderTasks('tcf_beauty', 'beauty-tasks');
+  // Daily summary
+  generateDailySummary();
 }
 
 // ============================================================
@@ -2826,6 +2953,284 @@ function sendAIQuestion() {
     sendBtn.textContent = 'Ask';
     resultsEl.innerHTML = '<div class="ask-ai-error">Connection error. Check your API key and try again.</div>';
   });
+}
+
+// ============================================================
+// GENERATE MY DAY — AI BRAIN
+// ============================================================
+function getAllTasksContext() {
+  var sections = [
+    { name: 'Home Today', key: 'tcf_home_tasks' },
+    { name: 'TCF Brand', key: 'tcf_brand_tcf' },
+    { name: 'NEVOO Brand', key: 'tcf_brand_nevoo' },
+    { name: 'Rinse & Repeat', key: 'tcf_brand_dailyrou' },
+    { name: 'Skin Axis', key: 'tcf_brand_skinaxis' },
+    { name: 'Content & Social', key: 'tcf_tasks_content' },
+    { name: 'Operations', key: 'tcf_tasks_ops' },
+    { name: 'Personal', key: 'tcf_personal_todos' },
+  ];
+  var summary = [];
+  sections.forEach(function(s) {
+    var tasks = lsGet(s.key, []);
+    var pending = tasks.filter(function(t){ return !t.done; }).map(function(t){ return t.text; });
+    var done = tasks.filter(function(t){ return t.done; }).map(function(t){ return t.text; });
+    if (pending.length) summary.push(s.name + ' PENDING: ' + pending.join(' | '));
+    if (done.length) summary.push(s.name + ' DONE: ' + done.join(' | '));
+  });
+  return summary.join('\n');
+}
+
+function generateMyDay() {
+  var apiKey = localStorage.getItem('tcf_openai_key');
+  if (!apiKey) {
+    toggleAskAI();
+    return;
+  }
+  var btn = document.getElementById('ai-gen-btn');
+  var statusEl = document.getElementById('ai-brain-status');
+  var resultEl = document.getElementById('ai-brain-result');
+  btn.disabled = true;
+  btn.textContent = 'Thinking...';
+  statusEl.classList.remove('hidden');
+  statusEl.textContent = 'Reading your tasks and Drive context...';
+  resultEl.classList.add('hidden');
+
+  var taskContext = getAllTasksContext();
+  var today = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+
+  var systemPrompt = `You are Nicole's personal AI thinking machine and business partner. You know everything about her world:
+
+BRANDS: TCF (The Cosmetic Formulary) — main brand, FDA registration needed, logo/labels in progress. NEVOO — building brand identity, formulation in Drive. Skin Axis — deciding packaging + product type, has tea line. Rinse & Repeat — catalog/packaging ready. Sip & Formulate — King Street space for classes and events.
+
+DRIVE FOLDERS: BRANDS, FORMULATION (tracker + NEVOO), TCF KING STREET (sip & formulate/retail/spa), EVENTS AND PR (influencer/sorority/vendor contacts, PR bags), SOCIAL MEDIA (instagram/tiktok/posts), PRODUCT RESEARCH (best sellers, cleanser pitch, acne tea), FACILITY (compliance checklist — FDA/OSHA/GMP), WEBSITE, INTERIOR DESIGN.
+
+KEY PRIORITIES: First Sip & Formulate class date needs to be set. FDA facility registration must be completed. McKernan packaging needs Pauly approval. Instagram first post video needs to be made. Chairs/mixer for classes need to be ordered. Social media person needed. Video editor to connect with. Payment/booking system for classes. Alibaba wall order.
+
+Today is ${today}.
+
+CURRENT TASK STATE:
+${taskContext}
+
+Based on ALL of this, give Nicole her TOP 6 most important tasks for today. Prioritize what moves the needle most. Format as a JSON array ONLY with no other text:
+[{"task":"task text here","priority":"high|medium|low","category":"category name","reason":"one sentence why this is important today"}]`;
+
+  fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+    body: JSON.stringify({
+      model: 'gpt-4o-mini',
+      messages: [{ role: 'user', content: systemPrompt }],
+      max_tokens: 600, temperature: 0.6
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    btn.disabled = false;
+    btn.textContent = 'Generate My Day';
+    statusEl.classList.add('hidden');
+    if (data.error) { statusEl.classList.remove('hidden'); statusEl.textContent = 'Error: ' + data.error.message; return; }
+    var raw = data.choices[0].message.content.trim();
+    var jsonMatch = raw.match(/\[[\s\S]*\]/);
+    if (!jsonMatch) { statusEl.classList.remove('hidden'); statusEl.textContent = 'Could not parse AI response. Try again.'; return; }
+    var tasks = JSON.parse(jsonMatch[0]);
+    var colors = { high: '#FF5BAE', medium: '#4F7EF7', low: '#34C994' };
+    resultEl.classList.remove('hidden');
+    resultEl.innerHTML = '<div style="font-weight:800;font-size:0.9rem;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.05em;">Your priorities for today — click to add</div>';
+    tasks.forEach(function(t, i) {
+      var div = document.createElement('div');
+      div.className = 'ai-brain-result-task';
+      div.innerHTML = '<div class="ai-brain-priority-dot" style="background:' + (colors[t.priority]||'#4F7EF7') + '"></div>' +
+        '<div class="ai-brain-task-text"><strong>' + t.task + '</strong><div style="font-size:0.8rem;color:var(--muted);margin-top:2px;">' + (t.reason||'') + '</div></div>' +
+        '<button class="ai-brain-task-add" id="brain-add-'+i+'">+ Add</button>';
+      div.querySelector('.ai-brain-task-add').onclick = function() {
+        var tasks2 = lsGet('tcf_home_tasks', []);
+        tasks2.push({ text: t.task, done: false, addedAt: Date.now() });
+        lsSet('tcf_home_tasks', tasks2);
+        renderTasks('tcf_home_tasks', 'home-tasks');
+        updateDonut();
+        var btn2 = document.getElementById('brain-add-'+i);
+        btn2.textContent = 'Added!';
+        btn2.classList.add('added');
+        btn2.disabled = true;
+      };
+      resultEl.appendChild(div);
+    });
+    lsSet('tcf_last_generated', new Date().toISOString());
+    generateDailySummary();
+  })
+  .catch(function(err) {
+    btn.disabled = false;
+    btn.textContent = 'Generate My Day';
+    statusEl.classList.remove('hidden');
+    statusEl.textContent = 'Connection error — check your API key.';
+  });
+}
+
+// ============================================================
+// DAILY SUMMARY
+// ============================================================
+function generateDailySummary() {
+  var statsEl = document.getElementById('summary-stats');
+  var completedEl = document.getElementById('summary-completed-list');
+  var aiTextEl = document.getElementById('summary-ai-text');
+  if (!statsEl) return;
+
+  var allKeys = ['tcf_home_tasks','tcf_brand_tcf','tcf_brand_nevoo','tcf_brand_dailyrou','tcf_brand_skinaxis','tcf_tasks_content','tcf_tasks_ops','tcf_personal_todos'];
+  var totalDone = 0, totalPending = 0;
+  var completedItems = [];
+
+  allKeys.forEach(function(key) {
+    var tasks = lsGet(key, []);
+    tasks.forEach(function(t) {
+      if (t.done) { totalDone++; completedItems.push(t.text); }
+      else totalPending++;
+    });
+  });
+
+  var pct = (totalDone + totalPending) > 0 ? Math.round((totalDone / (totalDone + totalPending)) * 100) : 0;
+  statsEl.innerHTML =
+    '<div class="summary-stat"><div class="summary-stat-num" style="color:var(--green)">' + totalDone + '</div><div class="summary-stat-label">Completed</div></div>' +
+    '<div class="summary-stat"><div class="summary-stat-num" style="color:var(--pink)">' + totalPending + '</div><div class="summary-stat-label">Still To-Do</div></div>' +
+    '<div class="summary-stat"><div class="summary-stat-num" style="color:var(--blue)">' + pct + '%</div><div class="summary-stat-label">Done Today</div></div>';
+
+  completedEl.innerHTML = '';
+  if (completedItems.length) {
+    var header = document.createElement('div');
+    header.style.cssText = 'font-weight:800;font-size:0.85rem;color:var(--muted);margin:12px 0 6px;text-transform:uppercase;letter-spacing:0.05em;';
+    header.textContent = 'Completed';
+    completedEl.appendChild(header);
+    completedItems.slice(0,10).forEach(function(text) {
+      var div = document.createElement('div');
+      div.className = 'summary-completed-item';
+      div.innerHTML = '<span style="color:var(--green);font-size:1rem;">✓</span>' + text;
+      completedEl.appendChild(div);
+    });
+  }
+
+  // AI summary if key available
+  var apiKey = localStorage.getItem('tcf_openai_key');
+  if (!apiKey || totalDone === 0) {
+    aiTextEl.style.display = 'none';
+    return;
+  }
+  aiTextEl.style.display = 'block';
+  aiTextEl.textContent = 'Generating your daily recap...';
+
+  var completedStr = completedItems.join(', ') || 'nothing yet';
+  var prompt = 'Nicole is a cosmetic brand founder (TCF, NEVOO, Skin Axis, Rinse & Repeat, Sip & Formulate). Today she completed: ' + completedStr + '. She still has ' + totalPending + ' tasks pending. Write a warm, motivating 2-3 sentence daily recap that acknowledges what she accomplished, and encourages her for tomorrow. Be personal and supportive, not generic.';
+
+  fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+    body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'user', content: prompt }], max_tokens: 150, temperature: 0.8 })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    if (data.choices) aiTextEl.textContent = data.choices[0].message.content.trim();
+  })
+  .catch(function(){ aiTextEl.style.display = 'none'; });
+}
+
+// ============================================================
+// NOTION SYNC
+// ============================================================
+function toggleNotionSetup() {
+  var panel = document.getElementById('notion-setup-panel');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+function saveNotionToken() {
+  var val = document.getElementById('notion-token-input').value.trim();
+  if (val) { localStorage.setItem('tcf_notion_token', val); alert('Notion token saved!'); }
+}
+function saveNotionPage() {
+  var val = document.getElementById('notion-page-input').value.trim();
+  if (val) { localStorage.setItem('tcf_notion_page', val); alert('Notion page ID saved!'); }
+}
+
+function syncNotion() {
+  var token = localStorage.getItem('tcf_notion_token');
+  var pageId = localStorage.getItem('tcf_notion_page') || '3375956898b5806fa77ff52b67ed706f';
+  var statusEl = document.getElementById('notion-status-text');
+  var listEl = document.getElementById('notion-tasks-list');
+  var btn = document.getElementById('notion-sync-btn');
+
+  if (!token) {
+    document.getElementById('notion-setup-panel').style.display = 'block';
+    statusEl.textContent = 'Please add your Notion integration token above first.';
+    return;
+  }
+
+  btn.textContent = 'Syncing...';
+  btn.disabled = true;
+  statusEl.textContent = 'Connecting to Notion...';
+  listEl.innerHTML = '';
+
+  // Try to fetch the Notion page blocks
+  fetch('https://api.notion.com/v1/blocks/' + pageId.replace(/-/g,'').replace(/(\w{8})(\w{4})(\w{4})(\w{4})(\w{12})/,'$1-$2-$3-$4-$5') + '/children?page_size=100', {
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Notion-Version': '2022-06-28',
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(function(r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status + ' — check your token and page sharing');
+    return r.json();
+  })
+  .then(function(data) {
+    btn.textContent = 'Sync Now';
+    btn.disabled = false;
+    var blocks = data.results || [];
+    var todos = [];
+    blocks.forEach(function(block) {
+      if (block.type === 'to_do') {
+        var text = block.to_do.rich_text.map(function(t){ return t.plain_text; }).join('');
+        var done = block.to_do.checked || false;
+        if (text) todos.push({ text: text, done: done });
+      }
+      if (block.type === 'bulleted_list_item' || block.type === 'numbered_list_item') {
+        var key2 = block.type === 'bulleted_list_item' ? 'bulleted_list_item' : 'numbered_list_item';
+        var text2 = block[key2].rich_text.map(function(t){ return t.plain_text; }).join('');
+        if (text2) todos.push({ text: text2, done: false });
+      }
+    });
+
+    if (!todos.length) {
+      statusEl.textContent = 'Connected! No to-do items found on this page. Notion tasks with checkboxes will appear here.';
+      return;
+    }
+
+    statusEl.innerHTML = '<span style="color:var(--green);font-weight:800;">Connected</span> — ' + todos.length + ' items found. Click to add to your to-do list.';
+
+    todos.forEach(function(item, i) {
+      var div = document.createElement('div');
+      div.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);';
+      var check = item.done ? '<span style="color:var(--green);font-size:1rem;">✓</span>' : '<span style="color:var(--muted);font-size:0.9rem;">○</span>';
+      div.innerHTML = check +
+        '<span style="flex:1;font-size:0.9rem;font-weight:600;' + (item.done ? 'text-decoration:line-through;color:var(--muted);' : '') + '">' + item.text + '</span>' +
+        (!item.done ? '<button onclick="addNotionTask(this,\'' + item.text.replace(/'/g,"\\'") + '\')" style="padding:4px 12px;border-radius:999px;border:none;background:rgba(79,126,247,0.1);color:var(--blue);font-family:inherit;font-size:0.8rem;font-weight:800;cursor:pointer;">+ Add</button>' : '');
+      listEl.appendChild(div);
+    });
+    lsSet('tcf_notion_last_sync', new Date().toISOString());
+  })
+  .catch(function(err) {
+    btn.textContent = 'Sync Now';
+    btn.disabled = false;
+    statusEl.innerHTML = '<span style="color:var(--pink);">Could not connect: ' + err.message + '</span><br><small style="color:var(--muted);">Make sure you shared your Notion page with the integration and the token is correct.</small>';
+  });
+}
+
+function addNotionTask(btn, text) {
+  var tasks = lsGet('tcf_home_tasks', []);
+  tasks.push({ text: text, done: false });
+  lsSet('tcf_home_tasks', tasks);
+  renderTasks('tcf_home_tasks', 'home-tasks');
+  updateDonut();
+  btn.textContent = 'Added!';
+  btn.style.background = 'rgba(52,201,148,0.15)';
+  btn.style.color = '#34C994';
+  btn.disabled = true;
 }
 </script>
 
