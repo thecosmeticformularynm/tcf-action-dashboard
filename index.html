@@ -1546,25 +1546,160 @@
 
   <!-- ===== CONTENT TAB ===== -->
   <div id="tab-content" class="tab-panel">
-    <div class="card">
-      <div class="card-title">Content &amp; Social Tasks</div>
-      <ul class="task-list" id="content-tasks"></ul>
-      <button class="add-btn" onclick="addTask('tcf_tasks_content','content-tasks')">＋ Add task</button>
-    </div>
-    <div class="card">
-      <div class="card-title">Platforms</div>
-      <div class="pill-row">
-        <span class="pill pill-pink">📸 Instagram</span>
-        <span class="pill pill-blue">🎵 TikTok</span>
-        <span class="pill pill-orange">📌 Pinterest</span>
-        <span class="pill pill-purple">✉️ Email</span>
+
+    <!-- SOCIAL MEDIA CALENDAR -->
+    <div class="card" style="margin-bottom:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+        <div>
+          <div class="card-title" style="margin-bottom:4px;">Social Media Calendar</div>
+          <div style="color:var(--muted);font-size:0.88rem;font-weight:600;">Plan posts across all brands — click any slot to schedule, then push to Google Calendar</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <button onclick="socialCalPrev()" style="width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);background:var(--pill-bg);cursor:pointer;font-size:1rem;color:var(--text);transition:all 0.15s;" onmouseover="this.style.borderColor='var(--pink)'" onmouseout="this.style.borderColor='var(--border)'">‹</button>
+          <div id="social-cal-label" style="font-size:1.1rem;font-weight:900;min-width:160px;text-align:center;"></div>
+          <button onclick="socialCalNext()" style="width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);background:var(--pill-bg);cursor:pointer;font-size:1rem;color:var(--text);transition:all 0.15s;" onmouseover="this.style.borderColor='var(--pink)'" onmouseout="this.style.borderColor='var(--border)'">›</button>
+        </div>
+      </div>
+
+      <!-- Post type legend -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+        <span style="display:flex;align-items:center;gap:5px;font-size:0.75rem;font-weight:800;color:var(--muted);"><span style="width:10px;height:10px;border-radius:50%;background:#e03a8b;display:inline-block;"></span>Reel/Video</span>
+        <span style="display:flex;align-items:center;gap:5px;font-size:0.75rem;font-weight:800;color:var(--muted);"><span style="width:10px;height:10px;border-radius:50%;background:#4F7EF7;display:inline-block;"></span>Carousel</span>
+        <span style="display:flex;align-items:center;gap:5px;font-size:0.75rem;font-weight:800;color:var(--muted);"><span style="width:10px;height:10px;border-radius:50%;background:#27a87a;display:inline-block;"></span>Static Post</span>
+        <span style="display:flex;align-items:center;gap:5px;font-size:0.75rem;font-weight:800;color:var(--muted);"><span style="width:10px;height:10px;border-radius:50%;background:#c87800;display:inline-block;"></span>Story</span>
+        <span style="display:flex;align-items:center;gap:5px;font-size:0.75rem;font-weight:800;color:var(--muted);"><span style="width:10px;height:10px;border-radius:50%;background:#9966ff;display:inline-block;"></span>TikTok</span>
+      </div>
+
+      <!-- Weekly grid -->
+      <div id="social-cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;background:var(--border);border-radius:14px;overflow:hidden;"></div>
+
+      <!-- Day detail -->
+      <div id="social-cal-detail" style="display:none;margin-top:16px;padding:20px;background:var(--pill-bg);border-radius:16px;border:1px solid var(--border);">
+        <div style="font-size:0.8rem;font-weight:900;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:12px;" id="social-cal-detail-date"></div>
+        <div id="social-cal-detail-posts" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;"></div>
+        <!-- Add post form -->
+        <div style="background:var(--card-bg);border-radius:12px;padding:16px;border:1px solid var(--border);">
+          <div style="font-size:0.82rem;font-weight:800;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em;">Schedule a Post</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+            <select id="social-post-brand" style="padding:8px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:0.85rem;color:var(--text);outline:none;cursor:pointer;">
+              <option value="TCF">TCF</option>
+              <option value="NEVOO">NEVOO</option>
+              <option value="Skin Axis">Skin Axis</option>
+              <option value="Rinse &amp; Repeat">Rinse &amp; Repeat</option>
+              <option value="Sip &amp; Formulate">Sip &amp; Formulate</option>
+            </select>
+            <select id="social-post-type" style="padding:8px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:0.85rem;color:var(--text);outline:none;cursor:pointer;">
+              <option value="reel">📹 Reel/Video</option>
+              <option value="carousel">🎠 Carousel</option>
+              <option value="static">🖼️ Static Post</option>
+              <option value="story">⭕ Story</option>
+              <option value="tiktok">🎵 TikTok</option>
+            </select>
+            <select id="social-post-platform" style="padding:8px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:0.85rem;color:var(--text);outline:none;cursor:pointer;">
+              <option value="Instagram">📸 Instagram</option>
+              <option value="TikTok">🎵 TikTok</option>
+              <option value="Both">Both</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="social-post-caption" style="flex:1;padding:10px 16px;border-radius:999px;border:1.5px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:0.9rem;color:var(--text);outline:none;transition:border-color 0.2s;" placeholder="Post idea or caption..." onfocus="this.style.borderColor='var(--pink)'" onblur="this.style.borderColor='var(--border)'">
+            <button onclick="socialCalAddPost()" style="padding:10px 20px;border-radius:999px;border:none;background:linear-gradient(135deg,#FF5BAE,#c44dff);color:white;font-family:inherit;font-size:0.85rem;font-weight:800;cursor:pointer;white-space:nowrap;">+ Add</button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="card">
-      <div class="card-title">Content Files &amp; Links</div>
-      <ul class="file-list" id="content-files"></ul>
-      <button class="add-btn" onclick="addFile('tcf_files_content','content-files')">＋ Add link</button>
+
+    <!-- WHAT TO POST — suggestions -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-title" style="margin-bottom:16px;">What to Post — Your Content Strategy</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;">
+
+        <div style="padding:16px;border-radius:14px;background:linear-gradient(135deg,rgba(255,91,174,0.06),rgba(255,91,174,0.02));border:1px solid rgba(255,91,174,0.2);">
+          <div style="font-weight:900;font-size:0.95rem;margin-bottom:10px;color:var(--pink);">📸 TCF — The Cosmetic Formulary</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:0.83rem;font-weight:600;color:var(--text);">
+            <div>🎬 <strong>Reel:</strong> "I'm a cosmetic chemist — here's what I actually put in your moisturizer"</div>
+            <div>🎠 <strong>Carousel:</strong> Behind-the-scenes of your lab / formula process</div>
+            <div>🖼️ <strong>Static:</strong> Product flat lay — aesthetic formula bottles on marble</div>
+            <div>🎬 <strong>Reel:</strong> "Day in my life as a formulator in NM"</div>
+            <div>🎠 <strong>Carousel:</strong> "What's actually in [ingredient] and why it matters"</div>
+            <div>⭕ <strong>Story:</strong> Poll — "Would you rather custom serum or custom moisturizer?"</div>
+          </div>
+        </div>
+
+        <div style="padding:16px;border-radius:14px;background:linear-gradient(135deg,rgba(79,126,247,0.06),rgba(79,126,247,0.02));border:1px solid rgba(79,126,247,0.2);">
+          <div style="font-weight:900;font-size:0.95rem;margin-bottom:10px;color:var(--blue);">🌿 Sip &amp; Formulate — Events</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:0.83rem;font-weight:600;color:var(--text);">
+            <div>🎬 <strong>Reel:</strong> Venue reveal at King Street — "come formulate with me"</div>
+            <div>🎠 <strong>Carousel:</strong> "Here's exactly what you'll make at Sip &amp; Formulate"</div>
+            <div>🎬 <strong>Reel:</strong> Dry-run class clip — ingredients, mixing, the vibe</div>
+            <div>⭕ <strong>Story:</strong> Countdown to first class with swipe-up RSVP link</div>
+            <div>🖼️ <strong>Static:</strong> Aesthetic table setup — "your spot is waiting"</div>
+            <div>🎵 <strong>TikTok:</strong> "POV: you just made your own perfume in New Mexico"</div>
+          </div>
+        </div>
+
+        <div style="padding:16px;border-radius:14px;background:linear-gradient(135deg,rgba(52,201,148,0.06),rgba(52,201,148,0.02));border:1px solid rgba(52,201,148,0.2);">
+          <div style="font-weight:900;font-size:0.95rem;margin-bottom:10px;color:#27a87a;">🌱 NEVOO — Wellness</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:0.83rem;font-weight:600;color:var(--text);">
+            <div>🎬 <strong>Reel:</strong> "Clean wellness routine — what I actually use morning + night"</div>
+            <div>🎠 <strong>Carousel:</strong> Brand reveal — mood board, palette, what NEVOO stands for</div>
+            <div>🖼️ <strong>Static:</strong> Minimalist product aesthetic — white, green, clean</div>
+            <div>⭕ <strong>Story:</strong> "Guess the brand name" teaser before full launch</div>
+            <div>🎵 <strong>TikTok:</strong> "Building a wellness brand from scratch — ep. 1"</div>
+          </div>
+        </div>
+
+        <div style="padding:16px;border-radius:14px;background:linear-gradient(135deg,rgba(200,120,0,0.06),rgba(200,120,0,0.02));border:1px solid rgba(200,120,0,0.2);">
+          <div style="font-weight:900;font-size:0.95rem;margin-bottom:10px;color:#c87800;">⚗️ Skin Axis — Clinical</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:0.83rem;font-weight:600;color:var(--text);">
+            <div>🎬 <strong>Reel:</strong> "The science behind hormonal acne — what actually works"</div>
+            <div>🎠 <strong>Carousel:</strong> "Acne tea breakdown — every ingredient explained"</div>
+            <div>🖼️ <strong>Static:</strong> Clinical flat lay — clean white, ingredient close-ups</div>
+            <div>⭕ <strong>Story:</strong> "Do you struggle with hormonal acne?" poll</div>
+            <div>🎠 <strong>Carousel:</strong> "Why topical treatments alone don't fix hormonal acne"</div>
+          </div>
+        </div>
+
+        <div style="padding:16px;border-radius:14px;background:linear-gradient(135deg,rgba(153,102,255,0.06),rgba(153,102,255,0.02));border:1px solid rgba(153,102,255,0.2);">
+          <div style="font-weight:900;font-size:0.95rem;margin-bottom:10px;color:#9966ff;">💧 Rinse &amp; Repeat — Haircare</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:0.83rem;font-weight:600;color:var(--text);">
+            <div>🎬 <strong>Reel:</strong> Hair transformation — before/after with your formula</div>
+            <div>🎠 <strong>Carousel:</strong> "What hair type is this actually formulated for?"</div>
+            <div>🖼️ <strong>Static:</strong> Product line flat lay — catalog aesthetic</div>
+            <div>🎵 <strong>TikTok:</strong> "Haircare chemist tells you what to stop buying"</div>
+            <div>⭕ <strong>Story:</strong> "What's your #1 hair struggle?" — drive DMs</div>
+          </div>
+        </div>
+
+        <div style="padding:16px;border-radius:14px;background:linear-gradient(135deg,rgba(255,91,174,0.04),rgba(79,126,247,0.04));border:1px solid var(--border);">
+          <div style="font-weight:900;font-size:0.95rem;margin-bottom:10px;">📅 Posting Rhythm</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:0.83rem;font-weight:600;color:var(--text);">
+            <div>📸 <strong>Instagram:</strong> 4–5x/week (3 feed + 2 stories min)</div>
+            <div>🎵 <strong>TikTok:</strong> 3–4x/week (consistency beats perfection)</div>
+            <div>🕐 <strong>Best times:</strong> Tue–Thu 11am–1pm + 7–9pm</div>
+            <div>🎬 <strong>Lead with Reels</strong> — they get 3–5x more reach</div>
+            <div>🧵 <strong>Batch record</strong> — film 5–7 clips in one session</div>
+            <div>🔁 <strong>Repurpose</strong> — every Reel becomes a TikTok</div>
+          </div>
+        </div>
+
+      </div>
     </div>
+
+    <!-- CONTENT TASKS + FILES -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="card">
+        <div class="card-title">Content &amp; Social Tasks</div>
+        <ul class="task-list" id="content-tasks"></ul>
+        <button class="add-btn" onclick="addTask('tcf_tasks_content','content-tasks')">＋ Add task</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Content Files &amp; Links</div>
+        <ul class="file-list" id="content-files"></ul>
+        <button class="add-btn" onclick="addFile('tcf_files_content','content-files')">＋ Add link</button>
+      </div>
+    </div>
+
   </div><!-- end content -->
 
   <!-- ===== OPERATIONS TAB ===== -->
@@ -4307,6 +4442,149 @@ function smartCalNext() {
 
 // Initialize smart calendar
 setTimeout(function(){ smartCalRender(); }, 100);
+
+/* ============================================================
+   SOCIAL MEDIA CALENDAR
+   ============================================================ */
+var socialCalYear = new Date().getFullYear();
+var socialCalMonth = new Date().getMonth();
+var socialCalSelectedDate = null;
+var socialCalPosts = JSON.parse(localStorage.getItem('tcf_social_cal') || '{}');
+
+var POST_TYPE_COLORS = { reel:'#e03a8b', carousel:'#4F7EF7', static:'#27a87a', story:'#c87800', tiktok:'#9966ff' };
+var BRAND_ABBREV = { 'TCF':'TCF', 'NEVOO':'NV', 'Skin Axis':'SA', 'Rinse & Repeat':'R&R', 'Sip & Formulate':'S&F' };
+
+function socialCalGCalUrl(dateStr, brand, type, platform, caption) {
+  var d = dateStr.replace(/-/g,'');
+  var nd = (function(){ var dt = new Date(dateStr+'T12:00:00'); dt.setDate(dt.getDate()+1); return dt.toISOString().slice(0,10).replace(/-/g,''); })();
+  var title = brand + ' — ' + type.charAt(0).toUpperCase()+type.slice(1) + ' (' + platform + ')';
+  var details = caption || '';
+  return 'https://calendar.google.com/calendar/r/eventedit?text='+encodeURIComponent(title)+'&dates='+d+'/'+nd+'&details='+encodeURIComponent(details)+'&ctz=America/New_York';
+}
+
+function socialCalRender() {
+  var label = document.getElementById('social-cal-label');
+  if (!label) return;
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  label.textContent = months[socialCalMonth] + ' ' + socialCalYear;
+
+  var grid = document.getElementById('social-cal-grid');
+  grid.innerHTML = '';
+  var today = new Date();
+  var todayStr = socialCalYear+'-'+String(socialCalMonth+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+  var firstDay = new Date(socialCalYear, socialCalMonth, 1).getDay();
+  var daysInMonth = new Date(socialCalYear, socialCalMonth+1, 0).getDate();
+  var daysInPrev = new Date(socialCalYear, socialCalMonth, 0).getDate();
+  var dows = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  dows.forEach(function(d) {
+    var h = document.createElement('div');
+    h.style.cssText = 'background:var(--pill-bg);padding:7px 4px;text-align:center;font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);';
+    h.textContent = d;
+    grid.appendChild(h);
+  });
+
+  for (var i = 0; i < 42; i++) {
+    var cell = document.createElement('div');
+    var day, m = socialCalMonth, y = socialCalYear, other = false;
+    if (i < firstDay) { day = daysInPrev - firstDay + i + 1; m = socialCalMonth-1; if(m<0){m=11;y--;} other=true; }
+    else if (i - firstDay >= daysInMonth) { day = i - firstDay - daysInMonth + 1; m = socialCalMonth+1; if(m>11){m=0;y++;} other=true; }
+    else { day = i - firstDay + 1; }
+    var ds = y+'-'+String(m+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+    var isToday = (ds === (today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0')));
+    var isSelected = (ds === socialCalSelectedDate);
+
+    cell.style.cssText = 'background:var(--card-bg);min-height:85px;padding:6px 7px;cursor:pointer;transition:background 0.12s;' +
+      (other ? 'opacity:0.3;' : '') +
+      (isToday ? 'background:linear-gradient(135deg,rgba(255,91,174,0.07),rgba(79,126,247,0.07));' : '') +
+      (isSelected ? 'background:rgba(79,126,247,0.1);outline:2px solid var(--blue);outline-offset:-2px;' : '');
+
+    var dayNum = document.createElement('div');
+    dayNum.style.cssText = 'font-size:0.82rem;font-weight:900;margin-bottom:4px;';
+    if (isToday) {
+      dayNum.innerHTML = '<span style="background:var(--pink);color:white;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:0.75rem;">'+day+'</span>';
+    } else { dayNum.textContent = day; }
+    cell.appendChild(dayNum);
+
+    var posts = socialCalPosts[ds] || [];
+    posts.slice(0,3).forEach(function(p) {
+      var pill = document.createElement('div');
+      pill.style.cssText = 'font-size:0.62rem;font-weight:700;padding:2px 5px;border-radius:4px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:' + (POST_TYPE_COLORS[p.type]||'#999') + '22;color:' + (POST_TYPE_COLORS[p.type]||'#999') + ';';
+      pill.textContent = (BRAND_ABBREV[p.brand]||p.brand) + ' · ' + p.type;
+      cell.appendChild(pill);
+    });
+    if (posts.length > 3) {
+      var more = document.createElement('div');
+      more.style.cssText = 'font-size:0.6rem;color:var(--muted);font-weight:700;';
+      more.textContent = '+' + (posts.length-3) + ' more';
+      cell.appendChild(more);
+    }
+
+    cell.onmouseenter = function(){ if(!this.dataset.selected) this.style.background='var(--pill-bg)'; };
+    cell.onmouseleave = function(){ if(!this.dataset.selected) this.style.background = this.dataset.base||'var(--card-bg)'; };
+    (function(dateStr){ cell.onclick = function(){ socialCalSelectDay(dateStr); }; })(ds);
+    grid.appendChild(cell);
+  }
+}
+
+function socialCalSelectDay(ds) {
+  socialCalSelectedDate = ds;
+  socialCalRender();
+  var detail = document.getElementById('social-cal-detail');
+  var dateLabel = document.getElementById('social-cal-detail-date');
+  var postsEl = document.getElementById('social-cal-detail-posts');
+  detail.style.display = 'block';
+  var d = new Date(ds+'T12:00:00');
+  dateLabel.textContent = d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  var posts = socialCalPosts[ds] || [];
+  postsEl.innerHTML = '';
+  if (!posts.length) {
+    postsEl.innerHTML = '<div style="color:var(--muted);font-size:0.88rem;font-weight:600;font-style:italic;">No posts scheduled — add one below.</div>';
+  } else {
+    posts.forEach(function(p, idx) {
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:var(--card-bg);border:1px solid var(--border);';
+      row.innerHTML =
+        '<div style="width:10px;height:10px;border-radius:50%;background:'+(POST_TYPE_COLORS[p.type]||'#999')+';flex-shrink:0;"></div>' +
+        '<div style="flex:1;">' +
+          '<div style="font-weight:800;font-size:0.9rem;">' + p.brand + ' — ' + p.type.charAt(0).toUpperCase()+p.type.slice(1) + ' <span style="color:var(--muted);font-weight:600;">· ' + p.platform + '</span></div>' +
+          (p.caption ? '<div style="font-size:0.82rem;color:var(--muted);font-weight:600;margin-top:2px;">' + p.caption + '</div>' : '') +
+        '</div>' +
+        '<a href="'+socialCalGCalUrl(ds,p.brand,p.type,p.platform,p.caption)+'" target="_blank" rel="noopener" style="padding:5px 12px;border-radius:999px;border:1px solid var(--border);background:var(--pill-bg);font-family:inherit;font-size:0.72rem;font-weight:800;cursor:pointer;color:#4285f4;white-space:nowrap;text-decoration:none;transition:all 0.15s;" onmouseover="this.style.background=\'rgba(66,133,244,0.1)\'" onmouseout="this.style.background=\'var(--pill-bg)\'">📅 + Google Cal</a>' +
+        '<button onclick="socialCalDeletePost(\''+ds+'\','+idx+')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:4px 6px;" title="Remove">×</button>';
+      postsEl.appendChild(row);
+    });
+  }
+  setTimeout(function(){ document.getElementById('social-post-caption').focus(); }, 50);
+}
+
+function socialCalAddPost() {
+  if (!socialCalSelectedDate) return;
+  var brand = document.getElementById('social-post-brand').value;
+  var type = document.getElementById('social-post-type').value;
+  var platform = document.getElementById('social-post-platform').value;
+  var caption = document.getElementById('social-post-caption').value.trim();
+  if (!socialCalPosts[socialCalSelectedDate]) socialCalPosts[socialCalSelectedDate] = [];
+  socialCalPosts[socialCalSelectedDate].push({ brand:brand, type:type, platform:platform, caption:caption });
+  localStorage.setItem('tcf_social_cal', JSON.stringify(socialCalPosts));
+  document.getElementById('social-post-caption').value = '';
+  socialCalSelectDay(socialCalSelectedDate);
+  socialCalRender();
+}
+
+function socialCalDeletePost(ds, idx) {
+  if (socialCalPosts[ds]) {
+    socialCalPosts[ds].splice(idx, 1);
+    localStorage.setItem('tcf_social_cal', JSON.stringify(socialCalPosts));
+    socialCalSelectDay(ds);
+    socialCalRender();
+  }
+}
+
+function socialCalPrev() { socialCalMonth--; if(socialCalMonth<0){socialCalMonth=11;socialCalYear--;} socialCalSelectedDate=null; document.getElementById('social-cal-detail').style.display='none'; socialCalRender(); }
+function socialCalNext() { socialCalMonth++; if(socialCalMonth>11){socialCalMonth=0;socialCalYear++;} socialCalSelectedDate=null; document.getElementById('social-cal-detail').style.display='none'; socialCalRender(); }
+
+setTimeout(function(){ socialCalRender(); }, 150);
 </script>
 
 <!-- ASK AI BUTTON + PANEL -->
