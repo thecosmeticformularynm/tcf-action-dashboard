@@ -266,20 +266,20 @@
     border-radius: 999px; margin-left: 8px;
   }
   .world-grid {
-    display: grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap: 14px;
+    display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 14px;
     margin-bottom: 8px;
   }
   .world-folder {
     background: var(--card-bg); border: 1px solid var(--border);
     border-radius: 16px; padding: 18px 20px;
-    display: flex; align-items: center; gap: 14px;
+    display: flex; align-items: flex-start; gap: 14px;
     transition: all 0.2s; position: relative; group: true;
     box-shadow: var(--card-shadow);
   }
   .world-folder:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(79,126,247,0.13); border-color: var(--blue); }
   .world-folder-icon { font-size: 1.8rem; flex-shrink: 0; }
   .world-folder-info { flex: 1; min-width: 0; }
-  .world-folder-name { font-weight: 800; font-size: 0.95rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .world-folder-name { font-weight: 800; font-size: 0.95rem; color: var(--text); white-space: normal; overflow: visible; word-break: break-word; }
   .world-folder-sub { font-size: 0.78rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
   .world-folder-actions { display: flex; gap: 6px; flex-shrink: 0; }
   .world-open-btn {
@@ -660,6 +660,51 @@
   .wellness-label { flex: 1; font-weight: 700; font-size: 0.95rem; }
   .wellness-check { font-size: 1.3rem; }
 
+  /* LIVE CLOCK */
+  .live-clock {
+    font-size: 3rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #FF5BAE, #4F7EF7);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    margin-top: 10px;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+  }
+
+  /* BIBLE VERSE */
+  .bible-verse-card {
+    background: linear-gradient(135deg, rgba(255,91,174,0.07), rgba(196,77,255,0.07));
+    border-radius: 20px;
+    border: 1px solid rgba(255,91,174,0.15);
+    padding: 32px;
+    text-align: center;
+    margin-bottom: 24px;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+  }
+  .bible-verse-card:hover { box-shadow: 0 6px 28px rgba(255,91,174,0.12); }
+  .bible-verse-text {
+    font-size: 1.3rem;
+    font-style: italic;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.8;
+  }
+  .bible-verse-ref {
+    font-size: 0.9rem;
+    color: var(--pink);
+    font-weight: 800;
+    margin-top: 12px;
+  }
+  .bible-verse-hint {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 10px;
+    font-weight: 600;
+  }
+
   /* AFFIRMATION */
   .affirmation-text {
     font-size: 1.5rem;
@@ -694,15 +739,15 @@
 <div id="topbar">
   <span class="brand">✦ TCF Dashboard</span>
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showTab('home',this)">🏠 Home</button>
-    <button class="nav-tab" onclick="showTab('brands',this)">💄 Brands</button>
-    <button class="nav-tab" onclick="showTab('content',this)">📱 Content</button>
-    <button class="nav-tab" onclick="showTab('ops',this)">⚙️ Operations</button>
-    <button class="nav-tab" onclick="showTab('calendar',this)">📅 Calendar</button>
-    <button class="nav-tab pauly-tab" onclick="showTab('pauly',this)">🧑‍💼 Pauly</button>
-    <button class="nav-tab" onclick="showTab('world',this)">🗂️ Nicole's World</button>
-    <button class="nav-tab" onclick="showTab('links',this)">🔗 Links</button>
-    <button class="nav-tab" onclick="showTab('personal',this)">✦ Personal</button>
+    <button class="nav-tab active" onclick="showTab('home',this)">Home</button>
+    <button class="nav-tab" onclick="showTab('brands',this)">Brands</button>
+    <button class="nav-tab" onclick="showTab('content',this)">Content</button>
+    <button class="nav-tab" onclick="showTab('ops',this)">Operations</button>
+    <button class="nav-tab" onclick="showTab('calendar',this)">Calendar</button>
+    <button class="nav-tab pauly-tab" onclick="showTab('pauly',this)">Pauly</button>
+    <button class="nav-tab" onclick="showTab('world',this)">Nicole's World</button>
+    <button class="nav-tab" onclick="showTab('links',this)">Links</button>
+    <button class="nav-tab" onclick="showTab('personal',this)">Personal</button>
   </div>
   <button id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
 </div>
@@ -716,12 +761,13 @@
     <div class="greeting">
       <h1 id="greeting-text">Good morning ☀️ Nicole</h1>
       <div class="date-display" id="date-display"></div>
+      <div class="live-clock" id="live-clock"></div>
     </div>
 
     <div class="home-grid">
       <!-- Today's Focus -->
       <div class="card">
-        <div class="card-title">✅ Today's Focus</div>
+        <div class="card-title">Today's Focus</div>
         <ul class="task-list" id="home-tasks"></ul>
         <button class="add-btn" onclick="addTask('tcf_home_tasks','home-tasks')">＋ Add task</button>
       </div>
@@ -729,7 +775,7 @@
       <!-- Right column: donut + quick links -->
       <div style="display:flex; flex-direction:column; gap:24px;">
         <div class="card">
-          <div class="card-title">📊 Progress</div>
+          <div class="card-title">Progress</div>
           <div class="donut-wrap">
             <svg id="donut-svg" width="160" height="160" viewBox="0 0 160 160">
               <circle cx="80" cy="80" r="60" fill="none" stroke="var(--border)" stroke-width="20"/>
@@ -747,7 +793,7 @@
         </div>
 
         <div class="card">
-          <div class="card-title">🔗 Quick Links</div>
+          <div class="card-title">Quick Links</div>
           <div class="pill-row">
             <a href="https://github.com" target="_blank" class="pill pill-blue">🐙 GitHub</a>
             <a href="https://notion.so" target="_blank" class="pill pill-purple">📝 Notion</a>
@@ -756,6 +802,13 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Bible Verse -->
+    <div class="bible-verse-card" id="bible-verse-card" onclick="rotateBibleVerse()">
+      <div class="bible-verse-text" id="bible-verse-text"></div>
+      <div class="bible-verse-ref" id="bible-verse-ref"></div>
+      <div class="bible-verse-hint">click to change verse</div>
     </div>
 
   </div><!-- end home -->
@@ -783,7 +836,7 @@
     <!-- TCF -->
     <div id="brands-sub-tcf" class="sub-panel active">
       <div class="card">
-        <div class="card-title">🧪 TCF — Formulas</div>
+        <div class="card-title">TCF — Formulas</div>
         <div class="kanban-board">
           <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'tcf','notstarted')">
             <div class="kanban-col-header" style="background:rgba(255,91,174,0.10);color:#FF5BAE;">📋 Not Yet Started</div>
@@ -803,12 +856,12 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-title">✅ TCF — To-Do</div>
+        <div class="card-title">TCF — To-Do</div>
         <ul class="task-list" id="tcf-tasks"></ul>
         <button class="add-btn" onclick="addTask('tcf_brand_tcf','tcf-tasks')">＋ Add task</button>
       </div>
       <div class="card">
-        <div class="card-title">📁 TCF — Files &amp; Links</div>
+        <div class="card-title">TCF — Files &amp; Links</div>
         <ul class="file-list" id="tcf-files"></ul>
         <button class="add-btn" onclick="addFile('tcf_files_tcf','tcf-files')">＋ Add link</button>
       </div>
@@ -817,7 +870,7 @@
     <!-- NEVOO -->
     <div id="brands-sub-nevoo" class="sub-panel">
       <div class="card">
-        <div class="card-title">🧪 Nevoo — Formulas</div>
+        <div class="card-title">Nevoo — Formulas</div>
         <div class="kanban-board">
           <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'nevoo','notstarted')">
             <div class="kanban-col-header" style="background:rgba(255,91,174,0.10);color:#FF5BAE;">📋 Not Yet Started</div>
@@ -837,12 +890,12 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-title">✅ Nevoo — To-Do</div>
+        <div class="card-title">Nevoo — To-Do</div>
         <ul class="task-list" id="nevoo-tasks"></ul>
         <button class="add-btn" onclick="addTask('tcf_brand_nevoo','nevoo-tasks')">＋ Add task</button>
       </div>
       <div class="card">
-        <div class="card-title">📁 Nevoo — Files &amp; Links</div>
+        <div class="card-title">Nevoo — Files &amp; Links</div>
         <ul class="file-list" id="nevoo-files"></ul>
         <button class="add-btn" onclick="addFile('tcf_files_nevoo','nevoo-files')">＋ Add link</button>
       </div>
@@ -851,7 +904,7 @@
     <!-- DAILY ROU -->
     <div id="brands-sub-dailyrou" class="sub-panel">
       <div class="card">
-        <div class="card-title">🧪 Daily Rou — Formulas</div>
+        <div class="card-title">Daily Rou — Formulas</div>
         <div class="kanban-board">
           <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'dailyrou','notstarted')">
             <div class="kanban-col-header" style="background:rgba(255,91,174,0.10);color:#FF5BAE;">📋 Not Yet Started</div>
@@ -871,12 +924,12 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-title">✅ Daily Rou — To-Do</div>
+        <div class="card-title">Daily Rou — To-Do</div>
         <ul class="task-list" id="dailyrou-tasks"></ul>
         <button class="add-btn" onclick="addTask('tcf_brand_dailyrou','dailyrou-tasks')">＋ Add task</button>
       </div>
       <div class="card">
-        <div class="card-title">📁 Daily Rou — Files &amp; Links</div>
+        <div class="card-title">Daily Rou — Files &amp; Links</div>
         <ul class="file-list" id="dailyrou-files"></ul>
         <button class="add-btn" onclick="addFile('tcf_files_dailyrou','dailyrou-files')">＋ Add link</button>
       </div>
@@ -885,7 +938,7 @@
     <!-- SKIN AXIS -->
     <div id="brands-sub-skinaxis" class="sub-panel">
       <div class="card">
-        <div class="card-title">🧪 Skin Axis — Formulas</div>
+        <div class="card-title">Skin Axis — Formulas</div>
         <div class="kanban-board">
           <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'skinaxis','notstarted')">
             <div class="kanban-col-header" style="background:rgba(255,91,174,0.10);color:#FF5BAE;">📋 Not Yet Started</div>
@@ -905,12 +958,12 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-title">✅ Skin Axis — To-Do</div>
+        <div class="card-title">Skin Axis — To-Do</div>
         <ul class="task-list" id="skinaxis-tasks"></ul>
         <button class="add-btn" onclick="addTask('tcf_brand_skinaxis','skinaxis-tasks')">＋ Add task</button>
       </div>
       <div class="card">
-        <div class="card-title">📁 Skin Axis — Files &amp; Links</div>
+        <div class="card-title">Skin Axis — Files &amp; Links</div>
         <ul class="file-list" id="skinaxis-files"></ul>
         <button class="add-btn" onclick="addFile('tcf_files_skinaxis','skinaxis-files')">＋ Add link</button>
       </div>
@@ -921,12 +974,12 @@
   <!-- ===== CONTENT TAB ===== -->
   <div id="tab-content" class="tab-panel">
     <div class="card">
-      <div class="card-title">📱 Content &amp; Social Tasks</div>
+      <div class="card-title">Content &amp; Social Tasks</div>
       <ul class="task-list" id="content-tasks"></ul>
       <button class="add-btn" onclick="addTask('tcf_tasks_content','content-tasks')">＋ Add task</button>
     </div>
     <div class="card">
-      <div class="card-title">🌐 Platforms</div>
+      <div class="card-title">Platforms</div>
       <div class="pill-row">
         <span class="pill pill-pink">📸 Instagram</span>
         <span class="pill pill-blue">🎵 TikTok</span>
@@ -935,7 +988,7 @@
       </div>
     </div>
     <div class="card">
-      <div class="card-title">📎 Content Files &amp; Links</div>
+      <div class="card-title">Content Files &amp; Links</div>
       <ul class="file-list" id="content-files"></ul>
       <button class="add-btn" onclick="addFile('tcf_files_content','content-files')">＋ Add link</button>
     </div>
@@ -944,12 +997,12 @@
   <!-- ===== OPERATIONS TAB ===== -->
   <div id="tab-ops" class="tab-panel">
     <div class="card">
-      <div class="card-title">⚙️ Operations Tasks</div>
+      <div class="card-title">Operations Tasks</div>
       <ul class="task-list" id="ops-tasks"></ul>
       <button class="add-btn" onclick="addTask('tcf_tasks_ops','ops-tasks')">＋ Add task</button>
     </div>
     <div class="card">
-      <div class="card-title">📇 Key Contacts</div>
+      <div class="card-title">Key Contacts</div>
       <table class="contacts-table">
         <thead>
           <tr>
@@ -961,7 +1014,7 @@
       <button class="add-btn" onclick="addContact()" style="margin-top:14px;">＋ Add contact</button>
     </div>
     <div class="card">
-      <div class="card-title">📎 Operations Files &amp; Links</div>
+      <div class="card-title">Operations Files &amp; Links</div>
       <ul class="file-list" id="ops-files"></ul>
       <button class="add-btn" onclick="addFile('tcf_files_ops','ops-files')">＋ Add link</button>
     </div>
@@ -971,19 +1024,19 @@
   <div id="tab-personal" class="tab-panel">
     <div class="home-grid">
       <div class="card">
-        <div class="card-title">🕐 Daily Schedule</div>
+        <div class="card-title">Daily Schedule</div>
         <div class="schedule-grid" id="schedule-grid"></div>
       </div>
 
       <div>
         <div class="card">
-          <div class="card-title">🌿 Wellness Tracker</div>
+          <div class="card-title">Wellness Tracker</div>
           <div style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;font-weight:600;">Resets daily ✨</div>
           <div class="wellness-grid" id="wellness-grid"></div>
         </div>
 
         <div class="card">
-          <div class="card-title">💬 Affirmation of the Day</div>
+          <div class="card-title">Affirmation of the Day</div>
           <div class="affirmation-text" id="affirmation" onclick="editAffirmation()"></div>
           <div style="font-size:0.8rem;color:var(--muted);margin-top:10px;text-align:center;">click to edit ✏️</div>
         </div>
@@ -991,13 +1044,13 @@
     </div>
 
     <div class="card">
-      <div class="card-title">✨ Personal To-Dos</div>
+      <div class="card-title">Personal To-Dos</div>
       <ul class="task-list" id="personal-tasks"></ul>
       <button class="add-btn" onclick="addTask('tcf_personal_todos','personal-tasks')">＋ Add task</button>
     </div>
 
     <div class="card">
-      <div class="card-title">💅 Hair &amp; Beauty Tasks</div>
+      <div class="card-title">Hair &amp; Beauty Tasks</div>
       <ul class="task-list" id="beauty-tasks"></ul>
       <button class="add-btn" onclick="addTask('tcf_beauty','beauty-tasks')">＋ Add task</button>
     </div>
@@ -1007,42 +1060,42 @@
   <div id="tab-world" class="tab-panel">
 
     <div class="world-hero">
-      <h2>🗂️ Nicole's World</h2>
+      <h2>Nicole's World</h2>
       <p>Every folder, every brand — all in one place. Click any folder to open it. Click the pencil to update the link.</p>
     </div>
 
     <!-- BRAND FOLDERS -->
-    <div class="world-section-title">💄 Brand Folders</div>
+    <div class="world-section-title">Brand Folders</div>
     <div class="world-grid" id="world-brands-grid">
       <!-- rendered by JS -->
     </div>
 
     <!-- OPERATIONS & ADMIN -->
-    <div class="world-section-title">⚙️ Operations &amp; Admin</div>
+    <div class="world-section-title">Operations &amp; Admin</div>
     <div class="world-grid" id="world-ops-grid"></div>
 
     <!-- FINANCE -->
-    <div class="world-section-title">💰 Finance &amp; Accounting</div>
+    <div class="world-section-title">Finance &amp; Accounting</div>
     <div class="world-grid" id="world-finance-grid"></div>
 
     <!-- MARKETING & CONTENT -->
-    <div class="world-section-title">📱 Marketing &amp; Content</div>
+    <div class="world-section-title">Marketing &amp; Content</div>
     <div class="world-grid" id="world-marketing-grid"></div>
 
     <!-- LEGAL & COMPLIANCE -->
-    <div class="world-section-title">⚖️ Legal &amp; Compliance</div>
+    <div class="world-section-title">Legal &amp; Compliance</div>
     <div class="world-grid" id="world-legal-grid"></div>
 
     <!-- FORMULATION & R&D -->
-    <div class="world-section-title">🧪 Formulation &amp; R&amp;D</div>
+    <div class="world-section-title">Formulation &amp; R&amp;D</div>
     <div class="world-grid" id="world-formulation-grid"></div>
 
     <!-- EVENTS & PR -->
-    <div class="world-section-title">🎉 Events &amp; PR</div>
+    <div class="world-section-title">Events &amp; PR</div>
     <div class="world-grid" id="world-events-grid"></div>
 
     <!-- PERSONAL -->
-    <div class="world-section-title">✦ Personal</div>
+    <div class="world-section-title">Personal</div>
     <div class="world-grid" id="world-personal-grid"></div>
 
   </div><!-- end world -->
@@ -1051,7 +1104,7 @@
   <div id="tab-links" class="tab-panel">
 
     <div class="world-hero" style="background:linear-gradient(135deg,rgba(79,126,247,0.07),rgba(255,91,174,0.07));">
-      <h2>🔗 All Links</h2>
+      <h2>All Links</h2>
       <p>Every website, tool, and platform in one place. Click to open, click ✏️ to edit.</p>
     </div>
 
@@ -1059,70 +1112,70 @@
 
       <!-- BRAND WEBSITES -->
       <div class="links-section">
-        <div class="links-section-title" style="color:#FF5BAE;">💄 Brand Websites</div>
+        <div class="links-section-title" style="color:#FF5BAE;">Brand Websites</div>
         <div class="links-list" id="linklist-brand"></div>
         <button class="add-btn" onclick="addLinkItem('links_brand','linklist-brand')">＋ Add link</button>
       </div>
 
       <!-- SHOPIFY / E-COMMERCE -->
       <div class="links-section">
-        <div class="links-section-title" style="color:#34C994;">🛍️ Shopify &amp; E-Commerce</div>
+        <div class="links-section-title" style="color:#34C994;">Shopify &amp; E-Commerce</div>
         <div class="links-list" id="linklist-shopify"></div>
         <button class="add-btn" onclick="addLinkItem('links_shopify','linklist-shopify')">＋ Add link</button>
       </div>
 
       <!-- SOCIAL MEDIA -->
       <div class="links-section">
-        <div class="links-section-title" style="color:#c44dff;">📸 Social Media</div>
+        <div class="links-section-title" style="color:#c44dff;">Social Media</div>
         <div class="links-list" id="linklist-social"></div>
         <button class="add-btn" onclick="addLinkItem('links_social','linklist-social')">＋ Add link</button>
       </div>
 
       <!-- DESIGN TOOLS -->
       <div class="links-section">
-        <div class="links-section-title" style="color:#4F7EF7;">🎨 Design &amp; Creative</div>
+        <div class="links-section-title" style="color:#4F7EF7;">Design &amp; Creative</div>
         <div class="links-list" id="linklist-design"></div>
         <button class="add-btn" onclick="addLinkItem('links_design','linklist-design')">＋ Add link</button>
       </div>
 
       <!-- FILES & STORAGE -->
       <div class="links-section">
-        <div class="links-section-title" style="color:#FF8C00;">📁 Files &amp; Storage</div>
+        <div class="links-section-title" style="color:#FF8C00;">Files &amp; Storage</div>
         <div class="links-list" id="linklist-files"></div>
         <button class="add-btn" onclick="addLinkItem('links_files','linklist-files')">＋ Add link</button>
       </div>
 
       <!-- FINANCE & ACCOUNTING -->
       <div class="links-section">
-        <div class="links-section-title" style="color:#34C994;">💰 Finance &amp; Accounting</div>
+        <div class="links-section-title" style="color:#34C994;">Finance &amp; Accounting</div>
         <div class="links-list" id="linklist-finance"></div>
         <button class="add-btn" onclick="addLinkItem('links_finance','linklist-finance')">＋ Add link</button>
       </div>
 
       <!-- COMMUNICATION -->
       <div class="links-section">
-        <div class="links-section-title" style="color:#FF5BAE;">💬 Communication</div>
+        <div class="links-section-title" style="color:#FF5BAE;">Communication</div>
         <div class="links-list" id="linklist-comms"></div>
         <button class="add-btn" onclick="addLinkItem('links_comms','linklist-comms')">＋ Add link</button>
       </div>
 
       <!-- SUPPLIERS & VENDORS -->
       <div class="links-section">
-        <div class="links-section-title" style="color:#c44dff;">🤝 Suppliers &amp; Vendors</div>
+        <div class="links-section-title" style="color:#c44dff;">Suppliers &amp; Vendors</div>
         <div class="links-list" id="linklist-vendors"></div>
         <button class="add-btn" onclick="addLinkItem('links_vendors','linklist-vendors')">＋ Add link</button>
       </div>
 
       <!-- LEGAL & COMPLIANCE -->
       <div class="links-section">
-        <div class="links-section-title" style="color:#FF8C00;">⚖️ Legal &amp; Compliance</div>
+        <div class="links-section-title" style="color:#FF8C00;">Legal &amp; Compliance</div>
         <div class="links-list" id="linklist-legal"></div>
         <button class="add-btn" onclick="addLinkItem('links_legal','linklist-legal')">＋ Add link</button>
       </div>
 
       <!-- PRODUCTIVITY -->
       <div class="links-section">
-        <div class="links-section-title" style="color:#4F7EF7;">⚡ Productivity &amp; Tools</div>
+        <div class="links-section-title" style="color:#4F7EF7;">Productivity &amp; Tools</div>
         <div class="links-list" id="linklist-productivity"></div>
         <button class="add-btn" onclick="addLinkItem('links_productivity','linklist-productivity')">＋ Add link</button>
       </div>
@@ -1146,7 +1199,7 @@
     </div>
 
     <div class="card">
-      <div class="card-title">📋 Upcoming Events</div>
+      <div class="card-title">Upcoming Events</div>
       <ul class="task-list" id="cal-upcoming"></ul>
     </div>
   </div><!-- end calendar -->
@@ -1155,77 +1208,77 @@
   <div id="tab-pauly" class="tab-panel">
     <div class="pauly-header">
       <div>
-        <h2 style="font-size:1.8rem;font-weight:900;margin-bottom:4px;">🧑‍💼 Pauly's Action Board</h2>
+        <h2 style="font-size:1.8rem;font-weight:900;margin-bottom:4px;">Pauly's Action Board</h2>
         <p style="color:var(--muted);font-size:1rem;font-weight:600;">Essential items organized by category — Nicole's World</p>
       </div>
     </div>
 
     <!-- FORMULATION & R&D -->
     <div class="pauly-section">
-      <div class="pauly-section-title" style="--sc:#FF5BAE;">🧪 Formulation &amp; R&amp;D</div>
+      <div class="pauly-section-title" style="--sc:#FF5BAE;">Formulation &amp; R&amp;D</div>
       <ul class="task-list" id="pauly-formulation"></ul>
       <button class="add-btn" onclick="addTask('pauly_formulation','pauly-formulation')">＋ Add item</button>
     </div>
 
     <!-- OPERATIONS & ADMIN -->
     <div class="pauly-section">
-      <div class="pauly-section-title" style="--sc:#4F7EF7;">⚙️ Operations &amp; Admin</div>
+      <div class="pauly-section-title" style="--sc:#4F7EF7;">Operations &amp; Admin</div>
       <ul class="task-list" id="pauly-ops"></ul>
       <button class="add-btn" onclick="addTask('pauly_ops','pauly-ops')">＋ Add item</button>
     </div>
 
     <!-- FINANCE & ACCOUNTING -->
     <div class="pauly-section">
-      <div class="pauly-section-title" style="--sc:#34C994;">💰 Finance &amp; Accounting</div>
+      <div class="pauly-section-title" style="--sc:#34C994;">Finance &amp; Accounting</div>
       <ul class="task-list" id="pauly-finance"></ul>
       <button class="add-btn" onclick="addTask('pauly_finance','pauly-finance')">＋ Add item</button>
     </div>
 
     <!-- MARKETING & CONTENT -->
     <div class="pauly-section">
-      <div class="pauly-section-title" style="--sc:#c44dff;">📱 Marketing &amp; Content</div>
+      <div class="pauly-section-title" style="--sc:#c44dff;">Marketing &amp; Content</div>
       <ul class="task-list" id="pauly-marketing"></ul>
       <button class="add-btn" onclick="addTask('pauly_marketing','pauly-marketing')">＋ Add item</button>
     </div>
 
     <!-- LEGAL & COMPLIANCE -->
     <div class="pauly-section">
-      <div class="pauly-section-title" style="--sc:#FF8C00;">⚖️ Legal &amp; Compliance</div>
+      <div class="pauly-section-title" style="--sc:#FF8C00;">Legal &amp; Compliance</div>
       <ul class="task-list" id="pauly-legal"></ul>
       <button class="add-btn" onclick="addTask('pauly_legal','pauly-legal')">＋ Add item</button>
     </div>
 
     <!-- VENDOR & SUPPLIER -->
     <div class="pauly-section">
-      <div class="pauly-section-title" style="--sc:#FF5BAE;">🤝 Vendors &amp; Suppliers</div>
+      <div class="pauly-section-title" style="--sc:#FF5BAE;">Vendors &amp; Suppliers</div>
       <ul class="task-list" id="pauly-vendors"></ul>
       <button class="add-btn" onclick="addTask('pauly_vendors','pauly-vendors')">＋ Add item</button>
     </div>
 
     <!-- PACKAGING & DESIGN -->
     <div class="pauly-section">
-      <div class="pauly-section-title" style="--sc:#4F7EF7;">🎨 Packaging &amp; Design</div>
+      <div class="pauly-section-title" style="--sc:#4F7EF7;">Packaging &amp; Design</div>
       <ul class="task-list" id="pauly-packaging"></ul>
       <button class="add-btn" onclick="addTask('pauly_packaging','pauly-packaging')">＋ Add item</button>
     </div>
 
     <!-- BRAND STRATEGY -->
     <div class="pauly-section">
-      <div class="pauly-section-title" style="--sc:#34C994;">✨ Brand Strategy</div>
+      <div class="pauly-section-title" style="--sc:#34C994;">Brand Strategy</div>
       <ul class="task-list" id="pauly-brand"></ul>
       <button class="add-btn" onclick="addTask('pauly_brand','pauly-brand')">＋ Add item</button>
     </div>
 
     <!-- EVENTS & PR -->
     <div class="pauly-section">
-      <div class="pauly-section-title" style="--sc:#c44dff;">🎉 Events &amp; PR</div>
+      <div class="pauly-section-title" style="--sc:#c44dff;">Events &amp; PR</div>
       <ul class="task-list" id="pauly-events"></ul>
       <button class="add-btn" onclick="addTask('pauly_events','pauly-events')">＋ Add item</button>
     </div>
 
     <!-- TECHNOLOGY & SYSTEMS -->
     <div class="pauly-section">
-      <div class="pauly-section-title" style="--sc:#FF8C00;">💻 Technology &amp; Systems</div>
+      <div class="pauly-section-title" style="--sc:#FF8C00;">Technology &amp; Systems</div>
       <ul class="task-list" id="pauly-tech"></ul>
       <button class="add-btn" onclick="addTask('pauly_tech','pauly-tech')">＋ Add item</button>
     </div>
@@ -1649,6 +1702,62 @@ function renderGreeting() {
   const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const d = document.getElementById('date-display');
   if (d) d.textContent = '✦ ' + new Date().toLocaleDateString('en-US', opts) + ' ✦';
+}
+
+function startClock() {
+  function tick() {
+    var now = new Date();
+    var h = now.getHours();
+    var m = now.getMinutes();
+    var s = now.getSeconds();
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    var str = h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0') + ' ' + ampm;
+    var el = document.getElementById('live-clock');
+    if (el) el.textContent = str;
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+// ============================================================
+// BIBLE VERSES
+// ============================================================
+var BIBLE_VERSES = [
+  {text: 'I can do all things through Christ who strengthens me.', ref: 'Philippians 4:13'},
+  {text: 'For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you.', ref: 'Jeremiah 29:11'},
+  {text: 'Trust in the Lord with all your heart and lean not on your own understanding.', ref: 'Proverbs 3:5'},
+  {text: 'She is clothed with strength and dignity; she can laugh at the days to come.', ref: 'Proverbs 31:25'},
+  {text: 'Be strong and courageous. Do not be afraid; do not be discouraged.', ref: 'Joshua 1:9'},
+  {text: 'The Lord is my shepherd, I lack nothing.', ref: 'Psalm 23:1'},
+  {text: 'Cast all your anxiety on him because he cares for you.', ref: '1 Peter 5:7'},
+  {text: 'But those who hope in the Lord will renew their strength.', ref: 'Isaiah 40:31'},
+  {text: 'With God all things are possible.', ref: 'Matthew 19:26'},
+  {text: 'The Lord will fight for you; you need only be still.', ref: 'Exodus 14:14'},
+  {text: 'I am the vine; you are the branches. If you remain in me... you will bear much fruit.', ref: 'John 15:5'},
+  {text: 'Be still and know that I am God.', ref: 'Psalm 46:10'},
+  {text: 'Do not be anxious about anything, but in every situation... present your requests to God.', ref: 'Philippians 4:6'},
+  {text: 'She is more precious than rubies; nothing you desire can compare with her.', ref: 'Proverbs 3:15'},
+  {text: 'Your word is a lamp for my feet, a light on my path.', ref: 'Psalm 119:105'},
+  {text: 'The Lord bless you and keep you.', ref: 'Numbers 6:24'},
+  {text: 'Commit to the Lord whatever you do, and he will establish your plans.', ref: 'Proverbs 16:3'},
+  {text: 'Create in me a pure heart, O God.', ref: 'Psalm 51:10'},
+  {text: 'I have come that they may have life, and have it to the full.', ref: 'John 10:10'},
+  {text: 'Delight yourself in the Lord, and he will give you the desires of your heart.', ref: 'Psalm 37:4'}
+];
+var currentVerseIndex = Math.floor(Math.random() * BIBLE_VERSES.length);
+
+function renderBibleVerse() {
+  var v = BIBLE_VERSES[currentVerseIndex];
+  var t = document.getElementById('bible-verse-text');
+  var r = document.getElementById('bible-verse-ref');
+  if (t) t.textContent = '“' + v.text + '”';
+  if (r) r.textContent = '— ' + v.ref;
+}
+
+function rotateBibleVerse() {
+  currentVerseIndex = (currentVerseIndex + 1) % BIBLE_VERSES.length;
+  renderBibleVerse();
 }
 
 // ============================================================
@@ -2154,6 +2263,50 @@ document.addEventListener('click', function(e) {
 });
 
 // ============================================================
+// INLINE EDITABLE TITLES — global click delegation
+// ============================================================
+var EDITABLE_TITLE_SELECTORS = [
+  '.card-title',
+  '.world-section-title',
+  '.links-section-title',
+  '.pauly-section-title',
+  '.pauly-header h2',
+  '.world-hero h2'
+];
+document.addEventListener('click', function(e) {
+  var sel = EDITABLE_TITLE_SELECTORS.find(function(s) { return e.target.closest(s) === e.target || e.target.matches(s); });
+  if (!sel) return;
+  var el = e.target.closest(sel) || e.target;
+  if (!el) return;
+  // Don't re-enter edit mode if already editing
+  if (el.isContentEditable) return;
+  el.contentEditable = 'true';
+  el.style.outline = '2px solid var(--pink)';
+  el.style.borderRadius = '6px';
+  el.style.padding = el.style.padding || '2px 6px';
+  el.focus();
+  // Move cursor to end
+  var range = document.createRange();
+  range.selectNodeContents(el);
+  range.collapse(false);
+  var sel2 = window.getSelection();
+  sel2.removeAllRanges();
+  sel2.addRange(range);
+  function finishEdit() {
+    el.contentEditable = 'false';
+    el.style.outline = '';
+    el.removeEventListener('blur', finishEdit);
+    el.removeEventListener('keydown', onKey);
+  }
+  function onKey(ev) {
+    if (ev.key === 'Enter') { ev.preventDefault(); finishEdit(); }
+    if (ev.key === 'Escape') { finishEdit(); }
+  }
+  el.addEventListener('blur', finishEdit);
+  el.addEventListener('keydown', onKey);
+});
+
+// ============================================================
 // NICOLE'S WORLD — FOLDER BROWSER
 // ============================================================
 var WORLD_DATA = {
@@ -2464,6 +2617,8 @@ function ensurePaulyDefaults() {
 function initApp() {
   ensureDefaults();
   renderGreeting();
+  startClock();
+  renderBibleVerse();
   // Home
   renderTasks('tcf_home_tasks', 'home-tasks');
   updateDonut();
