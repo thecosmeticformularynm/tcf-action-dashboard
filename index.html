@@ -1065,37 +1065,31 @@
     </div>
 
     <!-- BRAND FOLDERS -->
-    <div class="world-section-title">Brand Folders</div>
-    <div class="world-grid" id="world-brands-grid">
-      <!-- rendered by JS -->
-    </div>
+    <div class="world-section-title">BRANDS</div>
+    <div class="world-grid" id="world-brands-grid"></div>
 
-    <!-- OPERATIONS & ADMIN -->
-    <div class="world-section-title">Operations &amp; Admin</div>
-    <div class="world-grid" id="world-ops-grid"></div>
-
-    <!-- FINANCE -->
-    <div class="world-section-title">Finance &amp; Accounting</div>
-    <div class="world-grid" id="world-finance-grid"></div>
-
-    <!-- MARKETING & CONTENT -->
-    <div class="world-section-title">Marketing &amp; Content</div>
-    <div class="world-grid" id="world-marketing-grid"></div>
-
-    <!-- LEGAL & COMPLIANCE -->
-    <div class="world-section-title">Legal &amp; Compliance</div>
-    <div class="world-grid" id="world-legal-grid"></div>
-
-    <!-- FORMULATION & R&D -->
-    <div class="world-section-title">Formulation &amp; R&amp;D</div>
+    <div class="world-section-title">FORMULATION</div>
     <div class="world-grid" id="world-formulation-grid"></div>
 
-    <!-- EVENTS & PR -->
-    <div class="world-section-title">Events &amp; PR</div>
+    <div class="world-section-title">TCF KING STREET</div>
+    <div class="world-grid" id="world-ops-grid"></div>
+
+    <div class="world-section-title">EVENTS AND PR</div>
     <div class="world-grid" id="world-events-grid"></div>
 
-    <!-- PERSONAL -->
-    <div class="world-section-title">Personal</div>
+    <div class="world-section-title">SOCIAL MEDIA</div>
+    <div class="world-grid" id="world-marketing-grid"></div>
+
+    <div class="world-section-title">PRODUCT RESEARCH</div>
+    <div class="world-grid" id="world-formulation2-grid"></div>
+
+    <div class="world-section-title">FACILITY</div>
+    <div class="world-grid" id="world-legal-grid"></div>
+
+    <div class="world-section-title">WEBSITE</div>
+    <div class="world-grid" id="world-finance-grid"></div>
+
+    <div class="world-section-title">INTERIOR DESIGN</div>
     <div class="world-grid" id="world-personal-grid"></div>
 
   </div><!-- end world -->
@@ -1903,9 +1897,9 @@ function ensureDefaults() {
   if (schedVer !== '2') { localStorage.removeItem('tcf_schedule'); localStorage.setItem('tcf_schedule_ver','2'); }
   // Force reset world data to real Drive URLs
   var worldVer = localStorage.getItem('tcf_world_ver');
-  if (worldVer !== '2') {
+  if (worldVer !== '3') {
     ['world_urls_world-brands-grid','world_urls_world-ops-grid','world_urls_world-finance-grid','world_urls_world-marketing-grid','world_urls_world-legal-grid','world_urls_world-formulation-grid','world_urls_world-events-grid','world_urls_world-personal-grid'].forEach(function(k){ localStorage.removeItem(k); });
-    localStorage.setItem('tcf_world_ver','2');
+    localStorage.setItem('tcf_world_ver','3');
   }
   // Force reset brand files to real Drive links
   var filesVer = localStorage.getItem('tcf_files_ver');
@@ -2384,61 +2378,74 @@ document.addEventListener('click', function(e) {
 // ============================================================
 // NICOLE'S WORLD — FOLDER BROWSER
 // ============================================================
+var WORLD_ROOT = 'https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG';
 var WORLD_DATA = {
+  // BRANDS folder → subfolders: TCF, NEVOO, Skin Axis, Rinse & Repeat
   'world-brands-grid': [
-    {icon:'📁',name:'TCF — The Cosmetic Formulary',sub:'Brand assets, logos, labels',url:'https://drive.google.com/drive/folders/16bRRtwpPHaR_0flTPXhwBaaTMLIACalI'},
-    {icon:'📁',name:'NEVOO',sub:'Brand assets & formulation',url:'https://drive.google.com/drive/folders/1HmDPG2PY7MLI8oTiX33LXikgl1VEqVty'},
-    {icon:'📁',name:'Skin Axis',sub:'Concepts, product line, tea',url:'https://drive.google.com/drive/folders/1XgTsGoAU7Teb0W4e6g6B-oyXyWs61fUs'},
-    {icon:'📁',name:'Rinse & Repeat',sub:'Catalog, packaging, logos',url:'https://drive.google.com/drive/folders/1BGxEEnV4xG2UzGcobqzxnUfeGmIQ7vYZ'},
+    {icon:'📁',name:'BRANDS',sub:'All brand folders',url:'https://drive.google.com/drive/folders/1iZpgSCm1rM-q7RE-ZQEHa-_C5X-TgcVY'},
+    {icon:'📁',name:'TCF',sub:'Logos, labels, brand assets',url:'https://drive.google.com/drive/folders/16bRRtwpPHaR_0flTPXhwBaaTMLIACalI'},
+    {icon:'📁',name:'NEVOO',sub:'Brand assets',url:'https://drive.google.com/drive/folders/1HmDPG2PY7MLI8oTiX33LXikgl1VEqVty'},
+    {icon:'📁',name:'Skin axis',sub:'Concepts, product line, tea',url:'https://drive.google.com/drive/folders/1XgTsGoAU7Teb0W4e6g6B-oyXyWs61fUs'},
+    {icon:'📁',name:'RINSE AND REPEAT',sub:'Catalog, packaging, logo designs',url:'https://drive.google.com/drive/folders/1BGxEEnV4xG2UzGcobqzxnUfeGmIQ7vYZ'},
   ],
-  'world-ops-grid': [
-    {icon:'📁',name:'FACILITY',sub:'Compliance, permits, inspections',url:'https://drive.google.com/drive/folders/1_adyEQgJJ7xUtjAvxCjStDi0NEhzPzZq'},
-    {icon:'📄',name:'Facility Compliance Checklist',sub:'FDA, OSHA, GMP, legal',url:'https://docs.google.com/document/d/1Id21wyN3sQTh664D4h99azGCiJ3Xn3_CIvLU6PBQE5Y/edit'},
-    {icon:'📁',name:'TCF King Street',sub:'Spa, retail, Sip & Formulate',url:'https://drive.google.com/drive/folders/1sxawoU6dnM0k6Jsa6NRzWrseqxXGLIO9'},
-    {icon:'📁',name:'Sip & Formulate',sub:'King Street location',url:'https://drive.google.com/drive/folders/11D97op1wwrqkyhV503h2-nBQjm_NXw4j'},
-    {icon:'📁',name:'Retail',sub:'King Street retail plans',url:'https://drive.google.com/drive/folders/1EGjCUK08tbF70gCIEARZv5kMdljz3Mkn'},
-    {icon:'📁',name:'Spa Layout & Ideas',sub:'King Street spa concepts',url:'https://drive.google.com/drive/folders/1Mzy35iPXqfATnYSU6UTA5uNiwiSE2vou'},
-  ],
-  'world-finance-grid': [
-    {icon:'📁',name:'Interior Design & Budget',sub:'Office decor & budget sheet',url:'https://drive.google.com/drive/folders/1iWjqH5Ng7VdwK3bjRfV7I9DBSBcOEz29'},
-    {icon:'📄',name:'New Office Decor & Budget Sheet',sub:'Interior planning doc',url:'https://drive.google.com/file/d/1aqZM3anOWC5J3Qgk0TOGjuS-A_LiSlBw/view'},
-    {icon:'📄',name:'Office Design',sub:'Design references',url:'https://drive.google.com/file/d/1hjm7WYunANxgOxXMraXRd-pvqzX_TD3g/view'},
-  ],
-  'world-marketing-grid': [
-    {icon:'📁',name:'Social Media',sub:'Posts, Instagram, TikTok',url:'https://drive.google.com/drive/folders/1PNLdaeCWTHfSAUPwncBojo64hvc8dmE8'},
-    {icon:'📁',name:'Instagram Assets',sub:'Instagram content',url:'https://drive.google.com/drive/folders/1CACxTtGY4fyGSpSJmi4SWuHwOR4EMilt'},
-    {icon:'📁',name:'TikTok Content',sub:'TikTok videos & assets',url:'https://drive.google.com/drive/folders/1KfZ8uZsqDtHRQxb83KBRGCb_29c0H_jz'},
-    {icon:'📁',name:'Posts & Prints',sub:'Printed materials & posts',url:'https://drive.google.com/drive/folders/1qI_y8y_wJgDcPhVAAXBZEP6MUMlWX9wv'},
-    {icon:'📄',name:'Brand Guidelines Presentation',sub:'Website & brand identity',url:'https://drive.google.com/file/d/1hLFGIm8PjlfGgxCF96QU52p-UWu1_606/view'},
-  ],
-  'world-legal-grid': [
-    {icon:'📄',name:'Facility Compliance Checklist',sub:'Full FDA/OSHA/GMP checklist',url:'https://docs.google.com/document/d/1Id21wyN3sQTh664D4h99azGCiJ3Xn3_CIvLU6PBQE5Y/edit'},
-    {icon:'📁',name:'Facility Folder',sub:'All facility compliance docs',url:'https://drive.google.com/drive/folders/1_adyEQgJJ7xUtjAvxCjStDi0NEhzPzZq'},
-  ],
+  // FORMULATION folder → NEVOO subfolder + Formulation Tracker
   'world-formulation-grid': [
-    {icon:'📁',name:'FORMULATION',sub:'All formulation files & tracker',url:'https://drive.google.com/drive/folders/1PVy64PRDZzc98H31Ogyfh7XrIC5iIPkG'},
-    {icon:'📄',name:'Formulation Tracker',sub:'Master formula tracking sheet',url:'https://drive.google.com/file/d/16R5G-w_Oq94RXRQ9Ghbb-eDrOXtN1TnJ/view'},
-    {icon:'📁',name:'NEVOO Formulation',sub:'NEVOO formula files',url:'https://drive.google.com/drive/folders/1JHUP6xkwQvyxpxsTZaRig-Cy_SUYagjL'},
-    {icon:'📁',name:'Product Research',sub:'Bestsellers, actives, tea, acne',url:'https://drive.google.com/drive/folders/1lLDI-zRZ8Sf-NIhC1zhr-FX9lm754FRX'},
-    {icon:'📄',name:'Sensitive Skin Cream Cleanser Pitch',sub:'Formula & positioning analysis',url:'https://drive.google.com/file/d/11ebEeC9zmpIVvzWX5LfcXD8IeIgO7nBB/view'},
-    {icon:'📄',name:'Seabuckthorn Research',sub:'Ingredient research',url:'https://drive.google.com/file/d/1yXASQjOC61TZk1jaTcyc_UlqVUHDKUSi/view'},
-    {icon:'📄',name:'Best Sellers Skincare',sub:'Market research',url:'https://drive.google.com/file/d/1qWg7ug3mb6_4P_3Hv8H0Y1kDstaJiHMT/view'},
-    {icon:'📄',name:'Best Seller Hair Care',sub:'Market research',url:'https://drive.google.com/file/d/1-UiTDe8m6ytmqcxhlFfRDF3HmC6yxeJv/view'},
-    {icon:'📄',name:'Acne Tea Kit Research',sub:'Product concept',url:'https://drive.google.com/file/d/1Y1eaqVpEeGz_mvHi-ti8e561ZUxRwToS/view'},
+    {icon:'📁',name:'FORMULATION',sub:'All formula files',url:'https://drive.google.com/drive/folders/1PVy64PRDZzc98H31Ogyfh7XrIC5iIPkG'},
+    {icon:'📁',name:'NEVOO',sub:'NEVOO formulation files',url:'https://drive.google.com/drive/folders/1JHUP6xkwQvyxpxsTZaRig-Cy_SUYagjL'},
+    {icon:'📄',name:'Formulation Tracker',sub:'Master tracking spreadsheet',url:'https://docs.google.com/spreadsheets/d/1g0Xhsc4GEoanf6WC76JOj2Kil_11XTP3EEBp6QWA8GM/edit'},
   ],
+  // TCF KING STREET folder → sip and formulate, retail, spa layout
+  'world-ops-grid': [
+    {icon:'📁',name:'TCF king street',sub:'King Street location folders',url:'https://drive.google.com/drive/folders/1sxawoU6dnM0k6Jsa6NRzWrseqxXGLIO9'},
+    {icon:'📁',name:'sip and formulate',sub:'Sip & Formulate space',url:'https://drive.google.com/drive/folders/11D97op1wwrqkyhV503h2-nBQjm_NXw4j'},
+    {icon:'📁',name:'retail',sub:'Retail concept & plans',url:'https://drive.google.com/drive/folders/1EGjCUK08tbF70gCIEARZv5kMdljz3Mkn'},
+    {icon:'📁',name:'spa layout and ideas',sub:'Spa design concepts',url:'https://drive.google.com/drive/folders/1Mzy35iPXqfATnYSU6UTA5uNiwiSE2vou'},
+  ],
+  // EVENTS AND PR folder + all files inside
   'world-events-grid': [
-    {icon:'📁',name:'EVENTS AND PR',sub:'PR bags, influencers, custom items',url:'https://drive.google.com/drive/folders/1Wt6GqyWX7IbbiosxlRfJVnUMAi-vu_Rr'},
-    {icon:'📄',name:'Influencer Contact Sheet',sub:'Influencer outreach list',url:'https://drive.google.com/file/d/10JlIYb8j1uEF886A63txU5STlvyiQXa5/view'},
-    {icon:'📄',name:'Sorority Contact Sheet',sub:'Sorority outreach',url:'https://drive.google.com/file/d/1AEzvCommyL4Rck1kUCjKWfHk0qxdHwzm/view'},
-    {icon:'📄',name:'Local Vendor Contact Sheet',sub:'Local vendor contacts',url:'https://drive.google.com/file/d/1mzlWrXZJIdxFhD6os3HoSMrx0T_mN29t/view'},
-    {icon:'📄',name:'Script to Email Influencers',sub:'Outreach email templates',url:'https://drive.google.com/file/d/1hUWlpheWCyCVShkLbj1OpeAxK7tQoMLH/view'},
-    {icon:'📄',name:'PR Bags & Custom Uniforms',sub:'PR gifting & merch',url:'https://drive.google.com/file/d/1TXRsNF5V1FrJbYKdIM6MT8t39sKISHX4/view'},
-    {icon:'📄',name:'Custom Items for PR',sub:'Non-Alibaba custom items',url:'https://drive.google.com/file/d/15_h_YD2SeV3hpiWkm1NOFQuMFlQOMFl3/view'},
-    {icon:'📄',name:'Items Purchased',sub:'PR items purchased log',url:'https://drive.google.com/file/d/10-wQXyo0fDCAP-OfIaYJftP-vuw5xkcX/view'},
+    {icon:'📁',name:'EVENTS AND PR',sub:'All PR & events files',url:'https://drive.google.com/drive/folders/1Wt6GqyWX7IbbiosxlRfJVnUMAi-vu_Rr'},
+    {icon:'📄',name:'influencer contact sheet',sub:'Influencer outreach list',url:'https://drive.google.com/file/d/10JlIYb8j1uEF886A63txU5STlvyiQXa5/view'},
+    {icon:'📄',name:'sorority contact sheet',sub:'Sorority outreach',url:'https://drive.google.com/file/d/1AEzvCommyL4Rck1kUCjKWfHk0qxdHwzm/view'},
+    {icon:'📄',name:'local vender contact sheet',sub:'Local vendor contacts',url:'https://drive.google.com/file/d/1mzlWrXZJIdxFhD6os3HoSMrx0T_mN29t/view'},
+    {icon:'📄',name:'script to email influencers',sub:'Email outreach templates',url:'https://drive.google.com/file/d/1hUWlpheWCyCVShkLbj1OpeAxK7tQoMLH/view'},
+    {icon:'📄',name:'PR BAGS CUSTOM / UNIFORMS',sub:'PR gifting & merch',url:'https://drive.google.com/file/d/1TXRsNF5V1FrJbYKdIM6MT8t39sKISHX4/view'},
+    {icon:'📄',name:'custom things for pr',sub:'Non-Alibaba custom items',url:'https://drive.google.com/file/d/15_h_YD2SeV3hpiWkm1NOFQuMFlQOMFl3/view'},
+    {icon:'📄',name:'custom things (not alibaba)',sub:'Custom sourcing',url:'https://drive.google.com/file/d/1VuQ1xb0rn11qbp6XZOV74hRqyYHlfA1O/view'},
+    {icon:'📄',name:'ITEMS PURCHASED',sub:'PR items purchased log',url:'https://drive.google.com/file/d/10-wQXyo0fDCAP-OfIaYJftP-vuw5xkcX/view'},
   ],
+  // SOCIAL MEDIA folder → instagram, tiktok, posts and prints
+  'world-marketing-grid': [
+    {icon:'📁',name:'social media',sub:'All social media assets',url:'https://drive.google.com/drive/folders/1PNLdaeCWTHfSAUPwncBojo64hvc8dmE8'},
+    {icon:'📁',name:'instagram',sub:'Instagram content & inspo',url:'https://drive.google.com/drive/folders/1CACxTtGY4fyGSpSJmi4SWuHwOR4EMilt'},
+    {icon:'📁',name:'tiktok',sub:'TikTok videos & assets',url:'https://drive.google.com/drive/folders/1KfZ8uZsqDtHRQxb83KBRGCb_29c0H_jz'},
+    {icon:'📁',name:'posts and prints',sub:'Graphics, flyers, prints',url:'https://drive.google.com/drive/folders/1qI_y8y_wJgDcPhVAAXBZEP6MUMlWX9wv'},
+  ],
+  // PRODUCT RESEARCH folder + files inside
+  'world-formulation2-grid': [
+    {icon:'📁',name:'product research',sub:'All research files',url:'https://drive.google.com/drive/folders/1lLDI-zRZ8Sf-NIhC1zhr-FX9lm754FRX'},
+    {icon:'📄',name:'Sensitive Skin Cream Cleanser Pitch',sub:'Formula & positioning analysis',url:'https://drive.google.com/file/d/11ebEeC9zmpIVvzWX5LfcXD8IeIgO7nBB/view'},
+    {icon:'📄',name:'SEABUCKTHORN',sub:'Ingredient research',url:'https://drive.google.com/file/d/1yXASQjOC61TZk1jaTcyc_UlqVUHDKUSi/view'},
+    {icon:'📄',name:'BEST SELLERS SKINCARE',sub:'Market research',url:'https://drive.google.com/file/d/1qWg7ug3mb6_4P_3Hv8H0Y1kDstaJiHMT/view'},
+    {icon:'📄',name:'BEST SELLER HAIR CARE',sub:'Market research',url:'https://drive.google.com/file/d/1-UiTDe8m6ytmqcxhlFfRDF3HmC6yxeJv/view'},
+    {icon:'📄',name:'MOST BOUGHT PRODUCTS',sub:'Bestseller research',url:'https://drive.google.com/file/d/1ihtwMDJRLuJXDcU1prZrKB5fFQvU_QnD/view'},
+    {icon:'📄',name:'Acne tea kit',sub:'Product concept research',url:'https://drive.google.com/file/d/1Y1eaqVpEeGz_mvHi-ti8e561ZUxRwToS/view'},
+  ],
+  // FACILITY folder + compliance checklist
+  'world-legal-grid': [
+    {icon:'📁',name:'FACILITY',sub:'Facility compliance & docs',url:'https://drive.google.com/drive/folders/1_adyEQgJJ7xUtjAvxCjStDi0NEhzPzZq'},
+    {icon:'📄',name:'FACILITY COMPLIANCE CHECKLIST',sub:'FDA, OSHA, GMP, legal, fire',url:'https://docs.google.com/document/d/1Id21wyN3sQTh664D4h99azGCiJ3Xn3_CIvLU6PBQE5Y/edit'},
+    {icon:'📄',name:'McKernan Packaging Spreadsheet',sub:'Packaging approval',url:'https://docs.google.com/spreadsheets/d/1SUd-mFgHWO68jfxTejvyqjNi9syrEWs5k-PI-ttgcR0/edit'},
+  ],
+  // WEBSITE folder
+  'world-finance-grid': [
+    {icon:'📁',name:'website',sub:'Website assets & inspo',url:'https://drive.google.com/drive/folders/18hMwft5byhCKIm_-L8amr6S7jUU99bJS'},
+    {icon:'📄',name:'Salmon and White Minimalist Brand Guidelines',sub:'Brand guidelines presentation',url:'https://drive.google.com/file/d/1hLFGIm8PjlfGgxCF96QU52p-UWu1_606/view'},
+  ],
+  // INTERIOR DESIGN folder
   'world-personal-grid': [
-    {icon:'📁',name:'Nicole\'s World (Root)',sub:'All folders — top level',url:'https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG'},
-    {icon:'📁',name:'Website Folder',sub:'Brand guidelines & web assets',url:'https://drive.google.com/drive/folders/18hMwft5byhCKIm_-L8amr6S7jUU99bJS'},
+    {icon:'📁',name:'Interior design',sub:'Office & space design',url:'https://drive.google.com/drive/folders/1iWjqH5Ng7VdwK3bjRfV7I9DBSBcOEz29'},
+    {icon:'📄',name:'NEW OFFICE decore / budget sheet',sub:'Budget & decor planning',url:'https://drive.google.com/file/d/1aqZM3anOWC5J3Qgk0TOGjuS-A_LiSlBw/view'},
+    {icon:'📄',name:'Office design',sub:'Design references & inspo',url:'https://drive.google.com/file/d/1hjm7WYunANxgOxXMraXRd-pvqzX_TD3g/view'},
   ]
 };
 
@@ -2482,6 +2489,8 @@ function renderAllWorldGrids() {
     renderWorldGrid(gridId, WORLD_DATA[gridId]);
   });
 }
+// Also render any grid IDs in the HTML that aren't in WORLD_DATA keys (e.g. world-formulation2-grid)
+// Already handled above since world-formulation2-grid is in WORLD_DATA
 
 // ============================================================
 // LINKS PAGE
