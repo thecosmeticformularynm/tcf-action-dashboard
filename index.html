@@ -412,24 +412,6 @@
   }
   .cal-event-dot:hover { opacity: 0.8; }
 
-  /* MODAL */
-  .cal-modal {
-    position: fixed; inset: 0; z-index: 9998;
-    background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .cal-modal.hidden { display: none; }
-  .cal-modal-card {
-    background: var(--card-bg); border-radius: 24px;
-    padding: 36px 40px; max-width: 440px; width: 92%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-  }
-  .cal-color-picker { display: flex; gap: 10px; padding: 8px 0; }
-  .cal-color-dot {
-    width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
-    border: 3px solid transparent; transition: all 0.15s;
-  }
-  .cal-color-dot.selected { border-color: var(--text); transform: scale(1.2); }
 
   /* SEARCH HIGHLIGHT */
   .search-hidden { display: none !important; }
@@ -720,6 +702,97 @@
     transition: opacity 0.2s;
   }
   .affirmation-text:hover { opacity: 0.8; }
+
+/* ASK AI */
+.ask-ai-fab {
+  position: fixed; bottom: 28px; right: 28px; z-index: 1000;
+  padding: 14px 22px; border-radius: 999px;
+  background: linear-gradient(135deg, #FF5BAE, #c44dff);
+  color: white; font-family: inherit; font-size: 1rem; font-weight: 800;
+  border: none; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(255,91,174,0.45);
+  transition: all 0.2s;
+}
+.ask-ai-fab:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(255,91,174,0.5); }
+
+.ask-ai-panel {
+  position: fixed; bottom: 0; right: 0; left: 0; z-index: 1001;
+  background: var(--card-bg); border-top: 2px solid var(--pink);
+  border-radius: 24px 24px 0 0;
+  padding: 28px 32px 24px;
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  max-height: 70vh; overflow-y: auto;
+}
+.ask-ai-panel.open { transform: translateY(0); }
+.ask-ai-panel-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+}
+.ask-ai-panel-title { font-size: 1.2rem; font-weight: 900; }
+.ask-ai-close {
+  background: none; border: none; font-size: 1.5rem; cursor: pointer;
+  color: var(--muted); padding: 4px 8px; border-radius: 8px; transition: all 0.15s;
+}
+.ask-ai-close:hover { color: var(--pink); background: rgba(255,91,174,0.1); }
+.ask-ai-input-row { display: flex; gap: 10px; margin-bottom: 16px; }
+.ask-ai-input {
+  flex: 1; padding: 14px 18px; border-radius: 999px;
+  border: 2px solid var(--border); background: var(--input-bg);
+  font-family: inherit; font-size: 1rem; color: var(--text); outline: none;
+  transition: border-color 0.2s;
+}
+.ask-ai-input:focus { border-color: var(--pink); }
+.ask-ai-send {
+  padding: 14px 24px; border-radius: 999px;
+  background: linear-gradient(135deg,#FF5BAE,#c44dff);
+  color: white; border: none; font-family: inherit; font-size: 1rem;
+  font-weight: 800; cursor: pointer; white-space: nowrap;
+  transition: all 0.15s;
+}
+.ask-ai-send:hover { opacity: 0.85; }
+.ask-ai-send:disabled { opacity: 0.5; cursor: not-allowed; }
+.ask-ai-key-row {
+  display: flex; gap: 10px; align-items: center; margin-bottom: 16px;
+  padding: 12px 16px; background: var(--pill-bg); border-radius: 12px;
+  font-size: 0.85rem;
+}
+.ask-ai-key-input {
+  flex: 1; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--input-bg); font-family: inherit; font-size: 0.85rem; color: var(--text);
+  outline: none;
+}
+.ask-ai-key-save {
+  padding: 8px 16px; border-radius: 999px; border: none;
+  background: var(--pink); color: white; font-family: inherit;
+  font-size: 0.85rem; font-weight: 700; cursor: pointer;
+}
+.ask-ai-results { display: flex; flex-direction: column; gap: 10px; }
+.ask-ai-result-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 16px; border-radius: 12px;
+  background: var(--pill-bg); border: 1px solid var(--border);
+}
+.ask-ai-result-text { flex: 1; font-size: 0.95rem; font-weight: 600; line-height: 1.5; }
+.ask-ai-add-btn {
+  padding: 6px 14px; border-radius: 999px; border: none;
+  background: linear-gradient(135deg,#4F7EF7,#7B6FF0);
+  color: white; font-family: inherit; font-size: 0.8rem;
+  font-weight: 800; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+  transition: all 0.15s;
+}
+.ask-ai-add-btn:hover { opacity: 0.85; transform: scale(1.05); }
+.ask-ai-add-btn.added { background: linear-gradient(135deg,#34C994,#2DAF80); }
+.ask-ai-loading {
+  text-align: center; padding: 20px; color: var(--muted);
+  font-weight: 700; font-size: 0.95rem;
+}
+.ask-ai-error { color: var(--pink); font-size: 0.9rem; font-weight: 700; padding: 8px 0; }
+.ask-ai-context-tag {
+  display: inline-block; padding: 4px 12px; border-radius: 999px;
+  background: rgba(255,91,174,0.1); color: var(--pink);
+  font-size: 0.8rem; font-weight: 800; margin-bottom: 12px;
+}
 </style>
 </head>
 <body>
@@ -1179,23 +1252,32 @@
 
   <!-- ===== CALENDAR TAB ===== -->
   <div id="tab-calendar" class="tab-panel">
-    <div class="card">
-      <div class="cal-header">
-        <button class="cal-nav-btn" onclick="calNav(-1)">‹</button>
-        <h2 class="cal-month-title" id="cal-month-title">June 2026</h2>
-        <button class="cal-nav-btn" onclick="calNav(1)">›</button>
-        <button class="add-btn" onclick="calAddEvent()" style="margin-left:auto;width:auto;padding:10px 22px;">＋ Add Event</button>
-      </div>
-      <div class="cal-grid-header">
-        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
-      </div>
-      <div class="cal-grid" id="cal-grid"></div>
-    </div>
 
     <div class="card">
-      <div class="card-title">Upcoming Events</div>
-      <ul class="task-list" id="cal-upcoming"></ul>
+      <div class="cal-header">
+        <h2 class="cal-month-title">Google Calendar</h2>
+        <a href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener" class="world-open-btn" style="text-decoration:none;">Open Google Calendar ↗</a>
+      </div>
+      <div id="gcal-setup" style="display:none;padding:20px 0;">
+        <p style="color:var(--muted);font-size:0.95rem;font-weight:600;margin-bottom:16px;">Paste your Google Calendar embed URL to show it here. In Google Calendar go to Settings → (your calendar) → Integrate calendar → copy the Embed code URL.</p>
+        <div style="display:flex;gap:10px;">
+          <input type="text" id="gcal-url-input" placeholder="https://calendar.google.com/calendar/embed?src=..." style="flex:1;padding:12px 16px;border-radius:12px;border:2px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:0.95rem;outline:none;color:var(--text);">
+          <button onclick="saveGCalUrl()" style="padding:12px 22px;border-radius:999px;border:none;background:linear-gradient(135deg,#FF5BAE,#c44dff);color:white;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;">Save</button>
+        </div>
+      </div>
+      <div id="gcal-frame-wrap" style="border-radius:16px;overflow:hidden;margin-top:8px;">
+        <iframe id="gcal-iframe"
+          src=""
+          style="border:none;width:100%;height:640px;border-radius:16px;"
+          frameborder="0" scrolling="no">
+        </iframe>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+        <a href="https://calendar.google.com/calendar/r/eventedit" target="_blank" rel="noopener" class="add-btn" style="text-decoration:none;width:auto;padding:10px 24px;">+ Add Event in Google Calendar</a>
+        <button onclick="document.getElementById('gcal-setup').style.display=document.getElementById('gcal-setup').style.display==='none'?'block':'none'" style="padding:10px 20px;border-radius:999px;border:1px solid var(--border);background:var(--pill-bg);font-family:inherit;font-size:0.9rem;font-weight:700;cursor:pointer;color:var(--text);">Change Calendar URL</button>
+      </div>
     </div>
+
   </div><!-- end calendar -->
 
   <!-- ===== PAULY TAB ===== -->
@@ -1280,29 +1362,6 @@
   </div><!-- end pauly -->
 
 </div><!-- end #app -->
-
-<!-- EVENT MODAL -->
-<div id="cal-modal" class="cal-modal hidden">
-  <div class="cal-modal-card">
-    <h3 style="font-weight:900;margin-bottom:18px;">📅 Add Event</h3>
-    <label style="font-weight:700;font-size:0.9rem;">Event Title</label>
-    <input id="cal-ev-title" type="text" placeholder="e.g. Lab meeting, Launch day..." style="width:100%;padding:12px 16px;border-radius:12px;border:2px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:1rem;margin:8px 0 16px;outline:none;color:var(--text);">
-    <label style="font-weight:700;font-size:0.9rem;">Date</label>
-    <input id="cal-ev-date" type="date" style="width:100%;padding:12px 16px;border-radius:12px;border:2px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:1rem;margin:8px 0 16px;outline:none;color:var(--text);">
-    <label style="font-weight:700;font-size:0.9rem;">Color</label>
-    <div class="cal-color-picker" id="cal-color-picker">
-      <div class="cal-color-dot selected" style="background:#FF5BAE;" data-color="#FF5BAE"></div>
-      <div class="cal-color-dot" style="background:#4F7EF7;" data-color="#4F7EF7"></div>
-      <div class="cal-color-dot" style="background:#34C994;" data-color="#34C994"></div>
-      <div class="cal-color-dot" style="background:#c44dff;" data-color="#c44dff"></div>
-      <div class="cal-color-dot" style="background:#FF8C00;" data-color="#FF8C00"></div>
-    </div>
-    <div style="display:flex;gap:12px;margin-top:20px;">
-      <button onclick="calSaveEvent()" style="flex:1;padding:14px;border-radius:999px;border:none;background:linear-gradient(135deg,#FF5BAE,#c44dff);color:white;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;">Save Event ✦</button>
-      <button onclick="calCloseModal()" style="flex:1;padding:14px;border-radius:999px;border:2px solid var(--border);background:transparent;font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;color:var(--text);">Cancel</button>
-    </div>
-  </div>
-</div>
 
 <script>
 // ============================================================
@@ -2161,175 +2220,35 @@ function brandSearch(query) {
 }
 
 // ============================================================
-// CALENDAR
+// GOOGLE CALENDAR
 // ============================================================
-var calYear = new Date().getFullYear();
-var calMonth = new Date().getMonth();
-var calSelectedColor = '#FF5BAE';
-var calEditId = null;
-
-var MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-function renderCalendar() {
-  var title = document.getElementById('cal-month-title');
-  if (title) title.textContent = MONTH_NAMES[calMonth] + ' ' + calYear;
-  var grid = document.getElementById('cal-grid');
-  if (!grid) return;
-  grid.innerHTML = '';
-
-  var events = lsGet('tcf_calendar_events', []);
-  var today = new Date(); today.setHours(0,0,0,0);
-  var firstDay = new Date(calYear, calMonth, 1).getDay();
-  var daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
-  var daysInPrev = new Date(calYear, calMonth, 0).getDate();
-
-  // Prev month fill
-  for (var i = firstDay - 1; i >= 0; i--) {
-    var d = daysInPrev - i;
-    var cell = makeCalCell(d, calMonth - 1, calYear, true, events, today);
-    grid.appendChild(cell);
+function initGoogleCalendar() {
+  var stored = localStorage.getItem('tcf_gcal_url');
+  var iframe = document.getElementById('gcal-iframe');
+  var setup = document.getElementById('gcal-setup');
+  if (!stored) {
+    // Auto-build embed URL from known email
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/New_York';
+    var autoUrl = 'https://calendar.google.com/calendar/embed?src=tcfformulation.nicolem%40gmail.com&ctz=' + encodeURIComponent(tz) + '&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&mode=MONTH';
+    stored = autoUrl;
+    localStorage.setItem('tcf_gcal_url', stored);
   }
-  // Current month
-  for (var d2 = 1; d2 <= daysInMonth; d2++) {
-    var cell2 = makeCalCell(d2, calMonth, calYear, false, events, today);
-    grid.appendChild(cell2);
-  }
-  // Next month fill
-  var filled = firstDay + daysInMonth;
-  var remaining = filled % 7 === 0 ? 0 : 7 - (filled % 7);
-  for (var d3 = 1; d3 <= remaining; d3++) {
-    var cell3 = makeCalCell(d3, calMonth + 1, calYear, true, events, today);
-    grid.appendChild(cell3);
-  }
-
-  renderUpcoming(events);
+  if (iframe) iframe.src = stored;
+  if (setup) setup.style.display = 'none';
 }
 
-function makeCalCell(day, month, year, otherMonth, events, today) {
-  var actualMonth = month;
-  var actualYear = year;
-  if (month < 0) { actualMonth = 11; actualYear = year - 1; }
-  else if (month > 11) { actualMonth = 0; actualYear = year + 1; }
-
-  var dateStr = actualYear + '-' + String(actualMonth+1).padStart(2,'0') + '-' + String(day).padStart(2,'0');
-  var cellDate = new Date(actualYear, actualMonth, day);
-  var isToday = cellDate.getTime() === today.getTime();
-
-  var div = document.createElement('div');
-  div.className = 'cal-day' + (otherMonth ? ' other-month' : '') + (isToday ? ' today' : '');
-
-  var numEl = document.createElement('span');
-  numEl.className = 'cal-day-num';
-  numEl.textContent = day;
-  div.appendChild(numEl);
-
-  // Events for this day
-  var dayEvents = events.filter(function(e){ return e.date === dateStr; });
-  dayEvents.forEach(function(ev) {
-    var dot = document.createElement('span');
-    dot.className = 'cal-event-dot';
-    dot.style.background = ev.color || '#FF5BAE';
-    dot.textContent = ev.title;
-    dot.title = ev.title;
-    dot.onclick = function(e) {
-      e.stopPropagation();
-      if (confirm('Delete "' + ev.title + '"?')) {
-        var all = lsGet('tcf_calendar_events', []);
-        lsSet('tcf_calendar_events', all.filter(function(x){ return x.id !== ev.id; }));
-        renderCalendar();
-      }
-    };
-    div.appendChild(dot);
-  });
-
-  div.onclick = function() {
-    calOpenModal(dateStr);
-  };
-  return div;
-}
-
-function renderUpcoming(events) {
-  var ul = document.getElementById('cal-upcoming');
-  if (!ul) return;
-  ul.innerHTML = '';
-  var today = new Date(); today.setHours(0,0,0,0);
-  var upcoming = events
-    .filter(function(e){ return new Date(e.date) >= today; })
-    .sort(function(a,b){ return a.date.localeCompare(b.date); })
-    .slice(0, 15);
-  if (!upcoming.length) {
-    ul.innerHTML = '<li style="color:var(--muted);padding:12px 0;font-weight:600;">No upcoming events — add some! 📅</li>';
+function saveGCalUrl() {
+  var val = document.getElementById('gcal-url-input').value.trim();
+  if (!val) return;
+  if (!val.includes('calendar.google.com')) {
+    alert('Please paste a Google Calendar embed URL (should include calendar.google.com)');
     return;
   }
-  upcoming.forEach(function(ev) {
-    var li = document.createElement('li');
-    li.className = 'task-item';
-    li.style.cssText = 'border-left:4px solid '+ev.color+';padding-left:14px;border-radius:8px;';
-    var d = new Date(ev.date + 'T00:00:00');
-    var dateLabel = d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
-    li.innerHTML = '<span style="flex:1;font-weight:700;">'+ev.title+'</span>' +
-      '<span style="color:var(--muted);font-size:0.85rem;font-weight:600;">'+dateLabel+'</span>' +
-      '<button class="task-del" onclick="(function(){var all=JSON.parse(localStorage.getItem(\'tcf_calendar_events\')||\'[]\');localStorage.setItem(\'tcf_calendar_events\',JSON.stringify(all.filter(function(x){return x.id!==\''+ev.id+'\'})));renderCalendar();})();event.stopPropagation();" style="opacity:1;">×</button>';
-    ul.appendChild(li);
-  });
+  localStorage.setItem('tcf_gcal_url', val);
+  var iframe = document.getElementById('gcal-iframe');
+  if (iframe) iframe.src = val;
+  document.getElementById('gcal-setup').style.display = 'none';
 }
-
-function calNav(dir) {
-  calMonth += dir;
-  if (calMonth < 0) { calMonth = 11; calYear--; }
-  if (calMonth > 11) { calMonth = 0; calYear++; }
-  renderCalendar();
-}
-
-function calOpenModal(dateStr) {
-  var modal = document.getElementById('cal-modal');
-  var dateInput = document.getElementById('cal-ev-date');
-  if (dateInput && dateStr) dateInput.value = dateStr;
-  document.getElementById('cal-ev-title').value = '';
-  calSelectedColor = '#FF5BAE';
-  document.querySelectorAll('.cal-color-dot').forEach(function(d){
-    d.classList.toggle('selected', d.dataset.color === calSelectedColor);
-  });
-  if (modal) modal.classList.remove('hidden');
-  setTimeout(function(){ document.getElementById('cal-ev-title').focus(); }, 100);
-}
-
-function calAddEvent() {
-  var today = new Date();
-  var ds = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
-  calOpenModal(ds);
-}
-
-function calCloseModal() {
-  document.getElementById('cal-modal').classList.add('hidden');
-}
-
-function calSaveEvent() {
-  var title = document.getElementById('cal-ev-title').value.trim();
-  var date = document.getElementById('cal-ev-date').value;
-  if (!title || !date) { alert('Please enter a title and date!'); return; }
-  var events = lsGet('tcf_calendar_events', []);
-  events.push({ id: Date.now().toString(), title: title, date: date, color: calSelectedColor });
-  lsSet('tcf_calendar_events', events);
-  calCloseModal();
-  renderCalendar();
-}
-
-// Color picker
-document.addEventListener('click', function(e) {
-  var dot = e.target.closest('.cal-color-dot');
-  if (dot) {
-    calSelectedColor = dot.dataset.color;
-    document.querySelectorAll('.cal-color-dot').forEach(function(d){ d.classList.remove('selected'); });
-    dot.classList.add('selected');
-  }
-});
-
-// Close modal on backdrop click
-document.addEventListener('click', function(e) {
-  var modal = document.getElementById('cal-modal');
-  if (modal && e.target === modal) calCloseModal();
-});
 
 // ============================================================
 // INLINE EDITABLE TITLES — global click delegation
@@ -2746,7 +2665,7 @@ function initApp() {
   // Links
   renderAllLinks();
   // Calendar
-  renderCalendar();
+  initGoogleCalendar();
   // Pauly
   ensurePaulyDefaults();
   Object.keys(PAULY_DEFAULTS).forEach(function(key) {
@@ -2760,6 +2679,178 @@ function initApp() {
   renderTasks('tcf_personal_todos', 'personal-tasks');
   renderTasks('tcf_beauty', 'beauty-tasks');
 }
+
+// ============================================================
+// ASK AI
+// ============================================================
+var aiPanelOpen = false;
+
+function toggleAskAI() {
+  aiPanelOpen = !aiPanelOpen;
+  var panel = document.getElementById('ask-ai-panel');
+  panel.classList.toggle('open', aiPanelOpen);
+  if (aiPanelOpen) {
+    updateAIContext();
+    var key = localStorage.getItem('tcf_openai_key');
+    document.getElementById('ask-ai-key-section').style.display = key ? 'none' : 'flex';
+    setTimeout(function(){ document.getElementById('ask-ai-input').focus(); }, 350);
+  }
+}
+
+function saveAIKey() {
+  var val = document.getElementById('ask-ai-key-input').value.trim();
+  if (val) {
+    localStorage.setItem('tcf_openai_key', val);
+    document.getElementById('ask-ai-key-section').style.display = 'none';
+  }
+}
+
+function updateAIContext() {
+  var activeTab = document.querySelector('.nav-tab.active');
+  var tabName = activeTab ? activeTab.textContent.trim() : 'General';
+  var tag = document.getElementById('ask-ai-context-tag');
+  if (tag) tag.textContent = 'Context: ' + tabName;
+  var input = document.getElementById('ask-ai-input');
+  if (input && !input.value) {
+    var prompts = {
+      'Home': 'What are my top priorities for today?',
+      'Brands': 'What brand tasks should I focus on this week?',
+      'Content': 'What should I post on social media today?',
+      'Operations': 'What operational tasks need attention today?',
+      'Calendar': 'What upcoming deadlines should I prepare for?',
+      'Pauly': 'What does Pauly need to address most urgently?',
+      "Nicole's World": 'What should I work on in my Drive files today?',
+      'Links': 'What tools should I use today?',
+      'Personal': 'What self-care or personal goals should I focus on today?'
+    };
+    input.placeholder = prompts[tabName] || 'What should I focus on today?';
+  }
+}
+
+function getAIContext() {
+  var activeTab = document.querySelector('.nav-tab.active');
+  var tabName = activeTab ? activeTab.textContent.trim() : 'General';
+  var contexts = {
+    'Home': 'The user is building cosmetic brands: TCF (The Cosmetic Formulary), NEVOO, Skin Axis, and Rinse & Repeat. They also have Sip & Formulate at King Street. Daily priorities include email, vendor follow-ups, formula work, social media, and operations.',
+    'Brands': 'The user has 4 cosmetic brands: TCF (main brand, FDA registration in progress), NEVOO (building brand identity), Skin Axis (deciding on packaging and product type, has tea line), Rinse & Repeat (catalog and packaging ready). Need help with brand tasks.',
+    'Content': 'The user needs to build social media presence for TCF and other brands. They have Instagram, TikTok assets. Need to make first Instagram post video, find social media person, contact influencers, create coming soon flyers, print photos for bulletin board reel.',
+    'Operations': 'Operations include: TCF King Street facility (sip & formulate classes, retail, spa layout), McKernan packaging approval, chairs/mixer for classes, payment/booking system, Ghost Kitchen checklist, Alibaba wall order, influencer event planning.',
+    'Calendar': 'User is a cosmetic brand founder. Calendar tasks relate to brand launches, class scheduling, vendor meetings, PR events, FDA deadlines.',
+    'Pauly': 'Pauly is the co-founder/partner who needs to approve things: Alibaba wall, McKernan packaging, set date for first Sip & Formulate class, talk to video editor, approve marketing agency outreach, Ghost Kitchen decision.',
+    "Nicole's World": 'Google Drive with folders: BRANDS (TCF, NEVOO, Skin Axis, Rinse & Repeat), FORMULATION, TCF KING STREET, EVENTS AND PR, SOCIAL MEDIA, PRODUCT RESEARCH, FACILITY (compliance), WEBSITE, INTERIOR DESIGN.',
+    'Personal': 'Personal wellness, schedule from 4:30am-8pm, affirmations, hair/beauty tasks.'
+  };
+  return contexts[tabName] || 'User is a cosmetic brand founder with brands TCF, NEVOO, Skin Axis, and Rinse & Repeat, plus Sip & Formulate event space at King Street.';
+}
+
+function getActiveTaskKey() {
+  var activeTab = document.querySelector('.nav-tab.active');
+  var tabName = activeTab ? activeTab.textContent.trim() : 'Home';
+  var map = {
+    'Home': { key: 'tcf_home_tasks', id: 'home-tasks' },
+    'Content': { key: 'tcf_tasks_content', id: 'content-tasks' },
+    'Operations': { key: 'tcf_tasks_ops', id: 'ops-tasks' },
+    'Personal': { key: 'tcf_personal_todos', id: 'personal-tasks' },
+    'Brands': { key: 'tcf_brand_tcf', id: 'tcf-tasks' },
+  };
+  return map[tabName] || { key: 'tcf_home_tasks', id: 'home-tasks' };
+}
+
+function sendAIQuestion() {
+  var apiKey = localStorage.getItem('tcf_openai_key');
+  if (!apiKey) {
+    document.getElementById('ask-ai-key-section').style.display = 'flex';
+    document.getElementById('ask-ai-results').innerHTML = '<div class="ask-ai-error">Please enter your OpenAI API key above to use Ask AI.</div>';
+    return;
+  }
+  var question = document.getElementById('ask-ai-input').value.trim();
+  if (!question) return;
+  var resultsEl = document.getElementById('ask-ai-results');
+  var sendBtn = document.getElementById('ask-ai-send-btn');
+  resultsEl.innerHTML = '<div class="ask-ai-loading">Thinking... hold on</div>';
+  sendBtn.disabled = true;
+  sendBtn.textContent = '...';
+
+  var context = getAIContext();
+  var systemPrompt = 'You are a productivity assistant for Nicole, a cosmetic brand founder. Context: ' + context + '\n\nWhen answering, respond with ONLY a numbered list of 4-6 specific, actionable tasks or ideas. Each item should be on its own line starting with a number and period. Be specific and practical. No intro text, no conclusion, just the numbered list.';
+
+  fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + apiKey
+    },
+    body: JSON.stringify({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: question }
+      ],
+      max_tokens: 400,
+      temperature: 0.7
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    sendBtn.disabled = false;
+    sendBtn.textContent = 'Ask';
+    if (data.error) {
+      resultsEl.innerHTML = '<div class="ask-ai-error">Error: ' + data.error.message + '</div>';
+      return;
+    }
+    var content = data.choices[0].message.content.trim();
+    var lines = content.split('\n').map(function(l){ return l.replace(/^\d+\.\s*/,'').trim(); }).filter(function(l){ return l.length > 3; });
+    var taskInfo = getActiveTaskKey();
+    resultsEl.innerHTML = '';
+    lines.forEach(function(line, i) {
+      var div = document.createElement('div');
+      div.className = 'ask-ai-result-item';
+      div.innerHTML = '<div class="ask-ai-result-text">'+line+'</div>' +
+        '<button class="ask-ai-add-btn" id="ai-add-'+i+'">+ Add to list</button>';
+      div.querySelector('.ask-ai-add-btn').onclick = function() {
+        var tasks = lsGet(taskInfo.key, []);
+        tasks.push({ text: line, done: false });
+        lsSet(taskInfo.key, tasks);
+        renderTasks(taskInfo.key, taskInfo.id);
+        if (taskInfo.key === 'tcf_home_tasks') updateDonut();
+        var btn = document.getElementById('ai-add-'+i);
+        btn.textContent = 'Added!';
+        btn.classList.add('added');
+        btn.disabled = true;
+      };
+      resultsEl.appendChild(div);
+    });
+  })
+  .catch(function(err) {
+    sendBtn.disabled = false;
+    sendBtn.textContent = 'Ask';
+    resultsEl.innerHTML = '<div class="ask-ai-error">Connection error. Check your API key and try again.</div>';
+  });
+}
 </script>
+
+<!-- ASK AI BUTTON + PANEL -->
+<button class="ask-ai-fab" onclick="toggleAskAI()">Ask AI</button>
+
+<div id="ask-ai-panel" class="ask-ai-panel">
+  <div class="ask-ai-panel-header">
+    <div class="ask-ai-panel-title">Ask AI — Get Tasks & Ideas</div>
+    <button class="ask-ai-close" onclick="toggleAskAI()">×</button>
+  </div>
+  <div id="ask-ai-context-tag" class="ask-ai-context-tag">Home</div>
+  <div id="ask-ai-key-section" class="ask-ai-key-row" style="display:none;">
+    <span style="color:var(--muted);white-space:nowrap;">OpenAI Key:</span>
+    <input type="password" id="ask-ai-key-input" class="ask-ai-key-input" placeholder="sk-...">
+    <button class="ask-ai-key-save" onclick="saveAIKey()">Save</button>
+  </div>
+  <div class="ask-ai-input-row">
+    <input type="text" id="ask-ai-input" class="ask-ai-input"
+      placeholder="What should I focus on today? What should I post?"
+      onkeydown="if(event.key==='Enter')sendAIQuestion()">
+    <button class="ask-ai-send" id="ask-ai-send-btn" onclick="sendAIQuestion()">Ask</button>
+  </div>
+  <div id="ask-ai-results" class="ask-ai-results"></div>
+</div>
+
 </body>
 </html>
