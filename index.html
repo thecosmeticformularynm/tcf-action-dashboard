@@ -1581,19 +1581,26 @@ function addContact() {
 // SCHEDULE
 // ============================================================
 var DEFAULT_SCHEDULE = [
-  { time: '8:00 AM', text: 'Morning routine — skin care + journaling 🌸' },
-  { time: '9:00 AM', text: 'Email triage + vendor messages 📧' },
-  { time: '10:00 AM', text: 'Deep work block — formulas + product dev 🧪' },
-  { time: '11:00 AM', text: 'Team check-ins / calls 📞' },
-  { time: '12:00 PM', text: 'Lunch break — step outside 🌿' },
-  { time: '1:00 PM', text: 'Content creation / social media 📱' },
-  { time: '2:00 PM', text: 'Operations + admin tasks ⚙️' },
-  { time: '3:00 PM', text: 'Creative planning + R&D time ✨' },
-  { time: '4:00 PM', text: 'Meetings / calls block 🤝' },
-  { time: '5:00 PM', text: 'Wrap up + tomorrow planning 📋' },
-  { time: '6:00 PM', text: 'Personal time — wellness / family 💕' },
-  { time: '7:00 PM', text: 'Wind down — reading / relaxing 📖' },
-  { time: '8:00 PM', text: 'Evening routine — self-care 🛁' },
+  { time: '4:30 AM', text: 'Wake up — quiet time, prayer & intention setting' },
+  { time: '5:00 AM', text: 'Morning movement — workout or walk' },
+  { time: '5:45 AM', text: 'Shower + get ready' },
+  { time: '6:15 AM', text: 'Breakfast + vitamins' },
+  { time: '6:45 AM', text: 'Journaling + review daily goals' },
+  { time: '7:30 AM', text: 'Deep work block — formulas, product dev, R&D' },
+  { time: '8:30 AM', text: 'Email triage + respond to vendors & team' },
+  { time: '9:30 AM', text: 'Brand work — TCF / Nevoo / Daily Rou / Skin Axis' },
+  { time: '10:30 AM', text: 'Calls, meetings & collaborations' },
+  { time: '11:30 AM', text: 'Operations + admin tasks' },
+  { time: '12:30 PM', text: 'Lunch break — step away from the screen' },
+  { time: '1:30 PM', text: 'Content creation — filming, writing, scheduling' },
+  { time: '2:30 PM', text: 'Creative planning + strategy sessions' },
+  { time: '3:30 PM', text: 'Finance review + vendor follow-ups' },
+  { time: '4:30 PM', text: 'Team check-ins + Pauly sync' },
+  { time: '5:30 PM', text: 'Wrap up + plan tomorrow' },
+  { time: '6:00 PM', text: 'Personal time — family, wellness, errands' },
+  { time: '6:45 PM', text: 'Dinner' },
+  { time: '7:15 PM', text: 'Wind down — reading, relaxing, self-care' },
+  { time: '8:00 PM', text: 'Evening routine — skin care + rest' },
 ];
 
 function renderSchedule() {
@@ -1856,6 +1863,9 @@ var DEFAULTS = {
 };
 
 function ensureDefaults() {
+  // Force reset schedule to new 4:30am version
+  var schedVer = localStorage.getItem('tcf_schedule_ver');
+  if (schedVer !== '2') { localStorage.removeItem('tcf_schedule'); localStorage.setItem('tcf_schedule_ver','2'); }
   Object.keys(DEFAULTS).forEach(function(key) {
     if (localStorage.getItem(key) === null) {
       lsSet(key, DEFAULTS[key]);
