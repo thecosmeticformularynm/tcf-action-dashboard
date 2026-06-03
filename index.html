@@ -4400,15 +4400,32 @@ var smartCalYear = 2026;
 var smartCalMonth = 5; // 0-indexed, so 5 = June
 var smartCalSelectedDate = null;
 var smartCalCustomEvents = JSON.parse(localStorage.getItem('tcf_smart_cal') || '{}');
+var smartCalHidden = JSON.parse(localStorage.getItem('tcf_smart_cal_hidden') || '[]');
 
 function smartCalKey(y, m, d) {
   return y + '-' + String(m+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
 }
 
 function smartCalGetEvents(dateStr) {
-  var base = SMART_CAL_EVENTS[dateStr] || [];
+  var base = (SMART_CAL_EVENTS[dateStr] || []).filter(function(ev) {
+    return smartCalHidden.indexOf(dateStr + '::' + ev.title) === -1;
+  });
   var custom = smartCalCustomEvents[dateStr] || [];
   return base.concat(custom);
+}
+
+function smartCalDeleteEvent(dateStr, title, isCustom) {
+  if (isCustom) {
+    var arr = smartCalCustomEvents[dateStr] || [];
+    smartCalCustomEvents[dateStr] = arr.filter(function(ev){ return ev.title !== title; });
+    localStorage.setItem('tcf_smart_cal', JSON.stringify(smartCalCustomEvents));
+  } else {
+    var key = dateStr + '::' + title;
+    if (smartCalHidden.indexOf(key) === -1) smartCalHidden.push(key);
+    localStorage.setItem('tcf_smart_cal_hidden', JSON.stringify(smartCalHidden));
+  }
+  smartCalSelectDay(dateStr);
+  smartCalRender();
 }
 
 function smartCalRender() {
@@ -4588,10 +4605,20 @@ function smartCalSelectDay(dateStr) {
       gcalLink.innerHTML = '📅 + Google Cal';
       gcalLink.title = 'Add to Google Calendar';
 
+      // Delete button
+      var delBtn = document.createElement('button');
+      delBtn.innerHTML = '🗑';
+      delBtn.title = 'Remove from calendar';
+      delBtn.style.cssText = 'background:none;border:none;cursor:pointer;font-size:0.9rem;opacity:0.45;padding:2px 4px;border-radius:6px;transition:opacity 0.15s;';
+      delBtn.onmouseover = function(){ delBtn.style.opacity='1'; };
+      delBtn.onmouseout = function(){ delBtn.style.opacity='0.45'; };
+      (function(d, t, isC){ delBtn.onclick = function(e){ e.stopPropagation(); if(confirm('Remove "'+t+'" from your calendar?')){ smartCalDeleteEvent(d,t,isC); } }; })(dateStr, ev.title, ev.type==='custom');
+
       div.appendChild(checkBtn);
       div.appendChild(dot);
       div.appendChild(textDiv);
       div.appendChild(gcalLink);
+      div.appendChild(delBtn);
       detailEvents.appendChild(div);
     });
   }
