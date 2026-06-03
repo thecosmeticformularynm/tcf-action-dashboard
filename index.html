@@ -1920,6 +1920,9 @@
           <tbody id="contacts-body"></tbody>
         </table>
         <button class="add-btn" onclick="addContact()" style="margin-top:14px;">＋ Add contact</button>
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
+          <a href="https://docs.google.com/document/d/1XsECOzEelr7zeNIQzcn-87Sl0hCwHplhNS_1d80qNd8/edit" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:0.8rem;font-weight:800;color:var(--blue);text-decoration:none;padding:6px 14px;border-radius:999px;background:rgba(79,126,247,0.08);border:1px solid rgba(79,126,247,0.2);">📋 Open Full Contact Doc</a>
+        </div>
       </div>
       <div class="card">
         <div class="card-title">General Ops Files</div>
@@ -1972,6 +1975,11 @@
     <div class="world-hero">
       <h2>Nicole's World</h2>
       <p>Every folder, every brand — all in one place. Click any folder to open it. Click the pencil to update the link.</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap;">
+        <a href="https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:999px;background:linear-gradient(135deg,#FF5BAE,#4F7EF7);color:#fff;font-weight:800;font-size:0.85rem;text-decoration:none;">📂 Open My Google Drive</a>
+        <button onclick="refreshWorldFiles()" id="world-refresh-btn" style="padding:8px 16px;border-radius:999px;border:1.5px solid var(--border);background:var(--pill-bg);font-family:inherit;font-size:0.82rem;font-weight:800;cursor:pointer;color:var(--text);">⟳ Refresh Files</button>
+        <span id="world-refresh-status" style="font-size:0.78rem;color:var(--muted);font-weight:600;"></span>
+      </div>
     </div>
 
     <!-- BRAND FOLDERS -->
@@ -2459,9 +2467,10 @@ function updateDonut() {
 // CONTACTS
 // ============================================================
 var DEFAULT_CONTACTS = [
-  { role: 'Lab Partner', name: 'Dr. Chen', email: 'lab@example.com' },
+  { role: 'CEO / Co-Founder', name: 'Pauly Lieber', email: 'pauly@thecosmeticformulary.com' },
+  { role: 'Executive Assistant', name: 'Rashell Klavinger', email: 'sales@thecosmeticformulary.com' },
+  { role: 'Design', name: 'Katherine Fox', email: 'design@thecosmeticformulary.com' },
   { role: 'Packaging', name: 'McKernan', email: 'orders@mckernan.com' },
-  { role: 'Accountant', name: 'TBD', email: '' },
 ];
 
 function renderContacts() {
@@ -2870,6 +2879,12 @@ function ensureDefaults() {
   if (filesVer !== '3') {
     ['tcf_files_tcf','tcf_files_nevoo','tcf_files_dailyrou','tcf_files_skinaxis','tcf_files_content','tcf_files_ops'].forEach(function(k){ localStorage.removeItem(k); });
     localStorage.setItem('tcf_files_ver','3');
+  }
+  // Force reset contacts to real TCF contacts
+  var contactsVer = localStorage.getItem('tcf_contacts_ver');
+  if (contactsVer !== '2') {
+    localStorage.removeItem('tcf_contacts');
+    localStorage.setItem('tcf_contacts_ver', '2');
   }
   // Force reset brand tasks to real tasks (Notion-linked v4)
   var brandTaskVer = localStorage.getItem('tcf_brand_tasks_ver');
@@ -5148,6 +5163,83 @@ function globalSearch(query) {
     results.appendChild(more);
   }
 }
+
+// ============================================================
+// NICOLE'S WORLD — DRIVE FILE REFRESH
+// ============================================================
+// Drive API needs OAuth which can't run in a static page.
+// Instead: we poll Notion (already connected) for any new links/files
+// mentioned there, and keep the world grids updated. We also expose
+// a manual "Refresh Files" button that re-renders all grids fresh
+// and shows the last-checked time.
+
+function refreshWorldFiles() {
+  var btn = document.getElementById('world-refresh-btn');
+  var status = document.getElementById('world-refresh-status');
+  if (btn) { btn.textContent = '⟳ Refreshing…'; btn.disabled = true; }
+
+  // Re-render all world grids from WORLD_DATA (picks up any URL overrides from localStorage)
+  Object.keys(WORLD_DATA).forEach(function(gridId) {
+    if (document.getElementById(gridId)) renderWorldGrid(gridId, WORLD_DATA[gridId]);
+  });
+
+  // Also pull Notion to surface any new Drive links Nicole added
+  var token = localStorage.getItem('tcf_notion_token');
+  if (token) {
+    fetch('https://api.notion.com/v1/blocks/37359568-98b5-8057-86be-e0f0dda01855/children?page_size=100', {
+      headers: { 'Authorization': 'Bearer ' + token, 'Notion-Version': '2022-06-28' }
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      // Extract any drive links from Notion blocks
+      var newLinks = [];
+      (data.results || []).forEach(function(b) {
+        var content = b[b.type] || {};
+        var text = (content.rich_text || []).map(function(t){ return t.plain_text; }).join('').trim();
+        var url = content.url || '';
+        // link_preview blocks have a url property
+        if (b.type === 'link_preview' && url && url.indexOf('drive.google.com') !== -1) {
+          newLinks.push({ name: 'Drive Link (Notion)', url: url });
+        }
+        // Check rich text for embedded drive links
+        (content.rich_text || []).forEach(function(rt) {
+          var href = (rt.href || '') || ((rt.annotations || {}).href || '');
+          if (href && href.indexOf('drive.google.com') !== -1) {
+            newLinks.push({ name: text || 'Drive File', url: href });
+          }
+        });
+      });
+
+      // Surface any new Notion-sourced drive links in the ops grid
+      if (newLinks.length) {
+        var existingOps = WORLD_DATA['world-ops-grid'].map(function(i){ return i.url; });
+        newLinks.forEach(function(link) {
+          if (existingOps.indexOf(link.url) === -1) {
+            WORLD_DATA['world-ops-grid'].push({ icon:'🔗', name: link.name, sub: 'Added from Notion', url: link.url });
+          }
+        });
+        renderWorldGrid('world-ops-grid', WORLD_DATA['world-ops-grid']);
+      }
+
+      if (btn) { btn.textContent = '⟳ Refresh Files'; btn.disabled = false; }
+      if (status) status.innerHTML = '<span style="color:#27a87a;font-weight:800;">✓ Up to date</span> · ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    })
+    .catch(function() {
+      if (btn) { btn.textContent = '⟳ Refresh Files'; btn.disabled = false; }
+      if (status) status.textContent = 'Refreshed · ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    });
+  } else {
+    if (btn) { btn.textContent = '⟳ Refresh Files'; btn.disabled = false; }
+    if (status) status.textContent = 'Refreshed · ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  }
+}
+
+// Auto-refresh Nicole's World every 5 minutes when on that tab
+setInterval(function() {
+  if (document.getElementById('tab-world') && document.getElementById('tab-world').classList.contains('active')) {
+    refreshWorldFiles();
+  }
+}, 300000);
 </script>
 
 <!-- ASK AI BUTTON + PANEL -->
