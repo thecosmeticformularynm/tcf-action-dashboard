@@ -1256,6 +1256,14 @@
     <button class="nav-tab" onclick="showTab('links',this)">Links</button>
     <button class="nav-tab" onclick="showTab('personal',this)">Personal</button>
   </div>
+  <!-- GLOBAL SEARCH -->
+  <div style="position:relative;flex:1;max-width:340px;min-width:160px;">
+    <input id="global-search-input" type="text" placeholder="🔍 Search tasks, files, events…" oninput="globalSearch(this.value)" onfocus="document.getElementById('global-search-results').style.display='block'" onblur="setTimeout(function(){document.getElementById('global-search-results').style.display='none'},200)"
+      style="width:100%;padding:8px 16px;border-radius:999px;border:1.5px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:0.85rem;font-weight:600;color:var(--text);outline:none;box-sizing:border-box;transition:border-color 0.2s;"
+      onfocus="this.style.borderColor='var(--pink)';document.getElementById('global-search-results').style.display='block'"
+      onblur="this.style.borderColor='var(--border)';setTimeout(function(){document.getElementById('global-search-results').style.display='none'},200)">
+    <div id="global-search-results" style="display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card-bg);border:1.5px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(79,126,247,0.12);max-height:360px;overflow-y:auto;z-index:999;"></div>
+  </div>
   <button id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
 </div>
 
@@ -1825,6 +1833,25 @@
 
   <!-- ===== OPERATIONS TAB ===== -->
   <div id="tab-ops" class="tab-panel">
+
+    <!-- OPS PIE CHART -->
+    <div class="card" style="margin-bottom:24px;display:flex;align-items:center;gap:40px;flex-wrap:wrap;">
+      <div style="flex-shrink:0;">
+        <svg id="ops-pie" width="160" height="160" viewBox="0 0 160 160" style="display:block;"></svg>
+      </div>
+      <div style="flex:1;min-width:180px;">
+        <div class="card-title" style="margin-bottom:12px;">Operations Progress</div>
+        <div id="ops-pie-legend" style="display:flex;flex-direction:column;gap:10px;"></div>
+      </div>
+      <div style="flex-shrink:0;text-align:center;">
+        <div style="font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,#FF5BAE,#4F7EF7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;" id="ops-pie-total-pct">0%</div>
+        <div style="font-size:0.8rem;font-weight:700;color:var(--muted);">Overall Complete</div>
+        <div style="margin-top:8px;">
+          <button onclick="notionPollNow()" style="padding:6px 14px;border-radius:999px;border:none;background:linear-gradient(135deg,#1A1A2E,#4F7EF7);color:white;font-size:0.78rem;font-weight:800;cursor:pointer;font-family:inherit;" id="notion-live-btn">⟳ Sync Notion</button>
+          <div id="notion-live-status" style="font-size:0.72rem;color:var(--muted);font-weight:600;margin-top:4px;"></div>
+        </div>
+      </div>
+    </div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-bottom:24px;">
 
@@ -4820,6 +4847,270 @@ function socialCalPrev() { socialCalMonth--; if(socialCalMonth<0){socialCalMonth
 function socialCalNext() { socialCalMonth++; if(socialCalMonth>11){socialCalMonth=0;socialCalYear++;} socialCalSelectedDate=null; document.getElementById('social-cal-detail').style.display='none'; socialCalRender(); }
 
 setTimeout(function(){ socialCalRender(); }, 150);
+
+// ============================================================
+// OPS PIE CHART
+// ============================================================
+var OPS_SECTIONS = [
+  { key: 'tcf_ops_facility',  label: 'Facility',        color: '#FF5BAE' },
+  { key: 'tcf_ops_sip',       label: 'Sip & Formulate', color: '#4F7EF7' },
+  { key: 'tcf_ops_retail',    label: 'Retail Space',    color: '#27a87a' }
+];
+
+function opsPieData() {
+  return OPS_SECTIONS.map(function(s) {
+    var tasks = lsGet(s.key, []);
+    var done = tasks.filter(function(t){ return t.done; }).length;
+    return { label: s.label, color: s.color, done: done, total: tasks.length };
+  });
+}
+
+function drawOpsPie() {
+  var svg = document.getElementById('ops-pie');
+  var legend = document.getElementById('ops-pie-legend');
+  var totalPct = document.getElementById('ops-pie-total-pct');
+  if (!svg) return;
+  var data = opsPieData();
+  var totalDone = data.reduce(function(a,b){ return a+b.done; }, 0);
+  var totalAll  = data.reduce(function(a,b){ return a+b.total; }, 0);
+  var overallPct = totalAll ? Math.round(totalDone/totalAll*100) : 0;
+  if (totalPct) totalPct.textContent = overallPct + '%';
+
+  // Build pie slices
+  var cx = 80, cy = 80, r = 68, innerR = 40;
+  var total = data.reduce(function(a,b){ return a + (b.total || 1); }, 0);
+  var startAngle = -Math.PI / 2;
+  var paths = '';
+  data.forEach(function(seg) {
+    var sliceSize = (seg.total || 1) / total;
+    var endAngle = startAngle + sliceSize * 2 * Math.PI;
+    var x1 = cx + r * Math.cos(startAngle), y1 = cy + r * Math.sin(startAngle);
+    var x2 = cx + r * Math.cos(endAngle),   y2 = cy + r * Math.sin(endAngle);
+    var ix1 = cx + innerR * Math.cos(startAngle), iy1 = cy + innerR * Math.sin(startAngle);
+    var ix2 = cx + innerR * Math.cos(endAngle),   iy2 = cy + innerR * Math.sin(endAngle);
+    var large = sliceSize > 0.5 ? 1 : 0;
+    var pct = seg.total ? Math.round(seg.done/seg.total*100) : 0;
+    // Filled portion
+    var fillEnd = startAngle + sliceSize * 2 * Math.PI * (pct/100);
+    var fx = cx + r * Math.cos(fillEnd), fy = cy + r * Math.sin(fillEnd);
+    var ifx = cx + innerR * Math.cos(fillEnd), ify = cy + innerR * Math.sin(fillEnd);
+    var fillLarge = (sliceSize * pct/100) > 0.5 ? 1 : 0;
+    // Grey background slice
+    paths += '<path d="M'+ix1+','+iy1+' L'+x1+','+y1+' A'+r+','+r+' 0 '+large+',1 '+x2+','+y2+' L'+ix2+','+iy2+' A'+innerR+','+innerR+' 0 '+large+',0 '+ix1+','+iy1+' Z" fill="'+seg.color+'" opacity="0.15"/>';
+    // Filled progress slice
+    if (pct > 0) {
+      paths += '<path d="M'+ix1+','+iy1+' L'+x1+','+y1+' A'+r+','+r+' 0 '+fillLarge+',1 '+fx+','+fy+' L'+ifx+','+ify+' A'+innerR+','+innerR+' 0 '+fillLarge+',0 '+ix1+','+iy1+' Z" fill="'+seg.color+'" opacity="0.9"/>';
+    }
+    startAngle = endAngle;
+  });
+  svg.innerHTML = paths + '<circle cx="80" cy="80" r="38" fill="var(--card-bg)"/>' +
+    '<text x="80" y="76" text-anchor="middle" font-size="18" font-weight="900" fill="var(--text)">' + overallPct + '%</text>' +
+    '<text x="80" y="92" text-anchor="middle" font-size="9" font-weight="700" fill="var(--muted)">complete</text>';
+
+  // Legend
+  if (legend) {
+    legend.innerHTML = '';
+    data.forEach(function(seg) {
+      var pct = seg.total ? Math.round(seg.done/seg.total*100) : 0;
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:center;gap:10px;';
+      row.innerHTML = '<div style="width:12px;height:12px;border-radius:3px;background:'+seg.color+';flex-shrink:0;"></div>' +
+        '<div style="flex:1;font-size:0.85rem;font-weight:700;color:var(--text);">'+seg.label+'</div>' +
+        '<div style="font-size:0.8rem;font-weight:800;color:'+seg.color+';">'+pct+'%</div>' +
+        '<div style="font-size:0.75rem;color:var(--muted);font-weight:600;">('+seg.done+'/'+seg.total+')</div>';
+      legend.appendChild(row);
+    });
+  }
+}
+
+// Redraw pie whenever ops tasks change
+var _origRenderTasks = renderTasks;
+renderTasks = function(key, id) {
+  _origRenderTasks(key, id);
+  if (key && key.indexOf('tcf_ops_') === 0) setTimeout(drawOpsPie, 50);
+};
+setTimeout(drawOpsPie, 300);
+
+// ============================================================
+// NOTION LIVE POLLING (every 60 seconds)
+// ============================================================
+var notionPollInterval = null;
+var notionLastBlocks = null;
+
+function notionPollNow() {
+  var token = localStorage.getItem('tcf_notion_token');
+  if (!token) return;
+  var pageId = '3375956898b5806fa77ff52b67ed706f';
+  var statusEl = document.getElementById('notion-live-status');
+  var btn = document.getElementById('notion-live-btn');
+  if (btn) btn.textContent = '⟳ Syncing…';
+  fetch('https://api.notion.com/v1/blocks/' + pageId.replace(/(\w{8})(\w{4})(\w{4})(\w{4})(\w{12})/, '$1-$2-$3-$4-$5') + '/children?page_size=100', {
+    headers: { 'Authorization': 'Bearer ' + token, 'Notion-Version': '2022-06-28' }
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    if (btn) btn.textContent = '⟳ Sync Notion';
+    var blocks = data.results || [];
+    var sig = JSON.stringify(blocks.map(function(b){ return b.id + (b.to_do ? b.to_do.checked : ''); }));
+    if (sig === notionLastBlocks) {
+      if (statusEl) statusEl.textContent = 'Up to date · ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+      return;
+    }
+    notionLastBlocks = sig;
+
+    // Extract to_dos by section
+    var current_section = 'general';
+    var sectionMap = { 'PAULY': 'pauly', 'TCF': 'tcf', 'SIP': 'sip', 'SKIN': 'skinaxis', 'DAILY': 'daily' };
+    var buckets = { pauly:[], tcf:[], sip:[], skinaxis:[], daily:[], general:[] };
+
+    blocks.forEach(function(block) {
+      var btype = block.type;
+      var content = block[btype] || {};
+      var text = (content.rich_text || []).map(function(t){ return t.plain_text; }).join('').trim();
+
+      if (btype === 'paragraph' || btype === 'heading_1' || btype === 'heading_2' || btype === 'heading_3') {
+        var up = text.toUpperCase();
+        Object.keys(sectionMap).forEach(function(k){ if (up.indexOf(k) !== -1) current_section = sectionMap[k]; });
+      }
+      if (btype === 'to_do' && text) {
+        var item = { text: text, done: content.checked || false, notionBlock: block.id };
+        if (buckets[current_section]) buckets[current_section].push(item);
+        else buckets.general.push(item);
+      }
+    });
+
+    // Merge into ops task lists — add new Notion items not already present
+    function mergeNotionIntoOps(storageKey, listId, notionItems) {
+      var existing = lsGet(storageKey, []);
+      var changed = false;
+      notionItems.forEach(function(ni) {
+        var found = existing.find(function(t){ return t.text.replace(/^[🔴🟡🟢]\s*/,'').toLowerCase() === ni.text.toLowerCase(); });
+        if (!found) {
+          existing.push({ text: ni.text, done: ni.done });
+          changed = true;
+        } else if (found.done !== ni.done) {
+          found.done = ni.done;
+          changed = true;
+        }
+      });
+      if (changed) {
+        lsSet(storageKey, existing);
+        renderTasks(storageKey, listId);
+      }
+    }
+
+    mergeNotionIntoOps('tcf_ops_sip',      'ops-sip-tasks',      buckets.sip);
+    mergeNotionIntoOps('tcf_brand_skinaxis','brand-skinaxis-tasks', buckets.skinaxis);
+    mergeNotionIntoOps('tcf_home_tasks',    'home-tasks',         buckets.daily);
+    mergeNotionIntoOps('tcf_brand_tcf',     'brand-tcf-tasks',    buckets.tcf);
+
+    if (statusEl) statusEl.innerHTML = '<span style="color:#27a87a;font-weight:800;">✓ Notion synced</span> · ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    drawOpsPie();
+  })
+  .catch(function(){ if (btn) btn.textContent = '⟳ Sync Notion'; });
+}
+
+function startNotionLivePoll() {
+  notionPollNow();
+  if (notionPollInterval) clearInterval(notionPollInterval);
+  notionPollInterval = setInterval(notionPollNow, 60000); // every 60 seconds
+}
+setTimeout(startNotionLivePoll, 500);
+
+// ============================================================
+// GLOBAL SEARCH
+// ============================================================
+function globalSearch(query) {
+  var results = document.getElementById('global-search-results');
+  if (!results) return;
+  query = query.trim().toLowerCase();
+  if (!query) { results.innerHTML = ''; results.style.display = 'none'; return; }
+  results.style.display = 'block';
+
+  var hits = [];
+
+  // Search all task lists
+  var taskSources = [
+    { key:'tcf_home_tasks', label:'Today\'s Focus', tab:'home', icon:'🏠' },
+    { key:'tcf_brand_tcf', label:'TCF Tasks', tab:'brands', icon:'💄' },
+    { key:'tcf_brand_nevoo', label:'NEVOO Tasks', tab:'brands', icon:'🌿' },
+    { key:'tcf_brand_dailyrou', label:'Rinse & Repeat Tasks', tab:'brands', icon:'💧' },
+    { key:'tcf_brand_skinaxis', label:'Skin Axis Tasks', tab:'brands', icon:'💙' },
+    { key:'tcf_tasks_content', label:'Content Tasks', tab:'content', icon:'📱' },
+    { key:'tcf_ops_facility', label:'Facility Tasks', tab:'ops', icon:'🏭' },
+    { key:'tcf_ops_sip', label:'Sip & Formulate Tasks', tab:'ops', icon:'🧪' },
+    { key:'tcf_ops_retail', label:'Retail Tasks', tab:'ops', icon:'🏪' },
+    { key:'tcf_personal_todos', label:'Personal', tab:'personal', icon:'🌸' }
+  ];
+  taskSources.forEach(function(src) {
+    var tasks = lsGet(src.key, []);
+    tasks.forEach(function(t) {
+      if (t.text && t.text.toLowerCase().indexOf(query) !== -1) {
+        hits.push({ icon: src.icon, label: src.label, text: t.text, tab: src.tab, type: 'task', done: t.done });
+      }
+    });
+  });
+
+  // Search smart calendar events
+  var allDates = Object.keys(SMART_CAL_EVENTS);
+  allDates.forEach(function(d) {
+    (SMART_CAL_EVENTS[d] || []).forEach(function(ev) {
+      if ((ev.title + ' ' + (ev.desc||'')).toLowerCase().indexOf(query) !== -1) {
+        hits.push({ icon: '📅', label: 'Calendar · ' + d, text: ev.title, tab: 'calendar', type: 'event' });
+      }
+    });
+  });
+
+  // Search file/link lists
+  var fileSources = [
+    { key:'tcf_files_facility', label:'Facility Files', icon:'📁' },
+    { key:'tcf_files_sip', label:'Sip Files', icon:'📁' },
+    { key:'tcf_files_retail', label:'Retail Files', icon:'📁' },
+    { key:'tcf_files_ops', label:'Ops Files', icon:'📁' }
+  ];
+  fileSources.forEach(function(src) {
+    var files = lsGet(src.key, []);
+    files.forEach(function(f) {
+      var name = typeof f === 'string' ? f : (f.name || f.url || '');
+      if (name.toLowerCase().indexOf(query) !== -1) {
+        hits.push({ icon: src.icon, label: src.label, text: name, tab: 'ops', type: 'file' });
+      }
+    });
+  });
+
+  if (!hits.length) {
+    results.innerHTML = '<div style="padding:14px 16px;color:var(--muted);font-size:0.88rem;font-weight:600;">No results for "' + query + '"</div>';
+    return;
+  }
+
+  results.innerHTML = '';
+  hits.slice(0, 12).forEach(function(hit) {
+    var div = document.createElement('div');
+    div.style.cssText = 'padding:10px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid var(--border);transition:background 0.15s;' + (hit.done ? 'opacity:0.5;' : '');
+    div.onmouseover = function(){ div.style.background = 'var(--pill-bg)'; };
+    div.onmouseout  = function(){ div.style.background = ''; };
+    var hi = hit.text.replace(new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'), '<mark style="background:rgba(255,91,174,0.2);border-radius:3px;padding:0 2px;">$1</mark>');
+    div.innerHTML = '<span style="font-size:1rem;flex-shrink:0;">' + hit.icon + '</span>' +
+      '<div style="flex:1;min-width:0;">' +
+        '<div style="font-size:0.78rem;font-weight:700;color:var(--muted);">' + hit.label + '</div>' +
+        '<div style="font-size:0.88rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + hi + '</div>' +
+      '</div>' +
+      '<span style="font-size:0.72rem;color:var(--muted);font-weight:700;text-transform:uppercase;">' + hit.type + '</span>';
+    div.onclick = function() {
+      var tabBtn = document.querySelector('.nav-tab[onclick*=\''+hit.tab+'\']');
+      if (tabBtn) tabBtn.click();
+      document.getElementById('global-search-input').value = '';
+      results.style.display = 'none';
+    };
+    results.appendChild(div);
+  });
+  if (hits.length > 12) {
+    var more = document.createElement('div');
+    more.style.cssText = 'padding:8px 16px;color:var(--muted);font-size:0.8rem;font-weight:600;text-align:center;';
+    more.textContent = '+ ' + (hits.length - 12) + ' more results…';
+    results.appendChild(more);
+  }
+}
 </script>
 
 <!-- ASK AI BUTTON + PANEL -->
