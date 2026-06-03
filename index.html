@@ -1856,56 +1856,77 @@
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-bottom:24px;">
 
       <!-- FACILITY -->
-      <div class="card" style="border-top:3px solid #FF5BAE;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-          <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#FF5BAE,#c44dff);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏭</div>
-          <div>
-            <div class="card-title" style="margin-bottom:0;">Facility</div>
-            <div style="font-size:0.78rem;color:var(--muted);font-weight:600;">FDA · DHEC · Compliance · Buildout</div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="card" style="border-top:3px solid #FF5BAE;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+            <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#FF5BAE,#c44dff);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏭</div>
+            <div>
+              <div class="card-title" style="margin-bottom:0;">Facility</div>
+              <div style="font-size:0.78rem;color:var(--muted);font-weight:600;">FDA · DHEC · Compliance · Buildout</div>
+            </div>
+          </div>
+          <ul class="task-list" id="ops-facility-tasks"></ul>
+          <button class="add-btn" onclick="addTask('tcf_ops_facility','ops-facility-tasks')">＋ Add task</button>
+          <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">
+            <div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Files &amp; Links</div>
+            <ul class="file-list" id="ops-facility-files"></ul>
+            <button class="add-btn" onclick="addFile('tcf_files_facility','ops-facility-files')" style="margin-top:8px;font-size:0.82rem;padding:6px 14px;">＋ Add link</button>
           </div>
         </div>
-        <ul class="task-list" id="ops-facility-tasks"></ul>
-        <button class="add-btn" onclick="addTask('tcf_ops_facility','ops-facility-tasks')">＋ Add task</button>
-        <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">
-          <div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Files &amp; Links</div>
-          <ul class="file-list" id="ops-facility-files"></ul>
-          <button class="add-btn" onclick="addFile('tcf_files_facility','ops-facility-files')" style="margin-top:8px;font-size:0.82rem;padding:6px 14px;">＋ Add link</button>
+        <div style="border-radius:14px;padding:14px 16px;background:rgba(255,91,174,0.04);border:1.5px dashed rgba(255,91,174,0.25);">
+          <div style="font-size:0.72rem;font-weight:900;color:#e03a8b;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px;">✦ Recommended by Dashboard</div>
+          <ul class="task-list" id="ops-facility-rec-tasks"></ul>
+          <button class="add-btn" onclick="addTask('tcf_ops_facility_rec','ops-facility-rec-tasks')" style="font-size:0.78rem;padding:5px 12px;">＋ Add</button>
         </div>
       </div>
 
       <!-- SIP & FORMULATE -->
-      <div class="card" style="border-top:3px solid #4F7EF7;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-          <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#4F7EF7,#c44dff);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🧪</div>
-          <div>
-            <div class="card-title" style="margin-bottom:0;">Sip &amp; Formulate</div>
-            <div style="font-size:0.78rem;color:var(--muted);font-weight:600;">Classes · Events · Launch · Booking</div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="card" style="border-top:3px solid #4F7EF7;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+            <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#4F7EF7,#c44dff);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🧪</div>
+            <div>
+              <div class="card-title" style="margin-bottom:0;">Sip &amp; Formulate</div>
+              <div style="font-size:0.78rem;color:var(--muted);font-weight:600;">Classes · Events · Launch · Booking</div>
+            </div>
+          </div>
+          <ul class="task-list" id="ops-sip-tasks"></ul>
+          <button class="add-btn" onclick="addTask('tcf_ops_sip','ops-sip-tasks')">＋ Add task</button>
+          <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">
+            <div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Files &amp; Links</div>
+            <ul class="file-list" id="ops-sip-files"></ul>
+            <button class="add-btn" onclick="addFile('tcf_files_sip','ops-sip-files')" style="margin-top:8px;font-size:0.82rem;padding:6px 14px;">＋ Add link</button>
           </div>
         </div>
-        <ul class="task-list" id="ops-sip-tasks"></ul>
-        <button class="add-btn" onclick="addTask('tcf_ops_sip','ops-sip-tasks')">＋ Add task</button>
-        <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">
-          <div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Files &amp; Links</div>
-          <ul class="file-list" id="ops-sip-files"></ul>
-          <button class="add-btn" onclick="addFile('tcf_files_sip','ops-sip-files')" style="margin-top:8px;font-size:0.82rem;padding:6px 14px;">＋ Add link</button>
+        <div style="border-radius:14px;padding:14px 16px;background:rgba(79,126,247,0.04);border:1.5px dashed rgba(79,126,247,0.25);">
+          <div style="font-size:0.72rem;font-weight:900;color:#4F7EF7;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px;">✦ Recommended by Dashboard</div>
+          <ul class="task-list" id="ops-sip-rec-tasks"></ul>
+          <button class="add-btn" onclick="addTask('tcf_ops_sip_rec','ops-sip-rec-tasks')" style="font-size:0.78rem;padding:5px 12px;">＋ Add</button>
         </div>
       </div>
 
       <!-- RETAIL SPACE -->
-      <div class="card" style="border-top:3px solid #27a87a;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-          <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#27a87a,#4F7EF7);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏪</div>
-          <div>
-            <div class="card-title" style="margin-bottom:0;">Retail Space</div>
-            <div style="font-size:0.78rem;color:var(--muted);font-weight:600;">King Street · Spa · Interior · Shelving</div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="card" style="border-top:3px solid #27a87a;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+            <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#27a87a,#4F7EF7);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🏪</div>
+            <div>
+              <div class="card-title" style="margin-bottom:0;">Retail Space</div>
+              <div style="font-size:0.78rem;color:var(--muted);font-weight:600;">King Street · Spa · Interior · Shelving</div>
+            </div>
+          </div>
+          <ul class="task-list" id="ops-retail-tasks"></ul>
+          <button class="add-btn" onclick="addTask('tcf_ops_retail','ops-retail-tasks')">＋ Add task</button>
+          <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">
+            <div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Files &amp; Links</div>
+            <ul class="file-list" id="ops-retail-files"></ul>
+            <button class="add-btn" onclick="addFile('tcf_files_retail','ops-retail-files')" style="margin-top:8px;font-size:0.82rem;padding:6px 14px;">＋ Add link</button>
           </div>
         </div>
-        <ul class="task-list" id="ops-retail-tasks"></ul>
-        <button class="add-btn" onclick="addTask('tcf_ops_retail','ops-retail-tasks')">＋ Add task</button>
-        <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">
-          <div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Files &amp; Links</div>
-          <ul class="file-list" id="ops-retail-files"></ul>
-          <button class="add-btn" onclick="addFile('tcf_files_retail','ops-retail-files')" style="margin-top:8px;font-size:0.82rem;padding:6px 14px;">＋ Add link</button>
+        <div style="border-radius:14px;padding:14px 16px;background:rgba(39,168,122,0.04);border:1.5px dashed rgba(39,168,122,0.25);">
+          <div style="font-size:0.72rem;font-weight:900;color:#27a87a;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px;">✦ Recommended by Dashboard</div>
+          <ul class="task-list" id="ops-retail-rec-tasks"></ul>
+          <button class="add-btn" onclick="addTask('tcf_ops_retail_rec','ops-retail-rec-tasks')" style="font-size:0.78rem;padding:5px 12px;">＋ Add</button>
         </div>
       </div>
 
@@ -2804,8 +2825,10 @@ var DEFAULTS = {
     { text: 'Make Instagram first post video', done: false, notionId: '37359568-98b5-8067-9491-da092ba08183' },
     { text: 'Talk to video editor', done: false, notionId: '37359568-98b5-80a6-912b-ff69bb44ce56' },
     { text: 'Find social media person (later)', done: false, notionId: '37359568-98b5-80a4-86a7-f98510cec216' },
-    { text: '🔴 FDA Compliance — register facility (MoCRA)', done: false },
-    { text: '— — ALSO RECOMMENDED BELOW — —', done: false },
+    { text: 'FDA Compliance — register facility (MoCRA)', done: false }
+  ],
+
+  tcf_ops_facility_rec: [
     { text: '🔴 Complete ServSafe Food Manager Certification before DHEC inspection', done: false },
     { text: '🔴 Apply for DHEC Food Service Establishment Permit', done: false },
     { text: '🟡 Apply for SC Food Processing License (2–4 week wait)', done: false },
@@ -2828,8 +2851,10 @@ var DEFAULTS = {
     { text: 'System for payment and booking for the classes', done: false, notionId: '37359568-98b5-806f-86c7-d25589b1d0f7' },
     { text: 'Bottles for body wash', done: false, notionId: '37359568-98b5-8031-b3f7-f88da17fb7be' },
     { text: 'More collapsable tables', done: false },
-    { text: 'Ghost Kitchen — review SC Ghost Kitchen Tea Checklist PDF', done: false, notionId: '37359568-98b5-8006-be82-e34f72ac3f74' },
-    { text: '— — ALSO RECOMMENDED — —', done: false },
+    { text: 'Ghost Kitchen — review SC Ghost Kitchen Tea Checklist PDF', done: false, notionId: '37359568-98b5-8006-be82-e34f72ac3f74' }
+  ],
+
+  tcf_ops_sip_rec: [
     { text: '🔴 Set date for first ever Sip & Formulate class', done: false, notionId: '37359568-98b5-80ca-8343-f9e6f446bc56' },
     { text: '🟡 Buckets, pump, lids, name — Amazon order', done: false, notionId: '37359568-98b5-80b5-8324-e42179adad56' },
     { text: '🟡 Lotion class brochure', done: false, notionId: '37359568-98b5-80f0-8802-e022fae04776' },
@@ -2841,8 +2866,10 @@ var DEFAULTS = {
 
   tcf_ops_retail: [
     { text: 'Design interior', done: false },
-    { text: 'Ghost Kitchen — review SC Ghost Kitchen Tea Checklist PDF', done: false },
-    { text: '— — ALSO RECOMMENDED BELOW — —', done: false },
+    { text: 'Ghost Kitchen — review SC Ghost Kitchen Tea Checklist PDF', done: false }
+  ],
+
+  tcf_ops_retail_rec: [
     { text: '🟡 Order wall from Alibaba for King Street', done: false, notionId: '37359568-98b5-80b0-87c3-e41b0f46d715' },
     { text: '🟡 Finalize retail concept — shelving, display, flow', done: false },
     { text: '🟡 Review spa layout ideas folder in Drive', done: false },
@@ -2930,11 +2957,11 @@ function ensureDefaults() {
     localStorage.removeItem('tcf_contacts');
     localStorage.setItem('tcf_contacts_ver', '2');
   }
-  // Force reset brand tasks to real tasks (Notion-linked v6)
+  // Force reset brand tasks to real tasks (Notion-linked v7)
   var brandTaskVer = localStorage.getItem('tcf_brand_tasks_ver');
-  if (brandTaskVer !== '6') {
-    ['tcf_brand_tcf','tcf_brand_nevoo','tcf_brand_dailyrou','tcf_brand_skinaxis','tcf_tasks_ops','tcf_tasks_content','tcf_ops_facility','tcf_ops_sip','tcf_ops_retail','pauly_formulation','pauly_ops','pauly_finance','pauly_marketing','pauly_legal','pauly_vendors','pauly_packaging','pauly_brand','pauly_events','pauly_tech'].forEach(function(k){ localStorage.removeItem(k); });
-    localStorage.setItem('tcf_brand_tasks_ver','6');
+  if (brandTaskVer !== '7') {
+    ['tcf_brand_tcf','tcf_brand_nevoo','tcf_brand_dailyrou','tcf_brand_skinaxis','tcf_tasks_ops','tcf_tasks_content','tcf_ops_facility','tcf_ops_facility_rec','tcf_ops_sip','tcf_ops_sip_rec','tcf_ops_retail','tcf_ops_retail_rec','pauly_formulation','pauly_ops','pauly_finance','pauly_marketing','pauly_legal','pauly_vendors','pauly_packaging','pauly_brand','pauly_events','pauly_tech'].forEach(function(k){ localStorage.removeItem(k); });
+    localStorage.setItem('tcf_brand_tasks_ver','7');
   }
   // Force reset Pauly tasks
   var paulyVer = localStorage.getItem('tcf_pauly_ver');
@@ -3622,8 +3649,11 @@ function initApp() {
   renderFiles('tcf_files_content', 'content-files');
   // Ops — three sections
   renderTasks('tcf_ops_facility', 'ops-facility-tasks');
+  renderTasks('tcf_ops_facility_rec', 'ops-facility-rec-tasks');
   renderTasks('tcf_ops_sip', 'ops-sip-tasks');
+  renderTasks('tcf_ops_sip_rec', 'ops-sip-rec-tasks');
   renderTasks('tcf_ops_retail', 'ops-retail-tasks');
+  renderTasks('tcf_ops_retail_rec', 'ops-retail-rec-tasks');
   renderFiles('tcf_files_facility', 'ops-facility-files');
   renderFiles('tcf_files_sip', 'ops-sip-files');
   renderFiles('tcf_files_retail', 'ops-retail-files');
