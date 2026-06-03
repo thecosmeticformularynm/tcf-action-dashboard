@@ -1183,6 +1183,41 @@
 </head>
 <body>
 
+<!-- PASSWORD GATE -->
+<div id="password-gate" style="position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#0F0F1A 0%,#1A1A2E 100%);display:flex;align-items:center;justify-content:center;">
+  <div style="background:#1A1A2E;border:1.5px solid #2A2A40;border-radius:24px;padding:48px 40px;text-align:center;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+    <div style="font-size:2.4rem;margin-bottom:12px;">✦</div>
+    <div style="font-size:1.4rem;font-weight:900;color:#F0F0FF;margin-bottom:6px;">Nicole's Dashboard</div>
+    <div style="font-size:0.9rem;color:#9999BB;font-weight:600;margin-bottom:28px;">Enter your password to continue</div>
+    <input id="gate-input" type="password" placeholder="Password"
+      onkeydown="if(event.key==='Enter')checkGate()"
+      style="width:100%;padding:14px 18px;border-radius:12px;border:1.5px solid #2A2A40;background:#16162A;font-family:inherit;font-size:1rem;font-weight:700;color:#F0F0FF;outline:none;margin-bottom:12px;text-align:center;letter-spacing:0.15em;">
+    <div id="gate-error" style="color:#FF5BAE;font-size:0.82rem;font-weight:700;min-height:20px;margin-bottom:10px;"></div>
+    <button onclick="checkGate()" style="width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#FF5BAE,#4F7EF7);color:white;font-family:inherit;font-size:1rem;font-weight:900;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">Enter</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  if (sessionStorage.getItem('tcf_unlocked') === '1') {
+    document.getElementById('password-gate').style.display = 'none';
+  }
+  setTimeout(function(){ var el = document.getElementById('gate-input'); if(el) el.focus(); }, 100);
+})();
+function checkGate() {
+  var val = document.getElementById('gate-input').value;
+  if (val === '1234') {
+    sessionStorage.setItem('tcf_unlocked','1');
+    document.getElementById('password-gate').style.display = 'none';
+  } else {
+    var err = document.getElementById('gate-error');
+    err.textContent = 'Incorrect password. Try again.';
+    document.getElementById('gate-input').value = '';
+    document.getElementById('gate-input').focus();
+    setTimeout(function(){ err.textContent = ''; }, 2500);
+  }
+}
+</script>
 
 <!-- TOPBAR -->
 <div id="topbar">
@@ -1198,28 +1233,10 @@
     <button class="nav-tab" onclick="showTab('links',this)">Links</button>
     <button class="nav-tab" onclick="showTab('personal',this)">Personal</button>
   </div>
-  <div style="position:relative;flex-shrink:0;">
-    <input id="global-search-input" type="text" placeholder="🔍 Search everything..." oninput="globalSearch(this.value)" onfocus="document.getElementById('global-search-results').style.display='block'" onblur="setTimeout(()=>{document.getElementById('global-search-results').style.display='none'},200)" style="padding:7px 14px 7px 14px;border-radius:999px;border:1.5px solid var(--border);background:var(--card-bg);font-family:inherit;font-size:0.85rem;font-weight:600;color:var(--text);width:220px;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--pink)'" onblur="this.style.borderColor='var(--border)';setTimeout(()=>{document.getElementById('global-search-results').style.display='none'},200)">
-    <div id="global-search-results" style="display:none;position:absolute;right:0;top:calc(100% + 6px);width:340px;max-height:320px;overflow-y:auto;background:var(--card-bg);border:1.5px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.12);z-index:999;padding:8px 0;"></div>
-  </div>
   <button id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
 </div>
 
-<!-- GLOBAL SEARCH BAR -->
-<div id="global-search-bar" style="background:var(--card-bg);border-bottom:1px solid var(--border);padding:10px 32px;transition:background 0.3s;">
-  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:10px;">
-    <div style="flex:1;position:relative;display:flex;align-items:center;">
-      <span style="position:absolute;left:16px;font-size:1rem;pointer-events:none;color:var(--muted);">🔍</span>
-      <input id="global-search-input" type="text" placeholder="Search tasks, contacts, files, tips across your entire dashboard…" oninput="globalSearch(this.value)" onkeydown="if(event.key==='Escape'){this.value='';globalSearch('');}"
-        style="width:100%;padding:11px 16px 11px 44px;border-radius:999px;border:2px solid var(--border);background:var(--input-bg);font-family:inherit;font-size:0.95rem;font-weight:600;color:var(--text);outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--pink)'" onblur="this.style.borderColor='var(--border)'">
-    </div>
-    <button onclick="document.getElementById('global-search-input').value='';globalSearch('');" style="padding:11px 18px;border-radius:999px;border:1.5px solid var(--border);background:var(--pill-bg);font-family:inherit;font-size:0.85rem;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--pink)';this.style.color='var(--pink)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">✕ Clear</button>
-  </div>
-  <!-- Search results dropdown -->
-  <div id="global-search-results" style="max-width:1100px;margin:8px auto 0;display:none;">
-    <div id="global-search-results-inner" style="background:var(--card-bg);border:1.5px solid var(--border);border-radius:18px;box-shadow:0 8px 32px rgba(0,0,0,0.12);padding:12px;max-height:420px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;"></div>
-  </div>
-</div>
+<!-- search bar removed -->
 
 <!-- MAIN APP -->
 <div id="app">
@@ -1259,34 +1276,28 @@
             <ul class="task-list" id="home-tasks"></ul>
             <button class="add-btn" onclick="addTask('tcf_home_tasks','home-tasks')">＋ Add task</button>
           </div>
-          <div style="display:flex;flex-direction:column;gap:24px;">
-            <div class="card">
-              <div class="card-title">Progress</div>
-              <div class="donut-wrap">
-                <svg id="donut-svg" width="160" height="160" viewBox="0 0 160 160">
-                  <circle cx="80" cy="80" r="60" fill="none" stroke="var(--border)" stroke-width="20"/>
-                  <circle id="donut-arc" cx="80" cy="80" r="60" fill="none"
-                    stroke="#FF5BAE" stroke-width="20"
-                    stroke-dasharray="0 377" stroke-linecap="round"
-                    transform="rotate(-90 80 80)"/>
-                  <text id="donut-center" x="80" y="74" text-anchor="middle"
-                    font-family="Nunito" font-weight="900" font-size="28" fill="var(--text)">0/0</text>
-                  <text id="donut-pct" x="80" y="96" text-anchor="middle"
-                    font-family="Nunito" font-weight="700" font-size="13" fill="var(--muted)">tasks done</text>
-                </svg>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-title">Quick Links</div>
-              <div class="pill-row">
-                <a href="https://notion.so" target="_blank" class="pill pill-purple">📝 Notion</a>
-                <a href="https://canva.com" target="_blank" class="pill pill-pink">🎨 Canva</a>
-                <a href="https://shopify.com" target="_blank" class="pill pill-green">🛍️ Shopify</a>
-                <a href="https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG" target="_blank" class="pill pill-blue">📁 Drive</a>
-              </div>
+          <div class="card">
+            <div class="card-title">Progress</div>
+            <div class="donut-wrap">
+              <svg id="donut-svg" width="160" height="160" viewBox="0 0 160 160">
+                <circle cx="80" cy="80" r="60" fill="none" stroke="var(--border)" stroke-width="20"/>
+                <circle id="donut-arc" cx="80" cy="80" r="60" fill="none"
+                  stroke="#FF5BAE" stroke-width="20"
+                  stroke-dasharray="0 377" stroke-linecap="round"
+                  transform="rotate(-90 80 80)"/>
+                <text id="donut-center" x="80" y="74" text-anchor="middle"
+                  font-family="Nunito" font-weight="900" font-size="28" fill="var(--text)">0/0</text>
+                <text id="donut-pct" x="80" y="96" text-anchor="middle"
+                  font-family="Nunito" font-weight="700" font-size="13" fill="var(--muted)">tasks done</text>
+              </svg>
             </div>
           </div>
         </div>
+
+      </div><!-- end left column -->
+
+      <!-- RIGHT SIDE: VERSE + THOUGHTS + EOD + CONNECTIONS -->
+      <div style="display:flex;flex-direction:column;gap:20px;">
 
         <!-- Bible Verse -->
         <div class="bible-verse-card" id="bible-verse-card" onclick="rotateBibleVerse()">
@@ -1297,29 +1308,22 @@
 
         <!-- NICOLE'S THOUGHTS DOC -->
         <div class="card" style="padding:0;overflow:hidden;border-radius:20px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid var(--border);">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);">
             <div>
-              <div class="card-title" style="margin-bottom:2px;">Nicole's Thoughts Today</div>
-              <div style="color:var(--muted);font-size:0.8rem;font-weight:600;">Live from your Google Doc — updates as you type</div>
+              <div class="card-title" style="margin-bottom:0;font-size:1rem;">Nicole's Thoughts Today</div>
+              <div style="color:var(--muted);font-size:0.75rem;font-weight:600;">Live from your Google Doc</div>
             </div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <button onclick="document.getElementById('thoughts-frame').src=document.getElementById('thoughts-frame').src" style="background:var(--pill-bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:700;cursor:pointer;color:var(--text);">↺ Refresh</button>
-              <a href="https://docs.google.com/document/d/1wKg4XIjGbO3JRUtMTa0jBCbnU87en3eQuDyDAJwqBxc/edit?usp=sharing" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#FF5BAE,#4F7EF7);color:#fff;border:none;border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:700;cursor:pointer;text-decoration:none;">✏️ Open &amp; Edit</a>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <button onclick="document.getElementById('thoughts-frame').src=document.getElementById('thoughts-frame').src" style="background:var(--pill-bg);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:0.75rem;font-weight:700;cursor:pointer;color:var(--text);">↺</button>
+              <a href="https://docs.google.com/document/d/1wKg4XIjGbO3JRUtMTa0jBCbnU87en3eQuDyDAJwqBxc/edit?usp=sharing" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#FF5BAE,#4F7EF7);color:#fff;border:none;border-radius:8px;padding:4px 10px;font-size:0.75rem;font-weight:700;cursor:pointer;text-decoration:none;">✏️ Edit</a>
             </div>
           </div>
-          <iframe
-            id="thoughts-frame"
+          <iframe id="thoughts-frame"
             src="https://docs.google.com/document/d/1wKg4XIjGbO3JRUtMTa0jBCbnU87en3eQuDyDAJwqBxc/preview"
-            style="width:100%;height:480px;border:none;display:block;background:var(--input-bg);"
-            allow="autoplay"
-            title="Nicole's Thoughts Today">
+            style="width:100%;height:320px;border:none;display:block;background:var(--input-bg);"
+            allow="autoplay" title="Nicole's Thoughts Today">
           </iframe>
         </div>
-
-      </div><!-- end left column -->
-
-      <!-- RIGHT SIDE: END OF DAY SUMMARY + CONNECTIONS -->
-      <div style="display:flex;flex-direction:column;gap:20px;">
 
         <div class="eod-panel" id="eod-panel">
           <div class="eod-panel-title">End of Day Recap</div>
@@ -1370,157 +1374,117 @@
   <!-- ===== BRANDS TAB ===== -->
   <div id="tab-brands" class="tab-panel">
 
-    <!-- Search + Voice toolbar -->
-    <div class="brands-toolbar">
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="brands-search" class="brands-search-input" placeholder="Search formulas & tasks..." oninput="brandSearch(this.value)">
-      </div>
-      <button class="voice-btn" id="voice-btn" onclick="toggleVoice()" title="Speak to add a task">🎤 Talk</button>
-    </div>
-    <div id="voice-status" class="voice-status hidden"></div>
-
-    <div class="sub-tabs" id="brands-subtabs">
-      <button class="sub-tab active" onclick="showSubTab('brands','tcf',this)">💄 TCF</button>
-      <button class="sub-tab" onclick="showSubTab('brands','nevoo',this)">✨ Nevoo</button>
-      <button class="sub-tab" onclick="showSubTab('brands','dailyrou',this)">🌿 Rinse & Repeat</button>
-      <button class="sub-tab" onclick="showSubTab('brands','skinaxis',this)">💙 Skin Axis</button>
+    <!-- Quick links row -->
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+      <a href="https://docs.google.com/spreadsheets/d/1g0Xhsc4GEoanf6WC76JOj2Kil_11XTP3EEBp6QWA8GM/edit" target="_blank"
+        style="display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:999px;background:linear-gradient(135deg,#8B5CF6,#4F7EF7);color:white;font-weight:900;font-size:0.88rem;text-decoration:none;box-shadow:0 2px 12px rgba(139,92,246,0.3);">
+        📊 Open Full Tracker ↗
+      </a>
+      <a href="https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG" target="_blank"
+        style="display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:999px;background:linear-gradient(135deg,#27a87a,#4F7EF7);color:white;font-weight:900;font-size:0.88rem;text-decoration:none;box-shadow:0 2px 12px rgba(39,168,122,0.3);">
+        📁 Google Drive ↗
+      </a>
     </div>
 
-    <!-- TCF -->
-    <div id="brands-sub-tcf" class="sub-panel active">
-      <div class="card">
-        <div class="card-title">TCF — Formulas</div>
-        <div class="kanban-board">
-          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'tcf','notstarted')">
-            <div class="kanban-col-header" style="background:rgba(255,91,174,0.10);color:#FF5BAE;">📋 Not Yet Started</div>
-            <div class="kanban-cards" id="kan-tcf-notstarted"></div>
-            <button class="add-btn" onclick="addFormula('tcf','notstarted')">＋ Add formula</button>
-          </div>
-          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'tcf','inprogress')">
-            <div class="kanban-col-header" style="background:rgba(79,126,247,0.10);color:#4F7EF7;">⚗️ In Progress</div>
-            <div class="kanban-cards" id="kan-tcf-inprogress"></div>
-            <button class="add-btn" onclick="addFormula('tcf','inprogress')">＋ Add formula</button>
-          </div>
-          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'tcf','done')">
-            <div class="kanban-col-header" style="background:rgba(52,201,148,0.12);color:#34C994;">✅ Completed</div>
-            <div class="kanban-cards" id="kan-tcf-done"></div>
-            <button class="add-btn" onclick="addFormula('tcf','done')">＋ Add formula</button>
-          </div>
+    <!-- FORMULATION TRACKER — single shared sheet -->
+    <div class="card" style="padding:0;overflow:hidden;border-radius:18px;margin-bottom:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid var(--border);">
+        <div>
+          <div class="card-title" style="margin-bottom:2px;">🧪 Formulation Tracker</div>
+          <div style="font-size:0.78rem;color:var(--muted);font-weight:600;">Edit directly · saves to Google Sheets instantly · covers all brands</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="document.getElementById('formtracker-iframe').style.height='950px'" style="padding:6px 14px;border-radius:999px;border:1.5px solid var(--border);background:var(--pill-bg);font-family:inherit;font-size:0.78rem;font-weight:700;color:var(--muted);cursor:pointer;">Expand</button>
+          <button onclick="document.getElementById('formtracker-iframe').style.height='500px'" style="padding:6px 14px;border-radius:999px;border:1.5px solid var(--border);background:var(--pill-bg);font-family:inherit;font-size:0.78rem;font-weight:700;color:var(--muted);cursor:pointer;">Compact</button>
         </div>
       </div>
-      <div class="card">
-        <div class="card-title">TCF — To-Do</div>
-        <ul class="task-list" id="tcf-tasks"></ul>
-        <button class="add-btn" onclick="addTask('tcf_brand_tcf','tcf-tasks')">＋ Add task</button>
-      </div>
-      <div class="card">
-        <div class="card-title">TCF — Files &amp; Links</div>
-        <ul class="file-list" id="tcf-files"></ul>
-        <button class="add-btn" onclick="addFile('tcf_files_tcf','tcf-files')">＋ Add link</button>
+      <iframe id="formtracker-iframe"
+        src="https://docs.google.com/spreadsheets/d/1g0Xhsc4GEoanf6WC76JOj2Kil_11XTP3EEBp6QWA8GM/edit?rm=minimal&usp=sharing"
+        style="width:100%;height:650px;border:none;display:block;"
+        allow="clipboard-read; clipboard-write">
+      </iframe>
+    </div>
+
+    <!-- BRAND STATUS SUMMARY -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-title" style="margin-bottom:6px;">Brand Formula Status</div>
+      <div style="font-size:0.82rem;color:var(--muted);font-weight:600;margin-bottom:20px;">Based on current tracker data as of June 2026</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
+
+        <!-- CF-2026-001 IN PROGRESS -->
+        <div style="border-radius:16px;border:1.5px solid rgba(139,92,246,0.35);background:linear-gradient(135deg,rgba(139,92,246,0.07),rgba(79,126,247,0.05));padding:18px 20px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="font-size:1rem;font-weight:900;color:var(--text);">CF-2026-001</div>
+            <span style="padding:4px 12px;border-radius:999px;background:linear-gradient(135deg,#8B5CF6,#4F7EF7);color:white;font-size:0.72rem;font-weight:900;letter-spacing:0.04em;">IN PROGRESS</span>
+          </div>
+          <div style="font-size:0.82rem;color:var(--muted);font-weight:700;margin-bottom:6px;">Brand: TCF &nbsp;·&nbsp; Formula Type: Body Lotion</div>
+          <div style="font-size:0.8rem;color:var(--text);line-height:1.55;">Active batch in development. Ingredients sourced, currently in testing phase. Next step: stability check and packaging review.</div>
+        </div>
+
+        <!-- TCF NOT STARTED -->
+        <div style="border-radius:16px;border:1.5px solid var(--border);background:var(--pill-bg);padding:18px 20px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="font-size:1rem;font-weight:900;color:var(--text);">💄 TCF</div>
+            <span style="padding:4px 12px;border-radius:999px;background:var(--border);color:var(--muted);font-size:0.72rem;font-weight:900;letter-spacing:0.04em;">NOT STARTED</span>
+          </div>
+          <div style="font-size:0.8rem;color:var(--muted);line-height:1.55;">No additional formulas in the pipeline yet. CF-2026-001 body lotion is the current active TCF project.</div>
+        </div>
+
+        <!-- NEVOO NOT STARTED -->
+        <div style="border-radius:16px;border:1.5px solid var(--border);background:var(--pill-bg);padding:18px 20px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="font-size:1rem;font-weight:900;color:var(--text);">✨ Nevoo</div>
+            <span style="padding:4px 12px;border-radius:999px;background:var(--border);color:var(--muted);font-size:0.72rem;font-weight:900;letter-spacing:0.04em;">NOT STARTED</span>
+          </div>
+          <div style="font-size:0.8rem;color:var(--muted);line-height:1.55;">No formulas in the tracker. Ready to begin formulation planning when the brand is ready to launch.</div>
+        </div>
+
+        <!-- RINSE & REPEAT NOT STARTED -->
+        <div style="border-radius:16px;border:1.5px solid var(--border);background:var(--pill-bg);padding:18px 20px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="font-size:1rem;font-weight:900;color:var(--text);">🌿 Rinse &amp; Repeat</div>
+            <span style="padding:4px 12px;border-radius:999px;background:var(--border);color:var(--muted);font-size:0.72rem;font-weight:900;letter-spacing:0.04em;">NOT STARTED</span>
+          </div>
+          <div style="font-size:0.8rem;color:var(--muted);line-height:1.55;">No formulas in the tracker. Formulation work for this brand has not yet begun.</div>
+        </div>
+
+        <!-- SKIN AXIS NOT STARTED -->
+        <div style="border-radius:16px;border:1.5px solid var(--border);background:var(--pill-bg);padding:18px 20px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="font-size:1rem;font-weight:900;color:var(--text);">💙 Skin Axis</div>
+            <span style="padding:4px 12px;border-radius:999px;background:var(--border);color:var(--muted);font-size:0.72rem;font-weight:900;letter-spacing:0.04em;">NOT STARTED</span>
+          </div>
+          <div style="font-size:0.8rem;color:var(--muted);line-height:1.55;">No formulas in the tracker. Skin Axis formulation pipeline is pending.</div>
+        </div>
+
+        <!-- DAILY ROU NOT STARTED -->
+        <div style="border-radius:16px;border:1.5px solid var(--border);background:var(--pill-bg);padding:18px 20px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="font-size:1rem;font-weight:900;color:var(--text);">🌞 Daily Rou</div>
+            <span style="padding:4px 12px;border-radius:999px;background:var(--border);color:var(--muted);font-size:0.72rem;font-weight:900;letter-spacing:0.04em;">NOT STARTED</span>
+          </div>
+          <div style="font-size:0.8rem;color:var(--muted);line-height:1.55;">No formulas in the tracker. Daily Rou formulation work has not yet started.</div>
+        </div>
+
       </div>
     </div>
 
-    <!-- NEVOO -->
-    <div id="brands-sub-nevoo" class="sub-panel">
-      <div class="card">
-        <div class="card-title">Nevoo — Formulas</div>
-        <div class="kanban-board">
-          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'nevoo','notstarted')">
-            <div class="kanban-col-header" style="background:rgba(255,91,174,0.10);color:#FF5BAE;">📋 Not Yet Started</div>
-            <div class="kanban-cards" id="kan-nevoo-notstarted"></div>
-            <button class="add-btn" onclick="addFormula('nevoo','notstarted')">＋ Add formula</button>
-          </div>
-          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'nevoo','inprogress')">
-            <div class="kanban-col-header" style="background:rgba(79,126,247,0.10);color:#4F7EF7;">⚗️ In Progress</div>
-            <div class="kanban-cards" id="kan-nevoo-inprogress"></div>
-            <button class="add-btn" onclick="addFormula('nevoo','inprogress')">＋ Add formula</button>
-          </div>
-          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'nevoo','done')">
-            <div class="kanban-col-header" style="background:rgba(52,201,148,0.12);color:#34C994;">✅ Completed</div>
-            <div class="kanban-cards" id="kan-nevoo-done"></div>
-            <button class="add-btn" onclick="addFormula('nevoo','done')">＋ Add formula</button>
-          </div>
+    <!-- Quick-access Drive files -->
+    <div class="card" style="margin-bottom:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <div>
+          <div class="card-title" style="margin-bottom:2px;">Quick-Access Drive Files</div>
+          <div style="font-size:0.78rem;color:var(--muted);font-weight:600;">Paste any Google Drive / Docs / Sheets link and it appears here instantly</div>
         </div>
+        <button class="add-btn" onclick="addDriveFile()" style="font-size:0.82rem;padding:8px 16px;">＋ Add file</button>
       </div>
-      <div class="card">
-        <div class="card-title">Nevoo — To-Do</div>
-        <ul class="task-list" id="nevoo-tasks"></ul>
-        <button class="add-btn" onclick="addTask('tcf_brand_nevoo','nevoo-tasks')">＋ Add task</button>
-      </div>
-      <div class="card">
-        <div class="card-title">Nevoo — Files &amp; Links</div>
-        <ul class="file-list" id="nevoo-files"></ul>
-        <button class="add-btn" onclick="addFile('tcf_files_nevoo','nevoo-files')">＋ Add link</button>
-      </div>
+      <div id="drive-quicklinks" style="display:flex;flex-direction:column;gap:8px;"></div>
     </div>
 
-    <!-- DAILY ROU -->
-    <div id="brands-sub-dailyrou" class="sub-panel">
-      <div class="card">
-        <div class="card-title">Rinse &amp; Repeat — Formulas</div>
-        <div class="kanban-board">
-          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'dailyrou','notstarted')">
-            <div class="kanban-col-header" style="background:rgba(255,91,174,0.10);color:#FF5BAE;">📋 Not Yet Started</div>
-            <div class="kanban-cards" id="kan-dailyrou-notstarted"></div>
-            <button class="add-btn" onclick="addFormula('dailyrou','notstarted')">＋ Add formula</button>
-          </div>
-          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'dailyrou','inprogress')">
-            <div class="kanban-col-header" style="background:rgba(79,126,247,0.10);color:#4F7EF7;">⚗️ In Progress</div>
-            <div class="kanban-cards" id="kan-dailyrou-inprogress"></div>
-            <button class="add-btn" onclick="addFormula('dailyrou','inprogress')">＋ Add formula</button>
-          </div>
-          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'dailyrou','done')">
-            <div class="kanban-col-header" style="background:rgba(52,201,148,0.12);color:#34C994;">✅ Completed</div>
-            <div class="kanban-cards" id="kan-dailyrou-done"></div>
-            <button class="add-btn" onclick="addFormula('dailyrou','done')">＋ Add formula</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Rinse &amp; Repeat — To-Do</div>
-        <ul class="task-list" id="dailyrou-tasks"></ul>
-        <button class="add-btn" onclick="addTask('tcf_brand_dailyrou','dailyrou-tasks')">＋ Add task</button>
-      </div>
-      <div class="card">
-        <div class="card-title">Rinse &amp; Repeat — Files &amp; Links</div>
-        <ul class="file-list" id="dailyrou-files"></ul>
-        <button class="add-btn" onclick="addFile('tcf_files_dailyrou','dailyrou-files')">＋ Add link</button>
-      </div>
-    </div>
-
-    <!-- SKIN AXIS -->
-    <div id="brands-sub-skinaxis" class="sub-panel">
-      <div class="card">
-        <div class="card-title">Skin Axis — Formulas</div>
-        <div class="kanban-board">
-          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'skinaxis','notstarted')">
-            <div class="kanban-col-header" style="background:rgba(255,91,174,0.10);color:#FF5BAE;">📋 Not Yet Started</div>
-            <div class="kanban-cards" id="kan-skinaxis-notstarted"></div>
-            <button class="add-btn" onclick="addFormula('skinaxis','notstarted')">＋ Add formula</button>
-          </div>
-          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'skinaxis','inprogress')">
-            <div class="kanban-col-header" style="background:rgba(79,126,247,0.10);color:#4F7EF7;">⚗️ In Progress</div>
-            <div class="kanban-cards" id="kan-skinaxis-inprogress"></div>
-            <button class="add-btn" onclick="addFormula('skinaxis','inprogress')">＋ Add formula</button>
-          </div>
-          <div class="kanban-col" ondragover="event.preventDefault()" ondrop="kanbanDrop(event,'skinaxis','done')">
-            <div class="kanban-col-header" style="background:rgba(52,201,148,0.12);color:#34C994;">✅ Completed</div>
-            <div class="kanban-cards" id="kan-skinaxis-done"></div>
-            <button class="add-btn" onclick="addFormula('skinaxis','done')">＋ Add formula</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Skin Axis — To-Do</div>
-        <ul class="task-list" id="skinaxis-tasks"></ul>
-        <button class="add-btn" onclick="addTask('tcf_brand_skinaxis','skinaxis-tasks')">＋ Add task</button>
-      </div>
-      <div class="card">
-        <div class="card-title">Skin Axis — Files &amp; Links</div>
-        <ul class="file-list" id="skinaxis-files"></ul>
-        <button class="add-btn" onclick="addFile('tcf_files_skinaxis','skinaxis-files')">＋ Add link</button>
-      </div>
+    <!-- hidden stubs for JS compatibility -->
+    <div style="display:none;">
+      <ul id="tcf-tasks"></ul><ul id="nevoo-tasks"></ul><ul id="dailyrou-tasks"></ul><ul id="skinaxis-tasks"></ul>
+      <ul id="tcf-files"></ul><ul id="nevoo-files"></ul><ul id="dailyrou-files"></ul><ul id="skinaxis-files"></ul>
     </div>
 
   </div><!-- end brands -->
@@ -2003,7 +1967,7 @@
     </div>
 
     <div class="card">
-      <div class="card-title">Hair &amp; Beauty Tasks</div>
+      <div class="card-title">Personal Care Tasks</div>
       <ul class="task-list" id="beauty-tasks"></ul>
       <button class="add-btn" onclick="addTask('tcf_beauty','beauty-tasks')">＋ Add task</button>
     </div>
@@ -5494,8 +5458,8 @@ async function notionToggleBlock(section, blockId, checked) {
 }
 
 async function notionAddItem(section) {
-  var token = lsGet('tcf_notion_token','');
-  var rawId = lsGet('tcf_npage_'+section,'');
+  var token = lsGet('tcf_notion_token', NOTION_OPS_TOKEN);
+  var pageId = lsGet('tcf_notion_ops_page', NOTION_OPS_PAGE);
   var text = prompt('New item for '+section.charAt(0).toUpperCase()+section.slice(1)+':');
   if (!text || !text.trim()) return;
   text = text.trim();
@@ -5504,9 +5468,6 @@ async function notionAddItem(section) {
   lsSet('tcf_notion_blocks_'+section, blocks);
   renderNotionSection(section, blocks);
   renderOpsPieChart();
-  if (!token || !rawId) return;
-  var pageId = _notionPageId(rawId);
-  if (!pageId) return;
   try {
     await fetch('/notion-proxy/blocks/'+pageId+'/children', {
       method: 'PATCH',
@@ -5514,7 +5475,7 @@ async function notionAddItem(section) {
       body: JSON.stringify({ children: [{ object:'block', type:'to_do', to_do: { rich_text: [{ type:'text', text:{ content:text } }], checked:false } }] })
     });
     // Re-sync to get the real block ID
-    setTimeout(function(){ notionSyncSection(token, section); }, 800);
+    setTimeout(function(){ notionSyncAll(); }, 800);
   } catch(e) { /* saved locally */ }
 }
 
@@ -5631,24 +5592,126 @@ document.addEventListener('click', function(e) {
   if (bar && !bar.contains(e.target)) { var w=document.getElementById('global-search-results'); if(w) w.style.display='none'; }
 });
 
+// ── Notion credentials (loaded from localStorage) ──
+var NOTION_OPS_TOKEN = lsGet('tcf_notion_token', '');
+var NOTION_OPS_PAGE  = lsGet('tcf_notion_page_facility', '');
+
+// Keyword maps for single-page classification
+var NOTION_FACILITY_KW = ['fda','instagram','marketing','video editor','social media','compliance','influencer'];
+var NOTION_SIP_KW      = ['sip','formulate','class','event','booking','tea','ghost kitchen','lotion','mixer','chair','spatula','bottles','pamphlet','structure','suppliers','mckernan','packaging','product type','collapsable','pinterest','check email','check text','pauly to do'];
+var NOTION_RETAIL_KW   = ['wall','alibaba','interior','design retail','shelv','display'];
+
+async function notionSyncAll() {
+  var token = lsGet('tcf_notion_token', NOTION_OPS_TOKEN);
+  var pageId = lsGet('tcf_notion_ops_page', NOTION_OPS_PAGE);
+  var btn = document.getElementById('notion-sync-all-btn');
+  var label = document.getElementById('notion-last-sync-label');
+  if (btn) { btn.textContent='Syncing…'; btn.disabled=true; }
+
+  try {
+    var res = await fetch('/notion-proxy/blocks/'+pageId+'/children?page_size=100', {
+      headers: { 'X-Notion-Token': token }
+    });
+    var data = await res.json();
+    var allBlocks = (data.results||[]).filter(function(b){ return b.type==='to_do'; });
+
+    var sections = { facility:[], sip:[], retail:[] };
+    allBlocks.forEach(function(b) {
+      var text = (b.to_do.rich_text||[]).map(function(t){ return t.plain_text; }).join('').trim();
+      if (!text) return;
+      var checked = b.to_do.checked || false;
+      var lower = text.toLowerCase();
+      var obj = { id: b.id, text: text, checked: checked };
+      if (NOTION_FACILITY_KW.some(function(k){ return lower.indexOf(k) > -1; })) {
+        sections.facility.push(obj);
+      } else if (NOTION_RETAIL_KW.some(function(k){ return lower.indexOf(k) > -1; })) {
+        sections.retail.push(obj);
+      } else {
+        sections.sip.push(obj);
+      }
+    });
+
+    Object.keys(sections).forEach(function(s) {
+      if (sections[s].length) {
+        lsSet('tcf_notion_blocks_'+s, sections[s]);
+        renderNotionSection(s, sections[s]);
+        var dot = document.getElementById(s+'-notion-dot');
+        if (dot) dot.style.background = '#27a87a';
+      }
+    });
+
+    renderOpsPieChart();
+    var ts = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    lsSet('tcf_notion_last_sync', ts);
+    lsSet('tcf_notion_token', token);
+    lsSet('tcf_notion_ops_page', pageId);
+    if (label) label.textContent = 'Last sync: '+ts;
+  } catch(e) {
+    // Render from cache if fetch fails
+    NOTION_SECTIONS.forEach(function(s){ renderNotionSection(s, lsGet('tcf_notion_blocks_'+s, null)); });
+  }
+  if (btn) { btn.textContent='↻ Sync Now'; btn.disabled=false; }
+}
+
 setTimeout(function(){
-  // Pre-fill setup inputs from saved values
-  var savedToken = lsGet('tcf_notion_token','');
-  if (savedToken && document.getElementById('ntoken')) document.getElementById('ntoken').value = savedToken;
-  ['facility','sip','retail'].forEach(function(s) {
-    var saved = lsGet('tcf_npage_'+s,'');
-    if (saved && document.getElementById('npage-'+s)) document.getElementById('npage-'+s).value = saved;
-  });
-  // Render saved blocks immediately, then try live sync
+  // Store credentials
+  if (!lsGet('tcf_notion_token','')) lsSet('tcf_notion_token', NOTION_OPS_TOKEN);
+  if (!lsGet('tcf_notion_ops_page','')) lsSet('tcf_notion_ops_page', NOTION_OPS_PAGE);
+
+  // Pre-fill setup inputs
+  if (document.getElementById('ntoken')) document.getElementById('ntoken').value = lsGet('tcf_notion_token', NOTION_OPS_TOKEN);
+
+  // Render cached blocks immediately
   NOTION_SECTIONS.forEach(function(s){ renderNotionSection(s, lsGet('tcf_notion_blocks_'+s, null)); });
   renderOpsPieChart();
   var lastSync = lsGet('tcf_notion_last_sync','');
   if (lastSync) { var lbl = document.getElementById('notion-last-sync-label'); if (lbl) lbl.textContent = 'Last sync: '+lastSync; }
-  if (savedToken) notionSyncAll();
+
+  // Live sync
+  notionSyncAll();
 }, 250);
 
 setTimeout(function(){ socialCalRender(); }, 150);
 setTimeout(function(){ loadThoughtsDoc(); }, 500);
+
+// ============================================================
+// DRIVE QUICK LINKS
+// ============================================================
+var DRIVE_DEFAULTS = [
+  { name: 'Formulation Tracker (Master)', url: 'https://docs.google.com/spreadsheets/d/1g0Xhsc4GEoanf6WC76JOj2Kil_11XTP3EEBp6QWA8GM/edit' },
+  { name: 'Google Drive — All Files', url: 'https://drive.google.com/drive/folders/172uIy_Nm0XNgFjwfLRwwlO8h26EJz9LG' }
+];
+function renderDriveLinks() {
+  var el = document.getElementById('drive-quicklinks');
+  if (!el) return;
+  var links = lsGet('tcf_drive_quicklinks', DRIVE_DEFAULTS);
+  if (!links.length) { el.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;font-weight:600;padding:8px 0;">No files yet — click ＋ Add file to start.</div>'; return; }
+  el.innerHTML = links.map(function(f, i) {
+    var icon = f.url.includes('spreadsheet') ? '📊' : f.url.includes('document') ? '📄' : f.url.includes('presentation') ? '📑' : f.url.includes('drive') ? '📁' : '🔗';
+    return '<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--pill-bg);transition:border-color 0.15s;" onmouseover="this.style.borderColor=\'var(--pink)\'" onmouseout="this.style.borderColor=\'var(--border)\'">' +
+      '<span style="font-size:1.1rem;flex-shrink:0;">' + icon + '</span>' +
+      '<a href="' + f.url + '" target="_blank" style="flex:1;font-size:0.88rem;font-weight:700;color:var(--text);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" onmouseover="this.style.color=\'var(--pink)\'" onmouseout="this.style.color=\'var(--text)\'">' + f.name + '</a>' +
+      '<button onclick="removeDriveFile(' + i + ')" style="flex-shrink:0;background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:2px 6px;border-radius:6px;" onmouseover="this.style.color=\'#FF5BAE\'" onmouseout="this.style.color=\'var(--muted)\'">✕</button>' +
+      '</div>';
+  }).join('');
+}
+function addDriveFile() {
+  var url = prompt('Paste the Google Drive / Docs / Sheets URL:');
+  if (!url || !url.trim()) return;
+  url = url.trim();
+  var name = prompt('Name for this file (e.g. "Batch Tracker"):') || 'Drive File';
+  var links = lsGet('tcf_drive_quicklinks', DRIVE_DEFAULTS);
+  links.push({ name: name, url: url });
+  lsSet('tcf_drive_quicklinks', links);
+  renderDriveLinks();
+}
+function removeDriveFile(i) {
+  var links = lsGet('tcf_drive_quicklinks', DRIVE_DEFAULTS);
+  links.splice(i, 1);
+  lsSet('tcf_drive_quicklinks', links);
+  renderDriveLinks();
+}
+setTimeout(function(){ renderDriveLinks(); }, 300);
 </script>
 
 <!-- ASK AI BUTTON + PANEL -->
