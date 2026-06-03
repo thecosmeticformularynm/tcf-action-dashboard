@@ -1333,6 +1333,27 @@
           <div class="bible-verse-hint">click to change verse</div>
         </div>
 
+        <!-- NICOLE'S THOUGHTS DOC -->
+        <div class="card" style="padding:0;overflow:hidden;border-radius:20px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid var(--border);">
+            <div>
+              <div class="card-title" style="margin-bottom:2px;">Nicole's Dashboard Thoughts</div>
+              <div style="color:var(--muted);font-size:0.8rem;font-weight:600;">Live from your Google Doc — updates as you type</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <button onclick="document.getElementById('thoughts-frame').src=document.getElementById('thoughts-frame').src" style="background:var(--pill-bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:700;cursor:pointer;color:var(--text);">↺ Refresh</button>
+              <a href="https://docs.google.com/document/d/1wKg4XIjGbO3JRUtMTa0jBCbnU87en3eQuDyDAJwqBxc/edit" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#FF5BAE,#4F7EF7);color:#fff;border:none;border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:700;cursor:pointer;text-decoration:none;">✏️ Open &amp; Edit</a>
+            </div>
+          </div>
+          <iframe
+            id="thoughts-frame"
+            src="https://docs.google.com/document/d/1wKg4XIjGbO3JRUtMTa0jBCbnU87en3eQuDyDAJwqBxc/preview"
+            style="width:100%;height:480px;border:none;display:block;background:var(--input-bg);"
+            allow="autoplay"
+            title="Nicole's Dashboard Thoughts">
+          </iframe>
+        </div>
+
       </div><!-- end left column -->
 
       <!-- RIGHT SIDE: END OF DAY SUMMARY + CONNECTIONS -->
