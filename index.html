@@ -2341,12 +2341,15 @@ function renderTasks(storageKey, containerId) {
     const cb = document.createElement('div');
     cb.className = 'task-cb' + (t.done ? ' done' : '');
     cb.innerHTML = t.done ? '✓' : '';
-    cb.onclick = function() {
-      tasks[i].done = !tasks[i].done;
+    cb.onclick = (function(idx) { return function() {
+      tasks[idx].done = !tasks[idx].done;
       lsSet(storageKey, tasks);
+      // Write back to Notion if this task has a notionId
+      if (tasks[idx].notionId) notionUpdateCheck(tasks[idx].notionId, tasks[idx].done);
       renderTasks(storageKey, containerId);
       if (storageKey === 'tcf_home_tasks') updateDonut();
-    };
+      if (storageKey && storageKey.indexOf('tcf_ops_') === 0) setTimeout(drawOpsPie, 50);
+    }; })(i);
 
     const span = document.createElement('span');
     span.className = 'task-text' + (t.done ? ' done' : '');
@@ -2698,24 +2701,24 @@ function rotateBibleVerse() {
 // ============================================================
 var DEFAULTS = {
   tcf_home_tasks: [
-    { text: '🔴 Complete FDA facility registration (MoCRA) — legal to operate', done: false },
-    { text: '🔴 Set first Sip & Formulate class date — revenue depends on it', done: false },
-    { text: '🔴 Get McKernan packaging approval from Pauly — unblocks production', done: false },
-    { text: '🟡 Film and post first TCF Instagram video — brand presence this week', done: false },
-    { text: '🟡 Order chairs + mixer for Sip & Formulate classes — needed before first class', done: false },
-    { text: '🟡 Advance NEVOO brand identity — dilution samples are ready to review', done: false },
-    { text: '🟡 Finalize Skin Axis packaging decision — acne tea formula brief is done', done: false },
-    { text: '🟢 Research social media hire + payment/booking system for classes', done: false }
+    { text: '🔴 Check email', done: false, notionId: '37359568-98b5-80f3-bcd4-d35ef075a476' },
+    { text: '🔴 Check texts from Pauly — to-do list', done: false, notionId: '37359568-98b5-8072-8c8d-d4bd120a07f2' },
+    { text: '🔴 Set date for first ever Sip & Formulate class', done: false, notionId: '37359568-98b5-80ca-8343-f9e6f446bc56' },
+    { text: '🔴 Get McKernan packaging approval from Pauly', done: false, notionId: '37359568-98b5-80cd-9c21-c34066b1177d' },
+    { text: '🟡 Make Instagram first post video', done: false, notionId: '37359568-98b5-8067-9491-da092ba08183' },
+    { text: '🟡 See if you can complete anything from checklist', done: false, notionId: '37359568-98b5-808b-b92c-dfd511a74c4b' },
+    { text: '🟡 Look at Pinterest to spark creativity and ideas', done: false, notionId: '37359568-98b5-80b9-8b8d-d6c51905791e' },
+    { text: '🟢 Finalize Skin Axis packaging decision', done: false, notionId: '37359568-98b5-80e1-975c-c5c36c08d26e' }
   ],
 
   tcf_brand_tcf: [
-    { text: '🔴 Make Instagram first post video — brand visibility is overdue', done: false },
-    { text: '🔴 Contact marketing agency or influencers on sheet', done: false },
-    { text: '🟡 Talk to video editor', done: false },
-    { text: '🟡 Find social media person (later)', done: false },
-    { text: '🟡 Finalize logo and label ideas for TCF', done: false },
-    { text: '🟡 Complete FDA facility registration (MoCRA)', done: false },
-    { text: '🟢 Build product specification sheets', done: false }
+    { text: '🔴 Make Instagram first post video', done: false, notionId: '37359568-98b5-8067-9491-da092ba08183' },
+    { text: '🔴 Contact marketing agency or influencers on sheet', done: false, notionId: '37359568-98b5-802e-809f-cbb693dea1a9' },
+    { text: '🟡 Talk to video editor', done: false, notionId: '37359568-98b5-80a6-912b-ff69bb44ce56' },
+    { text: '🟡 Find social media person (later)', done: false, notionId: '37359568-98b5-80a4-86a7-f98510cec216' },
+    { text: '🟡 Lotion class brochure', done: false, notionId: '37359568-98b5-80f0-8802-e022fae04776' },
+    { text: '🟡 Label design for lotion made', done: false, notionId: '37359568-98b5-805e-8958-cabd0ab03d42' },
+    { text: '🟢 Make Linktree for QR to link socials and website', done: false, notionId: '37359568-98b5-802b-a49a-dde94c03aa9a' }
   ],
 
   tcf_brand_nevoo: [
@@ -2735,23 +2738,23 @@ var DEFAULTS = {
   ],
 
   tcf_brand_skinaxis: [
-    { text: '🔴 Connect with tea suppliers — Notion flagged, overdue', done: false },
-    { text: '🔴 Decide on packaging for Skin Axis', done: false },
-    { text: '🟡 Decide on product type / line direction', done: false },
+    { text: '🔴 Connect with tea suppliers', done: false, notionId: '37359568-98b5-80ef-b1b9-caef23784335' },
+    { text: '🔴 Decide on packaging', done: false, notionId: '37359568-98b5-80e1-975c-c5c36c08d26e' },
+    { text: '🟡 Decide on product type / line direction', done: false, notionId: '37359568-98b5-8069-92d1-f9a21335dc1a' },
     { text: '🟡 Review Skin Axis concept documents in Drive', done: false },
     { text: '🟢 Develop full product line strategy', done: false }
   ],
 
   tcf_tasks_content: [
-    { text: '🔴 Make Instagram first post video for TCF — in Notion to-do', done: false },
-    { text: '🔴 Contact marketing agency or influencers on sheet — in Notion to-do', done: false },
-    { text: '🔴 Talk to video editor — Pauly needs to approve', done: false },
-    { text: '🟡 Create coming soon flyer', done: false },
-    { text: '🟡 Print photos for first Instagram reel clip (bulletin board)', done: false },
-    { text: '🟡 Design graphics to post on Instagram', done: false },
-    { text: '🟡 Browse Pinterest for creativity and ideas — in Notion daily tasks', done: false },
-    { text: '🟡 Plan TikTok content strategy', done: false },
-    { text: '🟢 Find social media person (later)', done: false }
+    { text: '🔴 Make Instagram first post video for TCF', done: false, notionId: '37359568-98b5-8067-9491-da092ba08183' },
+    { text: '🔴 Contact marketing agency or influencers on sheet', done: false, notionId: '37359568-98b5-802e-809f-cbb693dea1a9' },
+    { text: '🔴 Talk to video editor', done: false, notionId: '37359568-98b5-80a6-912b-ff69bb44ce56' },
+    { text: '🟡 Lotion class brochure', done: false, notionId: '37359568-98b5-80f0-8802-e022fae04776' },
+    { text: '🟡 Label design for lotion made', done: false, notionId: '37359568-98b5-805e-8958-cabd0ab03d42' },
+    { text: '🟡 Look at Pinterest for creativity and ideas', done: false, notionId: '37359568-98b5-80b9-8b8d-d6c51905791e' },
+    { text: '🟡 Email hat order', done: false, notionId: '37359568-98b5-800a-b271-f7a4dad22f0d' },
+    { text: '🟢 Make Linktree QR linking socials and website', done: false, notionId: '37359568-98b5-802b-a49a-dde94c03aa9a' },
+    { text: '🟢 Find social media person (later)', done: false, notionId: '37359568-98b5-80a4-86a7-f98510cec216' }
   ],
 
   tcf_tasks_ops: [],
@@ -2762,28 +2765,30 @@ var DEFAULTS = {
     { text: '🔴 Apply for DHEC Food Service Establishment Permit', done: false },
     { text: '🟡 Apply for SC Food Processing License (2–4 week wait — apply first)', done: false },
     { text: '🟡 Review FACILITY COMPLIANCE CHECKLIST — FDA/OSHA/GMP items', done: false },
-    { text: '🟡 Approve McKernan packaging — review spreadsheet with Pauly', done: false },
+    { text: '🟡 Approve McKernan packaging — review spreadsheet with Pauly', done: false, notionId: '37359568-98b5-80cd-bffa-f23361ec5bc6' },
     { text: '🟢 Set calendar reminder 60 days before DHEC permit expiry', done: false },
     { text: '🟢 Review SC Spa Tea Permit Checklist', done: false }
   ],
 
   tcf_ops_sip: [
-    { text: '🔴 Set date for first ever Sip & Formulate class', done: false },
-    { text: '🔴 Set up payment and booking system for classes', done: false },
-    { text: '🔴 Find handheld mixer for classes', done: false },
-    { text: '🔴 Find and order chairs for classes (Costway or Wayfair)', done: false },
-    { text: '🟡 Contact food/drink vendor partner for event', done: false },
-    { text: '🟡 Book photographer + videographer for launch event', done: false },
-    { text: '🟡 Set up RSVP system for influencer event', done: false },
-    { text: '🟡 Print formula menu + spiral class booklet', done: false },
-    { text: '🟡 Assemble PR bags for launch event', done: false },
-    { text: '🟡 Create checklist for popup classes', done: false },
-    { text: '🟢 Confirm water bottle delivery from Alibaba (50 custom)', done: false },
-    { text: '🟢 Check Tapstitch merch order status (40 pieces)', done: false }
+    { text: '🔴 Set date for first ever Sip & Formulate class', done: false, notionId: '37359568-98b5-80ca-8343-f9e6f446bc56' },
+    { text: '🔴 Set up payment and booking system for classes', done: false, notionId: '37359568-98b5-806f-86c7-d25589b1d0f7' },
+    { text: '🔴 Find handheld mixer for classes', done: false, notionId: '37359568-98b5-80c9-80d4-f635b82dd65b' },
+    { text: '🔴 Find and order chairs for classes', done: false, notionId: '37359568-98b5-809b-8d6e-d4ed73d4176b' },
+    { text: '🔴 Order amazon order — go through with Pauly', done: false, notionId: '37359568-98b5-8043-a495-eb67a66d8ea8' },
+    { text: '🟡 Contact vendors for influencer event', done: false, notionId: '37359568-98b5-8088-952c-d2b985ef447a' },
+    { text: '🟡 Lotion making class pamphlet', done: false, notionId: '37359568-98b5-80d2-835b-d7fd171350da' },
+    { text: '🟡 Lotion making class structure', done: false, notionId: '37359568-98b5-8078-83c8-ffc1d3b5629c' },
+    { text: '🟡 Get more spatulas', done: false, notionId: '37359568-98b5-8024-9a50-d08c20e2ff6a' },
+    { text: '🟡 Bottles for body wash', done: false, notionId: '37359568-98b5-8031-b3f7-f88da17fb7be' },
+    { text: '🟡 Lotion class brochure', done: false, notionId: '37359568-98b5-80f0-8802-e022fae04776' },
+    { text: '🟡 Buckets, pump, lids, name — Amazon order', done: false, notionId: '37359568-98b5-80b5-8324-e42179adad56' },
+    { text: '🟢 Wall from Alibaba for King Street', done: false, notionId: '37359568-98b5-80b0-87c3-e41b0f46d715' },
+    { text: '🟢 Ghost Kitchen decision', done: false, notionId: '37359568-98b5-8006-be82-e34f72ac3f74' }
   ],
 
   tcf_ops_retail: [
-    { text: '🟡 Order wall from Alibaba for King Street', done: false },
+    { text: '🟡 Order wall from Alibaba for King Street', done: false, notionId: '37359568-98b5-80b0-87c3-e41b0f46d715' },
     { text: '🟡 Finalize TCF King Street — spa layout and concept', done: false },
     { text: '🟡 Finalize retail concept — shelving, display, flow', done: false },
     { text: '🟡 Interior design plan — review spa layout ideas folder in Drive', done: false },
@@ -2866,11 +2871,11 @@ function ensureDefaults() {
     ['tcf_files_tcf','tcf_files_nevoo','tcf_files_dailyrou','tcf_files_skinaxis','tcf_files_content','tcf_files_ops'].forEach(function(k){ localStorage.removeItem(k); });
     localStorage.setItem('tcf_files_ver','3');
   }
-  // Force reset brand tasks to real tasks
+  // Force reset brand tasks to real tasks (Notion-linked v4)
   var brandTaskVer = localStorage.getItem('tcf_brand_tasks_ver');
-  if (brandTaskVer !== '3') {
-    ['tcf_brand_tcf','tcf_brand_nevoo','tcf_brand_dailyrou','tcf_brand_skinaxis','tcf_tasks_ops','pauly_formulation','pauly_ops','pauly_finance','pauly_marketing','pauly_legal','pauly_vendors','pauly_packaging','pauly_brand','pauly_events','pauly_tech'].forEach(function(k){ localStorage.removeItem(k); });
-    localStorage.setItem('tcf_brand_tasks_ver','3');
+  if (brandTaskVer !== '4') {
+    ['tcf_brand_tcf','tcf_brand_nevoo','tcf_brand_dailyrou','tcf_brand_skinaxis','tcf_tasks_ops','tcf_tasks_content','tcf_ops_facility','tcf_ops_sip','tcf_ops_retail','pauly_formulation','pauly_ops','pauly_finance','pauly_marketing','pauly_legal','pauly_vendors','pauly_packaging','pauly_brand','pauly_events','pauly_tech'].forEach(function(k){ localStorage.removeItem(k); });
+    localStorage.setItem('tcf_brand_tasks_ver','4');
   }
   // Force reset Pauly tasks
   var paulyVer = localStorage.getItem('tcf_pauly_ver');
@@ -2878,11 +2883,11 @@ function ensureDefaults() {
     ['pauly_formulation','pauly_ops','pauly_finance','pauly_marketing','pauly_legal','pauly_vendors','pauly_packaging','pauly_brand','pauly_events','pauly_tech'].forEach(function(k){ localStorage.removeItem(k); });
     localStorage.setItem('tcf_pauly_ver','2');
   }
-  // Force reset home tasks
+  // Force reset home tasks (Notion-linked v3)
   var homeTaskVer = localStorage.getItem('tcf_home_task_ver');
-  if (homeTaskVer !== '2') {
+  if (homeTaskVer !== '3') {
     localStorage.removeItem('tcf_home_tasks');
-    localStorage.setItem('tcf_home_task_ver','2');
+    localStorage.setItem('tcf_home_task_ver','3');
   }
   Object.keys(DEFAULTS).forEach(function(key) {
     if (localStorage.getItem(key) === null) {
@@ -4932,90 +4937,122 @@ renderTasks = function(key, id) {
 setTimeout(drawOpsPie, 300);
 
 // ============================================================
-// NOTION LIVE POLLING (every 60 seconds)
+// NOTION LIVE POLLING + TWO-WAY SYNC (every 60 seconds)
 // ============================================================
 var notionPollInterval = null;
-var notionLastBlocks = null;
+var notionLastSig = null;
+var NOTION_PAGE_ID = '37359568-98b5-8057-86be-e0f0dda01855';
+
+// All task lists that sync with Notion
+var NOTION_SYNC_LISTS = [
+  { key: 'tcf_home_tasks',      id: 'home-tasks' },
+  { key: 'tcf_brand_tcf',       id: 'brand-tcf-tasks' },
+  { key: 'tcf_brand_skinaxis',  id: 'brand-skinaxis-tasks' },
+  { key: 'tcf_tasks_content',   id: 'content-tasks' },
+  { key: 'tcf_ops_facility',    id: 'ops-facility-tasks' },
+  { key: 'tcf_ops_sip',         id: 'ops-sip-tasks' },
+  { key: 'tcf_ops_retail',      id: 'ops-retail-tasks' }
+];
+
+// Write a checkbox change back to Notion
+function notionUpdateCheck(blockId, checked) {
+  var token = localStorage.getItem('tcf_notion_token');
+  if (!token || !blockId) return;
+  fetch('https://api.notion.com/v1/blocks/' + blockId, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Notion-Version': '2022-06-28',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ to_do: { checked: checked } })
+  }).catch(function(){});
+}
+
 
 function notionPollNow() {
   var token = localStorage.getItem('tcf_notion_token');
   if (!token) return;
-  var pageId = '3375956898b5806fa77ff52b67ed706f';
   var statusEl = document.getElementById('notion-live-status');
   var btn = document.getElementById('notion-live-btn');
-  if (btn) btn.textContent = '⟳ Syncing…';
-  fetch('https://api.notion.com/v1/blocks/' + pageId.replace(/(\w{8})(\w{4})(\w{4})(\w{4})(\w{12})/, '$1-$2-$3-$4-$5') + '/children?page_size=100', {
+  if (btn) { btn.textContent = '⟳ Syncing…'; btn.disabled = true; }
+
+  fetch('https://api.notion.com/v1/blocks/' + NOTION_PAGE_ID + '/children?page_size=100', {
     headers: { 'Authorization': 'Bearer ' + token, 'Notion-Version': '2022-06-28' }
   })
   .then(function(r){ return r.json(); })
   .then(function(data) {
-    if (btn) btn.textContent = '⟳ Sync Notion';
-    var blocks = data.results || [];
-    var sig = JSON.stringify(blocks.map(function(b){ return b.id + (b.to_do ? b.to_do.checked : ''); }));
-    if (sig === notionLastBlocks) {
-      if (statusEl) statusEl.textContent = 'Up to date · ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-      return;
-    }
-    notionLastBlocks = sig;
+    if (btn) { btn.textContent = '⟳ Sync Notion'; btn.disabled = false; }
+    var blocks = (data.results || []).filter(function(b){ return b.type === 'to_do'; });
 
-    // Extract to_dos by section
-    var current_section = 'general';
-    var sectionMap = { 'PAULY': 'pauly', 'TCF': 'tcf', 'SIP': 'sip', 'SKIN': 'skinaxis', 'DAILY': 'daily' };
-    var buckets = { pauly:[], tcf:[], sip:[], skinaxis:[], daily:[], general:[] };
+    // Build a map: blockId → { text, checked }
+    var notionMap = {};
+    blocks.forEach(function(b) {
+      var text = (b.to_do.rich_text || []).map(function(t){ return t.plain_text; }).join('').trim();
+      if (text) notionMap[b.id] = { text: text, checked: b.to_do.checked || false };
+    });
 
-    blocks.forEach(function(block) {
-      var btype = block.type;
-      var content = block[btype] || {};
-      var text = (content.rich_text || []).map(function(t){ return t.plain_text; }).join('').trim();
+    var sig = JSON.stringify(notionMap);
+    var changed = (sig !== notionLastSig);
+    notionLastSig = sig;
 
-      if (btype === 'paragraph' || btype === 'heading_1' || btype === 'heading_2' || btype === 'heading_3') {
-        var up = text.toUpperCase();
-        Object.keys(sectionMap).forEach(function(k){ if (up.indexOf(k) !== -1) current_section = sectionMap[k]; });
-      }
-      if (btype === 'to_do' && text) {
-        var item = { text: text, done: content.checked || false, notionBlock: block.id };
-        if (buckets[current_section]) buckets[current_section].push(item);
-        else buckets.general.push(item);
+    // For every synced list, update checked state based on notionId matches
+    var anyChanged = false;
+    NOTION_SYNC_LISTS.forEach(function(src) {
+      var tasks = lsGet(src.key, []);
+      var listChanged = false;
+      tasks.forEach(function(task) {
+        if (task.notionId && notionMap[task.notionId] !== undefined) {
+          var notionChecked = notionMap[task.notionId].checked;
+          if (task.done !== notionChecked) {
+            task.done = notionChecked;
+            listChanged = true;
+            anyChanged = true;
+          }
+        }
+      });
+      // Also add any new Notion items not yet in this list (match by text)
+      blocks.forEach(function(b) {
+        var btext = (b.to_do.rich_text || []).map(function(t){ return t.plain_text; }).join('').trim();
+        if (!btext) return;
+        // Only add to home tasks if not already anywhere
+        if (src.key === 'tcf_home_tasks') {
+          var alreadyExists = tasks.some(function(t){
+            return t.text.replace(/^[🔴🟡🟢]\s*/,'').toLowerCase() === btext.toLowerCase();
+          });
+          if (!alreadyExists && !b.to_do.checked) {
+            tasks.push({ text: btext, done: false, notionId: b.id });
+            listChanged = true; anyChanged = true;
+          }
+        }
+      });
+      if (listChanged) {
+        lsSet(src.key, tasks);
+        var el = document.getElementById(src.id);
+        if (el) renderTasks(src.key, src.id);
       }
     });
 
-    // Merge into ops task lists — add new Notion items not already present
-    function mergeNotionIntoOps(storageKey, listId, notionItems) {
-      var existing = lsGet(storageKey, []);
-      var changed = false;
-      notionItems.forEach(function(ni) {
-        var found = existing.find(function(t){ return t.text.replace(/^[🔴🟡🟢]\s*/,'').toLowerCase() === ni.text.toLowerCase(); });
-        if (!found) {
-          existing.push({ text: ni.text, done: ni.done });
-          changed = true;
-        } else if (found.done !== ni.done) {
-          found.done = ni.done;
-          changed = true;
-        }
-      });
-      if (changed) {
-        lsSet(storageKey, existing);
-        renderTasks(storageKey, listId);
-      }
+    var time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    if (statusEl) {
+      statusEl.innerHTML = anyChanged
+        ? '<span style="color:#27a87a;font-weight:800;">✓ Updated from Notion</span> · ' + time
+        : '<span style="color:var(--muted);font-weight:700;">Up to date</span> · ' + time;
     }
-
-    mergeNotionIntoOps('tcf_ops_sip',      'ops-sip-tasks',      buckets.sip);
-    mergeNotionIntoOps('tcf_brand_skinaxis','brand-skinaxis-tasks', buckets.skinaxis);
-    mergeNotionIntoOps('tcf_home_tasks',    'home-tasks',         buckets.daily);
-    mergeNotionIntoOps('tcf_brand_tcf',     'brand-tcf-tasks',    buckets.tcf);
-
-    if (statusEl) statusEl.innerHTML = '<span style="color:#27a87a;font-weight:800;">✓ Notion synced</span> · ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-    drawOpsPie();
+    if (anyChanged) { drawOpsPie(); updateDonut(); }
   })
-  .catch(function(){ if (btn) btn.textContent = '⟳ Sync Notion'; });
+  .catch(function(err) {
+    if (btn) { btn.textContent = '⟳ Sync Notion'; btn.disabled = false; }
+    if (statusEl) statusEl.innerHTML = '<span style="color:var(--pink);font-weight:700;">Sync error — will retry</span>';
+  });
 }
 
 function startNotionLivePoll() {
   notionPollNow();
   if (notionPollInterval) clearInterval(notionPollInterval);
-  notionPollInterval = setInterval(notionPollNow, 60000); // every 60 seconds
+  notionPollInterval = setInterval(notionPollNow, 60000);
 }
-setTimeout(startNotionLivePoll, 500);
+setTimeout(startNotionLivePoll, 800);
 
 // ============================================================
 // GLOBAL SEARCH
