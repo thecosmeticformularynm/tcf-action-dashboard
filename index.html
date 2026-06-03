@@ -1935,6 +1935,37 @@
 
   <!-- ===== PERSONAL TAB ===== -->
   <div id="tab-personal" class="tab-panel">
+
+    <!-- ROTATING ADVICE BANNER -->
+    <div id="advice-card" style="border-radius:20px;padding:24px 28px;margin-bottom:24px;background:linear-gradient(135deg,rgba(255,91,174,0.08),rgba(79,126,247,0.08));border:1.5px solid rgba(255,91,174,0.18);position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;right:0;width:180px;height:180px;background:radial-gradient(circle,rgba(255,91,174,0.08),transparent 70%);pointer-events:none;"></div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+            <span id="advice-category-pill" style="font-size:0.72rem;font-weight:900;padding:3px 12px;border-radius:999px;background:rgba(255,91,174,0.15);color:#e03a8b;text-transform:uppercase;letter-spacing:0.06em;"></span>
+            <span id="advice-time-label" style="font-size:0.72rem;font-weight:700;color:var(--muted);"></span>
+          </div>
+          <div id="advice-text" style="font-size:1.05rem;font-weight:700;color:var(--text);line-height:1.65;margin-bottom:8px;"></div>
+          <div id="advice-source" style="font-size:0.78rem;font-weight:600;color:var(--muted);font-style:italic;"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;">
+          <button onclick="adviceNext()" style="padding:8px 18px;border-radius:999px;border:1.5px solid rgba(255,91,174,0.3);background:rgba(255,91,174,0.08);color:#e03a8b;font-family:inherit;font-size:0.82rem;font-weight:800;cursor:pointer;">Next tip ›</button>
+          <button onclick="adviceSave()" id="advice-save-btn" style="padding:8px 18px;border-radius:999px;border:1.5px solid var(--border);background:var(--pill-bg);color:var(--text);font-family:inherit;font-size:0.78rem;font-weight:700;cursor:pointer;">🔖 Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAVED TIPS -->
+    <div id="saved-tips-wrap" style="display:none;margin-bottom:24px;">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <div class="card-title" style="margin-bottom:0;">Saved Tips</div>
+          <button onclick="clearSavedTips()" style="font-size:0.75rem;color:var(--muted);background:none;border:none;cursor:pointer;font-weight:700;">Clear all</button>
+        </div>
+        <div id="saved-tips-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+    </div>
+
     <div class="home-grid">
       <div class="card">
         <div class="card-title">Daily Schedule</div>
@@ -5175,6 +5206,160 @@ function globalSearch(query) {
     results.appendChild(more);
   }
 }
+
+// ============================================================
+// ROTATING WELLNESS + CEO ADVICE
+// ============================================================
+var ADVICE = [
+  // ── MORNING (cortisol / energy / intention) ──
+  { time:'morning', cat:'Hormone Balance', text:'Cortisol peaks within 30–45 minutes of waking. Avoid checking your phone for the first 20 minutes — let your HPA axis regulate before the day's stress hits. Sunlight exposure in the first hour sets your circadian rhythm and naturally lowers evening cortisol.', source:'Huberman Lab, 2022 — Cortisol & Circadian Biology' },
+  { time:'morning', cat:'CEO Mindset', text:'Write down your top 3 non-negotiables for today before opening email. Research shows decision fatigue starts accumulating from the first choice of the day. Protect your best cognitive hours (8–11am) for creative and strategic work — not reactive inbox management.', source:'Baumeister et al. — Decision Fatigue Research' },
+  { time:'morning', cat:'Holistic Wellness', text:'Eating within 1–2 hours of waking supports blood sugar stability and cortisol regulation. A protein-forward breakfast (30g+) blunts the mid-morning energy crash and supports dopamine production — the neurotransmitter of motivation and drive.', source:'Gottfried, S. — The Hormone Cure' },
+  { time:'morning', cat:'Hormone Balance', text:'Magnesium glycinate taken the night before can significantly reduce morning anxiety and improve sleep quality. Low magnesium is one of the most common deficiencies in women and directly impacts cortisol, estrogen metabolism, and thyroid function.', source:'Cuciureanu & Vink — Magnesium & Stress, 2011' },
+  { time:'morning', cat:'CEO Mindset', text:'High-achieving women often run on adrenaline without realizing it. If you feel most productive under pressure, that\'s a cortisol dependency pattern — not your natural state. Building buffer time into your calendar is a strategic CEO move, not laziness.', source:'Vitti, A. — In the FLO' },
+  { time:'morning', cat:'Holistic Wellness', text:'Cold water exposure (even 30 seconds at end of shower) triggers a 200–300% increase in norepinephrine — improving focus, mood, and resilience. It also supports healthy dopamine levels throughout the day without the crash of caffeine.', source:'Söberg et al., 2022 — Cold Exposure Study' },
+
+  // ── MIDDAY (blood sugar / focus / stress) ──
+  { time:'midday', cat:'Hormone Balance', text:'The 2–3pm energy crash is largely a blood sugar and cortisol dip — not a need for caffeine. A small balanced snack (protein + healthy fat) stabilizes blood glucose and prevents the cortisol spike that comes from running on empty.', source:'Ludwig, D. — Always Hungry? (Harvard)' },
+  { time:'midday', cat:'CEO Mindset', text:'Batch your reactive work (emails, texts, approvals) into 2 focused blocks per day instead of checking constantly. Every interruption costs an average of 23 minutes of refocus time. CEOs who protect deep work time are 3x more productive.', source:'Gloria Mark — UC Irvine Attention Research' },
+  { time:'midday', cat:'Holistic Wellness', text:'A 10–20 minute walk after lunch reduces postprandial blood glucose by up to 30% and boosts afternoon alertness better than caffeine. It also lowers cortisol and gives your nervous system a natural reset between work blocks.', source:'Buffey et al., 2022 — Walking & Blood Glucose' },
+  { time:'midday', cat:'Hormone Balance', text:'Chronic stress keeps progesterone low by "stealing" its precursor (pregnenolone) to make cortisol — this is called pregnenolone steal. Protecting midday calm through breathwork, a short walk, or even 5 quiet minutes actively supports hormonal balance.', source:'Gottfried, S. — The Hormone Reset Diet' },
+  { time:'midday', cat:'CEO Mindset', text:'Your hormonal cycle directly affects your cognitive strengths. The follicular phase (days 1–14) favors outward energy, pitching, networking, and launches. The luteal phase (days 15–28) favors deep strategy, analysis, and internal creative work. Cycle syncing your calendar is a real productivity hack.', source:'Vitti, A. — WomanCode' },
+  { time:'midday', cat:'Holistic Wellness', text:'Chronic inflammation is one of the top disruptors of estrogen, progesterone, and thyroid balance. Anti-inflammatory foods — omega-3s, leafy greens, turmeric, berries — aren\'t just "healthy eating," they\'re hormone medicine. What you eat at lunch today affects how you feel tomorrow morning.', source:'Myers, A. — The Thyroid Connection' },
+
+  // ── AFTERNOON (recovery / nervous system / stress buffer) ──
+  { time:'afternoon', cat:'Hormone Balance', text:'If you feel anxious, wired, or can\'t wind down by 4pm, your cortisol may still be elevated. A 4–7–8 breath pattern (inhale 4s, hold 7s, exhale 8s) activates the parasympathetic nervous system and brings cortisol down within minutes. Do it 4 times.', source:'Weil, A. — 4-7-8 Breathing Technique' },
+  { time:'afternoon', cat:'CEO Mindset', text:'Boundaries aren\'t just emotional — they\'re hormonal. Every time you say yes to something that drains you, your body releases a cortisol and adrenaline response. Over time this wears down your adrenal glands. Saying no IS self-care and business strategy.', source:'Northrup, C. — Women\'s Bodies, Women\'s Wisdom' },
+  { time:'afternoon', cat:'Holistic Wellness', text:'Vitamin D deficiency affects over 70% of women and directly impacts estrogen metabolism, mood regulation, and immune function. A short afternoon sun break (10–15 min, arms exposed) supports natural Vitamin D synthesis and serotonin production — your afternoon mood reset.', source:'Holick, M. — The Vitamin D Solution' },
+  { time:'afternoon', cat:'Hormone Balance', text:'Estrogen dominance — too much estrogen relative to progesterone — causes brain fog, bloating, mood swings, and fatigue. It\'s worsened by synthetic fragrances, plastics (BPA), and excess stress. Switching to cleaner beauty and household products is a direct hormonal intervention.', source:'Brighten, J. — Beyond the Pill' },
+  { time:'afternoon', cat:'CEO Mindset', text:'The most sustainable businesses are built by regulated nervous systems, not burning ones. If your only mode is urgency, you\'ll burn out before your brand takes off. Schedule at least one "slow" hour this week — not as a reward, but as infrastructure.', source:'van der Kolk, B. — The Body Keeps the Score' },
+  { time:'afternoon', cat:'Holistic Wellness', text:'Adaptogens like ashwagandha, rhodiola, and holy basil are clinically studied for lowering cortisol and supporting adrenal function. As a CEO under high stress, these herbs can meaningfully reduce burnout risk — but consistency matters. They work over weeks, not hours.', source:'Panossian & Wikman, 2010 — Adaptogens Review' },
+
+  // ── EVENING (recovery / sleep / wind down) ──
+  { time:'evening', cat:'Hormone Balance', text:'Melatonin production begins when blue light decreases. Screens after 9pm suppress melatonin by up to 50%, directly impacting your sleep quality, growth hormone release, and the overnight cellular repair that keeps hormones balanced. Night mode or blue-light glasses starting at 8pm makes a measurable difference.', source:'Chang et al., 2014 — Blue Light & Sleep, Harvard' },
+  { time:'evening', cat:'CEO Mindset', text:'Before bed, write 3 things that moved your business forward today — no matter how small. This practice rewires your brain to look for progress rather than problems, reduces nighttime anxiety, and trains your subconscious to problem-solve overnight.', source:'Emmons & McCullough, 2003 — Gratitude & Psychology' },
+  { time:'evening', cat:'Holistic Wellness', text:'Eating within 2–3 hours of bedtime disrupts growth hormone release and sleep quality. If you\'re hungry, a small protein snack (handful of nuts, hard boiled egg) won\'t spike blood sugar — but a high-carb snack will cause a glucose crash at 2am, waking you up with cortisol.', source:'Circadian Nutrition Research, Satchin Panda Lab' },
+  { time:'evening', cat:'Hormone Balance', text:'Poor sleep is the single biggest disruptor of hormonal balance. Just one night of under 7 hours raises cortisol, lowers testosterone and growth hormone, worsens insulin sensitivity, and impairs estrogen metabolism. Sleep is not a luxury for a CEO — it\'s the highest-ROI health investment you can make.', source:'Walker, M. — Why We Sleep' },
+  { time:'evening', cat:'CEO Mindset', text:'Rest is part of the business plan. The most studied female founders report that their best ideas, clearest decisions, and breakthrough moments came during recovery — walks, showers, sleep, and vacations. Your brain solves problems in the default mode network, which only activates when you\'re not actively working.', source:'Immordino-Yang et al. — Default Mode Network Research' },
+  { time:'evening', cat:'Holistic Wellness', text:'Evening magnesium (glycinate or threonate form) supports GABA production — the brain\'s calming neurotransmitter — and improves deep sleep quality. It also supports overnight liver detox of excess estrogens, which is one of the most important hormonal processes that happens while you sleep.', source:'Held et al. — Magnesium & Sleep, 2002' },
+
+  // ── GENERAL (any time) ──
+  { time:'any', cat:'Hormone Balance', text:'Seed cycling is a food-based protocol for hormone support: flaxseeds + pumpkin seeds in the follicular phase (days 1–14) support estrogen metabolism; sunflower seeds + sesame seeds in the luteal phase support progesterone. The lignans and zinc in these seeds are evidence-backed hormone modulators.', source:'Phipps et al., 1993 — Flaxseed & Hormones' },
+  { time:'any', cat:'CEO Mindset', text:'You can\'t pour from an empty cup — but as a CEO, your energy IS the business. Tracking your energy levels like a KPI (high/medium/low each day) helps you spot burnout patterns early and schedule demanding work when you\'re naturally at peak cognitive output.', source:'Loehr & Schwartz — The Power of Full Engagement' },
+  { time:'any', cat:'Holistic Wellness', text:'Liver health is foundational to hormone balance. The liver processes and clears excess estrogens — if it\'s sluggish (from alcohol, processed food, or chronic stress), estrogen recirculates. Cruciferous vegetables (broccoli, Brussels sprouts, cabbage) contain DIM, which directly supports estrogen clearance.', source:'Zeligs, M. — DIM & Estrogen Metabolism Research' },
+  { time:'any', cat:'Hormone Balance', text:'Chronic gut inflammation disrupts the estrobolome — the collection of gut bacteria responsible for metabolizing estrogens. Probiotic-rich foods (sauerkraut, kefir, kimchi) and prebiotic fiber (oats, garlic, leeks) support healthy estrogen excretion and reduce estrogen dominance symptoms.', source:'Baker et al. — The Estrobolome, 2017' },
+  { time:'any', cat:'CEO Mindset', text:'The "always on" culture is particularly damaging for female hormones. Testosterone and estrogen both require periodic rest to stay in balance. Scheduling actual off days — no emails, no strategy thinking — is not a sign of a struggling business. It\'s the signature of a sustainable one.', source:'Nagoski, E. & A. — Burnout: The Secret to Unlocking the Stress Cycle' },
+  { time:'any', cat:'Holistic Wellness', text:'Chronic dehydration is consistently underestimated. Just 1–2% dehydration impairs focus, working memory, and mood — and raises cortisol. Aim for half your body weight in ounces of water daily. Adding a pinch of sea salt and lemon to morning water replenishes electrolytes and supports adrenal function.', source:'Lieberman, H. — Hydration & Cognition, 2007' },
+];
+
+var adviceIndex = 0;
+var savedTips = JSON.parse(localStorage.getItem('tcf_saved_tips') || '[]');
+
+function adviceTimeOfDay() {
+  var h = new Date().getHours();
+  if (h < 11) return 'morning';
+  if (h < 14) return 'midday';
+  if (h < 18) return 'afternoon';
+  return 'evening';
+}
+
+function adviceTimeLabel() {
+  var t = adviceTimeOfDay();
+  var map = { morning:'☀️ Morning', midday:'🌤 Midday', afternoon:'🌅 Afternoon', evening:'🌙 Evening' };
+  return map[t] || '✨ Today';
+}
+
+function adviceRender() {
+  var tip = ADVICE[adviceIndex];
+  if (!tip) return;
+  var catEl = document.getElementById('advice-category-pill');
+  var textEl = document.getElementById('advice-text');
+  var srcEl = document.getElementById('advice-source');
+  var timeEl = document.getElementById('advice-time-label');
+  var catColors = {
+    'Hormone Balance': { bg:'rgba(255,91,174,0.12)', color:'#e03a8b' },
+    'CEO Mindset':     { bg:'rgba(79,126,247,0.12)', color:'#3a6fd8' },
+    'Holistic Wellness': { bg:'rgba(39,168,122,0.12)', color:'#1f8f66' }
+  };
+  var col = catColors[tip.cat] || catColors['Holistic Wellness'];
+  if (catEl) { catEl.textContent = tip.cat; catEl.style.background = col.bg; catEl.style.color = col.color; }
+  if (textEl) textEl.textContent = tip.text;
+  if (srcEl) srcEl.textContent = '— ' + tip.source;
+  if (timeEl) timeEl.textContent = adviceTimeLabel();
+}
+
+function adviceInit() {
+  // Start with a tip relevant to current time of day
+  var tod = adviceTimeOfDay();
+  var matching = ADVICE.map(function(a,i){ return {i:i,a:a}; }).filter(function(x){ return x.a.time === tod || x.a.time === 'any'; });
+  if (matching.length) {
+    var pick = Math.floor((Date.now() / 3600000) % matching.length); // changes each hour
+    adviceIndex = matching[pick % matching.length].i;
+  }
+  adviceRender();
+  adviceRenderSaved();
+  // Rotate automatically every 30 minutes
+  setInterval(function() {
+    adviceIndex = (adviceIndex + 1) % ADVICE.length;
+    adviceRender();
+  }, 1800000);
+}
+
+function adviceNext() {
+  adviceIndex = (adviceIndex + 1) % ADVICE.length;
+  adviceRender();
+}
+
+function adviceSave() {
+  var tip = ADVICE[adviceIndex];
+  if (!tip) return;
+  var already = savedTips.some(function(t){ return t.text === tip.text; });
+  if (!already) {
+    savedTips.unshift(tip);
+    localStorage.setItem('tcf_saved_tips', JSON.stringify(savedTips));
+  }
+  var btn = document.getElementById('advice-save-btn');
+  if (btn) { btn.textContent = '✓ Saved!'; setTimeout(function(){ btn.textContent = '🔖 Save'; }, 1500); }
+  adviceRenderSaved();
+}
+
+function adviceRenderSaved() {
+  var wrap = document.getElementById('saved-tips-wrap');
+  var list = document.getElementById('saved-tips-list');
+  if (!list) return;
+  if (!savedTips.length) { if (wrap) wrap.style.display = 'none'; return; }
+  if (wrap) wrap.style.display = 'block';
+  list.innerHTML = '';
+  savedTips.forEach(function(tip, i) {
+    var catColors = {
+      'Hormone Balance': '#e03a8b',
+      'CEO Mindset':     '#3a6fd8',
+      'Holistic Wellness': '#1f8f66'
+    };
+    var c = catColors[tip.cat] || '#9966ff';
+    var div = document.createElement('div');
+    div.style.cssText = 'padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--input-bg);position:relative;';
+    div.innerHTML = '<div style="font-size:0.72rem;font-weight:900;color:'+c+';text-transform:uppercase;margin-bottom:6px;">'+tip.cat+'</div>' +
+      '<div style="font-size:0.85rem;font-weight:600;color:var(--text);line-height:1.6;">'+tip.text+'</div>' +
+      '<div style="font-size:0.75rem;color:var(--muted);margin-top:6px;font-style:italic;">'+tip.source+'</div>' +
+      '<button onclick="adviceRemoveSaved('+i+')" style="position:absolute;top:10px;right:10px;background:none;border:none;cursor:pointer;font-size:0.85rem;color:var(--muted);">✕</button>';
+    list.appendChild(div);
+  });
+}
+
+function adviceRemoveSaved(i) {
+  savedTips.splice(i, 1);
+  localStorage.setItem('tcf_saved_tips', JSON.stringify(savedTips));
+  adviceRenderSaved();
+}
+
+function clearSavedTips() {
+  savedTips = [];
+  localStorage.setItem('tcf_saved_tips', JSON.stringify(savedTips));
+  adviceRenderSaved();
+}
+
+setTimeout(adviceInit, 200);
 
 // ============================================================
 // NICOLE'S WORLD — DRIVE FILE REFRESH
